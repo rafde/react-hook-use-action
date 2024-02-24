@@ -1,0 +1,68 @@
+{
+  "author": {
+    "name": "Rafael De León"
+  },
+  "bugs": {
+    "url": "https://github.com/rafde/react-hook-use-cta/issues"
+  },
+  "description": "A somewhat flexible react hook with common calls to action.",
+  "devDependencies": {
+    "@swc/jest": "0.2.36",
+    "@testing-library/react": "14.2.1",
+    "@types/jest": "29.5.12",
+    "@types/react": "18.2.57",
+    "@typescript-eslint/eslint-plugin": "7.1.0",
+    "@typescript-eslint/parser": "7.1.0",
+    "eslint": "8.56.0",
+    "eslint-plugin-jest": "27.9.0",
+    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-testing-library": "6.2.0",
+    "fast-equals": "5.0.1",
+    "husky": "9.0.11",
+    "jest": "29.7.0",
+    "jest-environment-jsdom": "29.7.0",
+    "lint-staged": "15.2.2",
+    "react": "18.2.0",
+    "typescript": "5.3.3"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "hooks",
+    "react",
+    "react-hooks",
+    "typescript"
+  ],
+  "license": "MIT",
+  "name": "react-hook-use-cta",
+  "peerDependencies": {
+    "@types/react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "fast-equals": "^5.0.1",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafde/react-hook-use-cta.git"
+  },
+  "scripts": {
+    "lint": "eslint --cache --fix src/ __tests__/",
+    "prepare": "husky",
+    "test": "jest --maxWorkers=50%",
+    "test:coverage": "jest --coverage --maxWorkers=50%",
+    "tsc": "tsc"
+  },
+  "sideEffects": false,
+  "version": "1.0.0",
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint"
+    ]
+  }
+}

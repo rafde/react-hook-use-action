@@ -1,0 +1,3 @@
+echo "Starting Husky post-checkout";
+npm ci
+echo "Husky post-checkout done";
