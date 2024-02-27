@@ -1,2 +1,5 @@
 # react-hook-use-cta
-A somewhat flexible common calls to action hook.
+
+A somewhat flexible react hook with common calls to action.
+
+
