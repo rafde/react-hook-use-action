@@ -11,7 +11,7 @@ type UseCTAParameterPredefinedActionsRecord<Initial extends CTAInitial> = {
 type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial> = {
 	[customAction: string | number]: ( (
 		ctaParam: CTAParam<Initial>,
-		// Needs to be any in order to take any param.
+		// Needs to be `any` in order to take any type.
 		payload?: any // eslint-disable-line
 	) => Partial<Initial> | undefined )
 }
