@@ -1,19 +1,8 @@
-import { CTAParams, } from './CTAParams';
+import { CTARecord, } from './CTARecord';
 
-type ReplaceCTA<Payload> = (
-	ctaParams: CTAParams<Payload>,
-	payload: Payload
-) => Payload | undefined;
-
-export type DefaultCTARecord<Payload> = {
-	replace: ReplaceCTA<Payload>,
-	replaceInitial: ReplaceCTA<Payload>,
-	reset(
-		ctaParams: CTAParams<Payload>,
-		payload?: Payload
-	): Payload | undefined,
-	update(
-		ctaParams: CTAParams<Payload>,
-		payload: Partial<Payload>
-	): Partial<Payload> | undefined,
-}
+export type DefaultCTARecord<Initial> = Required<
+	Pick<
+		CTARecord<Initial>,
+		'replace' | 'replaceInitial' | 'reset' | 'update'
+	>
+>

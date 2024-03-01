@@ -1,14 +1,14 @@
 import { strictDeepEqual, } from 'fast-equals';
-import { CTAParams, } from '../types/CTAParams';
+import { CTAParam, } from '../types/CTAParam';
 
-import { CTAState, } from '../types/CTAState';
+import { PrivateCTAState, } from '../types/PrivateCTAState';
 import { CTATypeRecord, } from '../types/CTATypeRecord';
 import { NextCTAProps, } from '../types/NextCTAProps';
 
 function _resetCurrentChangesMap<Payload>(
 	state: Payload,
 	initial: Payload,
-	changesMap: CTAState<Payload>['changesMap'],
+	changesMap: PrivateCTAState<Payload>['changesMap'],
 ) {
 	const checkedKeys: Record<string, boolean> = {};
 	changesMap.clear();
@@ -34,52 +34,52 @@ function _resetCurrentChangesMap<Payload>(
 }
 
 function _replace<Payload>(
-	ctaState: CTAState<Payload>,
+	privateCTAState: PrivateCTAState<Payload>,
 	ctaPayload: Payload,
-): CTAState<Payload> {
+): PrivateCTAState<Payload> {
 	const {
 		changesMap,
-	} = ctaState;
-	_resetCurrentChangesMap( ctaPayload, ctaState.initial, changesMap, );
+	} = privateCTAState;
+	_resetCurrentChangesMap( ctaPayload, privateCTAState.initial, changesMap, );
 
 	return {
-		...ctaState,
+		...privateCTAState,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Payload>> : null,
-		previous: ctaState.current,
 		current: ctaPayload,
+		previous: privateCTAState.current,
 	};
 }
 
 function _replaceInitial<Payload>(
-	ctaState: CTAState<Payload>,
+	privateCTAState: PrivateCTAState<Payload>,
 	initial: Payload,
-): CTAState<Payload> {
+): PrivateCTAState<Payload> {
 	const {
 		changesMap,
-	} = ctaState;
-	_resetCurrentChangesMap( ctaState.current, initial, ctaState.changesMap, );
+	} = privateCTAState;
+	_resetCurrentChangesMap( privateCTAState.current, initial, privateCTAState.changesMap, );
 
 	return {
-		...ctaState,
+		...privateCTAState,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Payload>> : null,
 		initial,
 	};
 }
 
 function _update<Payload>(
-	ctaState: CTAState<Payload>,
+	privateCTAState: PrivateCTAState<Payload>,
 	ctaPayload: Partial<Payload>,
-): CTAState<Payload> {
+): PrivateCTAState<Payload> {
 	const current: Record<string, unknown> = {};
 	let hasUpdates = false;
 	const {
 		current: previous,
 		...rest
-	} = ctaState;
+	} = privateCTAState;
 	const {
 		initial,
 		changesMap,
-	} = ctaState;
+	} = privateCTAState;
 
 	for ( const key in ctaPayload ) {
 		const value = ctaPayload[ key ];
@@ -98,17 +98,17 @@ function _update<Payload>(
 	}
 
 	if ( !hasUpdates ) {
-		return ctaState;
+		return privateCTAState;
 	}
 
 	return {
 		...rest,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Payload>> : null,
-		previous,
 		current: {
 			...previous,
 			...ctaPayload,
 		},
+		previous,
 	};
 }
 
@@ -116,57 +116,75 @@ export default function ctaReducer<
 	Payload,
 	Actions extends CTATypeRecord<Payload> = undefined
 >( params: {
-	ctaState: CTAState<Payload>,
+	privateCTAState: PrivateCTAState<Payload>,
 	actions?: Actions,
 	nextCTAProps: NextCTAProps<Payload, Actions>,
-}, ): CTAState<Payload> {
+}, ): PrivateCTAState<Payload> {
 	const {
 		action,
 		payload,
 	} = params.nextCTAProps;
 	const {
-		ctaState,
+		privateCTAState,
 		actions,
 	} = params;
 	const {
 		changesMap,
 		current,
 		initial,
-	} = ctaState;
+	} = privateCTAState;
+	// This can be a custom or overridden action
+	const cta = actions?.[ action ];
+	const isAction = typeof cta === 'function';
+	const ctaParam: CTAParam<Payload> = {
+		changes: privateCTAState.changes,
+		initial,
+		previous: privateCTAState.previous,
+	};
+	let next = payload;
 
 	if ( action === 'reset' && !payload ) {
 		changesMap.clear();
 
+		if ( !isAction ) {
+			return {
+				...privateCTAState,
+				changes: null,
+				current: initial,
+				previous: current,
+			};
+		}
+
+		next = cta(
+			ctaParam,
+			initial,
+		);
+
+		if ( typeof next === 'undefined' ) {
+			return privateCTAState;
+		}
+
 		return {
-			...ctaState,
+			...privateCTAState,
 			changes: null,
-			current: initial,
+			current: next,
 			previous: current,
 		};
 	}
 
-	const ctaParams: CTAParams<Payload> = {
-		changes: ctaState.changes,
-		initial,
-		previous: ctaState.previous,
-	};
-	let next = payload;
 	if ( typeof payload === 'function' ) {
 		next = payload(
-			ctaParams,
+			ctaParam,
 		);
 
 		if ( typeof next === 'undefined' ) {
-			return ctaState;
+			return privateCTAState;
 		}
 	}
 
-	// This can be a custom or overridden action
-	const cta = actions?.[ action ];
-	const isAction = typeof cta === 'function';
 	if ( isAction ) {
 		next = cta(
-			ctaParams,
+			ctaParam,
 			next,
 		);
 	}
@@ -185,25 +203,25 @@ export default function ctaReducer<
 
 		if ( action === 'replace' ) {
 			return _replace(
-				ctaState,
+				privateCTAState,
 				next,
 			);
 		}
 
 		if ( action === 'replaceInitial' ) {
 			return _replaceInitial(
-				ctaState,
+				privateCTAState,
 				next,
 			);
 		}
 
 		if ( action === 'update' || isAction ) {
 			return _update(
-				ctaState,
+				privateCTAState,
 				next,
 			);
 		}
 	}
 
-	return ctaState;
+	return privateCTAState;
 }

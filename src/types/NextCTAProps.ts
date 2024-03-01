@@ -1,12 +1,12 @@
 import { DefaultCTARecord, } from './CTADefaults';
-import { CTAGenericRecord, } from './CTAGenericRecord';
-import { CTAParams, } from './CTAParams';
+import { CustomCTARecord, } from './CustomCTARecord';
+import { CTAParam, } from './CTAParam';
 import { CTARecord, } from './CTARecord';
 
 export type PayloadValue<
 	Initial,
 	ReturnValue = Initial
-> = ( ( ctaParams: CTAParams<Initial> ) => ReturnValue | undefined ) |
+> = ( ( ctaParam: CTAParam<Initial> ) => ReturnValue | undefined ) |
 	ReturnValue;
 
 export type ReplaceCTAProps<Initial> = {
@@ -42,7 +42,7 @@ export type UpdateCTAProps<Initial> = {
 export type CustomCTAProps<
 	Initial,
 	Actions extends CTARecord<Initial>,
-	CustomActions extends CTAGenericRecord<Initial> = Omit<Actions, keyof DefaultCTARecord<Initial>>,
+	CustomActions extends CustomCTARecord<Initial> = Omit<Actions, keyof DefaultCTARecord<Initial>>,
 > = CustomActions extends never ? never : {
 	action: keyof CustomActions,
 	payload?: PayloadValue<

@@ -1,22 +1,18 @@
-import { Dispatch, useMemo, } from 'react';
-import { DefaultCTARecord, } from '../types/CTADefaults';
-import { CTAGenericCallback, } from '../types/CTAGenericCallback';
-import { CTAGenericRecord, } from '../types/CTAGenericRecord';
+import { useMemo, } from 'react';
+import { CustomCTARecord, } from '../types/CustomCTARecord';
 import { CTAInitial, } from '../types/CTAInitial';
-import { CTAState, } from '../types/CTAState';
+import { UseCTAReturnType, } from '../types/UseCTAReturnType';
+import { UseCTAReturnTypeDispatch, } from '../types/UseCTAReturnTypeDispatch';
 import { CTATypeRecord, } from '../types/CTATypeRecord';
-import { NextCTAProps, PayloadValue, ReplaceCTAProps, ResetCTAProps, UpdateCTAProps, } from '../types/NextCTAProps';
+import { NextCTAProps, PayloadValue, } from '../types/NextCTAProps';
 import { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
-type DefaultDispatchRecord<Initial> = {
-	replace( payload: ReplaceCTAProps<Initial>['payload'] ): void;
-	replaceInitial( payload: ReplaceCTAProps<Initial>['payload'] ): void;
-	reset( payload?: ResetCTAProps<Initial>['payload'] ): void;
-	update( payload: UpdateCTAProps<Initial>['payload'], value?: undefined ): void;
-	update( payload: keyof Initial, value: Initial[keyof Initial] ): void;
-};
-
 type PublicDispatcher<Initial, Actions> = ( cta: NextCTAProps<Initial, Actions> ) => void;
+
+type DefaultDispatchRecord<Initial> = Pick<
+	UseCTAReturnTypeDispatch<Initial>,
+	'replace' | 'replaceInitial' | 'reset' | 'update'
+>;
 
 function returnCustomActions<Initial, Actions extends CTATypeRecord<Initial> = undefined>(
 	commonActions: DefaultDispatchRecord<Initial>,
@@ -38,7 +34,7 @@ function returnCustomActions<Initial, Actions extends CTATypeRecord<Initial> = u
 		if ( action in commonActions || typeof actions[ action ] !== 'function' ) {
 			continue;
 		}
-		const cta = actions[ action ] as CTAGenericCallback<Initial>;
+		const cta = actions[ action ] as CustomCTARecord<Initial>[keyof CustomCTARecord<Initial>];
 
 		customActions[ action as unknown as keyof typeof customActions ] = ( payload?: PayloadValue<Initial, Parameters<typeof cta>[1]>, ) => {
 			commonDispatcher( {
@@ -109,7 +105,7 @@ function wrapPrivateDispatcher<
 	const commonDispatcher = Object.assign(
 		publicDispatcher,
 		commonActions,
-	) as UsePublicCTAReturnDispatcher<Initial, Actions>;
+	) as UseCTAReturnTypeDispatch<Initial, Actions>;
 
 	const customActions = returnCustomActions( commonActions, commonDispatcher, actions, );
 
@@ -123,36 +119,13 @@ function wrapPrivateDispatcher<
 	return commonDispatcher;
 }
 
-type CustomCTAProps<Initial, TActions extends CTAGenericRecord<Initial>> = Record<
-	keyof TActions,
-	( ( payload?: PayloadValue<Initial, Parameters<TActions[keyof TActions]>[1]> ) => void )
->
-
-type UsePublicCTAReturnDispatchHandleRecord<Initial, Actions = undefined> = Actions extends CTAGenericRecord<Initial> ? (
-	keyof Omit<Actions, keyof DefaultCTARecord<Initial>> extends never ?
-		DefaultDispatchRecord<Initial> :
-		CustomCTAProps<Initial, Omit<Actions, keyof DefaultDispatchRecord<Initial>>> &
-		DefaultDispatchRecord<Initial>
-	) :
-	DefaultDispatchRecord<Initial>;
-
-type UsePublicCTAReturnDispatcher<
-	Initial,
-	Actions = undefined
-> = Dispatch<NextCTAProps<Initial, Actions>> & UsePublicCTAReturnDispatchHandleRecord<Initial, Actions>;
-
-type UsePublicCTAReturn<Initial, Actions = undefined> = [
-	Readonly<Omit<CTAState<Initial>, 'changesMap'>>,
-	UsePublicCTAReturnDispatcher<Initial, Actions>,
-]
-
 export default function usePublicCTA<
 	Initial extends CTAInitial,
 	Actions extends CTATypeRecord<Initial>
 >( params: {
 	actions?: Actions,
 	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>,
-}, ): UsePublicCTAReturn<Initial, Actions> {
+}, ): UseCTAReturnType<Initial, Actions> {
 	const {
 		actions,
 	} = params;

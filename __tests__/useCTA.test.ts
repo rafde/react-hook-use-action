@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { CTAParams, useCTA, } from '../src';
+import { CTAParam, useCTA, } from '../src';
 
 describe( 'useCTA', function() {
 	const initialChanges = {
@@ -639,7 +639,7 @@ describe( 'useCTA', function() {
 	describe( 'custom actions', function() {
 		describe( 'calc', function() {
 			const actions = {
-				calc( state: CTAParams<typeof initial>, payload: Pick<typeof initial, 'hi'>, ) {
+				calc( state: CTAParam<typeof initial>, payload: Pick<typeof initial, 'hi'>, ) {
 					const {
 						hi,
 					} = payload;
