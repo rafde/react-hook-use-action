@@ -1,11 +1,13 @@
 import { useReducer, } from 'react';
-import { CTAInitial, } from '../types/CTAInitial';
-import { CTARecord, } from '../types/CTARecord';
-import { NextCTAProps, } from '../types/NextCTAProps';
-import { UseCTAParameter, } from '../types/UseCTAParameter';
+
 import ctaReducer from './ctaReducer';
-import { PrivateCTAState, } from '../types/PrivateCTAState';
-import { CTATypeRecord, } from '../types/CTATypeRecord';
+
+import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTARecord, } from '../types/CTARecord';
+import type { NextCTAProps, } from '../types/NextCTAProps';
+import type { UseCTAParameter, } from '../types/UseCTAParameter';
+import type { PrivateCTAState, } from '../types/PrivateCTAState';
+import type { CTATypeRecord, } from '../types/CTATypeRecord';
 
 function _init<Initial>(
 	privateCTAState: PrivateCTAState<Initial>,

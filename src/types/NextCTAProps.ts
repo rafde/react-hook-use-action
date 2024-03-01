@@ -1,7 +1,7 @@
-import { DefaultCTARecord, } from './CTADefaults';
-import { CustomCTARecord, } from './CustomCTARecord';
-import { CTAParam, } from './CTAParam';
-import { CTARecord, } from './CTARecord';
+import type { DefaultCTARecord, } from './CTADefaults';
+import type { CustomCTARecord, } from './CustomCTARecord';
+import type { CTAParam, } from './CTAParam';
+import type { CTARecord, } from './CTARecord';
 
 export type PayloadValue<
 	Initial,

@@ -1,9 +1,9 @@
 import { strictDeepEqual, } from 'fast-equals';
-import { CTAParam, } from '../types/CTAParam';
 
-import { PrivateCTAState, } from '../types/PrivateCTAState';
-import { CTATypeRecord, } from '../types/CTATypeRecord';
-import { NextCTAProps, } from '../types/NextCTAProps';
+import type { CTAParam, } from '../types/CTAParam';
+import type { CTATypeRecord, } from '../types/CTATypeRecord';
+import type { PrivateCTAState, } from '../types/PrivateCTAState';
+import type { NextCTAProps, } from '../types/NextCTAProps';
 
 function _resetCurrentChangesMap<Payload>(
 	state: Payload,

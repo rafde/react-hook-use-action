@@ -1,4 +1,4 @@
-import { CTAParam, } from './CTAParam';
+import type { CTAParam, } from './CTAParam';
 
 export type CTARecord<Initial> = {
 	[customAction: string | number]: (

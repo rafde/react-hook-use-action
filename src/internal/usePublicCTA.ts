@@ -1,11 +1,12 @@
 import { useMemo, } from 'react';
-import { CustomCTARecord, } from '../types/CustomCTARecord';
-import { CTAInitial, } from '../types/CTAInitial';
-import { UseCTAReturnType, } from '../types/UseCTAReturnType';
-import { UseCTAReturnTypeDispatch, } from '../types/UseCTAReturnTypeDispatch';
-import { CTATypeRecord, } from '../types/CTATypeRecord';
-import { NextCTAProps, PayloadValue, } from '../types/NextCTAProps';
-import { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
+
+import type { CustomCTARecord, } from '../types/CustomCTARecord';
+import type { CTAInitial, } from '../types/CTAInitial';
+import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
+import type { UseCTAReturnTypeDispatch, } from '../types/UseCTAReturnTypeDispatch';
+import type { CTATypeRecord, } from '../types/CTATypeRecord';
+import type { NextCTAProps, PayloadValue, } from '../types/NextCTAProps';
+import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
 type PublicDispatcher<Initial, Actions> = ( cta: NextCTAProps<Initial, Actions> ) => void;
 

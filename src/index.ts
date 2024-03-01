@@ -1,8 +1,9 @@
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
-import { CTAInitial, } from './types/CTAInitial';
+
+import type { CTAInitial, } from './types/CTAInitial';
 import type { CTARecord, } from './types/CTARecord';
-import { UseCTAParameter, } from './types/UseCTAParameter';
+import type { UseCTAParameter, } from './types/UseCTAParameter';
 
 export function useCTA<
 	Initial extends CTAInitial,

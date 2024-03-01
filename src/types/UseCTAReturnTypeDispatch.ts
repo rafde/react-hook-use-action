@@ -1,7 +1,7 @@
-import { Dispatch, } from 'react';
-import { DefaultCTARecord, } from './CTADefaults';
-import { CustomCTARecord, } from './CustomCTARecord';
-import { NextCTAProps, PayloadValue, ReplaceCTAProps, ResetCTAProps, UpdateCTAProps, } from './NextCTAProps';
+import type { Dispatch, } from 'react';
+import type { DefaultCTARecord, } from './CTADefaults';
+import type { CustomCTARecord, } from './CustomCTARecord';
+import type { NextCTAProps, PayloadValue, ReplaceCTAProps, ResetCTAProps, UpdateCTAProps, } from './NextCTAProps';
 
 type UseCTAReturnTypeDispatchDefaultRecord<Initial> = {
 	replace( payload: ReplaceCTAProps<Initial>['payload'] ): void;

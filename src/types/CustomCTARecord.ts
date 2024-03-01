@@ -1,5 +1,5 @@
-import { DefaultCTARecord, } from './CTADefaults';
-import { CTARecord, } from './CTARecord';
+import type { DefaultCTARecord, } from './CTADefaults';
+import type { CTARecord, } from './CTARecord';
 
 export type CustomCTARecord<
 	Initial
