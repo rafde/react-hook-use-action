@@ -1,11 +1,12 @@
 import { strictDeepEqual, } from 'fast-equals';
 
+import type { CTAInitial, } from '../types/CTAInitial';
 import type { CTAParam, } from '../types/CTAParam';
 import type { CTATypeRecord, } from '../types/CTATypeRecord';
 import type { PrivateCTAState, } from '../types/PrivateCTAState';
 import type { NextCTAProps, } from '../types/NextCTAProps';
 
-function _resetCurrentChangesMap<Payload>(
+function _resetCurrentChangesMap<Payload extends CTAInitial>(
 	state: Payload,
 	initial: Payload,
 	changesMap: PrivateCTAState<Payload>['changesMap'],
@@ -33,7 +34,7 @@ function _resetCurrentChangesMap<Payload>(
 	}
 }
 
-function _replace<Payload>(
+function _replace<Payload extends CTAInitial>(
 	privateCTAState: PrivateCTAState<Payload>,
 	ctaPayload: Payload,
 ): PrivateCTAState<Payload> {
@@ -50,7 +51,7 @@ function _replace<Payload>(
 	};
 }
 
-function _replaceInitial<Payload>(
+function _replaceInitial<Payload extends CTAInitial>(
 	privateCTAState: PrivateCTAState<Payload>,
 	initial: Payload,
 ): PrivateCTAState<Payload> {
@@ -66,7 +67,7 @@ function _replaceInitial<Payload>(
 	};
 }
 
-function _update<Payload>(
+function _update<Payload extends CTAInitial>(
 	privateCTAState: PrivateCTAState<Payload>,
 	ctaPayload: Partial<Payload>,
 ): PrivateCTAState<Payload> {
@@ -113,7 +114,7 @@ function _update<Payload>(
 }
 
 export default function ctaReducer<
-	Payload,
+	Payload extends CTAInitial,
 	Actions extends CTATypeRecord<Payload> = undefined
 >( params: {
 	privateCTAState: PrivateCTAState<Payload>,

@@ -1,5 +1,6 @@
 import { useMemo, } from 'react';
 
+import type { CTARecord, } from '../types/CTARecord';
 import type { CustomCTARecord, } from '../types/CustomCTARecord';
 import type { CTAInitial, } from '../types/CTAInitial';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
@@ -8,14 +9,20 @@ import type { CTATypeRecord, } from '../types/CTATypeRecord';
 import type { NextCTAProps, PayloadValue, } from '../types/NextCTAProps';
 import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
-type PublicDispatcher<Initial, Actions> = ( cta: NextCTAProps<Initial, Actions> ) => void;
+type PublicDispatcher<
+	Initial extends CTAInitial,
+	Actions extends undefined | CTARecord<Initial>
+> = ( cta: NextCTAProps<Initial, Actions> ) => void;
 
-type DefaultDispatchRecord<Initial> = Pick<
+type DefaultDispatchRecord<Initial extends CTAInitial> = Pick<
 	UseCTAReturnTypeDispatch<Initial>,
 	'replace' | 'replaceInitial' | 'reset' | 'update'
 >;
 
-function returnCustomActions<Initial, Actions extends CTATypeRecord<Initial> = undefined>(
+function returnCustomActions<
+	Initial extends CTAInitial,
+	Actions extends CTATypeRecord<Initial> = undefined
+>(
 	commonActions: DefaultDispatchRecord<Initial>,
 	commonDispatcher: PublicDispatcher<Initial, Actions>,
 	actions?: Actions,

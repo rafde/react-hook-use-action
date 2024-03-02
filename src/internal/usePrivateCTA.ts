@@ -9,7 +9,7 @@ import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { PrivateCTAState, } from '../types/PrivateCTAState';
 import type { CTATypeRecord, } from '../types/CTATypeRecord';
 
-function _init<Initial>(
+function _init<Initial extends CTAInitial>(
 	privateCTAState: PrivateCTAState<Initial>,
 	init?: UseCTAParameter<Initial>['onInit'],
 ): PrivateCTAState<Initial> {

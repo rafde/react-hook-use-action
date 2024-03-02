@@ -1,5 +1,8 @@
-import type { CTAParam, } from './CTAParam';
+import type { CTAInitial, } from './CTAInitial';
 
-export type UseCTAReturnTypeState<Initial> = {
+export type UseCTAReturnTypeState<Initial extends CTAInitial> = {
+	readonly changes: Partial<Initial> | null,
 	readonly current: Initial,
-} & CTAParam<Initial>;
+	readonly initial: Initial,
+	readonly previous: Initial,
+}

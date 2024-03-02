@@ -1,6 +1,7 @@
+import type { CTAInitial, } from './CTAInitial';
 import type { CTAParam, } from './CTAParam';
 
-export type CTARecord<Initial> = {
+export type CTARecord<Initial extends CTAInitial> = {
 	[customAction: string | number]: (
 		ctaParam: CTAParam<Initial>,
 		// Needs to be any in order to take any param.
