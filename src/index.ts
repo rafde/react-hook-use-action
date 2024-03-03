@@ -2,31 +2,27 @@ import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
 import type { CTAInitial, } from './types/CTAInitial';
-import type { CTARecord, } from './types/CTARecord';
+import { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
 
 export function useCTA<
 	Initial extends CTAInitial,
-	Actions extends undefined | CTARecord<Initial>
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
 >(
-	ctaParameter: UseCTAParameter<Initial, Actions>,
+	useCTAParameter: UseCTAParameter<Initial, Actions>,
 ) {
-	const stateDispatcher = usePrivateCTA( ctaParameter, );
+	const stateDispatcher = usePrivateCTA( useCTAParameter, );
 	return usePublicCTA( {
-		actions: ctaParameter.actions,
+		actions: useCTAParameter.actions,
 		stateDispatcher,
 	}, );
 }
 
 export type { CTAInitial, } from './types/CTAInitial';
 
-export type { CTARecord, } from './types/CTARecord';
-
 export type { CTAParam, } from './types/CTAParam';
 
 export type { UseCTAParameter, } from './types/UseCTAParameter';
-
-export type { UseCTAReturnTypeState, } from './types/UseCTAReturnTypeState';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 

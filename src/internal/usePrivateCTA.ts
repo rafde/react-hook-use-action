@@ -1,19 +1,19 @@
 import { useReducer, } from 'react';
+import { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 
-import ctaReducer from './ctaReducer';
+import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
 import type { CTAInitial, } from '../types/CTAInitial';
-import type { CTARecord, } from '../types/CTARecord';
-import type { NextCTAProps, } from '../types/NextCTAProps';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
-import type { PrivateCTAState, } from '../types/PrivateCTAState';
-import type { CTATypeRecord, } from '../types/CTATypeRecord';
 
-function _init<Initial extends CTAInitial>(
-	privateCTAState: PrivateCTAState<Initial>,
-	init?: UseCTAParameter<Initial>['onInit'],
-): PrivateCTAState<Initial> {
-	const changesMap = new Map() as PrivateCTAState<Initial>['changesMap'];
+function _init<
+	Initial extends CTAInitial,
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
+>(
+	privateCTAState: CTAReducerState<Initial>,
+	init?: UseCTAParameter<Initial, Actions>['onInit'],
+): CTAReducerState<Initial> {
+	const changesMap = new Map() as CTAReducerState<Initial>['changesMap'];
 	if ( typeof init !== 'function' ) {
 		return {
 			...privateCTAState,
@@ -32,14 +32,14 @@ function _init<Initial extends CTAInitial>(
 
 export default function usePrivateCTA<
 	Initial extends CTAInitial,
-	Actions extends undefined | CTARecord<Initial>
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 >(
 	params: UseCTAParameter<Initial, Actions>,
 ) {
 	return useReducer(
-		function reducerCallback( privateCTAState: PrivateCTAState<Initial>, nextCTAProps: NextCTAProps<Initial, Actions>, ) {
+		function reducerCallback( ctaReducerState: CTAReducerState<Initial>, nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], ) {
 			return ctaReducer( {
-				privateCTAState,
+				ctaReducerState,
 				actions: params.actions,
 				nextCTAProps,
 			}, );
@@ -47,23 +47,23 @@ export default function usePrivateCTA<
 		{
 			changes: null,
 			// Set changesMap in init to avoid re-instantiating a new Map everytime this is called
-			changesMap: undefined as unknown as PrivateCTAState<Initial>['changesMap'],
+			changesMap: undefined as unknown as CTAReducerState<Initial>['changesMap'],
 			current: params.initial,
 			initial: params.initial,
 			previous: params.initial,
 		},
-		function _onInit( privateCTAState: PrivateCTAState<Initial>, ) {
-			return _init( privateCTAState, params.onInit, );
+		function _onInit( privateCTAState: CTAReducerState<Initial>, ) {
+			return _init<Initial, Actions>( privateCTAState, params.onInit, );
 		},
 	);
 }
 
 export type UsePrivateCTAReturnType<
 	Initial extends CTAInitial,
-	Actions extends CTATypeRecord<Initial> = undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
 > = ReturnType<typeof usePrivateCTA<Initial, Actions>>
 
 export type UsePrivateCTADispatcher<
 	Initial extends CTAInitial,
-	Actions extends CTATypeRecord<Initial> = undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
 > = UsePrivateCTAReturnType<Initial, Actions>[1];

@@ -1,9 +1,9 @@
 import type { CTAInitial, } from './CTAInitial';
-import type { CTARecord, } from './CTARecord';
+import { UseCTAParameterActionsRecordProp, } from './UseCTAParameterActionsRecordProp';
 
 export type UseCTAParameter<
 	Initial extends CTAInitial,
-	Actions extends undefined | CTARecord<Initial> = undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
 > = {
 	actions?: Actions,
 	initial: Initial,
