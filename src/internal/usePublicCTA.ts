@@ -1,135 +1,122 @@
 import { useMemo, } from 'react';
 
-import type { CTARecord, } from '../types/CTARecord';
-import type { CustomCTARecord, } from '../types/CustomCTARecord';
 import type { CTAInitial, } from '../types/CTAInitial';
+import { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
-import type { UseCTAReturnTypeDispatch, } from '../types/UseCTAReturnTypeDispatch';
-import type { CTATypeRecord, } from '../types/CTATypeRecord';
-import type { NextCTAProps, PayloadValue, } from '../types/NextCTAProps';
+import type { DispatchDefaultCTARecord, DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
-type PublicDispatcher<
+function mergeCustomCTAWithDefaultCTA<
 	Initial extends CTAInitial,
-	Actions extends undefined | CTARecord<Initial>
-> = ( cta: NextCTAProps<Initial, Actions> ) => void;
-
-type DefaultDispatchRecord<Initial extends CTAInitial> = Pick<
-	UseCTAReturnTypeDispatch<Initial>,
-	'replace' | 'replaceInitial' | 'reset' | 'update'
->;
-
-function returnCustomActions<
-	Initial extends CTAInitial,
-	Actions extends CTATypeRecord<Initial> = undefined
+	Actions
 >(
-	commonActions: DefaultDispatchRecord<Initial>,
-	commonDispatcher: PublicDispatcher<Initial, Actions>,
-	actions?: Actions,
+	dispatch: DispatchCTA<Initial, Actions>,
+	defaultCTARecord: DispatchDefaultCTARecord<Initial>,
+	ctaRecord?: Actions,
 ) {
-	if ( !actions || typeof actions !== 'object' ) {
-		return;
-	}
-
 	type ActionsRecord = Exclude<Actions, undefined>;
-	type CustomActionKeys = Exclude<keyof ActionsRecord, keyof DefaultDispatchRecord<Initial>>;
+	type CustomActionKeys = Exclude<keyof ActionsRecord, keyof DispatchDefaultCTARecord<Initial>>;
 	let hasCustomAction = false;
 	const customActions = {} as Record<
 		CustomActionKeys,
-		( payload?: Parameters<ActionsRecord[CustomActionKeys]> ) => void
+		( payload?: unknown ) => void
 	>;
-	for ( const action in actions ) {
-		if ( action in commonActions || typeof actions[ action ] !== 'function' ) {
+	for ( const type in ctaRecord ) {
+		if ( type in defaultCTARecord || typeof ctaRecord[ type ] !== 'function' ) {
 			continue;
 		}
-		const cta = actions[ action ] as CustomCTARecord<Initial>[keyof CustomCTARecord<Initial>];
 
-		customActions[ action as unknown as keyof typeof customActions ] = ( payload?: PayloadValue<Initial, Parameters<typeof cta>[1]>, ) => {
-			commonDispatcher( {
-				action,
+		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, ) => {
+			dispatch( {
+				type,
 				payload,
-			} as unknown as NextCTAProps<Initial, Actions>, );
+			} as unknown as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		};
 
 		hasCustomAction = true;
 	}
 
 	if ( !hasCustomAction ) {
-		return;
+		return defaultCTARecord;
 	}
 
-	return customActions;
+	return Object.assign(
+		defaultCTARecord,
+		customActions,
+	);
 }
 
 function wrapPrivateDispatcher<
 	Initial extends CTAInitial,
-	Actions extends CTATypeRecord<Initial>,
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined,
 >(
 	dispatcher: UsePrivateCTADispatcher<Initial, Actions>,
 	actions?: Actions,
 ) {
-	const publicDispatcher: PublicDispatcher<Initial, Actions> = ( cta, ) => {
+	const publicDispatcher: DispatchCTA<Initial, Actions> = ( cta, ) => {
 		dispatcher( cta, );
 	};
-	const commonActions: DefaultDispatchRecord<Initial> = {
+
+	const cta: DispatchDefaultCTARecord<Initial> = {
 		replace( payload, ) {
 			publicDispatcher( {
-				action: 'replace',
+				type: 'replace',
 				payload,
-			} as NextCTAProps<Initial, Actions>, );
+			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
 		replaceInitial( payload, ) {
 			publicDispatcher( {
-				action: 'replaceInitial',
+				type: 'replaceInitial',
 				payload,
-			} as NextCTAProps<Initial, Actions>, );
+			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
 		reset( payload, ) {
 			publicDispatcher( {
-				action: 'reset',
+				type: 'reset',
 				payload,
-			} as NextCTAProps<Initial, Actions>, );
+			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
 		update( payload, value, ) {
 			switch ( typeof payload ) {
 			case 'number':
 			case 'string':
 				publicDispatcher( {
-					action: 'update',
+					type: 'update',
 					payload: {
 						[ payload ]: value,
 					},
-				} as NextCTAProps<Initial, Actions>, );
+				} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 				break;
 			default:
 				publicDispatcher( {
-					action: 'update',
+					type: 'update',
 					payload,
-				} as NextCTAProps<Initial, Actions>, );
+				} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 				break;
 			}
 		},
 	};
-	const commonDispatcher = Object.assign(
-		publicDispatcher,
-		commonActions,
-	) as UseCTAReturnTypeDispatch<Initial, Actions>;
 
-	const customActions = returnCustomActions( commonActions, commonDispatcher, actions, );
-
-	if ( customActions ) {
+	if ( actions == null || typeof actions !== 'object' ) {
 		return Object.assign(
-			commonDispatcher,
-			customActions,
+			publicDispatcher,
+			{
+				cta,
+			},
 		);
 	}
 
-	return commonDispatcher;
+	return Object.assign(
+		publicDispatcher,
+		{
+			cta: mergeCustomCTAWithDefaultCTA( publicDispatcher, cta, actions, ),
+		},
+	);
 }
 
 export default function usePublicCTA<
 	Initial extends CTAInitial,
-	Actions extends CTATypeRecord<Initial>
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined
 >( params: {
 	actions?: Actions,
 	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>,
@@ -151,15 +138,24 @@ export default function usePublicCTA<
 	);
 
 	return useMemo(
-		() => [
-			{
+		() => {
+			const state: UseCTAReturnType<Initial, Actions>[1]['state'] = {
 				changes: ctaState.changes,
 				current: ctaState.current,
 				initial: ctaState.initial,
 				previous: ctaState.previous,
-			},
-			augmentedDispatcher,
-		],
+			};
+			const dispatch = Object.assign(
+				augmentedDispatcher,
+				{
+					state,
+				},
+			);
+			return [
+				ctaState.current,
+				dispatch as unknown as UseCTAReturnType<Initial, Actions>[1],
+			];
+		},
 		[
 			ctaState,
 			augmentedDispatcher,
