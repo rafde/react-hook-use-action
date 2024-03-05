@@ -190,10 +190,10 @@ export type DispatchCustomCTAWithPayload<
 	};
 
 export type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
-	replace( payload: ReplaceCTAProps<Initial>['payload'] ): void;
-	replaceInitial( payload: ReplaceCTAProps<Initial>['payload'] ): void;
-	reset( payload?: ResetCTAProps<Initial>['payload'] ): void;
-	update( payload: UpdateCTAProps<Initial>['payload'], value?: undefined ): void;
+	replace( payload: Initial ): void;
+	replaceInitial( payload: Initial ): void;
+	reset( payload?: Initial ): void;
+	update( payload: Partial<Initial>, value?: undefined ): void;
 	update( payload: keyof Initial, value: Initial[keyof Initial] ): void;
 }>;
 
