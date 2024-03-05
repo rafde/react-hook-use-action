@@ -163,7 +163,7 @@ export default function ctaReducer<
 			ctaParam,
 		);
 
-		if ( next == null ) {
+		if ( typeof next === 'undefined' ) {
 			return ctaReducerState;
 		}
 

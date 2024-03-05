@@ -1181,5 +1181,61 @@ describe( 'useCTA', function() {
 				}, );
 			}, );
 		}, );
+
+		describe( 'override `reset`', function() {
+			describe( 'reset()', function() {
+				test( 'should not change if overridden returns `undefined`', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							reset( state, payload, ) {
+								if ( !payload || typeof payload !== 'object' ) {
+									return;
+								}
+
+								if ( payload.hi < 0 ) {
+									return;
+								}
+
+								return payload;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.reset();
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( initial, );
+				}, );
+
+				test( 'should not change if overridden returns new initial', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							reset( state, payload, ) {
+								if ( !payload || typeof payload !== 'object' ) {
+									return {
+										...state.initial,
+										there: 'reset',
+									};
+								}
+
+								return payload;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.reset();
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						there: 'reset',
+					}, );
+				}, );
+			}, );
+		}, );
 	}, );
 }, );
