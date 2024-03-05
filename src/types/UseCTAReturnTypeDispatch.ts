@@ -221,6 +221,5 @@ export type UseCTAReturnTypeDispatch<
 	Actions = undefined
 > = DispatchCTA<Initial, Actions> & {
 	readonly cta: UseCTAReturnTypeDispatchCTA<Initial, Actions>,
-} & {
 	readonly state: UseCTAReturnTypeDispatchState<Initial>
-};
+}
