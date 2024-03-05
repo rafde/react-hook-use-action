@@ -1,6 +1,6 @@
-import { CTAParam, } from './CTAParam';
+import type { CTAParam, } from './CTAParam';
 
-import {
+import type {
 	DispatchCTA,
 	CustomCTAWithOptionalPayloadProps,
 	CustomCTAWithoutPayloadProps,

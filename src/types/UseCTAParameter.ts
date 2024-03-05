@@ -1,5 +1,5 @@
 import type { CTAInitial, } from './CTAInitial';
-import { UseCTAParameterActionsRecordProp, } from './UseCTAParameterActionsRecordProp';
+import type { UseCTAParameterActionsRecordProp, } from './UseCTAParameterActionsRecordProp';
 
 export type UseCTAParameter<
 	Initial extends CTAInitial,
