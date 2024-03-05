@@ -1,6 +1,10 @@
 import type { CTAInitial, } from './CTAInitial';
 import type { CTAParam, } from './CTAParam';
 
+type OmitEmptyRecord<T> = {
+	[K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K]
+};
+
 type ReplaceCTAProps<Initial extends CTAInitial> = {
 	type: 'replace',
 	payload: Initial | (
@@ -185,23 +189,6 @@ export type DispatchCustomCTAWithPayload<
 		) => void;
 	};
 
-type OmitEmptyRecord<T> = {
-	[K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K]
-};
-
-export type UseCTAReturnTypeDispatchCTA<
-	Initial extends CTAInitial,
-	Actions = undefined,
-	CustomDispatchRecord = Readonly<
-		OmitEmptyRecord<
-			DispatchDefaultCTARecord<Initial> &
-			DispatchCustomCTAWithOptionalPayload<Initial, Actions> &
-			DispatchCustomCTAWithoutPayload<Initial, Actions> &
-			DispatchCustomCTAWithPayload<Initial, Actions>
-		>
-	>
-> = CustomDispatchRecord;
-
 export type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
 	replace( payload: ReplaceCTAProps<Initial>['payload'] ): void;
 	replaceInitial( payload: ReplaceCTAProps<Initial>['payload'] ): void;
@@ -209,6 +196,18 @@ export type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
 	update( payload: UpdateCTAProps<Initial>['payload'], value?: undefined ): void;
 	update( payload: keyof Initial, value: Initial[keyof Initial] ): void;
 }>;
+
+export type UseCTAReturnTypeDispatchCTA<
+	Initial extends CTAInitial,
+	Actions = undefined,
+> = Readonly<
+	OmitEmptyRecord<
+		DispatchCustomCTAWithOptionalPayload<Initial, Actions> &
+		DispatchCustomCTAWithoutPayload<Initial, Actions> &
+		DispatchCustomCTAWithPayload<Initial, Actions> &
+		DispatchDefaultCTARecord<Initial>
+	>
+>;
 
 export type UseCTAReturnTypeDispatchState<Initial extends CTAInitial> = Readonly<{
 	changes: Readonly<Partial<Initial>> | null,
