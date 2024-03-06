@@ -27,11 +27,13 @@
     "typescript": "5.3.3"
   },
   "files": [
-    "src"
+    "src",
+    "README.md"
   ],
   "keywords": [
     "hooks",
     "react",
+    "react-hook",
     "react-hooks",
     "typescript"
   ],
@@ -58,8 +60,7 @@
     "test:coverage": "jest --coverage --maxWorkers=50%",
     "tsc": "tsc"
   },
-  "sideEffects": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "lint-staged": {
     "*.ts": [
       "npm run lint"
