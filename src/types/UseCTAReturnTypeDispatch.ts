@@ -40,7 +40,7 @@ type DefaultCTAProps<Initial extends CTAInitial> = ReplaceCTAProps<Initial> |
 
 export type CustomCTAWithoutPayloadRecord<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions = undefined
 > = {
 	[
 	Action in Exclude<
@@ -72,7 +72,7 @@ export type CTAWithOptionalPayloadRecordParameters<
 
 export type CustomCTAWithOptionalPayloadRecord<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions = undefined
 > = {
 	[
 	Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends (
@@ -109,7 +109,7 @@ export type CTAWithPayloadParameter<
 
 export type CustomCTAWithPayloadRecord<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions = undefined
 > = {
 	[
 	Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends (
@@ -199,21 +199,21 @@ export type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
 
 export type UseCTAReturnTypeDispatchCTA<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions = undefined
 > = Readonly<
-	OmitEmptyRecord<
-		DispatchCustomCTAWithOptionalPayload<Initial, Actions> &
-		DispatchCustomCTAWithoutPayload<Initial, Actions> &
-		DispatchCustomCTAWithPayload<Initial, Actions> &
-		DispatchDefaultCTARecord<Initial>
-	>
+		OmitEmptyRecord<
+			DispatchCustomCTAWithOptionalPayload<Initial, Actions> &
+			DispatchCustomCTAWithoutPayload<Initial, Actions> &
+			DispatchCustomCTAWithPayload<Initial, Actions> &
+			DispatchDefaultCTARecord<Initial>
+		>
 >;
 
 export type UseCTAReturnTypeDispatchState<Initial extends CTAInitial> = Readonly<{
 	changes: Readonly<Partial<Initial>> | null,
 	current: Readonly<Initial>,
 	initial: Readonly<Initial>,
-	previous: Readonly<Initial>,
+	previous: Readonly<Initial>
 }>
 
 export type UseCTAReturnTypeDispatch<

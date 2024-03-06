@@ -5,7 +5,7 @@ type UseCTAParameterPredefinedActionsRecord<Initial extends CTAInitial> = {
 	replace?: ( ctaParam: CTAParam<Initial>, payload: Initial ) => Initial | undefined,
 	replaceInitial?: ( ctaParam: CTAParam<Initial>, payload: Initial ) => Initial | undefined,
 	reset?: ( ctaParam: CTAParam<Initial>, payload?: Initial ) => Initial | undefined,
-	update?: ( ctaParam: CTAParam<Initial>, payload: Partial<Initial> ) => Partial<Initial> | undefined,
+	update?: ( ctaParam: CTAParam<Initial>, payload: Partial<Initial> ) => Partial<Initial> | undefined
 }
 
 type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial> = {
