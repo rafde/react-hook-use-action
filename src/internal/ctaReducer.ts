@@ -194,6 +194,10 @@ export default function ctaReducer<
 
 	if ( next && typeof next === 'object' ) {
 		if ( type === 'reset' ) {
+			if ( strictDeepEqual( initial, next, ) || strictDeepEqual( current, next, ) ) {
+				return ctaReducerState;
+			}
+
 			changesMap.clear();
 			return {
 				changesMap,

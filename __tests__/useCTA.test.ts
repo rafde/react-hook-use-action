@@ -390,6 +390,28 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
 			}, );
+
+			test( 'should not set new `initial` when `payload` = `initial`', function() {
+				const payload = {
+					there: 'me',
+					hi: 1,
+					you: 'yes, you.',
+					2: 22,
+				};
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.reset( () => payload, );
+					result.current[ 1 ].cta.reset( () => payload, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( payload, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
 		}, );
 	}, );
 
