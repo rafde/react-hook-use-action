@@ -194,7 +194,7 @@ export type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
 	replaceInitial( payload: Initial | ( ( ctaParam: CTAParam<Initial> ) => Initial | undefined ) ): void;
 	reset( payload?: Initial | ( ( ctaParam: CTAParam<Initial> ) => Initial | undefined ) ): void;
 	update( payload: Partial<Initial> | ( ( ctaParam: CTAParam<Initial> ) => Partial<Initial> | undefined ) , value?: undefined ): void;
-	update( payload: keyof Initial, value: Initial[keyof Initial] ): void;
+	update( key: keyof Initial, value: Initial[keyof Initial] ): void;
 }>;
 
 export type UseCTAReturnTypeDispatchCTA<
