@@ -8,7 +8,7 @@ import type { UseCTAParameter, } from '../types/UseCTAParameter';
 
 function _init<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 >(
 	privateCTAState: CTAReducerState<Initial>,
 	init?: UseCTAParameter<Initial, Actions>['onInit'],
@@ -60,10 +60,10 @@ export default function usePrivateCTA<
 
 export type UsePrivateCTAReturnType<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
-> = ReturnType<typeof usePrivateCTA<Initial, Actions>>
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+> = ReturnType<typeof usePrivateCTA<Initial, Actions>>;
 
 export type UsePrivateCTADispatcher<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 > = UsePrivateCTAReturnType<Initial, Actions>[1];

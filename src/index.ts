@@ -8,7 +8,7 @@ import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export function useCTA<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 >(
 	useCTAParameter: UseCTAParameter<Initial, Actions>,
 ): UseCTAReturnType<Initial, Actions> {

@@ -4,7 +4,7 @@ import type { CTAInitial, } from '../types/CTAInitial';
 import type { CTAParam, } from '../types/CTAParam';
 import type { DispatchCTA, UseCTAReturnTypeDispatchState, } from '../types/UseCTAReturnTypeDispatch';
 
-function _resetCurrentChangesMap<Initial extends CTAInitial>(
+function _resetCurrentChangesMap<Initial extends CTAInitial,>(
 	state: Initial,
 	initial: CTAReducerState<Initial>['initial'],
 	changesMap: CTAReducerState<Initial>['changesMap'],
@@ -20,7 +20,7 @@ function _resetCurrentChangesMap<Initial extends CTAInitial>(
 			changesMap.delete( key, );
 			continue;
 		}
-		changesMap.set( key , value, );
+		changesMap.set( key, value, );
 	}
 
 	for ( const key in initial ) {
@@ -32,7 +32,7 @@ function _resetCurrentChangesMap<Initial extends CTAInitial>(
 	}
 }
 
-function _replace<Initial extends CTAInitial>(
+function _replace<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 ): CTAReducerState<Initial> {
@@ -49,7 +49,7 @@ function _replace<Initial extends CTAInitial>(
 	};
 }
 
-function _replaceInitial<Initial extends CTAInitial>(
+function _replaceInitial<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	initial: Initial,
 ): CTAReducerState<Initial> {
@@ -65,7 +65,7 @@ function _replaceInitial<Initial extends CTAInitial>(
 	};
 }
 
-function _update<Initial extends CTAInitial>(
+function _update<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 ): CTAReducerState<Initial> {
@@ -91,7 +91,8 @@ function _update<Initial extends CTAInitial>(
 
 		if ( strictDeepEqual( initial[ key as keyof Initial ], value, ) ) {
 			changesMap.delete( key, );
-		} else {
+		}
+		else {
 			changesMap.set( key, value, );
 		}
 	}
@@ -111,17 +112,17 @@ function _update<Initial extends CTAInitial>(
 	};
 }
 
-export type CTAReducerState<Initial extends CTAInitial> = UseCTAReturnTypeDispatchState<Initial> & {
-	changesMap: Map<string | number, unknown>,
-}
+export type CTAReducerState<Initial extends CTAInitial,> = UseCTAReturnTypeDispatchState<Initial> & {
+	changesMap: Map<string | number, unknown>
+};
 
 export default function ctaReducer<
 	Initial extends CTAInitial,
-	Actions = undefined
+	Actions = undefined,
 >( params: {
-	ctaReducerState: CTAReducerState<Initial>,
-	actions?: Actions,
-	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0],
+	ctaReducerState: CTAReducerState<Initial>
+	actions?: Actions
+	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
 }, ): CTAReducerState<Initial> {
 	const {
 		type,

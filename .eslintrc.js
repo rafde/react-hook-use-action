@@ -6,6 +6,7 @@ module.exports = {
 		es2021: true,
 	},
 	'extends': [
+		'plugin:@stylistic/recommended-extends',
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:react-hooks/recommended',
@@ -15,6 +16,7 @@ module.exports = {
 	},
 	ignorePatterns: [
 		'jest.config.js',
+		'dist/',
 	],
 	overrides: [
 		{
@@ -68,31 +70,20 @@ module.exports = {
 	plugins: [
 		'@typescript-eslint',
 		'react',
+		'@stylistic',
 	],
 	rules: {
-		'array-bracket-newline': [
-			'error',
-			'always',
-		],
 		'array-callback-return': 'error',
 		'arrow-body-style': 'error',
-		'arrow-parens': 'error',
-		'arrow-spacing': 'error',
-		'brace-style': [
-			'error',
-			'1tbs',
-			{
-				allowSingleLine: false,
-			},
-		],
-		'comma-dangle': [
+		'@stylistic/arrow-spacing': 'error',
+		'@stylistic/comma-dangle': [
 			'error',
 			'always',
 		],
-		'comma-style': [
+		'@stylistic/comma-style': [
 			'error',
 		],
-		'computed-property-spacing': [
+		'@stylistic/computed-property-spacing': [
 			'error',
 			'always',
 		],
@@ -100,45 +91,34 @@ module.exports = {
 			2,
 			'all',
 		],
-		'dot-location': [
+		'@stylistic/dot-location': [
 			'error',
 			'property',
 		],
 		'dot-notation': 'error',
-		'eol-last': [
-			'error',
-			'always',
-		],
 		eqeqeq: [
 			'error',
 			'smart',
 		],
-		'func-call-spacing': 'error',
-		'function-call-argument-newline': [
+		'@stylistic/func-call-spacing': 'error',
+		'@stylistic/function-call-argument-newline': [
 			'error',
 			'consistent',
 		],
-		'function-paren-newline': [
+		'@stylistic/function-paren-newline': [
 			'error',
 			'consistent',
 		],
-		'generator-star-spacing': 'error',
-		'implicit-arrow-linebreak': 'error',
-		indent: [
+		'@stylistic/generator-star-spacing': 'error',
+		'@stylistic/implicit-arrow-linebreak': 'error',
+		'@stylistic/indent': [
 			'error',
 			'tab',
 		],
-		'jsx-quotes': 'error',
-		'key-spacing': 'error',
-		'keyword-spacing': 'error',
-		'linebreak-style': [
-			'error',
-			'unix',
-		],
-		'lines-around-comment': 'off',
-		'lines-between-class-members': 'error',
-		'newline-per-chained-call': 'error',
-		'no-confusing-arrow': 'error',
+		'@stylistic/linebreak-style': 'error',
+		'@stylistic/lines-around-comment': 'off',
+		'@stylistic/newline-per-chained-call': 'error',
+		'@stylistic/no-confusing-arrow': 'error',
 		'no-div-regex': 'error',
 		'no-duplicate-imports': 'error',
 		'no-else-return': 'error',
@@ -146,12 +126,10 @@ module.exports = {
 		'no-extra-boolean-cast': 'error',
 		'no-extra-label': 'error',
 		'no-extra-parens': 'error',
-		'no-extra-semi': 'error',
-		'no-floating-decimal': 'error',
+		'@stylistic/no-extra-semi': 'error',
 		'no-func-assign': 'error',
 		'no-implicit-coercion': 'error',
 		'no-lonely-if': 'error',
-		'no-multi-spaces': 'error',
 		'no-multiple-empty-lines': [
 			'error',
 			{
@@ -163,12 +141,7 @@ module.exports = {
 		'no-promise-executor-return': 'error',
 		'no-regex-spaces': 'error',
 		'no-restricted-imports': 'error',
-		'no-trailing-spaces': [
-			'error',
-			{
-				skipBlankLines: true,
-			},
-		],
+		'@stylistic/no-tabs': 'off',
 		'no-undef-init': 'error',
 		'no-unmodified-loop-condition': 'error',
 		'no-unneeded-ternary': 'error',
@@ -182,20 +155,19 @@ module.exports = {
 		'no-useless-rename': 'error',
 		'no-useless-return': 'error',
 		'no-var': 'error',
-		'no-whitespace-before-property': 'error',
-		'object-curly-newline': 'error',
-		'object-curly-spacing': [
+		'@stylistic/indent-binary-ops': [
 			'error',
-			'always',
+			'tab',
 		],
-		'object-property-newline': 'error',
+		'@stylistic/object-curly-newline': 'error',
+		'@stylistic/object-property-newline': 'error',
 		'object-shorthand': 'error',
 		'operator-assignment': 'error',
-		'operator-linebreak': [
+		'@stylistic/operator-linebreak': [
 			'error',
 			'before',
 		],
-		'padded-blocks': [
+		'@stylistic/padded-blocks': [
 			'error',
 			'never',
 		],
@@ -203,14 +175,14 @@ module.exports = {
 		'prefer-destructuring': 'error',
 		'prefer-exponentiation-operator': 'error',
 		'prefer-object-spread': 'error',
-		'quote-props': [
+		'@stylistic/quote-props': [
 			'error',
 			'as-needed',
 			{
 				keywords: true,
 			},
 		],
-		quotes: [
+		'@stylistic/quotes': [
 			'error',
 			'single',
 			{
@@ -219,35 +191,22 @@ module.exports = {
 		],
 		'react-hooks/exhaustive-deps': 'error',
 		'react-hooks/rules-of-hooks': 'error',
-		'rest-spread-spacing': [
-			'error',
-			'never',
-		],
-		semi: [
+		'@stylistic/semi': [
 			'error',
 			'always',
 		],
-		'semi-style': 'error',
-		'space-before-blocks': 'error',
-		'space-before-function-paren': [
+		'@stylistic/semi-style': 'error',
+		'@stylistic/space-before-function-paren': [
 			'error',
 			'never',
 		],
-		'space-in-parens': [
+		'@stylistic/space-in-parens': [
 			'error',
 			'always',
 		],
-		'space-infix-ops': 'error',
-		'space-unary-ops': 'error',
-		'spaced-comment': 'error',
 		strict: 'error',
-		'switch-colon-spacing': 'error',
-		'template-tag-spacing': [
-			'error',
-			'always',
-		],
+		'@stylistic/switch-colon-spacing': 'error',
 		'unicode-bom': 'error',
-		'wrap-iife': 'error',
 		yoda: 'error',
 	},
 };

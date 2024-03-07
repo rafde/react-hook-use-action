@@ -21,10 +21,16 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true
   },
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ],
   "include": [
-    "src/**/*",
+    "src/**/*.ts",
     "__tests__/**/*"
   ]
 }

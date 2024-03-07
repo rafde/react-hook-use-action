@@ -3,9 +3,9 @@ import type { UseCTAParameterActionsRecordProp, } from './UseCTAParameterActions
 
 export type UseCTAParameter<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 > = {
-	actions?: Actions,
-	initial: Initial,
+	actions?: Actions
+	initial: Initial
 	onInit?: ( ( initial: Initial ) => Initial )
-}
+};
