@@ -21,10 +21,12 @@ export function useCTA<
 
 export type { CTAInitial, } from './types/CTAInitial';
 
-export type { CTAParam, } from './types/CTAParam';
+export type { CustomCTAParam, } from './types/CustomCTAParam';
+
+export type { CustomCTAReturnType, } from './types/CustomCTAReturnType';
 
 export type { UseCTAParameter, } from './types/UseCTAParameter';
 
-export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
+export type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchState, } from './types/UseCTAReturnTypeDispatch';
 
 export type { UseCTAReturnType, } from './types/UseCTAReturnType';

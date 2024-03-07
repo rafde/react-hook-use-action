@@ -2,6 +2,8 @@
 
 A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.
 
+[Demo Playground](https://codesandbox.io/p/sandbox/react-hook-use-cta-7jnc32?file=%2Fsrc%2FApp.tsx)
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -55,10 +57,10 @@ A somewhat flexible react hook alternative to `React.useReducer`. Written in Typ
 
 - [Typescript exports](#typescript-exports)
   - [export type { CTAInitial, }](#export-type--ctainitial-)
-  - [export type { CTAParam, }](#export-type--ctaparam-)
   - [export type { UseCTAParameter, }](#export-type--usectaparameter-)
-  - [export type { UseCTAReturnTypeDispatch, }](#export-type--usectareturntypedispatch-)
   - [export type { UseCTAReturnType, }](#export-type--usectareturntype-)
+  - [export type { UseCTAReturnTypeDispatch, }](#export-type--usectareturntypedispatch-)
+  - [export type { UseCTAReturnTypeDispatchState, }](#export-type--usectareturntypedispatchstate-)
 
 </details>
 
@@ -237,7 +239,7 @@ https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a
 
 Typescript Definition:
 - [CTAInitial](#export-type--ctainitial-)
-- [CTAParam](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 The following results will **not** trigger re-render for all actions:
 - Returning a falsy value.
@@ -262,7 +264,7 @@ https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d8
 
 Typescript Definitions:
 - [CTAInitial](#export-type--ctainitial-)
-- [CTAParam](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 <details>
 
@@ -500,7 +502,7 @@ and custom actions if defined in [actions?.\['customAction'\]](#parameter-action
 
 Typescript Definition:
 - `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [CTAParams](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 ---
 
@@ -598,7 +600,7 @@ https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a
 
 Typescript Definition:
 - `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [CTAParams](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 ###### Return Type: `dispatch.cta.update` with `payload` parameter
 
@@ -711,7 +713,7 @@ https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a
 
 Typescript Definition:
 - `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [CTAParams](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 <details>
 
@@ -796,7 +798,7 @@ https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a
 
 Typescript Definition:
 - `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [CTAParams](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 <details>
 
@@ -880,7 +882,7 @@ https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a
 
 Typescript Definition:
 - `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [CTAParams](#export-type--ctaparam-)
+- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 ###### Return Type: `dispatch.cta.reset` without parameter
 
@@ -999,17 +1001,15 @@ https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d8
 
 ---
 
-## export type { CTAParam, }
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/CTAParam.ts#L3-L7
-
----
-
 ## export type { UseCTAParameter, }
 
 See [Parameter](#parameter)
 
 ---
+
+## export type { UseCTAReturnTypeDispatchState, }
+
+See [Return Type: dispatch](#return-type-dispatch)
 
 ## export type { UseCTAReturnTypeDispatch, }
 

@@ -1,5 +1,4 @@
-import type { CTAParam, } from './CTAParam';
-
+import type { CustomCTAParam, } from './CustomCTAParam';
 import type {
 	DispatchCTA,
 	CustomCTAWithOptionalPayloadProps,
@@ -13,6 +12,7 @@ import type {
 	CustomCTAWithoutPayloadRecord,
 	CustomCTAWithOptionalPayloadRecord,
 	CustomCTAWithPayloadRecord,
+	UseCTAReturnTypeDispatchState,
 } from './UseCTAReturnTypeDispatch';
 
 type TestInitial = {
@@ -22,28 +22,28 @@ type TestInitial = {
 
 const emptyAction = {} as const;
 const actionUpdate = {
-	update( ctaParam: CTAParam<TestInitial>, payload: Partial<TestInitial>, ) {
+	update( ctaState: UseCTAReturnTypeDispatchState<TestInitial>, payload: Partial<TestInitial>, ) {
 		return payload;
 	},
 } as const;
 const customCTAWithoutPayload = {
-	customCTAWithoutPayload( ctaParam: CTAParam<TestInitial>, ) {
+	customCTAWithoutPayload( ctaState: CustomCTAParam<TestInitial>, ) {
 		return {
-			d: ctaParam.previous.d + 1,
+			d: ctaState.previous.d + 1,
 		};
 	},
 } as const;
 
 const customCTAWithOptionalPayload = {
-	customCTAWithOptionalPayload( ctaParam: CTAParam<TestInitial>, payload?: number, ) {
+	customCTAWithOptionalPayload( ctaState: CustomCTAParam<TestInitial>, payload?: number, ) {
 		return {
-			d: typeof payload !== 'number' ? ctaParam.previous.d : payload,
+			d: typeof payload !== 'number' ? ctaState.previous.d : payload,
 		};
 	},
 } as const;
 
 const customCTAWithPayload = {
-	customCTAWithPayload( ctaParam: CTAParam<TestInitial>, payload: string, ) {
+	customCTAWithPayload( ctaState: CustomCTAParam<TestInitial>, payload: string, ) {
 		return {
 			s: payload,
 		};

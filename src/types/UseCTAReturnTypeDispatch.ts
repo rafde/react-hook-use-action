@@ -1,5 +1,6 @@
 import type { CTAInitial, } from './CTAInitial';
-import type { CTAParam, } from './CTAParam';
+import type { CustomCTAReturnType, } from './CustomCTAReturnType';
+import type { CustomCTAParam, } from './CustomCTAParam';
 
 type OmitEmptyRecord<T,> = {
 	[K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K]
@@ -8,28 +9,28 @@ type OmitEmptyRecord<T,> = {
 type ReplaceCTAProps<Initial extends CTAInitial,> = {
 	type: 'replace'
 	payload: Initial | (
-		( ctaParam: CTAParam<Initial> ) => Initial | undefined
+		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 	)
 };
 
 type ReplaceInitialCTAProps<Initial extends CTAInitial,> = {
 	type: 'replaceInitial'
 	payload: Initial | (
-		( ctaParam: CTAParam<Initial> ) => Initial | undefined
+		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 	)
 };
 
 type ResetCTAProps<Initial extends CTAInitial,> = {
 	type: 'reset'
 	payload?: Initial | (
-		( ctaParam: CTAParam<Initial> ) => Initial | undefined
+		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 	)
 };
 
 type UpdateCTAProps<Initial extends CTAInitial,> = {
 	type: 'update'
 	payload: Partial<Initial> | (
-		( ctaParam: CTAParam<Initial> ) => Partial<Initial> | undefined
+		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | undefined
 	)
 };
 
@@ -47,11 +48,11 @@ export type CustomCTAWithoutPayloadRecord<
 		keyof Actions,
 		keyof DispatchDefaultCTARecord<Initial>
 	> as Actions[Action] extends (
-		( ctaParam: CTAParam<Initial>, payload: never ) => Partial<Initial> | undefined
+		( ctaParam: CustomCTAParam<Initial>, payload: never ) => CustomCTAReturnType<Initial>
 	) ?
 		( Parameters<Actions[Action]>['length'] extends 1 ? Action : never ) :
 		never
-	]: ( ( ctaParam: CTAParam<Initial>, payload: never ) => Partial<Initial> | undefined );
+	]: ( ( ctaParam: CustomCTAParam<Initial>, payload: never ) => CustomCTAReturnType<Initial> );
 };
 
 export type CustomCTAWithoutPayloadProps<
@@ -66,7 +67,7 @@ export type CustomCTAWithoutPayloadProps<
 export type CTAWithOptionalPayloadRecordParameters<
 	Initial extends CTAInitial,
 	CTA,
-> = CTA extends ( ( ctaParam: CTAParam<Initial>, payload?: infer P ) => Partial<Initial> | undefined ) ?
+> = CTA extends ( ( ctaParam: CustomCTAParam<Initial>, payload?: infer P ) => Partial<Initial> | undefined ) ?
 	P :
 	never;
 
@@ -76,14 +77,14 @@ export type CustomCTAWithOptionalPayloadRecord<
 > = {
 	[
 	Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends (
-		( ctaParam: CTAParam<Initial>, payload?: infer U ) => Partial<Initial> | undefined
+		( ctaParam: CustomCTAParam<Initial>, payload?: infer U ) => CustomCTAReturnType<Initial>
 	) ?
 		( undefined extends U ? never : Action ) :
 		never
 	]: (
-		ctaParam: CTAParam<Initial>,
+		ctaParam: CustomCTAParam<Initial>,
 		payload?: CTAWithOptionalPayloadRecordParameters<Initial, Actions[Action]>
-	) => Partial<Initial> | undefined;
+	) => CustomCTAReturnType<Initial>
 };
 
 export type CustomCTAWithOptionalPayloadProps<
@@ -97,13 +98,13 @@ export type CustomCTAWithOptionalPayloadProps<
 > = CustomCTAWithOptionalPayloadRecord<Initial, Actions> extends Record<string | number | symbol, never> ? never : {
 	type: keyof CustomActionsWithOptionalPayloadRecord
 	payload?: CustomActionsWithOptionalPayloadParameter |
-	( ( ctaParam: CTAParam<Initial> ) => CustomActionsWithOptionalPayloadParameter | undefined )
+	( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithOptionalPayloadParameter | undefined )
 };
 
 export type CTAWithPayloadParameter<
 	Initial extends CTAInitial,
 	CTA,
-> = CTA extends ( ( ctaParam: CTAParam<Initial>, payload: infer P ) => Partial<Initial> | undefined ) ?
+> = CTA extends ( ( ctaParam: CustomCTAParam<Initial>, payload: infer P ) => CustomCTAReturnType<Initial> ) ?
 	P :
 	never;
 
@@ -113,13 +114,13 @@ export type CustomCTAWithPayloadRecord<
 > = {
 	[
 	Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends (
-		( ctaParam: CTAParam<Initial>, payload: infer U ) => Partial<Initial> | undefined ) ?
+		( ctaParam: CustomCTAParam<Initial>, payload: infer U ) => CustomCTAReturnType<Initial> ) ?
 		( undefined extends U ? never : Action ) :
 		never
 	]: (
-		ctaParam: CTAParam<Initial>,
+		ctaParam: CustomCTAParam<Initial>,
 		payload: CTAWithPayloadParameter<Initial, Actions[Action]>
-	) => Partial<Initial> | undefined
+	) => CustomCTAReturnType<Initial>
 };
 
 export type CustomCTAWithPayloadProps<
@@ -133,8 +134,8 @@ export type CustomCTAWithPayloadProps<
 > = CustomActionsWithPayload extends Record<string | number | symbol, never> ? never : {
 	type: keyof CustomActionsWithPayload
 	payload: CustomActionsWithPayloadParameter | (
-			( ctaParam: CTAParam<Initial> ) => CustomActionsWithPayloadParameter | undefined
-		)
+		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithPayloadParameter | undefined
+	)
 };
 
 export type DispatchCTA<
@@ -169,7 +170,7 @@ export type DispatchCustomCTAWithOptionalPayload<
 	CustomActionsWithOptionalPayloadRecord : Readonly<{
 		[Action in keyof CustomActionsWithOptionalPayloadRecord]: (
 			payload?: CustomActionsWithOptionalPayloadParameters |
-			( ( ctaParam: CTAParam<Initial> ) => CustomActionsWithOptionalPayloadParameters | undefined )
+			( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithOptionalPayloadParameters | undefined )
 		) => void;
 	}>;
 
@@ -185,15 +186,15 @@ export type DispatchCustomCTAWithPayload<
 	CustomActionsWithPayloadRecord : {
 		[Action in keyof CustomActionsWithPayloadRecord]: (
 			payload: CustomActionsWithPayloadParameters |
-			( ( ctaParam: CTAParam<Initial> ) => CustomActionsWithPayloadParameters | undefined )
+			( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithPayloadParameters | undefined )
 		) => void;
 	};
 
 export type DispatchDefaultCTARecord<Initial extends CTAInitial,> = Readonly<{
-	replace( payload: Initial | ( ( ctaParam: CTAParam<Initial> ) => Initial | undefined ) ): void
-	replaceInitial( payload: Initial | ( ( ctaParam: CTAParam<Initial> ) => Initial | undefined ) ): void
-	reset( payload?: Initial | ( ( ctaParam: CTAParam<Initial> ) => Initial | undefined ) ): void
-	update( payload: Partial<Initial> | ( ( ctaParam: CTAParam<Initial> ) => Partial<Initial> | undefined ), value?: undefined ): void
+	replace( payload: Initial | ( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined ) ): void
+	replaceInitial( payload: Initial | ( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined ) ): void
+	reset( payload?: Initial | ( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined ) ): void
+	update( payload: Partial<Initial> | ( ( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | undefined ), value?: undefined ): void
 	update( key: keyof Initial, value: Initial[keyof Initial] ): void
 }>;
 

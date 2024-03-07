@@ -5,6 +5,9 @@
   "bugs": {
     "url": "https://github.com/rafde/react-hook-use-cta/issues"
   },
+  "dependencies": {
+    "fast-equals": "^5.0.1"
+  },
   "description": "A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.",
   "devDependencies": {
     "@parcel/packager-ts": "2.12.0",
@@ -36,6 +39,7 @@
     "LICENSE",
     "README.md"
   ],
+  "isLibrary": true,
   "keywords": [
     "hooks",
     "react",
@@ -54,7 +58,6 @@
   "name": "react-hook-use-cta",
   "peerDependencies": {
     "@types/react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "fast-equals": "^5.0.1",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
@@ -84,8 +87,7 @@
     "version:prepatch": "npm version prepatch",
     "version:prerelease": "npm version prerelease"
   },
-  "isLibrary": true,
-  "types": "dist/types.d.ts",
   "source": "src/index.ts",
+  "types": "dist/types.d.ts",
   "version": "0.0.1-1"
 }
