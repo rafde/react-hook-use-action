@@ -8,7 +8,7 @@ import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePri
 
 function mergeCustomCTAWithDefaultCTA<
 	Initial extends CTAInitial,
-	Actions
+	Actions,
 >(
 	dispatch: DispatchCTA<Initial, Actions>,
 	defaultCTARecord: DispatchDefaultCTARecord<Initial>,
@@ -78,21 +78,21 @@ function wrapPrivateDispatcher<
 		},
 		update( payload, value, ) {
 			switch ( typeof payload ) {
-			case 'number':
-			case 'string':
-				publicDispatcher( {
-					type: 'update',
-					payload: {
-						[ payload ]: value,
-					},
-				} as Parameters<DispatchCTA<Initial, Actions>>[0], );
-				break;
-			default:
-				publicDispatcher( {
-					type: 'update',
-					payload,
-				} as Parameters<DispatchCTA<Initial, Actions>>[0], );
-				break;
+				case 'number':
+				case 'string':
+					publicDispatcher( {
+						type: 'update',
+						payload: {
+							[ payload ]: value,
+						},
+					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
+					break;
+				default:
+					publicDispatcher( {
+						type: 'update',
+						payload,
+					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
+					break;
 			}
 		},
 	};
@@ -116,10 +116,10 @@ function wrapPrivateDispatcher<
 
 export default function usePublicCTA<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined,
 >( params: {
-	actions?: Actions,
-	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>,
+	actions?: Actions
+	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>
 }, ): UseCTAReturnType<Initial, Actions> {
 	const {
 		actions,

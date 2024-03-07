@@ -3,8 +3,8 @@ import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 export type UseCTAReturnType<
 	Initial extends CTAInitial,
-	Actions = undefined
+	Actions = undefined,
 > = [
 	Initial,
-	UseCTAReturnTypeDispatch<Initial, Actions>
-]
+	UseCTAReturnTypeDispatch<Initial, Actions>,
+];
