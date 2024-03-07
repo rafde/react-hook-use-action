@@ -75,7 +75,14 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "tsc": "tsc",
-    "version": "npm run build && git add -A dist"
+    "version": "npm run build && git add -A dist",
+    "version:major": "npm version major",
+    "version:minor": "npm version minor",
+    "version:patch": "npm version patch",
+    "version:premajor": "npm version premajor",
+    "version:preminor": "npm version preminor",
+    "version:prepatch": "npm version prepatch",
+    "version:prerelease": "npm version prerelease"
   },
   "isLibrary": true,
   "types": "dist/types.d.ts",
