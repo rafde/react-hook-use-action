@@ -69,7 +69,7 @@
   "scripts": {
     "build": "parcel build --log-level verbose",
     "lint": "eslint --cache --fix src/ __tests__/",
-    "postversion": "git push && git push --follow-tags && rm -rf dist",
+    "postversion": "git push && git push --follow-tags",
     "prepare": "husky",
     "preversion": "npm test",
     "test": "jest",
