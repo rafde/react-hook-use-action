@@ -1,3 +1,3 @@
 echo "Starting Husky post-checkout";
-npm ci
+npm install
 echo "Husky post-checkout done";
