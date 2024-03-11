@@ -231,21 +231,23 @@ _Optional_
 
 Read once on first time render. Key/value `object` to define the types of actions to implement.
 
+The following results will **not** trigger re-render for all actions:
+- Returning a falsy value.
+- Returning a non-`null` `object` that doesn't change the values of [state](#return-type-state) and [dispatch.state](#return-type-dispatchstate)
+
 #### Predefine actions
 
 There are predefined actions that can be augmented with the following signatures:
 
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAParameterActionsRecordProp.ts#L4-L9
+https://github.com/rafde/react-hook-use-cta/blob/7532ce5d41502f3fc9a0b0275ba2eaae7c2c16fe/src/types/UseCTAParameterActionsPredefinedRecord.ts#L4-L9
+
+Augmenting these actions will affect custom actions.
 
 Typescript Definition:
 - [CTAInitial](#export-type--ctainitial-)
 - [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
-The following results will **not** trigger re-render for all actions:
-- Returning a falsy value.
-- Returning a non-`null` `object` that doesn't change the values of [state](#return-type-state) or [dispatch.state](#return-type-dispatchstate)
-
-Calls to action:
+Predefined calls to action:
 
 - [dispatch.cta.update](#return-type-dispatchctaupdate)
 - [dispatch.cta.replace](#return-type-dispatchctareplace)
@@ -260,10 +262,11 @@ You can define your own custom actions to handle `payload`s to your specificatio
 
 Typescript signature:
 
-https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d847e210063/src/types/UseCTAParameterActionsRecordProp.ts#L11-L17
+https://github.com/rafde/react-hook-use-cta/blob/adfd2a0448f08a4d1374db0136f77dde9c64da7a/src/types/UseCTAParameterActionsRecordProp.ts#L6-L14
 
 Typescript Definitions:
 - [CTAInitial](#export-type--ctainitial-)
+- [CustomCTAParam](#export-type--customctaparam-)
 - [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
 
 <details>
@@ -998,6 +1001,12 @@ https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d8
 ## export type { CTAInitial, }
 
 https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d847e210063/src/types/CTAInitial.ts#L1
+
+---
+
+## export type { CustomCTAParam, }
+
+https://github.com/rafde/react-hook-use-cta/blob/adfd2a0448f08a4d1374db0136f77dde9c64da7a/src/types/CustomCTAParam.ts#L11-L16
 
 ---
 
