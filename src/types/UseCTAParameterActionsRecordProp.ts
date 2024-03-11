@@ -3,7 +3,7 @@ import type { CustomCTAParam, } from './CustomCTAParam';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 import type { UseCTAParameterActionsPredefinedRecord, } from './UseCTAParameterActionsPredefinedRecord';
 
-export type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial,> = {
+export type UseCTAParameterActionsCustomRecord<Initial extends CTAInitial,> = {
 	[customAction: string | number]: (
 		(
 			ctaParam: CustomCTAParam<Initial>,
@@ -13,5 +13,5 @@ export type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial,> = {
 	)
 };
 
-export type UseCTAParameterActionsRecordProp<Initial extends CTAInitial,> = UseCTAParameterCustomActionsRecord<Initial> &
+export type UseCTAParameterActionsRecordProp<Initial extends CTAInitial,> = UseCTAParameterActionsCustomRecord<Initial> &
 	UseCTAParameterActionsPredefinedRecord<Initial>;
