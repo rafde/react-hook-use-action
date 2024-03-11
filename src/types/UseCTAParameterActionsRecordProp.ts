@@ -1,14 +1,7 @@
 import type { CTAInitial, } from './CTAInitial';
 import type { CustomCTAParam, } from './CustomCTAParam';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
-import type { UseCTAReturnTypeDispatchState, } from './UseCTAReturnTypeDispatch';
-
-type UseCTAParameterPredefinedActionsRecord<Initial extends CTAInitial,> = {
-	replace?: ( ctaParam: UseCTAReturnTypeDispatchState<Initial>, payload: Initial ) => Initial | undefined
-	replaceInitial?: ( CTAParam: UseCTAReturnTypeDispatchState<Initial>, payload: Initial ) => Initial | undefined
-	reset?: ( CTAParam: UseCTAReturnTypeDispatchState<Initial>, payload?: Initial ) => Initial | undefined
-	update?: ( CTAParam: UseCTAReturnTypeDispatchState<Initial>, payload: Partial<Initial> ) => Partial<Initial> | undefined
-};
+import type { UseCTAParameterActionsPredefinedRecord, } from './UseCTAParameterActionsPredefinedRecord';
 
 export type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial,> = {
 	[customAction: string | number]: (
@@ -21,4 +14,4 @@ export type UseCTAParameterCustomActionsRecord<Initial extends CTAInitial,> = {
 };
 
 export type UseCTAParameterActionsRecordProp<Initial extends CTAInitial,> = UseCTAParameterCustomActionsRecord<Initial> &
-	UseCTAParameterPredefinedActionsRecord<Initial>;
+	UseCTAParameterActionsPredefinedRecord<Initial>;
