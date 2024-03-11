@@ -2,7 +2,7 @@ import { strictDeepEqual, } from 'fast-equals';
 
 import type { CTAInitial, } from '../types/CTAInitial';
 import {
-	UseCTAParameterCustomActionsRecord,
+	UseCTAParameterActionsCustomRecord,
 } from '../types/UseCTAParameterActionsRecordProp';
 import type { DispatchCTA, UseCTAReturnTypeDispatchState, } from '../types/UseCTAReturnTypeDispatch';
 import {
@@ -196,7 +196,7 @@ function typeResult<
 
 function getActionType<
 	Initial extends CTAInitial,
-	CTAReturnType extends UseCTAParameterCustomActionsRecord<Initial>[string | number],
+	CTAReturnType extends UseCTAParameterActionsCustomRecord<Initial>[string | number],
 >( ctaReturnType: Exclude<ReturnType<CTAReturnType>, undefined>, ) {
 	if ( ctaReturnType instanceof ActionType ) {
 		const {
