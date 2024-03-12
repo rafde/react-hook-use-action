@@ -70,7 +70,7 @@
     "url": "git+https://github.com/rafde/react-hook-use-cta.git"
   },
   "scripts": {
-    "build": "parcel build --log-level verbose",
+    "build": "parcel build --log-level verbose --no-cache",
     "lint": "eslint --cache --fix src/ __tests__/",
     "postversion": "git push && git push --follow-tags",
     "prepare": "husky",
@@ -89,5 +89,5 @@
   },
   "source": "src/index.ts",
   "types": "dist/types.d.ts",
-  "version": "0.0.1-1"
+  "version": "0.0.1-6"
 }
