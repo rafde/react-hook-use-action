@@ -1,6 +1,7 @@
 import { useMemo, } from 'react';
 
 import type { CTAInitial, } from '../types/CTAInitial';
+import { OptionsParams, } from '../types/OptionsParams';
 import { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import type { DispatchDefaultCTARecord, DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
@@ -19,17 +20,18 @@ function mergeCustomCTAWithDefaultCTA<
 	let hasCustomAction = false;
 	const customActions = {} as Record<
 		CustomActionKeys,
-		( payload?: unknown ) => void
+		( payload?: unknown, options?: OptionsParams, ) => void
 	>;
 	for ( const type in ctaRecord ) {
 		if ( type in defaultCTARecord || typeof ctaRecord[ type ] !== 'function' ) {
 			continue;
 		}
 
-		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, ) => {
+		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, options?: OptionsParams, ) => {
 			dispatch( {
 				type,
 				payload,
+				options,
 			} as unknown as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		};
 
@@ -58,25 +60,28 @@ function wrapPrivateDispatcher<
 	};
 
 	const cta: DispatchDefaultCTARecord<Initial> = {
-		replace( payload, ) {
+		replace( payload, options?: OptionsParams, ) {
 			publicDispatcher( {
 				type: 'replace',
 				payload,
+				options,
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		replaceInitial( payload, ) {
+		replaceInitial( payload, options?: OptionsParams, ) {
 			publicDispatcher( {
 				type: 'replaceInitial',
 				payload,
+				options,
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		reset( payload, ) {
+		reset( payload, options?: OptionsParams, ) {
 			publicDispatcher( {
 				type: 'reset',
 				payload,
+				options,
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		update( payload, value, ) {
+		update( payload, value, options?: OptionsParams, ) {
 			switch ( typeof payload ) {
 				case 'number':
 				case 'string':
@@ -85,12 +90,14 @@ function wrapPrivateDispatcher<
 						payload: {
 							[ payload ]: value,
 						},
+						options,
 					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 					break;
 				default:
 					publicDispatcher( {
 						type: 'update',
 						payload,
+						value,
 					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 					break;
 			}
