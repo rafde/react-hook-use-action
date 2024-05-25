@@ -247,7 +247,8 @@ export default function ctaReducer<
 }, ): CTAReducerState<Initial> {
 	const {
 		type: ctaType,
-		payload: nextCTAPropsPayload,
+		payload: nextCTAPayload,
+		options,
 	} = params.nextCTAProps;
 	const {
 		ctaReducerState,
@@ -264,10 +265,14 @@ export default function ctaReducer<
 		initial,
 		previous: ctaReducerState.previous,
 	};
+	const ctaHandleState = {
+		...ctaState,
+		options,
+	};
 
 	const isActionsObject = actions && typeof actions == 'object' && !Array.isArray( actions, );
 	if ( ctaType in predefinedActionsConst && !isActionsObject ) {
-		if ( ctaType === 'reset' && !nextCTAPropsPayload ) {
+		if ( ctaType === 'reset' && !nextCTAPayload ) {
 			changesMap.clear();
 			return {
 				...ctaReducerState,
@@ -277,7 +282,7 @@ export default function ctaReducer<
 			};
 		}
 
-		const nextPredefinedState = nextCTAPropsPayload instanceof Function ? nextCTAPropsPayload( ctaState, ) : nextCTAPropsPayload;
+		const nextPredefinedState = nextCTAPayload instanceof Function ? nextCTAPayload( ctaState, ) : nextCTAPayload;
 
 		return typeResult( {
 			ctaReducerState,
@@ -292,9 +297,9 @@ export default function ctaReducer<
 		return ctaReducerState;
 	}
 
-	if ( ctaType === 'reset' && !nextCTAPropsPayload ) {
+	if ( ctaType === 'reset' && !nextCTAPayload ) {
 		const nextResetState = cta(
-			ctaState,
+			ctaHandleState,
 		);
 
 		if ( !nextResetState ) {
@@ -310,9 +315,9 @@ export default function ctaReducer<
 		};
 	}
 
-	let nextPayload = nextCTAPropsPayload;
-	if ( nextCTAPropsPayload instanceof Function ) {
-		nextPayload = nextCTAPropsPayload(
+	let nextPayload = nextCTAPayload;
+	if ( nextCTAPayload instanceof Function ) {
+		nextPayload = nextCTAPayload(
 			ctaState,
 		);
 
@@ -325,7 +330,7 @@ export default function ctaReducer<
 		return typeResult( {
 			ctaReducerState,
 			next: cta(
-				ctaState,
+				ctaHandleState,
 				nextPayload,
 			),
 			type: ctaType as PredefinedActions,
@@ -334,7 +339,7 @@ export default function ctaReducer<
 
 	const nextState = cta(
 		{
-			...ctaState,
+			...ctaHandleState,
 			replaceAction: ReplaceActionType.create<Initial>,
 			replaceInitialAction: ReplaceInitialActionType.create<Initial>,
 			resetAction: ResetActionType.create<Initial>,
@@ -365,7 +370,7 @@ export default function ctaReducer<
 	const customPredefinedCTA = isActionsObject && actions?.[ type as keyof typeof actions ];
 
 	if ( typeof customPredefinedCTA === 'function' && useCustom ) {
-		next = customPredefinedCTA( ctaState, next, );
+		next = customPredefinedCTA( ctaHandleState, next, );
 	}
 
 	return typeResult( {

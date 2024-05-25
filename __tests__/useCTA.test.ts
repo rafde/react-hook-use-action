@@ -670,6 +670,10 @@ describe( 'useCTA', function() {
 						hi,
 					} = payload;
 
+					if ( state.options?.ignoreNegatives ) {
+						return;
+					}
+
 					if ( typeof hi !== 'number' ) {
 						return;
 					}
@@ -753,21 +757,7 @@ describe( 'useCTA', function() {
 				test( 'should not `calc` `hi` when `payload` is function that returns `undefined`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							calc( state, payload: Pick<typeof initial, 'hi'>, ) {
-								const {
-									hi,
-								} = payload;
-
-								if ( typeof hi !== 'number' ) {
-									return;
-								}
-
-								return {
-									hi: state.previous.hi + hi,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					act( () => {
@@ -779,6 +769,31 @@ describe( 'useCTA', function() {
 
 					expect( result.current[ 0 ] === initial, ).toBe( true, );
 					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				}, );
+
+				test( 'should not `calc` when `payload` is negative and `options.ignoreNegatives` === true', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions,
+					}, ), );
+
+					const payload = {
+						hi: -4,
+					};
+					act( () => {
+						result.current[ 1 ]( {
+							type: 'calc',
+							payload,
+							options: {
+								ignoreNegatives: true,
+							},
+						}, );
+					}, );
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						hi: initial.hi,
+					}, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 			}, );
@@ -807,21 +822,7 @@ describe( 'useCTA', function() {
 				test( 'should not `calc` `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							calc( state, payload: Pick<typeof initial, 'hi'>, ) {
-								const {
-									hi,
-								} = payload;
-
-								if ( typeof hi !== 'number' ) {
-									return;
-								}
-
-								return {
-									hi: state.previous.hi + hi,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					const payload = {
@@ -840,21 +841,7 @@ describe( 'useCTA', function() {
 				test( 'should `calc` `hi` when `payload` is function', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							calc( state, payload: Pick<typeof initial, 'hi'>, ) {
-								const {
-									hi,
-								} = payload;
-
-								if ( typeof hi !== 'number' ) {
-									return;
-								}
-
-								return {
-									hi: state.previous.hi + hi,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					const payload = {
@@ -875,21 +862,7 @@ describe( 'useCTA', function() {
 				test( 'should not `calc` `hi` when `payload` is function that returns `undefined`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							calc( state, payload: Pick<typeof initial, 'hi'>, ) {
-								const {
-									hi,
-								} = payload;
-
-								if ( typeof hi !== 'number' ) {
-									return;
-								}
-
-								return {
-									hi: state.previous.hi + hi,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					act( () => {
@@ -900,21 +873,47 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
+
+				test( 'should not `calc` when `payload` is negative and `options.ignoreNegatives` === true', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions,
+					}, ), );
+
+					const payload = {
+						hi: -4,
+					};
+					const options = {
+						ignoreNegatives: true,
+					};
+					act( () => {
+						result.current[ 1 ].cta.calc( payload, options, );
+					}, );
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						hi: initial.hi,
+					}, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				}, );
 			}, );
 		}, );
 
 		describe( 'doubleHi', function() {
+			const actions = {
+				double( state: CustomCTAParam<typeof initial>, ) {
+					if ( state.options?.ignore ) {
+						return;
+					}
+					return {
+						hi: state.previous.hi * 2,
+					};
+				},
+			};
 			describe( 'dispatch({action: "doubleHi"}})', () => {
 				test( 'should double `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							double( state, ) {
-								return {
-									hi: state.previous.hi * 2,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					act( () => {
@@ -930,18 +929,30 @@ describe( 'useCTA', function() {
 						hi: initial.hi * 2,
 					}, );
 				}, );
+
+				test( 'should not double `hi` when `options.ignore` === true', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions,
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ]( {
+							type: 'double',
+							options: {
+								ignore: true,
+							},
+						}, );
+					}, );
+					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				}, );
 			}, );
 			describe( 'dispatch.double', function() {
 				test( 'should double `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
-						actions: {
-							double( state, ) {
-								return {
-									hi: state.previous.hi * 2,
-								};
-							},
-						},
+						actions,
 					}, ), );
 
 					act( () => {
@@ -954,6 +965,19 @@ describe( 'useCTA', function() {
 					expect( result.current[ 1 ].state.changes, ).toEqual( {
 						hi: initial.hi * 2,
 					}, );
+				}, );
+
+				test( 'should not double `hi` when `options.ignore` === true', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions,
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.double( undefined, { ignore: true, }, );
+					}, );
+					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 			}, );
 		}, );
@@ -1344,6 +1368,13 @@ describe( 'useCTA', function() {
 						return _payload;
 					}
 
+					if ( state.options?.tripleHi ) {
+						return {
+							..._payload,
+							hi: ( state.previous.hi + hi ) * 3,
+						};
+					}
+
 					return {
 						..._payload,
 						hi: state.previous.hi + hi,
@@ -1351,7 +1382,7 @@ describe( 'useCTA', function() {
 				},
 			};
 
-			test( 'should retain `dispatch.update(key, value)`', function() {
+			test( 'should `dispatch.update("hi", number)`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: customUpdateActions,
@@ -1370,6 +1401,49 @@ describe( 'useCTA', function() {
 				}, );
 				expect( result.current[ 1 ].state.changes, ).toEqual( {
 					hi,
+				}, );
+			}, );
+
+			test( 'should `dispatch.update("hi", number, { tripleHi: true, })`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: customUpdateActions,
+				}, ), );
+
+				const payload = {
+					hi: 4,
+				};
+				const hi = ( initial.hi + payload.hi ) * 3;
+				act( () => {
+					result.current[ 1 ].cta.update( 'hi', payload.hi, { tripleHi: true, }, );
+				}, );
+				expect( result.current[ 0 ], ).toEqual( {
+					...initial,
+					hi,
+				}, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( {
+					hi,
+				}, );
+			}, );
+
+			test( 'should `dispatch.update("there", string, { tripleHi: true, })` without changing `hi`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: customUpdateActions,
+				}, ), );
+				const there = 'there';
+				const payload = {
+					there,
+				};
+				act( () => {
+					result.current[ 1 ].cta.update( 'there', payload.there, );
+				}, );
+				expect( result.current[ 0 ], ).toEqual( {
+					...initial,
+					there,
+				}, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( {
+					there,
 				}, );
 			}, );
 
@@ -1459,30 +1533,60 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( initial, );
 				}, );
 
-				test( 'should not change if overridden returns new initial', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							reset( state, payload, ) {
-								if ( !payload || typeof payload !== 'object' ) {
+				describe( 'reset with options', function() {
+					const actions = {
+						reset( state: UseCTAReturnTypeDispatchState<typeof initial>, payload?: typeof initial, ) {
+							if ( !payload || typeof payload !== 'object' ) {
+								const resetPayload = {
+									...state.initial,
+									there: 'reset',
+								};
+
+								if ( state.options?.exceptionHi ) {
 									return {
-										...state.initial,
-										there: 'reset',
+										...resetPayload,
+										hi: 99,
 									};
 								}
 
-								return payload;
-							},
-						},
-					}, ), );
+								return resetPayload;
+							}
 
-					act( () => {
-						result.current[ 1 ].cta.reset();
+							return payload;
+						},
+					};
+
+					test( 'should not change if overridden returns new initial', function() {
+						const { result, } = renderHook( () => useCTA( {
+							initial,
+							actions,
+						}, ), );
+
+						act( () => {
+							result.current[ 1 ].cta.reset();
+						}, );
+
+						expect( result.current[ 0 ], ).toEqual( {
+							...initial,
+							there: 'reset',
+						}, );
 					}, );
 
-					expect( result.current[ 0 ], ).toEqual( {
-						...initial,
-						there: 'reset',
+					test( 'should keep current `hi` with `options.exceptionHi`', function() {
+						const { result, } = renderHook( () => useCTA( {
+							initial,
+							actions,
+						}, ), );
+
+						act( () => {
+							result.current[ 1 ].cta.reset( undefined, { exceptionHi: true, }, );
+						}, );
+
+						expect( result.current[ 0 ], ).toEqual( {
+							...initial,
+							there: 'reset',
+							hi: 99,
+						}, );
 					}, );
 				}, );
 			}, );
