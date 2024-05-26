@@ -109,6 +109,12 @@ module.exports = {
 			'error',
 			'tab',
 		],
+		'@stylistic/jsx-closing-tag-location': 'off',
+		'@stylistic/jsx-indent': [
+			'error',
+			'tab',
+		],
+		'@stylistic/jsx-wrap-multilines': 'off',
 		'@stylistic/linebreak-style': 'error',
 		'@stylistic/lines-around-comment': 'off',
 		'@stylistic/newline-per-chained-call': 'error',
