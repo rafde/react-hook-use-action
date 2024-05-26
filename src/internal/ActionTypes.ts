@@ -24,7 +24,6 @@ export class ActionType<Initial extends CTAInitial,> {
 }
 
 export class ReplaceActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	readonly type = 'replace';
 	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new ReplaceActionType( {
 			nextState,
@@ -41,7 +40,6 @@ export class ReplaceActionType<Initial extends CTAInitial,> extends ActionType<I
 }
 
 export class ReplaceInitialActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	readonly type = 'replaceInitial';
 	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new ReplaceInitialActionType( {
 			nextState,
@@ -58,7 +56,6 @@ export class ReplaceInitialActionType<Initial extends CTAInitial,> extends Actio
 }
 
 export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	readonly type = 'reset';
 	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new ResetActionType( {
 			nextState,
@@ -75,7 +72,6 @@ export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Ini
 }
 
 export class UpdateActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	readonly type = 'update';
 	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new UpdateActionType( {
 			nextState,
