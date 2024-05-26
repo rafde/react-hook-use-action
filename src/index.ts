@@ -19,6 +19,8 @@ export function useCTA<
 	}, );
 }
 
+export { createCTAContext, } from './internal/createCTAContext';
+
 export type { CTAInitial, } from './types/CTAInitial';
 
 export type { CustomCTAParam, } from './types/CustomCTAParam';
