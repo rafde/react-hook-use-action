@@ -55,5 +55,3 @@ export type { CTAPayloadCallbackParameter, } from './types/UseCTAReturnTypeDispa
 export type { CustomCTAStateParam, } from './types/CustomCTAStateParam';
 
 export type { CTAStateParam, } from './types/CTAStateParam';
-
-export type { CustomCTAReturnType, } from './types/CustomCTAReturnType';
