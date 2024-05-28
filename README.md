@@ -2,101 +2,96 @@
 
 A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.
 
-[Demo Playground](https://codesandbox.io/p/sandbox/react-hook-use-cta-7jnc32?file=%2Fsrc%2FApp.tsx)
+[Playground](https://stackblitz.com/edit/usecta-playground-kqxz5zt?file=src%2FApp.tsx&terminal=dev)
 
-## Table of Contents
+# Table of Contents
 
 - [Installation](#installation)
   - [NPM](#npm)
-- [export { useCTA }](#export--usecta-)
-  - [Usage](#usage)
+- [useCTA](#usecta)
+  - [Parameter](#parameter)
+    - [initial](#initial)
+    - [onInit](#oninit)
+    - [actions](#actions)
+  - [Return](#Return)
+    - [Current State](#current-state)
+    - [Dispatcher](#dispatcher)
+      - [cta](#cta)
+      - [state](#state)
+        - [state.initial](#stateinitial)
+        - [state.current](#statecurrent)
+        - [state.previous](#stateprevious)
+        - [state.changes](#statechanges)
+      - [Dispatcher Parameter](#dispatcher-parameter)
+        - [type](#type)
+        - [payload](#payload)
+        - [options](#options)
+  - [Call to Actions](#call-to-actions)
+    - [update](#update)
+      - [How to update a single property](#how-to-update-a-single-property)
+      - [How to update multiple properties](#how-to-update-multiple-properties)
+      - [How to augment update](#how-to-augment-update)
+    - [replace](#replace)
+      - [How to replace the entire state](#how-to-replace-the-entire-state)
+      - [How to augment replace](#how-to-augment-replace)
+    - [replaceInitial](#replaceinitial)
+      - [How to call replaceInitial](#how-to-call-replaceinitial)
+      - [How to augment replaceInitial](#how-to-augment-replaceinitial)
+    - [reset](#reset)
+      - [How to call reset without a payload to replace current state with initial state](#how-to-call-reset-without-a-payload-to-replace-current-state-with-initial-state)
+      - [How to call reset with payload](#how-to-call-reset-with-payload)
+      - [How to augment reset](#how-to-augment-reset)
+  - [Custom Actions](#custom-actions)
+    - [How to define and call custom action as update behavior](#how-to-define-and-call-custom-action-as-update-behavior)
+    - [How to define and call custom action as replace behavior](#how-to-define-and-call-custom-action-as-replace-behavior)
+    - [How to define and call custom action as replaceInitial behavior](#how-to-define-and-call-custom-action-as-replaceinitial-behavior)
+    - [How to define and call custom action as reset behavior](#how-to-define-and-call-custom-action-as-reset-behavior)
+- [createCTAContext](#createctacontext)
+  - [CTAProvider](#ctaprovider)
+  - [useCTAStateContext](#usectastatecontext)
+  - [useCTAStateContext](#usectadispatchcontext)
+  
 
 <details>
 
-<summary>Table of Contents: <strong>Parameter</strong></summary>
+<summary>Table of Contents: <strong>Typescript helper and exports</strong></summary>
 
-- [Parameter](#parameter)
-  - [initial](#parameter-initial)
-  - [onInit](#parameter-oninit)
-  - [actions](#parameter-actions)
-    - [Predefined actions](#predefine-actions)
-    - [actions?.\['customAction'\]](#parameter-actionscustomaction)
-      - [Parameter](#parameter-actionscustomaction)
-        1. [1st Parameter: CustomCTAParam](#actionscustomaction-1st-parameter-customctaparam)
-           - [replaceAction](#actionscustomaction-1st-parameter-customctaparamreplaceaction)
-           - [replaceInitialAction](#actionscustomaction-1st-parameter-customctaparamreplaceinitialaction)
-           - [resetAction](#actionscustomaction-1st-parameter-customctaparamresetaction)
-           - [updateAction](#actionscustomaction-1st-parameter-customctaparamupdateaction)
-        2. [2nd Parameter: payload](#actionscustomaction-2nd-parameter-payload)
-      - [Return Type](#actionscustomaction-return-type)
-
-</details>
-
-<details>
-
-<summary>Table of Contents: <strong>Return Type</strong></summary>
-
-- [Return Type](#return-type)
-  1. [state](#return-type-state)
-  2. [dispatch](#return-type-dispatch)
-     - [dispatch.cta](#return-type-dispatchcta)
-         - [dispatch.cta?.\['customAction'\]](#return-type-dispatchctacustomaction)
-             - [dispatch.cta?.\['customAction'\] with `payload` parameter](#return-type-dispatchctacustomaction-with-payload-parameter)
-             - [dispatch.cta?.\['customAction'\] without parameter](#return-type-dispatchctacustomaction-without-parameter)
-         - [dispatch.cta.update](#return-type-dispatchctaupdate)
-             - [dispatch.cta.update with `payload` parameter](#return-type-dispatchctaupdate-with-payload-parameter)
-             - [dispatch.cta.update with `key` and `value` parameters](#return-type-dispatchctaupdate-with-key-and-value-parameters)
-         - [dispatch.cta.replace](#return-type-dispatchctareplace)
-         - [dispatch.cta.replaceInitial](#return-type-dispatchctareplaceinitial)
-         - [dispatch.cta.reset](#return-type-dispatchctareset)
-             - [dispatch.cta.reset without parameter](#return-type-dispatchctareset-with-payload-parameter)
-             - [dispatch.cta.reset with `payload` parameter](#return-type-dispatchctareset-without-parameter)
-       - [dispatch.state](#return-type-state)
-         - [dispatch.state.current](#return-type-dispatchstatecurrent)
-         - [dispatch.state.initial](#return-type-dispatchstateinitial)
-         - [dispatch.state.changes](#return-type-dispatchstatechanges)
-         - [dispatch.state.previous](#return-type-dispatchstateprevious)
-
-</details>
-
-<details>
-
-<summary>Table of Contents: <strong>Typescript exports</strong></summary>
-
+- [returnActionsType](#returnactionstype)
 - [Typescript exports](#typescript-exports)
-  - [export type { CTAInitial, }](#export-type--ctainitial-)
-  - [export type { UseCTAParameter, }](#export-type--usectaparameter-)
-  - [export type { UseCTAReturnType, }](#export-type--usectareturntype-)
-  - [export type { UseCTAReturnTypeDispatch, }](#export-type--usectareturntypedispatch-)
-  - [export type { UseCTAReturnTypeDispatchState, }](#export-type--usectareturntypedispatchstate-)
+	- [CTAInitial](#export-type--ctainitial-)
+	- [UseCTAParameter](#export-type--usectaparameter-)
+	- [UseCTAReturnType](#export-type--usectareturntype-)
+	- [UseCTAReturnTypeDispatch](#export-type--usectareturntypedispatch-)
+	- [CTAPayloadCallbackParameter](#export-type--ctapayloadcallbackparameter-)
+	- [CustomCTAStateParam](#export-type--customctastateparam-)
+	- [CTAStateParam](#export-type--ctastateparam-)
 
 </details>
-
 
 ---
 
-## Installation
+# Installation
 
 ```
-react-hook-use-cta fast-equals
+react-hook-use-cta
 ```
 
-### NPM
+## NPM
 
 ```bash
-npm i react-hook-use-cta fast-equals
+npm i react-hook-use-cta
 ```
 
 ---
 
-## `export { useCTA }`
+# useCTA
 
-https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d847e210063/src/index.ts#L9-L14
+<details open>
 
-### Usage
+<summary>Basic example code</summary>
 
 ```tsx
-import { useEffect, } from "react";
+import { useEffect, } from 'react';
 import { useCTA, } from 'react-hook-use-cta'
 
 function View() {
@@ -112,24 +107,32 @@ function View() {
 	});
 
 	useEffect(
-		() => dispatch.cta.update('search', 'update'),
+		() => dispatch.cta.update('search', 'update search'),
 		[]
 	);
 
-	/* Renders `update` */
-	return <>{state.search}</>
+	/* Renders `update search` */
+	return state.search;
 }
 ```
 
+</details>
+
 <details>
 
-<summary>Example using all <code>useCTA</code> parameters</summary>
+<summary>Advance example code</summary>
 
 ```tsx
-import { useEffect, } from "react";
-import { useCTA, } from 'react-hook-use-cta'
+import { useEffect, } from 'react';
+import { useCTA, CustomCTAStateParam, CTAStateParam, } from 'react-hook-use-cta'
 
-function View(props: { initial: { search: string, isFuzzy: boolean, count: 0 } }) {
+type ViewPropsInitial = { 
+	search: string
+	isFuzzy: boolean
+	count: number
+};
+
+function View(props: { initial: ViewPropsInitial }) {
 	const [
 		state,
 		dispatch,
@@ -143,22 +146,22 @@ function View(props: { initial: { search: string, isFuzzy: boolean, count: 0 } }
 		},
 		actions: {
 			// START: augment predefined actions
-			replace(ctaParam, payload) {
+			replace(ctaStateParam: CTAStateParam<ViewPropsInitial>, payload) {
 				return payload;
 			},
-			replaceInitial(ctaParam, payload) {
+			replaceInitial(ctaStateParam: CTAStateParam<ViewPropsInitial>, payload) {
 				return payload;
 			},
-			reset(ctaParam, payload) {
+			reset(ctaStateParam: CTAStateParam<ViewPropsInitial>, payload) {
 				return payload;
 			},
-			update(ctaParam, payload) {
+			update(ctaStateParam: CTAStateParam<ViewPropsInitial>, payload) {
 				return payload;
 			},
 			// END: augment predefined actions
 
 			// START: Custom actions
-			toggleIsFuzzy(ctaParam, isFuzzy?: boolean) {
+			toggleIsFuzzy(customCTAStateParam: CustomCTAStateParam<ViewPropsInitial>, isFuzzy?: boolean) {
 				if (typeof isFuzzy === 'undefined') {
 					return {
 						isFuzzy: !ctaParam.previous.isFuzzy,
@@ -169,12 +172,12 @@ function View(props: { initial: { search: string, isFuzzy: boolean, count: 0 } }
 					isFuzzy
 				}
 			},
-			addToCount(ctaParam, value: number) {
+			addToCount(customCTAStateParam: CustomCTAStateParam<ViewPropsInitial>, value: number) {
 				return {
 					count: ctaParam.previous.count + value,
 				}
 			},
-			incrementCount(ctaParam) {
+			incrementCount(customCTAStateParam: CustomCTAStateParam<ViewPropsInitial>) {
 				return {
 					count: ctaParam.previous.count + 1,
 				}
@@ -193,7 +196,7 @@ function View(props: { initial: { search: string, isFuzzy: boolean, count: 0 } }
 		<div>{dispatch.state.initial.search}</div>
 		<div>{dispatch.state.changes?.search}</div>
 		<div>{dispatch.state.previous.search}</div>
-	</>
+	</>;
 }
 ```
 
@@ -203,156 +206,1724 @@ function View(props: { initial: { search: string, isFuzzy: boolean, count: 0 } }
 
 ## Parameter
 
-**Required**
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/UseCTAParameter.ts#L12-L19
 
-Key/value `object` of type `UseCTAParameter`
+> [!NOTE]
+> [useCTA](#usecta) accepts an `object`, that is read once, with the following properties:
 
-https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d847e210063/src/types/UseCTAParameter.ts#L4-L11
+### `initial`
 
-Typescript Definition:
+> [!IMPORTANT]
+> A **required** `object` representing the initial state.
+> Property values can be anything that [strictDeepEqual](https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal)
+> from [fast-equals](https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals) supports.
+
+Typescript:
 - [CTAInitial](#export-type--ctainitial-)
 
----
+### `onInit`
 
-### Parameter: `initial`
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/UseCTAParameter.ts#L18
 
-**Required**
-
-https://github.com/rafde/react-hook-use-cta/blob/1e97f6ef6c5bc3d053cf64007bfea7c5c84877a0/src/types/UseCTAParameter.ts#L9
-
-Similar to `React.useReducer` `initialArg` parameter,
-but it only takes key/value `object` that defines the shape of your [state](#return-type-state). 
-
-Values can be anything that
-[strictDeepEqual](https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal)
-from [fast-equals](https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals)
-supports.
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
----
-
-### Parameter: `onInit`
-
-_Optional_
-
-https://github.com/rafde/react-hook-use-cta/blob/1e97f6ef6c5bc3d053cf64007bfea7c5c84877a0/src/types/UseCTAParameter.ts#L10
-
-Similar to `React.useReducer` `init` parameter. Called on first time render. A `function` that is called to replace [initial](#parameter-initial) value.
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
---- 
-
-### Parameter: `actions`
-
-_Optional_ 
-
-Read once on first time render. Key/value `object` to define the types of actions to implement.
-
-The following results will **not** trigger re-render for all actions:
-- Returning a falsy value.
-- Returning a non-`null` `object` that doesn't change the values of [state](#return-type-state)
-or [dispatch.state.initial](#return-type-dispatchstateinitial)
-
-#### Predefine actions
-
-There are predefined actions that can be augmented with the following signatures:
-
-https://github.com/rafde/react-hook-use-cta/blob/7532ce5d41502f3fc9a0b0275ba2eaae7c2c16fe/src/types/UseCTAParameterActionsPredefinedRecord.ts#L4-L9
-
-Augmenting these actions will affect custom actions.
-
-Typescript Definition:
-- [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
-
-Predefined calls to action:
-
-- [dispatch.cta.update](#return-type-dispatchctaupdate)
-- [dispatch.cta.replace](#return-type-dispatchctareplace)
-- [dispatch.cta.replaceInitial](#return-type-dispatchctareplaceInitial)
-- [dispatch.cta.reset](#return-type-dispatchctareset)
-
----
-
-#### Parameter: `actions?.['customAction']`
-
-You can define your own custom actions to handle
-[payload](#actionscustomaction-2nd-parameter-payload)s to your specifications. 
-
-Typescript signature:
-
-https://github.com/rafde/react-hook-use-cta/blob/adfd2a0448f08a4d1374db0136f77dde9c64da7a/src/types/UseCTAParameterActionsRecordProp.ts#L6-L14
-
-Typescript Definitions:
-- [CTAInitial](#export-type--ctainitial-)
-- [CustomCTAParam](#export-type--customctaparam-)
-
-Call to action:
-
-- [`dispatch.cta?.\['customAction'\]](#return-type-dispatchctacustomaction)
-	- [dispatch.cta?.\['customAction'\] with payload parameter](#return-type-dispatchctacustomaction-with-payload-parameter)
-	- [dispatch.cta?.\['customAction'\] without parameter](#return-type-dispatchctacustomaction-without-parameter)
+> [!NOTE]
+> An _optional_ callback for setting [initial](#initial) `object` on first render. It accepts the [initial](#initial)
+> state `object` and returns a new [initial](#initial) state `object`.
 
 <details>
 
-<summary>Example for Parameter: <code>actions?.['customAction']</code></summary>
+<summary>onInit example code</summary>
 
 ```tsx
-import { useCTA } from 'react-hook-use-cta'
+import { useCTA, } from 'react-hook-use-cta'
 
-function View(props: {initial: {search: string, isFuzzy: boolean, count: 0}}) {
+function View() {
 	const [
 		state,
-		dispatch,
 	] = useCTA({
-		initial: props.initial,
+		initial: {
+			search: '',
+		},
 		onInit(initial) {
 			return {
 				...initial,
 				search: 'onInit',
 			}
-		},
+		}
+	});
+	
+	// renders `onInit`
+	return state.search;
+}
+```
+
+</details>
+
+### `actions`
+
+> [!NOTE]
+> An _optional_ `object` for augmenting [call to actions](#call-to-actions)
+> or to create your own [custom call to actions](#custom-actions)
+
+---
+
+## Return
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/UseCTAReturnType.ts#L7-L13
+
+> [!NOTE]
+> An `array` with 2 values:
+
+### Current State
+
+> [!NOTE]
+> A read-only `object` that is set by [initial](#initial) or result of [onInit](#oninit) on first render. 
+> It is changed by most [call to actions](#call-to-actions)
+
+### Dispatcher
+
+> [!NOTE]
+> A `function` used to make changes to the current state and trigger re-render. It also includes two properties:
+
+#### `cta`
+
+> [!NOTE]
+> A read-only `object` for accessing [calls to actions](#call-to-actions) to trigger state change.
+> By default, it includes the following [calls to actions](#call-to-actions)
+> https://github.com/rafde/react-hook-use-cta/blob/5ea1a69edc0a38e2aa4b870c08a95157628d914e/src/types/UseCTAReturnTypeDispatch.ts#L260-L292
+> `type CTAPayloadCallbackParameter` has the following properties:
+> https://github.com/rafde/react-hook-use-cta/blob/68163de2b6f2dd1153c4dd703a45daba3dd9a495/src/types/CustomCTAStateParam.ts#L12-L15
+
+#### `state`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L12-L15
+
+> [!NOTE]
+> A read-only `object` that can be used to reference additional states:
+> You have access to the following states
+
+##### `state.initial`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L12
+
+> [!NOTE]
+> Starts of equal to [initial](#initial) parameter or result of [onInit](#oninit) on first render
+
+<details>
+
+<summary>
+The following call to actions can affect it:
+</summary>
+
+- [replaceInitial](#replaceinitial)
+- [reset](#reset)
+- [custom replaceInitial action](#how-to-define-and-call-custom-action-as-replaceinitial-behavior)
+- [custom reset action](#how-to-define-and-call-custom-action-as-reset-behavior)
+
+</details>
+
+##### `state.current`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L13
+
+> [!NOTE]
+> Equivalent to [current state](#current-state).
+
+<details>
+
+<summary>
+The following call to actions can affect it:
+</summary>
+
+- [update](#update)
+- [replace](#replace)
+- [reset](#reset)
+- [custom update action](#how-to-define-and-call-custom-action-as-update-behavior)
+- [custom replace action](#how-to-define-and-call-custom-action-as-replace-behavior)
+- [custom reset action](#how-to-define-and-call-custom-action-as-reset-behavior)
+
+</details>
+
+##### `state.previous`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L14
+
+> [!NOTE]
+> Starts of equal to [initial](#initial) parameter or result of [onInit](#oninit) on first render.
+> Is set to the previous [current state](#current-state) if it changes.
+
+<details> 
+
+<summary>
+The following call to actions can affect it:
+</summary>
+
+- [update](#update)
+- [replace](#replace)
+- [replaceInitial](#replaceinitial)
+- [reset](#reset)
+- [custom update action](#how-to-define-and-call-custom-action-as-update-behavior)
+- [custom replace action](#how-to-define-and-call-custom-action-as-replace-behavior)
+- [custom replaceInitial action](#how-to-define-and-call-custom-action-as-replaceinitial-behavior)
+- [custom reset action](#how-to-define-and-call-custom-action-as-reset-behavior)
+
+</details>
+
+##### `state.changes`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L15
+
+> [!NOTE]
+> Starts of equal to `null`. 
+> When the property values of [state.initial](#stateinitial) are equal to the [current state](#current-state), the value is `null`. 
+> Otherwise, it's equal to the difference in property values of [state.initial](#stateinitial) and [current state](#current-state).
+
+<details> 
+
+<summary>
+The following call to actions can affect it:
+</summary>
+
+- [update](#update)
+- [replace](#replace)
+- [replaceInitial](#replaceinitial)
+- [reset](#reset)
+- [custom update action](#how-to-define-and-call-custom-action-as-update-behavior)
+- [custom replace action](#how-to-define-and-call-custom-action-as-replace-behavior)
+- [custom replaceInitial action](#how-to-define-and-call-custom-action-as-replaceinitial-behavior)
+- [custom reset action](#how-to-define-and-call-custom-action-as-reset-behavior)
+
+</details>
+
+#### Dispatcher Parameter
+
+Dispatcher `function` also accepts a parameter object with properties:
+
+##### `type`
+
+> [!IMPORTANT]
+> **Required** `string`. The value is a [call to action](#call-to-actions) or [custom action](#custom-actions) name.
+
+##### `payload`
+
+> [!WARNING]
+> A parameter that a [call to action](#call-to-actions) can read.
+> It's value depends on what it's corresponding [call to action](#call-to-actions) can accept.
+
+##### `options`
+
+https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L16
+
+> [!NOTE]
+> _Optional_ key/value `object` that an augmented [call to action](#call-to-actions) or [custom action](#custom-actions) may read.
+
+---
+
+# Call to Actions
+
+> [!NOTE]
+> ***Call to actions*** can be made through [cta](#cta) or [dispatcher](#dispatcher)
+> and augmented through [actions](#actions) parameter.
+> There are ***call to actions*** available for immediate use.
+
+> [!IMPORTANT] 
+> When augmenting an existing ***call to action***, the first parameter signature is [CTAStateParam](#export-type--ctastateparam-)
+> with the following properties:
+> https://github.com/rafde/react-hook-use-cta/blob/193f711b632be93aaa693751e9bd7ed50ba098e6/src/types/CustomCTAStateParam.ts#L12-L16
+> The second parameter depends on what the corresponding ***call to action*** expects.
+
+> [!IMPORTANT]
+> When using a callback as a `payload`, the first parameter signature is [CTAPayloadCallbackParameter](#export-type--ctapayloadcallbackparameter-)
+> with the following properties:
+> https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/CustomCTAStateParam.ts#L12-L15
+> `return;` or `return undefined` results in the ***call to action*** not triggering re-render.
+> Otherwise, the returning value depends on what the corresponding ***call to action*** expects.
+
+## `update`
+
+> [!NOTE]
+> Used to partially `update` the [current state](#current-state) with a `payload`. 
+> Affects the following [states](#state):
+
+| state                      | new state                                                                                       |
+|----------------------------|-------------------------------------------------------------------------------------------------|
+| [current](#statecurrent)   | `payload` merged with old [current](#statecurrent)                                              |
+| [initial](#stateinitial)   | no change                                                                                       |
+| [previous](#stateprevious) | old [current](#statecurrent)                                                                    |
+| [changes](#statechanges)   | difference between [initial](#stateinitial) and new [current](#statecurrent) or `null` if equal |
+
+
+### How to `update` a single property
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAReturnTypeDispatch.ts#L234-L238
+
+<details open>
+
+<summary>
+<code>update</code> a single property example code
+</summary>
+
+```ts
+dispatch.cta.update('search', 'update without option');
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>update</code> a single property with an option example code
+</summary>
+
+```ts
+dispatch.cta.update('search', 'update with option', {hasOption: true});
+```
+
+</details>
+
+### How to `update` multiple properties
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L282-L287
+
+<details open>
+
+<summary>
+<code>update</code> multiple properties example code
+</summary>
+
+```ts
+dispatch.cta.update({
+	search: 'dispatch.cta.update',
+	isFuzzy: true, 
+});
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>update</code> multiple properties with an option example code
+</summary>
+
+```ts
+dispatch.cta.update(
+	{
+		search: 'dispatch.cta.update with options',
+		isFuzzy: true,
+	},
+	{
+		updateWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details open>
+
+<summary>
+<code>update</code> multiple properties using a callback example code
+</summary>
+
+```ts
+dispatch.cta.update(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent an update from triggering.
+			return;
+		}
+		
+		return {
+			search: 'dispatch.cta.update with callback',
+			count: ctaPayloadCallbackParameter.current.count + 1,
+		}
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>update</code> multiple properties with an option using a callback example code
+</summary>
+
+```ts
+dispatch.cta.update(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent an update from triggering.
+			return;
+		}
+
+		return {
+			search: 'dispatch.cta.update with callback and options',
+			count: ctaPayloadCallbackParameter.current.count + 1,
+		}
+	},
+	{
+		updateWithCallbackOption: true,
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+Using dispatcher function instead of <code>dispatch.cta.update</code>
+</summary>
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L48-L54
+
+```ts
+dispatch({
+	type: 'update',
+	payload: {
+		search: 'dispatch update',
+		isFuzzy: true,
+	},
+});
+
+dispatch({
+	type: 'update',
+	payload: {
+		search: 'dispatch update with options',
+		isFuzzy: true,
+	},
+	options: {
+		dispatchUpdateWithOption: true,
+	}
+});
+
+dispatch({
+	type: 'update',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload(ctaPayloadCallbackParameter) {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent an update from happening.
+			return;
+		}
+	
+		return {
+			search: 'dispatch.cta.update with callback',
+			count: ctaPayloadCallbackParameter.current.count + 1,
+		}
+	},
+});
+
+
+dispatch({
+	type: 'update',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload: (ctaPayloadCallbackParameter) => ({
+		search: 'dispatch update with callback and options',
+		count: ctaPayloadCallbackParameter.current.count + 1,
+	}),
+	options: {
+		dispatchUpdateWithCallbackAndOption: true,
+	}
+});
+```
+
+</details>
+
+### How to augment `update`
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAParameterActionsPredefinedRecord.ts#L8
+
+<details open>
+
+<summary>
+augment <code>update</code> example code
+</summary>
+
+```tsx
+import {useEffect} from 'react';
+import {useCTA, CTAStateParam,} from 'react-hook-use-cta'
+
+const initial = {
+	search: 'initial',
+	isFuzzy: false,
+	count: 0,
+}
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial,
 		actions: {
-			// START: Custom actions
-			toggleIsFuzzy(ctaParam, payload?: boolean) {
-				if (typeof payload === 'undefined') {
-					return {
-						isFuzzy: !ctaParam.previous.isFuzzy,
-					}
-				}
+			/**
+			 * @param {CTAStateParam<typeof initial>} ctaStateParam
+			 * @param {typeof initial} payload
+			 * @returns {(Partial<typeof initial> | void)} returning `void` prevents action from triggering.
+			 */
+			update(ctaStateParam, payload,) {
+				const {
+					current,
+					options,
+				} = ctaStateParam;
+				let {
+					count,
+				} = payload;
 				
-				return {
-					isFuzzy: payload,
-				}
-			},
-			addToCount(ctaParam, payload: number) {
-				const count = ctaParam.previous.count + payload;
-				if (isNaN(count) || count < 0) {
+				if (!Number.isSafeInteger(count)) {
+					// if `count` is not a safe integer, prevent update 
 					return;
 				}
-				return {
-					count,
+
+				// set count to current.count if allowNegativeCount is falsey and count is less than 0
+				if (count < 0 && !options?.allowNegativeCount) {
+					count = current.count;
 				}
-			},
-			incrementCount(ctaParam) {
+
 				return {
-					count: ctaParam.previous.count + 1,
-				}
-			},
-			// END: Custom actions
+					...payload,
+					count
+				};
+			}
 		}
 	});
 
 	useEffect(
-		() => dispatch.cta.addToCount(4),
+		() => {
+			dispatch.cta.update(
+				'count',
+				-1,
+				{
+					allowNegativeCount: true
+				}
+			);
+		},
+		[
+			dispatch,
+		]
+	);
+	
+	// will render `-1`
+	return state.count;
+}
+```
+
+</details>
+
+## `replace`
+
+> [!NOTE]
+> Used to `replace` [current state](#current-state) with a `payload`.
+> Affects the following [states](#state): 
+
+| state                      | new state                                                                                       |
+|----------------------------|-------------------------------------------------------------------------------------------------|
+| [current](#statecurrent)   | `payload`                                                                                       |
+| [initial](#stateinitial)   | no change                                                                                       |
+| [previous](#stateprevious) | old [current](#statecurrent)                                                                    |
+| [changes](#statechanges)   | difference between [initial](#stateinitial) and new [current](#statecurrent) or `null` if equal |
+
+### How to `replace` the entire state
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L260-L265
+
+<details open>
+
+<summary>
+<code>replace</code> entire state example code
+</summary>
+
+```ts
+dispatch.cta.replace({
+	search: 'dispatch.cta.replace',
+	isFuzzy: true,
+	count: 10,
+});
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>replace</code> entire state with an option example code
+</summary>
+
+```ts
+dispatch.cta.replace(
+	{
+		search: 'dispatch.cta.replace with options',
+		isFuzzy: true,
+		count: 10,
+	},
+	{
+		isReplacingWithOption: true,
+	}
+);
+
+```
+
+</details>
+
+<details open>
+
+<summary>
+<code>replace</code> entire state using a callback example code
+</summary>
+
+```ts
+
+dispatch.cta.replace(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents triggering the action
+	 */
+	(ctaPayloadCallbackParameter) => {
+		const count = ctaPayloadCallbackParameter.current.count;
+		// This is a way to prevent replace from happening.
+		if (count > 10) {
+			return;
+		}
+		return {
+			search: 'dispatch.cta.replace with callback',
+			isFuzzy: true,
+			count,
+		}
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>replace</code> entire state with an option using a callback example code
+</summary>
+
+```ts
+dispatch.cta.replace(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents triggering the action
+	 */
+	(ctaPayloadCallbackParameter) => ({
+		search: 'dispatch.cta.replace with callback and options',
+		isFuzzy: true,
+		count: ctaPayloadCallbackParameter.current.count + 1,
+	}),
+	{
+		isCallbackReplacingWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+Using dispatcher function instead of <code>dispatch.cta.replace</code>
+</summary>
+
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L20-L26
+
+```ts
+dispatch({
+	type: 'replace',
+	payload: {
+		search: 'dispatch replace',
+		isFuzzy: true,
+		count: 10,
+	}
+});
+
+dispatch({
+	type: 'replace',
+	payload: {
+		search: 'dispatch replace with option',
+		isFuzzy: true,
+		count: 10,
+	},
+	options: {
+		isReplacingWithOption: true,
+	}
+});
+
+dispatch({
+	type: 'replace',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload: (ctaPayloadCallbackParameter) => {
+		const count = ctaPayloadCallbackParameter.current.count;
+		
+		if (count > 10) {
+			// This is a way to prevent replace from triggering.
+			return;
+		}
+		
+		return {
+			search: 'dispatch.cta.replace with callback',
+			isFuzzy: true,
+			count,
+		}
+	},
+});
+
+dispatch({
+	type: 'replace',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload: (ctaPayloadCallbackParameter) => {
+		const count = ctaPayloadCallbackParameter.current.count;
+
+		if (count > 10) {
+			// This is a way to prevent replace from triggering.
+			return;
+		}
+
+		return {
+			search: 'dispatch.cta.replace with callback with options',
+			isFuzzy: true,
+			count,
+		}
+	},
+	options: {
+		isCallbackReplacingWithOption: true,
+	}
+});
+```
+
+</details>
+
+### How to augment `replace`
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAParameterActionsPredefinedRecord.ts#L5
+
+<details open>
+
+<summary>augment <code>replace</code> example code</summary>
+
+```tsx
+import {useEffect} from 'react';
+import {useCTA, CTAStateParam,} from 'react-hook-use-cta'
+
+const initial = {
+	search: 'initial',
+	isFuzzy: false,
+	count: 0,
+}
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial,
+		actions: {
+			/**
+			 * @param {CTAStateParam<typeof initial>} ctaStateParam
+			 * @param {typeof initial} payload
+			 * @return {(typeof initial | void)} returning `void` prevents action from triggering.
+			 */
+			replace(ctaStateParam, payload,) {
+				const {
+					current,
+					options,
+				} = ctaStateParam;
+				let {
+					count,
+				} = payload;
+				
+				if (Number.isSafeInteger(count)) {
+					// if count is not a safe integer, prevent triggering replace
+					return;
+				}
+				
+				// set count to current.count if allowNegativeCount is falsey and count is less than 0
+				if (count < 0 && !options?.allowNegativeCount) {
+					count = current.count;
+				}
+
+				return {
+					...payload,
+					count
+				};
+			}
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.replace(
+				{
+					search: 'replace',
+					isFuzzy: true,
+					count: 10,
+				},
+				{
+					allowNegativeCount: true,
+				}
+			);
+		},
+		[
+			dispatch,
+		]
+	);
+	
+	// will render `-1`
+	return state.count;
+}
+```
+
+</details>
+
+## `replaceInitial`
+
+> [!NOTE]
+> Set a new [initial](#stateinitial) state with a `payload`. The idea of this action is in case there
+> is new source data that should be used to compare changes with [current state](#current-state)
+> Affects the following [states](#state):
+
+| state                      | new state                                                                                       |
+|----------------------------|-------------------------------------------------------------------------------------------------|
+| [current](#statecurrent)   | no change                                                                                       |
+| [initial](#stateinitial)   | `payload`                                                                                       |
+| [previous](#stateprevious) | no change                                                                                       |
+| [changes](#statechanges)   | difference between new [initial](#stateinitial) and [current](#statecurrent) or `null` if equal |
+
+### How to call `replaceInitial`
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L266-L271
+
+<details open>
+
+<summary>
+<code>replaceInitial</code> state example code
+</summary>
+
+```ts
+dispatch.cta.replaceInitial({
+	search: 'dispatch.cta.replaceInitial',
+	isFuzzy: true,
+	count: 10,
+});
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>replaceInitial</code> state using an option example code
+</summary>
+
+```ts
+dispatch.cta.replaceInitial(
+	{
+		search: 'dispatch.cta.replaceInitial with option',
+		isFuzzy: true,
+		count: 10,
+	},
+	{
+		isReplaceInitialWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details open>
+
+<summary>
+<code>replaceInitial</code> state using a callback example code
+</summary>
+
+```ts
+dispatch.cta.replaceInitial(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent replaceInitial from triggering.
+			return;
+		}
+		
+		return {
+			search: 'dispatch.cta.replaceInitial with callback',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count,
+		}
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>replaceInitial</code> state with option using a callback example code
+</summary>
+
+```ts
+dispatch.cta.replaceInitial(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent replaceInitial from triggering.
+			return;
+		}
+
+		return {
+			search: 'dispatch.cta.replaceInitial with callback with options',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count,
+		}
+	},
+	{
+		isReplaceInitialCallbackWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+Using dispatcher function instead of <code>dispatch.cta.replaceInitial</code>
+</summary>
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L28-L34
+
+```ts
+dispatch({
+	type: 'replaceInitial',
+	payload: {
+		search: 'dispatch replaceInitial',
+		isFuzzy: true,
+		count: 10,
+	}
+});
+
+dispatch({
+	type: 'replaceInitial',
+	payload: {
+		search: 'dispatch replaceInitial with options',
+		isFuzzy: true,
+		count: 10,
+	},
+	options: {
+		isReplacingWithOption: true,
+	}
+});
+
+dispatch({
+	type: 'replaceInitial',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload(ctaPayloadCallbackParameter) {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// This is a way to prevent replaceInitial from triggering.
+			return;
+		}
+	
+		return {
+			search: 'dispatch.cta.replaceInitial with callback',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count,
+		}
+	},
+});
+
+dispatch({
+	type: 'replaceInitial',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload: (ctaPayloadCallbackParameter) => ({
+		search: 'dispatch replaceInitial with callback and options',
+		isFuzzy: true,
+		count: ctaPayloadCallbackParameter.current.count + 1,
+	}),
+	options: {
+		isCallbackReplacingWithOption: true,
+	}
+});
+```
+
+</details>
+
+### How to augment `replaceInitial`
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAParameterActionsPredefinedRecord.ts#L6
+
+<details open>
+
+<summary>augment <code>replaceInitial</code> example code</summary>
+
+```tsx
+import {useEffect} from 'react';
+import {useCTA, CTAStateParam,} from 'react-hook-use-cta'
+
+const initial = {
+	search: 'initial',
+	isFuzzy: false,
+	count: 0,
+}
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial,
+		actions: {
+			/**
+			 * @param {CTAStateParam<typeof initial>} ctaStateParam
+			 * @param {typeof initial} payload
+			 * @returns {(typeof initial | undefined)} returning `undefined` prevents action from triggering.
+			 */
+			replaceInitial(ctaStateParam, payload) {
+				const {
+					current,
+					options,
+				} = ctaStateParam;
+				let {
+					count,
+				} = payload;
+
+				if (Number.isSafeInteger(count)) {
+					// prevent replaceInitial if count is not a safe integer
+					return;
+				}
+
+				// set count to current.count if allowNegativeCount is falsey and count is less than 0
+				if (count < 0 && !options?.allowNegativeCount) {
+					count = current.count;
+				}
+
+				return {
+					...payload,
+					count
+				};
+			}
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.replaceInitial(
+				{
+					search: 'replaceInitial',
+					isFuzzy: true,
+					count: 10,
+				},
+				{
+					allowNegativeCount: true,
+				}
+			);
+		},
+		[
+			dispatch,
+		]
+	);
+	
+	// will render `10`
+	return dispatch.state.initial.count;
+}
+```
+
+</details>
+
+## `reset`
+
+> [!NOTE]
+> `reset` is a special action that has 2 behaviors:
+
+### How to call `reset` without a `payload` to replace `current` state with `initial` state
+
+https://github.com/rafde/react-hook-use-cta/blob/eee697a4487ed4a6cfe830ceb6057402fa0a7b07/src/types/UseCTAReturnTypeDispatch.ts#L265-L268
+
+> [!NOTE]
+> If no `payload` is sent, then the [current state](#current-state) will be replaced the [initial](#stateinitial) state.
+> Affects the following [states](#state):
+
+| state                      | new state                                                             |
+|----------------------------|-----------------------------------------------------------------------|
+| [current](#statecurrent)   | [initial](#stateinitial)                                              |
+| [initial](#stateinitial)   | no change                                                             |
+| [previous](#stateprevious) | old [current](#statecurrent)                                          |
+| [changes](#statechanges)   | `null` since [initial](#stateinitial) equals [current](#statecurrent) |
+
+<details open>
+
+<summary><code>reset</code> state example code</summary>
+
+```ts
+// sets current state = to initial state
+dispatch.cta.reset();
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>reset</code> state example code using an option
+</summary>
+
+```ts
+// sets current state = to initial state
+dispatch.cta.reset(
+	undefined,
+	{
+		resetWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+Using dispatcher function instead of <code>dispatch.cta.reset</code> without payload
+</summary>
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAReturnTypeDispatch.ts#L26-L32
+
+```tsx
+dispatch({
+	type: 'reset'
+});
+
+dispatch({
+	type: 'reset',
+	options: {
+		resetWithOption: true,
+	}
+});
+
+```
+
+</details>
+
+### How to call `reset` with `payload`
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L276-L281
+
+> [!NOTE]
+> If a `payload` is sent, then the [initial](#stateinitial) state and the [current state](#current-state) will be replaced with the `payload`.
+> Affects the following [states](#state):
+
+| state                      | new state                                                             |
+|----------------------------|-----------------------------------------------------------------------|
+| [current](#statecurrent)   | `payload`                                                             |
+| [initial](#stateinitial)   | `payload`                                                             |
+| [previous](#stateprevious) | old [current](#statecurrent)                                          |
+| [changes](#statechanges)   | `null` since [initial](#stateinitial) equals [current](#statecurrent) |
+
+
+<details open>
+
+<summary>
+<code>reset</code> state with payload example code
+</summary>
+
+```ts
+// sets current state and initial state equal to payload
+dispatch.cta.reset({
+	search: 'dispatch.cta.reset',
+	isFuzzy: true,
+	count: 10,
+});
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>reset</code> state with payload and option example code
+</summary>
+
+```ts
+// sets current state and initial state equal to payload
+dispatch.cta.reset(
+	{
+		search: 'dispatch.cta.reset with options',
+		isFuzzy: true,
+		count: 10,
+	},
+	{
+		resetInitialWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details open>
+
+<summary>
+<code>reset</code> state with payload as callback example code
+</summary>
+
+```ts
+// sets current state and initial state equal to payload
+dispatch.cta.reset(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// prevent reset from triggering
+			return;
+		}
+	
+		// sets current state and initial state equal to payload
+		return {
+			search: 'dispatch.cta.reset with callback',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count,
+		}
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+<code>reset</code> state with payload as callback and option example code
+</summary>
+
+```ts
+// sets current state and initial state equal to payload
+dispatch.cta.reset(
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	(ctaPayloadCallbackParameter) => {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// prevent reset from triggering
+			return;
+		}
+		
+		return {
+			search: 'dispatch.cta.reset with callback with options',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count + 1,
+		}
+	},
+	{
+		resetCallbackWithOption: true,
+	}
+);
+```
+
+</details>
+
+<details>
+
+<summary>
+Using dispatcher function instead of <code>dispatch.cta.reset</code> with payload
+</summary>
+
+https://github.com/rafde/react-hook-use-cta/blob/0e8d359cf0f8dec77cc3d6d28de2c46ab0cc4027/src/types/UseCTAReturnTypeDispatch.ts#L36-L46
+
+```ts
+dispatch({
+	type: 'reset',
+	payload: {
+		search: 'dispatch reset',
+		isFuzzy: true,
+		count: 10,
+	}
+});
+
+dispatch({
+	type: 'reset',
+	payload: {
+		search: 'dispatch reset with option',
+		isFuzzy: true,
+		count: 10,
+	},
+	options: {
+		resetInitialWithOption: true,
+	}
+});
+
+dispatch({
+	type: 'reset',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
+	 */
+	payload(ctaPayloadCallbackParameter) {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// prevent reset from triggering
+			return;
+		}
+
+		// sets current state and initial state equal to payload
+		return {
+			search: 'dispatch.cta.reset with callback',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count,
+		}
+	},
+});
+
+dispatch({
+	type: 'reset',
+	/**
+	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @returns {(CTAInitial | void)} returning `undefined` prevents action from triggering.
+	 */
+	payload(ctaPayloadCallbackParameter) {
+		if (ctaPayloadCallbackParameter.current.count > 10) {
+			// prevent reset from triggering
+			return;
+		}
+
+		return {
+			search: 'dispatch.cta.reset with callback',
+			isFuzzy: true,
+			count: ctaPayloadCallbackParameter.current.count + 1,
+		}
+	},
+	options: {
+		resetCallbackWithOption: true,
+	}
+});
+```
+
+</details>
+
+### How to augment `reset`
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/UseCTAParameterActionsPredefinedRecord.ts#L7
+
+<details open>
+
+<summary>augment <code>reset</code> example code</summary>
+
+```ts
+import {useEffect} from 'react';
+import {useCTA, CTAStateParam,} from 'react-hook-use-cta'
+
+const initial = {
+	search: 'initial',
+	isFuzzy: false,
+	count: 0,
+}
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial,
+		actions: {
+			/**
+			 * @param {CTAStateParam<typeof initial>} ctaStateParam
+			 * @param {typeof initial=} payload - optional
+			 * @returns {(typeof initial | void)} returning `void` prevents action from triggering.
+			 */
+			reset(ctaStateParam, payload,) {
+				const {
+					current,
+					options,
+				} = ctaStateParam;
+				
+				if (!payload) {
+					// this will set current = initial
+					return ctaStateParam.initial;
+				}
+				
+				let {
+					count,
+				} = payload;
+				
+				if (!Number.isSafeInteger(count)) {
+					// prevent reset from triggering
+					return;
+				}
+				
+				// set count to current.count if allowNegativeCount is falsey and count is less than 0
+				if (count < 0 && !options?.allowNegativeCount) {
+					count = current.count;
+				}
+
+				return {
+					...payload,
+					count,
+				};
+			}
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.reset(
+				{
+					search: 'replace',
+					isFuzzy: true,
+					count: -1,
+				},
+				{
+					allowNegativeCount: true,
+				}
+			);
+		},
+		[
+			dispatch,
+		]
+	);
+	
+	// will render `-1`
+	return state.count;
+}
+```
+
+</details>
+
+## Custom Actions
+
+https://github.com/rafde/react-hook-use-cta/blob/eee697a4487ed4a6cfe830ceb6057402fa0a7b07/src/types/UseCTAParameterActionsRecordProp.ts#L6-L14
+
+> [!NOTE]
+> When the available actions aren't enough, you can define your own specialized ***custom actions*** using action behaviors.
+
+> [!IMPORTANT]
+> All ***custom action*** callbacks receive a [CustomCTAStateParam](#export-type--customctastateparam-)
+> as their first parameter with the following properties.
+> https://github.com/rafde/react-hook-use-cta/blob/eee697a4487ed4a6cfe830ceb6057402fa0a7b07/src/types/CustomCTAStateParam.ts#L12-L20
+> The second parameter depends on what you want sent as a `payload`
+
+> [!WARNING]
+> Augmented existing ***call to actions*** become the default behavior when using them in ***custom actions***.
+> To use non-augmented behavior, provide `{useDefault: true}` option as the second parameter.
+> https://github.com/rafde/react-hook-use-cta/blob/5ea1a69edc0a38e2aa4b870c08a95157628d914e/src/internal/ActionTypes.ts#L8
+
+### How to define and call ***custom action*** as `update` behavior
+
+> [!IMPORTANT]
+> All ***custom actions*** behave as an [update](#update) when returning a `Partial<CTAInitial>`.
+
+<details open>
+
+<summary>
+Defining custom <code>update</code> action
+</summary>
+
+```tsx
+import { useEffect, } from 'react';
+import { useCTA, } from 'react-hook-use-cta'
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial: {
+			count: 0,
+		},
+		actions: {
+			addToCount(ctaParam, value: number) {
+				return {
+					count: ctaParam.previous.count + value,
+				}
+			},
+			incrementCount(ctaParam) {
+				return {
+					count: ctaParam.current.count + 1,
+				}
+			},
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.incrementCount();
+			dispatch.cta.addToCount(3)
+		},
 		[]
 	);
 
-	return <>{state.count}</>
+	// renders `4`
+	return state.count;
+}
+```
+
+</details>
+
+<details>
+
+<summary>
+Defining custom <code>update</code> action using <code>updateAction</code> behavior
+</summary>
+
+```tsx
+import { useEffect, } from 'react';
+import { useCTA, } from 'react-hook-use-cta'
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial: {
+			count: 0,
+			search: '',
+		},
+		actions: {
+			update(ctaParam, payload) {
+				const {
+					count = ctaParam.current.count,
+				} = payload;
+				return {
+					...payload,
+					count: count + 1
+				};
+			},
+			multiplyCount(ctaParam, value: number) {
+				return ctaParam.updateAction(
+					{
+						count: ctaParam.current.count * value
+					},
+					{
+						// don't update using augmented behavior.
+						useDefault: true,
+					}
+				)
+			},
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.update('search', 'update');
+			dispatch.cta.multiplyCount(7)
+		},
+		[]
+	);
+
+	// renders `7`
+	return state.count;
+}
+```
+
+</details>
+
+### How to define and call ***custom action*** as `replace` behavior
+
+<details open>
+
+<summary>
+Defining custom <code>replace</code> action using <code>replaceAction</code>
+</summary>
+
+```tsx
+import { useEffect, } from 'react';
+import { useCTA, } from 'react-hook-use-cta'
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial: {
+			count: 0,
+			search: '',
+			isFuzzy: false,
+		},
+		actions: {
+			preset(ctaParam,) {
+				return ctaParam.replaceAction(
+					{
+						count: !ctaParam.current.search ? 11 : ctaParam.current.count,
+						search: 'preset',
+						isFuzzy: true,
+					}
+				)
+			},
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.preset();
+		},
+		[]
+	);
+
+	return <>
+		{/* renders `11` */}
+		<div>{state.count}</div>
+		{/* renders `preset` */}
+		<div>{state.search}</div>
+		{/* renders `true` */}
+		<div>{state.isFuzzy}</div>
+	</>;
+}
+```
+
+</details>
+
+### How to define and call ***custom action*** as `replaceInitial` behavior
+
+<details open>
+
+<summary>
+Defining custom <code>replaceInitial</code> action using <code>replaceInitialAction</code>
+</summary>
+
+```tsx
+import { useEffect, } from 'react';
+import { useCTA, } from 'react-hook-use-cta'
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial: {
+			count: 0,
+			search: '',
+			isFuzzy: false,
+		},
+		actions: {
+			sourceSync(ctaParam,) {
+				return ctaParam.replaceInitialAction(
+					{
+						count: 13,
+						search: 'sourceSync',
+						isFuzzy: true,
+					}
+				)
+			},
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.sourceSync();
+		},
+		[]
+	);
+
+	return <>
+		{/* renders `13` */}
+		<div>{dispatch.state.initial.count}</div>
+		{/* renders `sourceSync` */}
+		<div>{dispatch.state.initial.search}</div>
+		{/* renders `true` */}
+		<div>{dispatch.state.initial.isFuzzy}</div>
+		{/* renders `0` */}
+		<div>{state.count}</div>
+		{/* renders `` */}
+		<div>{state.search}</div>
+		{/* renders `false` */}
+		<div>{state.isFuzzy}</div>
+	</>;
+}
+```
+
+</details>
+
+### How to define and call ***custom action*** as `reset` behavior
+
+<details open>
+
+<summary>
+Defining custom <code>reset</code> action using <code>resetAction</code>
+</summary>
+
+```tsx
+import { useEffect, } from 'react';
+import { useCTA, } from 'react-hook-use-cta'
+
+function View() {
+	const [
+		state,
+		dispatch,
+	] = useCTA({
+		initial: {
+			count: 0,
+			search: '',
+			isFuzzy: false,
+		},
+		actions: {
+			sync(ctaParam,) {
+				return ctaParam.resetAction(
+					{
+						count: 13,
+						search: 'sync',
+						isFuzzy: true,
+					}
+				)
+			},
+		}
+	});
+
+	useEffect(
+		() => {
+			dispatch.cta.sync();
+		},
+		[]
+	);
+
+	return <>
+		{/* renders `null` */}
+		<div>{dispatch.state.changes}</div>
+		{/* renders `13` */}
+		<div>{dispatch.state.initial.count}</div>
+		{/* renders `sync` */}
+		<div>{dispatch.state.initial.search}</div>
+		{/* renders `true` */}
+		<div>{dispatch.state.initial.isFuzzy}</div>
+		{/* renders `13` */}
+		<div>{state.count}</div>
+		{/* renders `sync` */}
+		<div>{state.search}</div>
+		{/* renders `true` */}
+		<div>{state.isFuzzy}</div>
+	</>;
 }
 ```
 
@@ -360,899 +1931,196 @@ function View(props: {initial: {search: string, isFuzzy: boolean, count: 0}}) {
 
 ---
 
-##### `actions?.['customAction']` 1st Parameter: `CustomCTAParam`
+# createCTAContext
 
-Custom actions' first parameter:
+> [!NOTE]
+> Combines `useCTA` with React `createContext` and `useContext`.
+> Accepts the same parameters as `useCTA`:
+> https://github.com/rafde/react-hook-use-cta/blob/eee697a4487ed4a6cfe830ceb6057402fa0a7b07/src/types/UseCTAParameter.ts#L12-L19
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L11-L16
+<details open>
 
-extends [UseCTAReturnTypeDispatchState](#return-type-dispatchstate)
-with 4 additional functions that affect the behavior of the action.
+<summary>Create a file for exporting, example globalContext.ts</summary>
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L12-L15
+```tsx
+import { createCTAContext, } from 'react-hook-use-cta'
 
-Accepts `result` and `options`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/internal/ActionTypes.ts#L8
-
-If predefined actions were augmented, `{useCustom: false}` will bypass them and use default predefined behavior.
-
----
-
-###### `actions?.['customAction']` 1st Parameter: `CustomCTAParam.replaceAction`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L12
-
-Returns instance of `ReplaceActionType`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/internal/ActionTypes.ts#L26
-
-Returning `ReplaceActionType` will produce the same outcome as [dispatch.cta.replace](#return-type-dispatchctareplace)
-
-<details>
-
-<summary>Example for <code>CustomCTAParam.replaceAction</code></summary>
-
-```ts
-const [state, dispatch] = useCTA({
-	///...parameter
-	actions: {
-		specialReplace(ctaParam, payload?: boolean) {
-			if (typeof payload === 'undefined') {
-				// replace `state` with this new state
-				return ctaParam.replaceAction({
-					...ctaParam.previous,
-					isFuzzy: true,
-				})
-			}
-			
-			// update state
-			return {
-				isFuzzy: payload,
-			}
-		},
+export const GlobalContext = createCTAContext({
+	initial: {
+		search: 'initial',
+		isFuzzy: false,
+		count: 0,
 	},
 });
 ```
 
 </details>
 
----
+Returns an `object` the following key/value:
 
-###### `actions?.['customAction']` 1st Parameter: `CustomCTAParam.replaceInitialAction`
+## CTAProvider
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L13
+> [!NOTE]
+> Provider to wrap the app or component for context.
 
-Returns instance of `ReplaceInitialActionType`
+<details open>
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/internal/ActionTypes.ts#L43
+<summary>
+	<code>CTAProvider</code> example code
+</summary>
 
-Returning `ReplaceIntialActionType` will produce the same outcome as [dispatch.cta.replaceInitial](#return-type-dispatchctareplaceinitial)
+```tsx
+import GlobalContext from './globalContext';
+import { GlobalCountView, } from './GlobalCountView'
+import { GlobalCountButton, } from './GlobalCountButton'
 
-<details>
+export function App() {
+	return <GlobalContext.CTAProvider>
+		<GlobalCountButton/>
+		<GlobalCountView/>
+	</GlobalContext.CTAProvider>;
+}
+```
 
-<summary>Example for <code>CustomCTAParam.replaceInitialAction</code></summary>
+</details>
 
-```ts
-const [state, dispatch] = useCTA({
-	///...parameter
-	actions: {
-		specialReplaceInitial(ctaParam, payload?: boolean) {
-			if (typeof payload === 'undefined') {
-				// replace `initial` with this new state
-				return ctaParam.replaceInitialAction({
-					...ctaParam.previous,
-					isFuzzy: true,
-				})
-			}
+## useCTAStateContext
 
-			// update state
-			return {
-				isFuzzy: payload,
-			}
+> [!NOTE]
+> Hook that returns the current state
+
+<details open>
+
+<summary>
+<code>useCTAStateContext</code> example code
+</summary>
+
+```tsx
+import { GlobalContext, } from './globalContext';
+
+const {
+	useCTAStateContext
+} = GlobalContext;
+
+export function GlobalCountView() {
+	const globalState = useCTAStateContext();
+	return <div>
+		{globalState.count}
+	</div>;
+}
+```
+
+</details>
+
+## useCTADispatchContext
+
+> [!NOTE]
+> Hook that returns cta dispatcher. Returns `null` if called outside [CTAProvider](#ctaprovider)
+
+<details open>
+
+<summary>
+<code>useCTADispatchContext</code> example code
+</summary>
+
+```tsx
+import { useCallback, } from 'react';
+const {
+	useCTADispatchContext
+} = GlobalContext;
+
+export function GlobalCountButton() {
+	const globalDispatch = useCTADispatchContext();
+	const onClick = useCallback(
+		() => {
+			globalDispatch.cta.update((state) => {
+				return {
+					count: state.current.count + 1,
+				}
+			})
 		},
-	},
-});
+		[
+			globalDispatch
+		]
+	)
+	return <button {...{
+		onClick,
+	}}>
+		Update count:
+	</button>;
+}
 ```
 
 </details>
 
 ---
 
-###### `actions?.['customAction']` 1st Parameter: `CustomCTAParam.resetAction`
+# returnActionsType
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L14
+https://github.com/rafde/react-hook-use-cta/blob/5ea1a69edc0a38e2aa4b870c08a95157628d914e/src/index.ts#L36-L41
 
-Returns instance of `ResetActionType`
+> [!NOTE]
+> In case you need to define [actions](#actions) parameter from a variable, this function can help infer [actions](#actions) type
 
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/internal/ActionTypes.ts#L60
+<details open>
 
-Returning `ResetActionType` will produce the same outcome as [dispatch.cta.reset with payload parameter](#return-type-dispatchctareset-with-payload-parameter)
-
-<details>
-
-<summary>Example for <code>CustomCTAParam.resetAction</code></summary>
+<summary><code>returnActionsType</code> example code</summary>
 
 ```ts
-const [state, dispatch] = useCTA({
-	///...parameter
-	actions: {
-		specialReplaceInitial(ctaParam, payload?: boolean) {
-			if (typeof payload === 'undefined') {
-				// replace `initial` and `state` with this new state
-				return ctaParam.resetAction({
-					...ctaParam.previous,
-					isFuzzy: true,
-				})
-			}
+import { returnActionsType, } from 'react-hook-use-cta';
 
-			// update state
-			return {
-				isFuzzy: payload,
-			}
-		},
-	},
-});
-```
-
-</details>
-
----
-
-###### `actions?.['customAction']` 1st Parameter: `CustomCTAParam.updateAction`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/CustomCTAParam.ts#L15
-
-Returns instance of `UpdateActionType`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/internal/ActionTypes.ts#L77
-
-Returning `UpdateActionType` will produce the same outcome as [dispatch.cta.update](#return-type-dispatchctaupdate)
-
-<details>
-
-<summary>Example for <code>CustomCTAParam.updateAction</code></summary>
-
-```ts
-const [state, dispatch] = useCTA({
-	///...parameter
-	actions: {
-		specialReplaceInitial(ctaParam, payload?: boolean) {
-			if (typeof payload === 'undefined') {
-				// replace `initial` and `state` with this new state
-				return ctaParam.updateAction({
-					isFuzzy: true,
-				})
-			}
-
-			// update state
-			return ctaParam.previous
-		},
-	},
-});
-```
-
-</details>
-
----
-
-##### `actions?.['customAction']` 2nd Parameter: `payload`
-
-`payload`s can be:
-- `undefined`
-- _optional_ or **required** where the value can be anything
-- [Initial](#parameter-initial) type
-- `Partial<Initial>` type
-
----
-
-##### `actions?.['customAction']` Return Type
-
-Return type can be 
-- Falsy value: to **not** trigger re-render.
-- `Partial<Initial>`: triggers re-render if it changes the values of [state](#return-type-state).
-Works the same as [CustomCTAParam.updateAction](#actionscustomaction-1st-parameter-customctaparamupdateaction)
-- `ReplaceActionType`: See [CustomCTAParam.replaceAction](#actionscustomaction-1st-parameter-customctaparamreplaceaction)
-- `ReplaceInitialActionType`: See [CustomCTAParam.replaceInitialAction](#actionscustomaction-1st-parameter-customctaparamreplaceinitialaction)
-- `ResetActionType`: See [CustomCTAParam.resetAction](#actionscustomaction-1st-parameter-customctaparamresetaction)
-- `UpdateActionType`: See [CustomCTAParam.updateAction](#actionscustomaction-1st-parameter-customctaparamupdateaction)
-
----
-
-## Return Type
-
-Array with two values: `[state, dispatch]` of type `UseCTAReturnType`
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/types/UseCTAReturnType.ts#L4-L10
-
-Typescript Definitions:
-- [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatch](#return-type-dispatch)
-
----
-### Return Type: `state`
-
-Key/value `object` of type [CTAInitial](#export-type--ctainitial-)
-
-The current `state`. During the first render, it’s set to the result of [onInit](#parameter-oninit)
-or [initial](#parameter-initial) if [onInit](#parameter-oninit) was not defined.
-
----
-
-### Return Type: `dispatch`
-
-Is type `UseCTAReturnTypeDispatch`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L219-L225
-
-Typescript Definition:
-- [CTAInitial](#export-type--ctainitial-)
-
-A `function` with static read-only properties [dispatch.state](#return-type-dispatchstate)
-and [dispatch.cta](#return-type-dispatchcta). 
-
-Triggers re-render when [state](#return-type-state) or [dispatch.state.initial](#return-type-dispatchstateinitial) changes
-
-Parameters description will be covered by:
-
-- [dispatch.cta?.\['customAction'\]](#return-type-dispatchctacustomaction)
-- [dispatch.cta.update](#return-type-dispatchctaupdate)
-- [dispatch.cta.replace](#return-type-dispatchctareplace)
-- [dispatch.cta.replaceInitial](#return-type-dispatchctareplaceinitial)
-- [dispatch.cta.reset](#return-type-dispatchctareset)
-
----
-
-#### Return Type: `dispatch.cta`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L223
-
-Has predefined actions
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L192-L198
-
-and custom actions if defined in [actions?.\['customAction'\]](#parameter-actionscustomaction).
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
----
-
-##### Return Type: `dispatch.cta?.['customAction']`
-
-_Optional_
-
-Custom call to action for changing [state](#return-type-state)
-
-Parameters are based on the expected `payload` you defined them in [Parameter: actions?.\['customAction'\]](#parameter-actionscustomaction)
-
----
-
-###### Return Type: `dispatch.cta?.['customAction']` with `payload` parameter
-
-<details>
-
-<summary>Example for Return Type: `dispatch.cta?.['customAction']` with `payload` parameter</summary>
-
-```ts
-
-dispatch.cta.addToCount(5);
-
-// Alias for
-dispatch({
-	type: 'addToCount',
-	payload: 5
-});
-
-// or
-dispatch.cta.addToCount((ctaParam) => {
-	return ctaParam.previous.count + 10;
-});
-
-// Alias for
-dispatch({
-	type: 'addToCount',
-	payload: (ctaParam) => {
-		return ctaParam.previous.count + 10;
-	}
-});
-
-// or
-dispatch.cta.addToCount((ctaParam) => {
-	// No re-render
-	return;
-});
-
-// Alias for
-dispatch({
-	type: 'addToCount',
-	payload: (ctaParam) => {
-		// No re-render
-		return;
-	}
-});
-
-```
-
-</details>
-
----
-
-###### Return Type: `dispatch.cta?.['customAction']` without parameter
-
-<details>
-
-<summary>Example for dispatch.cta?.['customAction'] without parameter</summary>
-
-```ts
-
-dispatch.cta.incrementCount();
-
-// Alias for
-dispatch({
-	type: 'incrementCount',
-});
-
-```
-
-</details>
-
-Effects
-- [state](#return-type-state) = `state` change(s) based on [Parameter: actions?.\['customAction'\]](#parameter-actionscustomaction) definition.
-- [dispatch.state.current](#return-type-dispatchstatecurrent) = same as [state](#return-type-state)
-- [dispatch.state.changes](#return-type-dispatchstatechanges)
-	- = new differences between [dispatch.state.current](#return-type-dispatchstatecurrent) and [dispatch.state.initial](#return-type-dispatchstateinitial)
-	- = `null` if no difference.
-- [dispatch.state.previous](#return-type-dispatchstateprevious) = previous [dispatch.state.current](#return-type-dispatchstatecurrent)
-
----
-
-##### Return Type: `dispatch.cta.update`
-
-Overloaded `function` for partially changing [state](#return-type-state)
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L196-L197
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
-
----
-
-###### Return Type: `dispatch.cta.update` with `payload` parameter
-
-Accepts partial key/values from [Initial](#parameter-initial) and updates [state](#return-type-state) with partial change(s)
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L196
-
-<details>
-
-<summary>Example</summary>
-
-```ts
-
-dispatch.cta.update({
-	// partial `state` change
-	search: 'update',
-	count: 8,
-});
-
-// Alias for
-dispatch({
-	type: 'update',
-	payload: {
-		// partial `state` change
-		search: 'update',
-		count: 8,
-	}
-});
-
-// or
-dispatch.cta.update((ctaParam) => {
-	return {
-		// partial `state` change
-		search: 'update',
-		count: 8,
-	};
-});
-
-// Alias for
-dispatch({
-	type: 'update',
-	payload: (ctaParam) => {
-		return {
-			// partial `state` change
-			search: 'update',
-			count: 8,
-		};
-	}
-});
-
-// or
-dispatch.cta.update((ctaParam) => {
-	// No re-render
-	return;
-});
-
-// Alias for
-dispatch({
-	type: 'update',
-	payload: (ctaParam) => {
-		// No re-render
-		return;
-	}
-});
-
-```
-
-</details>
-
----
-
-###### Return Type: `dispatch.cta.update` with `key` and `value` parameters
-
-https://github.com/rafde/react-hook-use-cta/blob/1e97f6ef6c5bc3d053cf64007bfea7c5c84877a0/src/types/UseCTAReturnTypeDispatch.ts#L197
-
-Accepts a key from [Initial](#parameter-initial) and a corresponding value type for that key from [Initial](#parameter-initial)`[keyof Initial]`
-and updates [state](#return-type-state) with partial change
-
-
-<details>
-
-<summary>Example</summary>
-
-```ts
-
-dispatch.cta.update('seatch', 'update'); // partial `state` change
-
-// Alias for
-dispatch.cta.update({
-	seatch: 'update',
-});
-
-```
-
-</details>
-
-Effects
-- [state](#return-type-state) = new `state` with partial change(s).
-- [dispatch.state.current](#return-type-dispatchstatecurrent) = new `state` with partial change(s).
-- [dispatch.state.changes](#return-type-dispatchstatechanges)
-	- = new differences between [dispatch.state.current](#return-type-dispatchstatecurrent) and [dispatch.state.initial](#return-type-dispatchstateinitial)
-	- = `null` if no difference.
-- [dispatch.state.previous](#return-type-dispatchstateprevious) = previous [dispatch.state.current](#return-type-dispatchstatecurrent)
-
----
-
-##### Return Type: `dispatch.cta.replace`
-
-Replace entire [state](#return-type-state) with a new `state`.
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L193
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
-
-<details>
-
-<summary>Example for Return Type: <code>dispatch.cta.replace</code></summary>
-
-```ts
-
-dispatch.cta.replace({
-	// new `state`
-	search: 'replace',
+const initial = {
+	search: 'initial',
 	isFuzzy: false,
-	count: 8,
-});
-
-// Alias for
-dispatch({
-	type: 'replace',
-	payload: {
-		// new `state`
-		search: 'replace',
-		isFuzzy: false,
-		count: 8,
-	}
-});
-
-// or
-dispatch.cta.replace((ctaParam) => {
-	return {
-		// new `state`
-		search: 'replace',
-		isFuzzy: false,
-		count: 8,
-	};
-});
-
-// Alias for
-dispatch({
-	type: 'replace',
-	payload: (ctaParam) => {
-		return {
-			// new `state`
-			search: 'replace',
-			isFuzzy: false,
-			count: 8,
-		};
-	}
-});
-
-// or
-dispatch.cta.replace((ctaParam) => {
-	// No re-render
-	return;
-});
-
-// Alias for
-dispatch({
-	type: 'replace',
-	payload: (ctaParam) => {
-		// No re-render
-		return;
-	}
-});
-```
-
-</details>
-
-Effects
-- [state](#return-type-state) = new `state`
-- [dispatch.state.current](#return-type-dispatchstatecurrent) = new `state`
-- [dispatch.state.changes](#return-type-dispatchstatechanges)
-	- = new differences between [dispatch.state.current](#return-type-dispatchstatecurrent) and [dispatch.state.initial](#return-type-dispatchstateinitial)
-	- = `null` if no difference.
-- [dispatch.state.previous](#return-type-dispatchstateprevious) = previous [dispatch.state.current](#return-type-dispatchstatecurrent)
-
----
-
-##### Return Type: `dispatch.cta.replaceInitial`
-
-Replace entire [dispatch.state.initial](#return-type-dispatchstateinitial) value with a new `initial` value.
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L194
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
-
-<details>
-
-<summary>Example for Return Type: <code>dispatch.cta.replaceInitial</code></summary>
-
-```ts
-
-dispatch.cta.replaceInitial({
-	// new `initial`
-	search: 'replaceInitial',
-	isFuzzy: true,
-	count: 5,
-});
-
-// Alias for
-dispatch({
-	type: 'replaceInitial',
-	payload: {
-		// new `initial`
-		search: 'replaceInitial',
-		isFuzzy: true,
-		count: 5,
-	}
-});
-
-// or
-dispatch.cta.replaceInitial((ctaParam) => {
-	return {
-		// new `initial`
-		search: 'replaceInitial',
-		isFuzzy: true,
-		count: 5,
-	};
-});
-
-// Alias for
-dispatch({
-	type: 'replaceInitial',
-	payload: (ctaParam) => {
-		return {
-			// new `initial`
-			search: 'replaceInitial',
-			isFuzzy: true,
-			count: 5,
-		};
-	}
-});
-
-// or
-dispatch.cta.replaceInitial((ctaParam) => {
-	// No re-render
-	return;
-});
-
-// Alias for
-dispatch({
-	type: 'replaceInitial',
-	payload: (ctaParam) => {
-		// No re-render
-		return;
-	}
-});
-
-```
-
-</details>
-
-Effects
-- [dispatch.state.initial](#return-type-dispatchstateinitial) = new `initial`
-- [dispatch.state.changes](#return-type-dispatchstatechanges)
-	- = new differences between [dispatch.state.current](#return-type-dispatchstatecurrent) and [dispatch.state.initial](#return-type-dispatchstateinitial)
-	- = `null` if no difference.
-
----
-
-##### Return Type: `dispatch.cta.reset`
-
-Overloaded `function` that differs in behavior when called with payload parameter and without parameter.
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L195
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-- [UseCTAReturnTypeDispatchState](#export-type--usectareturntypedispatchstate-)
-
----
-
-###### Return Type: `dispatch.cta.reset` without parameter
-
-Sets [state](#return-type-state) equal to [dispatch.state.initial](#return-type-dispatchstateinitial)
-
-<details>
-
-<summary>Example for Return Type: <code>dispatch.cta.reset</code> without parameter</summary>
-
-```ts
-dispatch.cta.reset();
-
-// Alias for
-dispatch({
-	type: 'reset',
-});
-```
-
-</details>
-
-Effects
-- [state](#return-type-state) = [dispatch.state.initial](#return-type-dispatchstateinitial)
-- [dispatch.state.current](#return-type-dispatchstatecurrent) = [dispatch.state.initial](#return-type-dispatchstateinitial)
-- [dispatch.state.changes](#return-type-dispatchstatechanges) = `null`
-- [dispatch.state.previous](#return-type-dispatchstateprevious) = previous [dispatch.state.current](#return-type-dispatchstatecurrent)
-
----
-
-###### Return Type: `dispatch.cta.reset` with `payload` parameter
-
-Sets [state](#return-type-state) and [dispatch.state.initial](#return-type-dispatchstateinitial) equal to `payload`
-
-<details>
-
-<summary>Example for Return Type: <code>dispatch.cta.reset</code> with <code>payload</code> parameter</summary>
-
-```ts
-
-dispatch.cta.reset({
-	// new `state` and `initial`
-	search: 'reset',
-	isFuzzy: true,
-	count: 10,
-});
-
-// Alias for
-dispatch({
-	type: 'reset',
-	payload: {
-		// new `state` and `initial`
-		search: 'reset',
-		isFuzzy: true,
-		count: 10,
-	}
-});
-
-// or
-dispatch.cta.reset((ctaParam) => {
-	return {
-		// new `state` and `initial`
-		search: 'reset',
-		isFuzzy: true,
-		count: 10,
-	}; 
-});
-
-// Alias for
-dispatch({
-	type: 'reset',
-	payload: (ctaParam) => {
-		return {
-			// new `state` and `initial`
-			search: 'reset',
-			isFuzzy: true,
-			count: 10,
-		};
-	}
-});
-
-// or
-dispatch.cta.reset((ctaParam) => {
-	// No re-render
-	return;
-});
-
-// Alias for
-dispatch({
-	type: 'reset',
-	payload: (ctaParam) => {
-		// No re-render
-		return;
-	}
-});
-```
-
-</details>
-
-Effects
-- [state](#return-type-state) = new `state`
-- [dispatch.state.current](#return-type-dispatchstatecurrent) = new `state`
-- [dispatch.state.changes](#return-type-dispatchstatechanges) = `null`
-- [dispatch.state.initial](#return-type-dispatchstateinitial) = new `state`
-- [dispatch.state.previous](#return-type-dispatchstateprevious) = previous [dispatch.state.current](#return-type-dispatchstatecurrent)
-
----
-
-#### Return Type: `dispatch.state`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L224
-
-Is of type `UseCTAReturnTypeDispatchState`.
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L212-L217
-
-This is extra data information that can be referenced for certain changes over time.
-
-Typescript Definition:
-- [CTAInitial](#export-type--ctainitial-)
-
----
-
-##### Return Type: `dispatch.state.current`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L214
-
-The value is equal to [Return Type: state](#return-type-dispatchstate)
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
----
-
-##### Return Type: `dispatch.state.initial`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L215
-
-Starts of equal to [initial](#parameter-initial) or the result of [onInit](#parameter-oninit).
-
-It can be changed with [dispatch.cta.replaceInitial](#return-type-dispatchctareplaceinitial) 
-or [dispatch.cta.reset with payload parameter](#return-type-dispatchctareset-with-payload-parameter)
-
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
----
-
-##### Return Type: `dispatch.state.changes`
-
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L213
-
-- `Partial<Initial>`: When key/values of [dispatch.state.current](#return-type-dispatchstatecurrent) are not equal to
-	[dispatch.state.initial](#return-type-dispatchstateinitial) Example:
-	```ts
-		dispatch.state.initial /* = {
-			search: '',
-			isFuzzy: true,
-			count: 1,
-		} */
- 
-		dispatch.state.current /* = {
-			search: 'current',
-			isFuzzy: true,
-			count: 1,
-		} */
- 
-		dispatch.state.changes /* = {
-			search: 'current',
-		} */
- 
-		if ( dispatch.state.changes ) {
-			console.log('state has changes')
+	count: 0,
+};
+const actions = returnActionsType(
+	initial,
+	{
+		setSearch(state, search: string) {
+			return {
+				search
+			}
 		}
-	```
-- `null`: When the key/values [dispatch.state.initial](#return-type-dispatchstateinitial) 
-	and [dispatch.state.current](#return-type-dispatchstatecurrent) are equal. Example:
-	```ts
-		dispatch.state.initial /* = {
-			search: 'current',
-			isFuzzy: true,
-			count: 1,
-		} */
- 
-		dispatch.state.current /* = {
-			search: 'current',
-			isFuzzy: true,
-			count: 1,
-		} */
- 
-		dispatch.state.changes /* = null */
- 
-		if ( !dispatch.state.changes ) {
-			console.log('No changes to state')
-		}
-	```
- 
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
+	}
+);
 
----
+```
 
-##### Return Type: `dispatch.state.previous`
+</details>
 
-https://github.com/rafde/react-hook-use-cta/blob/0ed13652508f2b3afb74cd7d35c920a3291b5620/src/types/UseCTAReturnTypeDispatch.ts#L216
+--- 
 
-Equal to the previous [dispatch.state.current](#return-type-dispatchstatecurrent) value.
+# Typescript `export`s
 
-Typescript Definition:
-- `Initial` extends [CTAInitial](#export-type--ctainitial-)
-
----
-
-## Typescript `export`s
-
-https://github.com/rafde/react-hook-use-cta/blob/bf4d06d68f391b8ed1a6a641c051338d4de1e70d/src/index.ts#L22-L32
-
----
+https://github.com/rafde/react-hook-use-cta/blob/5ea1a69edc0a38e2aa4b870c08a95157628d914e/src/index.ts#L45-L59
 
 ## `export type { CTAInitial, }`
 
 https://github.com/rafde/react-hook-use-cta/blob/9e9206f1ff06e2de5adcde5d107d9d847e210063/src/types/CTAInitial.ts#L1
 
----
-
-## `export type { CustomCTAParam, }`
-
-https://github.com/rafde/react-hook-use-cta/blob/adfd2a0448f08a4d1374db0136f77dde9c64da7a/src/types/CustomCTAParam.ts#L11-L16
-
----
-
 ## `export type { UseCTAParameter, }`
 
-See [Parameter](#parameter)
-
----
-
-## `export type { UseCTAReturnTypeDispatchState, }`
-
-See [Return Type: dispatch](#return-type-dispatch)
-
-## `export type { UseCTAReturnTypeDispatch, }`
-
-See [Return Type: dispatch](#return-type-dispatch)
-
----
+https://github.com/rafde/react-hook-use-cta/blob/5ea1a69edc0a38e2aa4b870c08a95157628d914e/src/types/UseCTAParameter.ts#L12-L19
 
 ## `export type { UseCTAReturnType, }`
 
-See [Return Type](#return-type)
+https://github.com/rafde/react-hook-use-cta/blob/65c3b53dd5d51812e3ffc111ba23c4bc84f614ee/src/types/UseCTAReturnType.ts#L4-L10
+
+## `export type { UseCTAReturnTypeDispatch, }`
+
+https://github.com/rafde/react-hook-use-cta/blob/65c3b53dd5d51812e3ffc111ba23c4bc84f614ee/src/types/UseCTAReturnTypeDispatch.ts#L261-L267
+
+## `export type { CTAPayloadCallbackParameter, }`
+
+https://github.com/rafde/react-hook-use-cta/blob/296c3136ac2d12940c48be06ea20ee80f748c5fa/src/types/UseCTAReturnTypeDispatch.ts#L13-L18
+
+## `export type { CustomCTAStateParam, }`
+
+https://github.com/rafde/react-hook-use-cta/blob/6e82c86f58e637df321b27f116b68d8c514990ec/src/types/CustomCTAStateParam.ts#L11-L21
+
+## `export type { CTAStateParam, }`
+
+https://github.com/rafde/react-hook-use-cta/blob/6c8def7fcd104b6ae0d25627eaad1a1e35a3a391/src/types/CTAStateParam.ts#L4-L9
 
 ---
-
-
