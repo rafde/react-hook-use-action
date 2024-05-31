@@ -8,6 +8,10 @@
   "dependencies": {
     "fast-equals": "^5.0.1"
   },
+  "exports": {
+    "import": "./dist/esm/index.mjs",
+    "require": "./dist/cjs/index.js"
+  },
   "description": "A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.",
   "devDependencies": {
     "@parcel/packager-ts": "2.12.0",
@@ -37,8 +41,7 @@
   },
   "files": [
     "dist",
-    "LICENSE",
-    "README.md"
+    "src"
   ],
   "isLibrary": true,
   "keywords": [
@@ -70,6 +73,7 @@
     "type": "git",
     "url": "git+https://github.com/rafde/react-hook-use-cta.git"
   },
+  "sideEffects": false,
   "scripts": {
     "build": "parcel build --log-level verbose --no-cache",
     "lint": "eslint --cache --fix src/ __tests__/",
