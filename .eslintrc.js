@@ -68,7 +68,7 @@ module.exports = {
 		sourceType: 'module',
 	},
 	plugins: [
-		'eslint-plugin-react-compiler',
+		'react-compiler',
 		'@typescript-eslint',
 		'react',
 		'@stylistic',
