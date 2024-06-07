@@ -23,14 +23,14 @@ export { createCTAContext, } from './internal/createCTAContext';
 
 export type { CTAInitial, } from './types/CTAInitial';
 
-export type { CustomCTAStateParam, } from './types/CustomCTAStateParam';
-
-export type { CustomCTAReturnType, } from './types/CustomCTAReturnType';
-
 export type { UseCTAParameter, } from './types/UseCTAParameter';
-
-export type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchState, } from './types/UseCTAReturnTypeDispatch';
 
 export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
+export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
+
+export type { CustomCTAStateParam, } from './types/CustomCTAStateParam';
+
 export type { CTAStateParam, } from './types/CTAStateParam';
+
+export type { CustomCTAReturnType, } from './types/CustomCTAReturnType';
