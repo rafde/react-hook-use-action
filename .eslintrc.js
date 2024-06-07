@@ -68,7 +68,6 @@ module.exports = {
 		sourceType: 'module',
 	},
 	plugins: [
-		'react-compiler',
 		'@typescript-eslint',
 		'react',
 		'@stylistic',
@@ -210,7 +209,6 @@ module.exports = {
 		'prefer-destructuring': 'error',
 		'prefer-exponentiation-operator': 'error',
 		'prefer-object-spread': 'error',
-		'react-compiler/react-compiler': 'error',
 		'react-hooks/exhaustive-deps': 'error',
 		'react-hooks/rules-of-hooks': 'error',
 		strict: 'error',
