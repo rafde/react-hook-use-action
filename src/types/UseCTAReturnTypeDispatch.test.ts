@@ -1,4 +1,4 @@
-import type { CustomCTAParam, } from './CustomCTAParam';
+import type { CustomCTAStateParam, } from './CustomCTAStateParam';
 import type {
 	DispatchCTA,
 	CustomCTAWithOptionalPayloadProps,
@@ -27,7 +27,7 @@ const actionUpdate = {
 	},
 } as const;
 const customCTAWithoutPayload = {
-	customCTAWithoutPayload( ctaState: CustomCTAParam<TestInitial>, ) {
+	customCTAWithoutPayload( ctaState: CustomCTAStateParam<TestInitial>, ) {
 		return {
 			d: ctaState.previous.d + 1,
 		};
@@ -35,7 +35,7 @@ const customCTAWithoutPayload = {
 } as const;
 
 const customCTAWithOptionalPayload = {
-	customCTAWithOptionalPayload( ctaState: CustomCTAParam<TestInitial>, payload?: number, ) {
+	customCTAWithOptionalPayload( ctaState: CustomCTAStateParam<TestInitial>, payload?: number, ) {
 		return {
 			d: typeof payload !== 'number' ? ctaState.previous.d : payload,
 		};
@@ -43,7 +43,7 @@ const customCTAWithOptionalPayload = {
 } as const;
 
 const customCTAWithPayload = {
-	customCTAWithPayload( ctaState: CustomCTAParam<TestInitial>, payload: string, ) {
+	customCTAWithPayload( ctaState: CustomCTAStateParam<TestInitial>, payload: string, ) {
 		return {
 			s: payload,
 		};

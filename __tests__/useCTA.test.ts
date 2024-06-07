@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { UseCTAReturnTypeDispatchState, useCTA, CustomCTAParam, } from '../src';
+import { useCTA, CustomCTAStateParam, CTAStateParam, } from '../src';
 
 describe( 'useCTA', function() {
 	const initialChanges = {
@@ -665,7 +665,7 @@ describe( 'useCTA', function() {
 	describe( 'custom actions', function() {
 		describe( 'calc', function() {
 			const actions = {
-				calc( state: CustomCTAParam<typeof initial>, payload: Pick<typeof initial, 'hi'>, ) {
+				calc( state: CustomCTAStateParam<typeof initial>, payload: Pick<typeof initial, 'hi'>, ) {
 					const {
 						hi,
 					} = payload;
@@ -900,7 +900,7 @@ describe( 'useCTA', function() {
 
 		describe( 'doubleHi', function() {
 			const actions = {
-				double( state: CustomCTAParam<typeof initial>, ) {
+				double( state: CustomCTAStateParam<typeof initial>, ) {
 					if ( state.options?.ignore ) {
 						return;
 					}
@@ -1358,7 +1358,7 @@ describe( 'useCTA', function() {
 
 		describe( 'override `update`', function() {
 			const customUpdateActions = {
-				update( state: UseCTAReturnTypeDispatchState<typeof initial>, payload: Partial<typeof initial>, ) {
+				update( state: CTAStateParam<typeof initial>, payload: Partial<typeof initial>, ) {
 					const {
 						hi,
 						..._payload
@@ -1535,7 +1535,7 @@ describe( 'useCTA', function() {
 
 				describe( 'reset with options', function() {
 					const actions = {
-						reset( state: UseCTAReturnTypeDispatchState<typeof initial>, payload?: typeof initial, ) {
+						reset( state: CTAStateParam<typeof initial>, payload?: typeof initial, ) {
 							if ( !payload || typeof payload !== 'object' ) {
 								const resetPayload = {
 									...state.initial,
