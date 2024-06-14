@@ -1,5 +1,6 @@
 var $dYZEH$react = require("react");
 var $dYZEH$fastequals = require("fast-equals");
+var $dYZEH$reactjsxruntime = require("react/jsx-runtime");
 
 
 function $parcel$export(e, n, v, s) {
@@ -7,6 +8,7 @@ function $parcel$export(e, n, v, s) {
 }
 
 $parcel$export(module.exports, "useCTA", () => $882b6d93070905b3$export$68a5bb76170d2250);
+$parcel$export(module.exports, "createCTAContext", () => $34d6e107948ce469$export$a85baad6d8324b85);
 
 
 class $39ac042edb60bbed$export$e4a712fff93fb00f {
@@ -31,7 +33,6 @@ class $39ac042edb60bbed$export$8b725d9d25bcde8e extends $39ac042edb60bbed$export
             ...param,
             type: "replace"
         });
-        this.type = "replace";
     }
 }
 class $39ac042edb60bbed$export$a46e54165014b190 extends $39ac042edb60bbed$export$e4a712fff93fb00f {
@@ -46,7 +47,6 @@ class $39ac042edb60bbed$export$a46e54165014b190 extends $39ac042edb60bbed$export
             ...param,
             type: "replaceInitial"
         });
-        this.type = "replaceInitial";
     }
 }
 class $39ac042edb60bbed$export$8572caab90b686ec extends $39ac042edb60bbed$export$e4a712fff93fb00f {
@@ -61,7 +61,6 @@ class $39ac042edb60bbed$export$8572caab90b686ec extends $39ac042edb60bbed$export
             ...param,
             type: "reset"
         });
-        this.type = "reset";
     }
 }
 class $39ac042edb60bbed$export$36ff979fbd3521a9 extends $39ac042edb60bbed$export$e4a712fff93fb00f {
@@ -76,7 +75,6 @@ class $39ac042edb60bbed$export$36ff979fbd3521a9 extends $39ac042edb60bbed$export
             ...param,
             type: "update"
         });
-        this.type = "update";
     }
 }
 
@@ -185,7 +183,7 @@ function $d1a0eb9e2dbe8803$var$getActionType(ctaReturnType) {
     };
 }
 function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
-    const { type: ctaType, payload: nextCTAPropsPayload } = params.nextCTAProps;
+    const { type: ctaType, payload: nextCTAPayload, options: options } = params.nextCTAProps;
     const { ctaReducerState: ctaReducerState, actions: actions } = params;
     const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
     const ctaState = {
@@ -194,9 +192,13 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
         initial: initial,
         previous: ctaReducerState.previous
     };
+    const ctaHandleState = {
+        ...ctaState,
+        options: options
+    };
     const isActionsObject = actions && typeof actions == "object" && !Array.isArray(actions);
-    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst && !isActionsObject) {
-        if (ctaType === "reset" && !nextCTAPropsPayload) {
+    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst && (!isActionsObject || !(ctaType in actions))) {
+        if (ctaType === "reset" && !nextCTAPayload) {
             changesMap.clear();
             return {
                 ...ctaReducerState,
@@ -205,7 +207,7 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
                 previous: current
             };
         }
-        const nextPredefinedState = nextCTAPropsPayload instanceof Function ? nextCTAPropsPayload(ctaState) : nextCTAPropsPayload;
+        const nextPredefinedState = nextCTAPayload instanceof Function ? nextCTAPayload(ctaState) : nextCTAPayload;
         return $d1a0eb9e2dbe8803$var$typeResult({
             ctaReducerState: ctaReducerState,
             next: nextPredefinedState,
@@ -214,8 +216,8 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     }
     const cta = isActionsObject && actions?.[ctaType];
     if (typeof cta !== "function") return ctaReducerState;
-    if (ctaType === "reset" && !nextCTAPropsPayload) {
-        const nextResetState = cta(ctaState);
+    if (ctaType === "reset" && !nextCTAPayload) {
+        const nextResetState = cta(ctaHandleState);
         if (!nextResetState) return ctaReducerState;
         changesMap.clear();
         return {
@@ -225,18 +227,18 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
             previous: current
         };
     }
-    let nextPayload = nextCTAPropsPayload;
-    if (nextCTAPropsPayload instanceof Function) {
-        nextPayload = nextCTAPropsPayload(ctaState);
+    let nextPayload = nextCTAPayload;
+    if (nextCTAPayload instanceof Function) {
+        nextPayload = nextCTAPayload(ctaState);
         if (!nextPayload) return ctaReducerState;
     }
     if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst) return $d1a0eb9e2dbe8803$var$typeResult({
         ctaReducerState: ctaReducerState,
-        next: cta(ctaState, nextPayload),
+        next: cta(ctaHandleState, nextPayload),
         type: ctaType
     });
     const nextState = cta({
-        ...ctaState,
+        ...ctaHandleState,
         replaceAction: (0, $39ac042edb60bbed$export$8b725d9d25bcde8e).create,
         replaceInitialAction: (0, $39ac042edb60bbed$export$a46e54165014b190).create,
         resetAction: (0, $39ac042edb60bbed$export$8572caab90b686ec).create,
@@ -248,7 +250,7 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     const { type: type, useCustom: useCustom } = actionType;
     let { next: next } = actionType;
     const customPredefinedCTA = isActionsObject && actions?.[type];
-    if (typeof customPredefinedCTA === "function" && useCustom) next = customPredefinedCTA(ctaState, next);
+    if (typeof customPredefinedCTA === "function" && useCustom) next = customPredefinedCTA(ctaHandleState, next);
     return $d1a0eb9e2dbe8803$var$typeResult({
         ctaReducerState: ctaReducerState,
         next: next,
@@ -297,10 +299,11 @@ function $217ab95d1d983957$var$mergeCustomCTAWithDefaultCTA(dispatch, defaultCTA
     const customActions = {};
     for(const type in ctaRecord){
         if (type in defaultCTARecord || typeof ctaRecord[type] !== "function") continue;
-        customActions[type] = (payload)=>{
+        customActions[type] = (payload, options)=>{
             dispatch({
                 type: type,
-                payload: payload
+                payload: payload,
+                options: options
             });
         };
         hasCustomAction = true;
@@ -313,25 +316,28 @@ function $217ab95d1d983957$var$wrapPrivateDispatcher(dispatcher, actions) {
         dispatcher(cta);
     };
     const cta = {
-        replace (payload) {
+        replace (payload, options) {
             publicDispatcher({
                 type: "replace",
-                payload: payload
+                payload: payload,
+                options: options
             });
         },
-        replaceInitial (payload) {
+        replaceInitial (payload, options) {
             publicDispatcher({
                 type: "replaceInitial",
-                payload: payload
+                payload: payload,
+                options: options
             });
         },
-        reset (payload) {
+        reset (payload, options) {
             publicDispatcher({
                 type: "reset",
-                payload: payload
+                payload: payload,
+                options: options
             });
         },
-        update (payload, value) {
+        update (payload, value, options) {
             switch(typeof payload){
                 case "number":
                 case "string":
@@ -339,13 +345,15 @@ function $217ab95d1d983957$var$wrapPrivateDispatcher(dispatcher, actions) {
                         type: "update",
                         payload: {
                             [payload]: value
-                        }
+                        },
+                        options: options
                     });
                     break;
                 default:
                     publicDispatcher({
                         type: "update",
-                        payload: payload
+                        payload: payload,
+                        value: value
                     });
                     break;
             }
@@ -383,6 +391,33 @@ function $217ab95d1d983957$export$2e2bcd8739ae039(params) {
         ctaState,
         augmentedDispatcher
     ]);
+}
+
+
+
+
+
+function $34d6e107948ce469$export$a85baad6d8324b85(contextParams) {
+    const CTAContextState = /*#__PURE__*/ (0, $dYZEH$react.createContext)(contextParams.initial);
+    const CTAContextDispatch = /*#__PURE__*/ (0, $dYZEH$react.createContext)(null);
+    return {
+        CTAProvider (props) {
+            const [state, dispatcher] = (0, $882b6d93070905b3$export$68a5bb76170d2250)(contextParams);
+            return /*#__PURE__*/ (0, $dYZEH$reactjsxruntime.jsx)(CTAContextState.Provider, {
+                value: state,
+                children: /*#__PURE__*/ (0, $dYZEH$reactjsxruntime.jsx)(CTAContextDispatch.Provider, {
+                    value: dispatcher,
+                    children: props.children
+                })
+            });
+        },
+        useCTAStateContext () {
+            return (0, $dYZEH$react.useContext)(CTAContextState);
+        },
+        useCTADispatchContext () {
+            return (0, $dYZEH$react.useContext)(CTAContextDispatch);
+        }
+    };
 }
 
 
