@@ -362,10 +362,8 @@ function $56a9759d6a9823a8$var$wrapPrivateDispatcher(dispatcher, actions) {
 function $56a9759d6a9823a8$export$2e2bcd8739ae039(params) {
     const { actions: actions } = params;
     const [ctaState, ctaDispatch] = params.stateDispatcher;
-    const augmentedDispatcher = (0, $26Zo0$useMemo)(()=>$56a9759d6a9823a8$var$wrapPrivateDispatcher(ctaDispatch, actions), [
-        actions,
-        ctaDispatch
-    ]);
+    const augmentedDispatcher = (0, $26Zo0$useMemo)(()=>$56a9759d6a9823a8$var$wrapPrivateDispatcher(ctaDispatch, actions), // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
     return (0, $26Zo0$useMemo)(()=>{
         const state = {
             changes: ctaState.changes,
