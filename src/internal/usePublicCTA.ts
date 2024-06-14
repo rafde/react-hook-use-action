@@ -138,9 +138,8 @@ export default function usePublicCTA<
 
 	const augmentedDispatcher = useMemo(
 		() => wrapPrivateDispatcher<Initial, Actions>( ctaDispatch, actions, ),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[
-			actions,
-			ctaDispatch,
 		],
 	);
 
