@@ -271,7 +271,8 @@ export default function ctaReducer<
 	};
 
 	const isActionsObject = actions && typeof actions == 'object' && !Array.isArray( actions, );
-	if ( ctaType in predefinedActionsConst && !isActionsObject ) {
+
+	if ( ctaType in predefinedActionsConst && ( !isActionsObject || !( ctaType in actions ) ) ) {
 		if ( ctaType === 'reset' && !nextCTAPayload ) {
 			changesMap.clear();
 			return {
