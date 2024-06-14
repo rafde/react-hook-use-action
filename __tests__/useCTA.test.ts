@@ -683,6 +683,7 @@ describe( 'useCTA', function() {
 					};
 				},
 			};
+
 			describe( 'dispatch({action: "calc", payload: unknown}})', () => {
 				test( 'should `calc` `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
@@ -706,6 +707,12 @@ describe( 'useCTA', function() {
 					expect( result.current[ 1 ].state.changes, ).toEqual( {
 						hi: initial.hi + payload.hi,
 					}, );
+
+					act( () => {
+						result.current[ 1 ].cta.update( 'there', 'updated', );
+					}, );
+
+					expect( result.current[ 1 ].state.current.there, ).toBe( 'updated', );
 				}, );
 
 				test( 'should not `calc` `hi`', function() {
