@@ -10,7 +10,8 @@
   },
   "exports": {
     "import": "./dist/esm/index.mjs",
-    "require": "./dist/cjs/index.js"
+    "require": "./dist/cjs/index.js",
+    "types": "./dist/types.d.ts"
   },
   "description": "A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.",
   "devDependencies": {
