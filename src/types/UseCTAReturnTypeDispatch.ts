@@ -44,6 +44,32 @@ type DefaultCTAProps<Initial extends CTAInitial,> = ReplaceCTAProps<Initial> |
 	ResetCTAProps<Initial> |
 	UpdateCTAProps<Initial>;
 
+export type CustomCTAWithoutArgumentsRecord<
+	Initial extends CTAInitial,
+	Actions = undefined,
+> = {
+	[
+	Action in Exclude<
+		keyof Actions,
+		keyof DispatchDefaultCTARecord<Initial>
+	> as Actions[Action] extends (
+		() => Partial<Initial>
+	) ?
+		( Parameters<Actions[Action]>['length'] extends 0 ? Action : never ) :
+		never
+	]: ( () => Partial<Initial> );
+};
+
+export type CustomCTAWithoutArgumentsProps<
+	Initial extends CTAInitial,
+	Actions = undefined,
+	CustomActionsWithoutPayloadRecord = CustomCTAWithoutArgumentsRecord<Initial, Actions>,
+> = CustomActionsWithoutPayloadRecord extends Record<string | number | symbol, never> ? never : {
+	type: keyof CustomActionsWithoutPayloadRecord
+	payload?: never
+	options?: never
+};
+
 export type CustomCTAWithoutPayloadRecord<
 	Initial extends CTAInitial,
 	Actions = undefined,
@@ -151,12 +177,22 @@ export type DispatchCTA<
 	Initial extends CTAInitial,
 	Actions = undefined,
 > = ( value: Exclude<
-	CustomCTAWithOptionalPayloadProps<Initial, Actions> |
+	CustomCTAWithoutArgumentsProps<Initial, Actions> |
 	CustomCTAWithoutPayloadProps<Initial, Actions> |
+	CustomCTAWithOptionalPayloadProps<Initial, Actions> |
 	CustomCTAWithPayloadProps<Initial, Actions> |
 	DefaultCTAProps<Initial>,
 	never
 > ) => void;
+
+export type DispatchCustomCTAWithoutArguments<
+	Initial extends CTAInitial,
+	Actions = undefined,
+	CustomActionsWithoutArgumentsRecord = CustomCTAWithoutArgumentsRecord<Initial, Actions>,
+> = CustomActionsWithoutArgumentsRecord extends Record<string | number | symbol, never> ?
+	CustomActionsWithoutArgumentsRecord : {
+		[Action in keyof CustomActionsWithoutArgumentsRecord]: () => void;
+	};
 
 export type DispatchCustomCTAWithoutPayload<
 	Initial extends CTAInitial,
@@ -243,6 +279,7 @@ export type UseCTAReturnTypeDispatchCTA<
 	Actions = undefined,
 > = Readonly<
 	OmitEmptyRecord<
+		DispatchCustomCTAWithoutArguments<Initial, Actions> &
 		DispatchCustomCTAWithOptionalPayload<Initial, Actions> &
 		DispatchCustomCTAWithoutPayload<Initial, Actions> &
 		DispatchCustomCTAWithPayload<Initial, Actions> &
