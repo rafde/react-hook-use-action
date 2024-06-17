@@ -132,6 +132,30 @@ describe( 'useCTA', function() {
 				expect( result.current[ 0 ], ).toEqual( initial, );
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 			}, );
+
+			test( 'should `replace` state when custom action is defined', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						customAction() {
+							return undefined;
+						},
+					},
+				}, ), );
+				act( () => {
+					result.current[ 1 ].cta.replace( payload, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( payload, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( changes, );
+
+				act( () => {
+					result.current[ 1 ].cta.replace( initial, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+			}, );
 		}, );
 
 		describe( 'dispatch.cta.replaceInitial( initial | (state => initial | undefined ))', function() {
@@ -242,15 +266,69 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toEqual( arbitraryKey, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
 			}, );
+
+			test( 'should set new `initial` when custom action is defined', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						customAction() {
+							return undefined;
+						},
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.replace( payload, );
+					result.current[ 1 ].cta.replaceInitial( payload, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( payload, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+			}, );
 		}, );
 
 		describe( 'dispatch.cta.reset', function() {
-			test( 'dispatch.cta.reset()`', function() {
+			test( 'should reset to use `initial`', function() {
 				const payload = {
 					hi: 2,
 				};
 				const { result, } = renderHook( () => useCTA( {
 					initial,
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+					}, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( {
+					...initial,
+					...payload,
+				}, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( payload, );
+
+				act( () => {
+					result.current[ 1 ].cta.reset();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+			}, );
+
+			test( 'should reset to use `initial` when custom action is defined', function() {
+				const payload = {
+					hi: 2,
+				};
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						customAction() {
+							return undefined;
+						},
+					},
 				}, ), );
 
 				act( () => {
@@ -288,6 +366,53 @@ describe( 'useCTA', function() {
 							...state,
 							...initExtra,
 						};
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+					}, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( {
+					...initial,
+					...initExtra,
+					...payload,
+				}, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( payload, );
+
+				act( () => {
+					result.current[ 1 ].cta.reset();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( {
+					...initial,
+					...initExtra,
+				}, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+			}, );
+
+			test( 'using `init` and custom action is defined', function() {
+				const payload = {
+					hi: 2,
+				};
+				const initExtra = {
+					oops: 'my mistake',
+				};
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					onInit( state, ) {
+						return {
+							...state,
+							...initExtra,
+						};
+					},
+					actions: {
+						customAction() {
+							return undefined;
+						},
 					},
 				}, ), );
 
@@ -412,6 +537,25 @@ describe( 'useCTA', function() {
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 					expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
 					expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+				}, );
+
+				test( 'should set new `initial` to be `payload` when custom action is defined', function() {
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							customAction() {
+								return undefined;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.reset( payload, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( payload, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull();
+					expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
 				}, );
 			}, );
 		}, );
@@ -542,6 +686,37 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 				}, );
+
+				test( 'should `update` `hi` when custom action is defined', function() {
+					const payload = {
+						hi: 2,
+					};
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							customAction() {
+								return undefined;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.update( payload, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						...payload,
+					}, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( payload, );
+
+					act( () => {
+						result.current[ 1 ].cta.update( initial, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull();
+				}, );
 			}, );
 
 			describe( 'dispatch.cta.update(key, value)', function() {
@@ -636,6 +811,32 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 				}, );
+
+				test( 'should `update` `hi` when custom action is defined', function() {
+					const payload = {
+						hi: 2,
+					};
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.update( 'hi', payload.hi, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						...payload,
+					}, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( payload, );
+
+					act( () => {
+						result.current[ 1 ].cta.update( initial, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull();
+				}, );
 			}, );
 		}, );
 	}, );
@@ -645,6 +846,31 @@ describe( 'useCTA', function() {
 			const payload = 'not updating';
 			const { result, } = renderHook( () => useCTA( {
 				initial,
+			}, ), );
+
+			act( () => {
+				result.current[ 1 ]( {
+					// @ts-expect-error force payload to test no state change
+					type: 'arbitrary type',
+					// @ts-expect-error force payload to test no state change
+					payload,
+				}, );
+			}, );
+
+			expect( result.current[ 0 ] === initial, ).toBe( true, );
+			expect( result.current[ 0 ], ).toEqual( initial, );
+			expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		}, );
+
+		test( 'should not change state when custom action is defined', function() {
+			const payload = 'not updating';
+			const { result, } = renderHook( () => useCTA( {
+				initial,
+				actions: {
+					customAction() {
+						return undefined;
+					},
+				},
 			}, ), );
 
 			act( () => {
@@ -707,12 +933,6 @@ describe( 'useCTA', function() {
 					expect( result.current[ 1 ].state.changes, ).toEqual( {
 						hi: initial.hi + payload.hi,
 					}, );
-
-					act( () => {
-						result.current[ 1 ].cta.update( 'there', 'updated', );
-					}, );
-
-					expect( result.current[ 1 ].state.current.there, ).toBe( 'updated', );
 				}, );
 
 				test( 'should not `calc` `hi`', function() {
@@ -1419,7 +1639,7 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'override `update`', function() {
+		describe( 'augment `update`', function() {
 			const customUpdateActions = {
 				update( state: CTAStateParam<typeof initial>, payload: Partial<typeof initial>, ) {
 					const {
@@ -1569,7 +1789,7 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'override `reset`', function() {
+		describe( 'augment `reset`', function() {
 			describe( 'reset()', function() {
 				test( 'should not change if overridden returns `undefined`', function() {
 					const { result, } = renderHook( () => useCTA( {
