@@ -413,7 +413,12 @@ function $34d6e107948ce469$export$a85baad6d8324b85(contextParams) {
             return (0, $dYZEH$react.useContext)(CTAContextState);
         },
         useCTADispatchContext () {
-            return (0, $dYZEH$react.useContext)(CTAContextDispatch);
+            const ctaDispatchContext = (0, $dYZEH$react.useContext)(CTAContextDispatch);
+            if (ctaDispatchContext == null) {
+                console.error("useCTADispatchContext was called outside it's Provider");
+                return ctaDispatchContext;
+            }
+            return ctaDispatchContext;
         }
     };
 }
