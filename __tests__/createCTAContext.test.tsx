@@ -17,25 +17,46 @@ describe( 'createCTAContext', () => {
 		useCTAStateContext,
 		useCTADispatchContext,
 	} = ctaContext;
-	const View = () => {
-		const ctaStateContext = useCTAStateContext();
-		const ctaDispatchContext = useCTADispatchContext();
-		useEffect(
-			() => {
-				ctaDispatchContext?.cta.update( 'there', 'there', );
-			},
-			[
-				ctaDispatchContext,
-			],
-		);
-		return <div data-testid="test-view">{ctaStateContext.there}</div>;
-	};
-	const Consumer = () => <CTAProvider>
-		<View />
-	</CTAProvider>;
 
-	test( 'update', () => {
+	test( 'should update when view is wrapped in a Provided', () => {
+		const View = () => {
+			const ctaStateContext = useCTAStateContext();
+			const ctaDispatchContext = useCTADispatchContext();
+			useEffect(
+				() => {
+					ctaDispatchContext?.cta.update( 'there', 'there', );
+				},
+				[
+					ctaDispatchContext,
+				],
+			);
+			return <div data-testid="test-view">{ctaStateContext.there}</div>;
+		};
+		const Consumer = () => <CTAProvider>
+			<View />
+		</CTAProvider>;
 		render( <Consumer />, );
 		expect( screen.getByTestId( 'test-view', ).textContent, ).toBe( 'there', );
+	}, );
+
+	test( 'should not update when useCTADispatchContext is outside Provider', () => {
+		const View = () => {
+			const ctaStateContext = useCTAStateContext();
+			const ctaDispatchContext = useCTADispatchContext();
+			useEffect(
+				() => {
+					ctaDispatchContext?.cta.update( 'there', 'there', );
+				},
+				[
+					ctaDispatchContext,
+				],
+			);
+			return <CTAProvider>
+				<div data-testid="test-view">{ctaStateContext.there}</div>
+			</CTAProvider>;
+		};
+
+		render( <View />, );
+		expect( screen.getByTestId( 'test-view', ).textContent, ).toBe( initialChanges.there, );
 	}, );
 }, );
