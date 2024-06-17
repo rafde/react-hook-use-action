@@ -33,7 +33,7 @@ describe( 'useCTA', function() {
 	};
 
 	describe( 'predefined', () => {
-		describe( 'dispatch.replace( state | (state => state | undefined ))', function() {
+		describe( 'dispatch.cta.replace( state | (state => state | undefined ))', function() {
 			test( 'should `replace` state', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
@@ -134,7 +134,7 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'dispatch.replaceInitial( initial | (state => initial | undefined ))', function() {
+		describe( 'dispatch.cta.replaceInitial( initial | (state => initial | undefined ))', function() {
 			test( 'should set new `initial`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
@@ -244,8 +244,8 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'dispatch.reset', function() {
-			test( 'dispatch.reset()`', function() {
+		describe( 'dispatch.cta.reset', function() {
+			test( 'dispatch.cta.reset()`', function() {
 				const payload = {
 					hi: 2,
 				};
@@ -316,7 +316,7 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 			}, );
 
-			describe( 'dispatch.reset( initial | (state => initial | undefined ) )', function() {
+			describe( 'dispatch.cta.reset( initial | (state => initial | undefined ) )', function() {
 				test( 'should set new `initial` to be `payload`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -416,8 +416,8 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'dispatch.update', function() {
-			describe( 'dispatch.update( partialState | ( state => partialState | undefined ))', function() {
+		describe( 'dispatch.cta.update', function() {
+			describe( 'dispatch.cta.update( partialState | ( state => partialState | undefined ))', function() {
 				test( 'should `update` `hi`', function() {
 					const payload = {
 						hi: 2,
@@ -544,7 +544,7 @@ describe( 'useCTA', function() {
 				}, );
 			}, );
 
-			describe( 'dispatch.update(key, value)', function() {
+			describe( 'dispatch.cta.update(key, value)', function() {
 				test( 'should `update` `hi`', function() {
 					const payload = {
 						hi: 2,
@@ -684,7 +684,7 @@ describe( 'useCTA', function() {
 				},
 			};
 
-			describe( 'dispatch({action: "calc", payload: unknown}})', () => {
+			describe( 'dispatch({type: "calc", payload: unknown}})', () => {
 				test( 'should `calc` `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -804,7 +804,7 @@ describe( 'useCTA', function() {
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 			}, );
-			describe( 'dispatch.calc( unknown )', function() {
+			describe( 'dispatch.cta.calc( unknown )', function() {
 				test( 'should `calc` `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -916,7 +916,7 @@ describe( 'useCTA', function() {
 					};
 				},
 			};
-			describe( 'dispatch({action: "doubleHi"}})', () => {
+			describe( 'dispatch({type: "doubleHi"}})', () => {
 				test( 'should double `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -990,7 +990,7 @@ describe( 'useCTA', function() {
 		}, );
 
 		describe( 'val', function() {
-			describe( 'dispatch({action: "val", payload: unknown})', () => {
+			describe( 'dispatch({type: "val", payload: unknown})', () => {
 				test( 'should add to `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -1124,7 +1124,7 @@ describe( 'useCTA', function() {
 				}, );
 			}, );
 
-			describe( 'dispatch.val(unknown)', function() {
+			describe( 'dispatch.cta.val(unknown)', function() {
 				test( 'should add to `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -1193,6 +1193,62 @@ describe( 'useCTA', function() {
 					}, );
 					expect( result.current[ 0 ], ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				}, );
+			}, );
+		}, );
+
+		describe( 'without arguments', function() {
+			describe( 'dispatch({type: "updateSome"})', () => {
+				test( 'should update some values', () => {
+					const newValues = {
+						you: 'will work',
+						there: 'right?',
+					};
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							updateSome() {
+								return newValues;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ]( {
+							type: 'updateSome',
+						}, );
+					}, );
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						...newValues,
+					}, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( newValues, );
+				}, );
+			}, );
+
+			describe( 'dispatch.cta.updateSome()', () => {
+				test( 'should update some values', () => {
+					const newValues = {
+						you: 'will work',
+						there: 'right?',
+					};
+					const { result, } = renderHook( () => useCTA( {
+						initial,
+						actions: {
+							updateSome() {
+								return newValues;
+							},
+						},
+					}, ), );
+
+					act( () => {
+						result.current[ 1 ].cta.updateSome();
+					}, );
+					expect( result.current[ 0 ], ).toEqual( {
+						...initial,
+						...newValues,
+					}, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( newValues, );
 				}, );
 			}, );
 		}, );
@@ -1389,7 +1445,7 @@ describe( 'useCTA', function() {
 				},
 			};
 
-			test( 'should `dispatch.update("hi", number)`', function() {
+			test( 'should `dispatch.cta.update("hi", number)`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: customUpdateActions,
@@ -1411,7 +1467,7 @@ describe( 'useCTA', function() {
 				}, );
 			}, );
 
-			test( 'should `dispatch.update("hi", number, { tripleHi: true, })`', function() {
+			test( 'should `dispatch.cta.update("hi", number, { tripleHi: true, })`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: customUpdateActions,
@@ -1433,7 +1489,7 @@ describe( 'useCTA', function() {
 				}, );
 			}, );
 
-			test( 'should `dispatch.update("there", string, { tripleHi: true, })` without changing `hi`', function() {
+			test( 'should `dispatch.cta.update("there", string, { tripleHi: true, })` without changing `hi`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: customUpdateActions,
