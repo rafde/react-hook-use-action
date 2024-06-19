@@ -19,6 +19,13 @@ export function useCTA<
 	}, );
 }
 
+export function returnActionsType<
+	Initial extends CTAInitial,
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
+>( initial: Initial, actions: Actions, ) {
+	return actions;
+}
+
 export { createCTAContext, } from './internal/createCTAContext';
 
 export type { CTAInitial, } from './types/CTAInitial';
