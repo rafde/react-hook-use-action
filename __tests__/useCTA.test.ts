@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { useCTA, CustomCTAStateParam, CTAStateParam, } from '../src';
+import { useCTA, CTAStateParam, returnActionsType, } from '../src';
 
 describe( 'useCTA', function() {
 	const initialChanges = {
@@ -890,8 +890,8 @@ describe( 'useCTA', function() {
 
 	describe( 'custom actions', function() {
 		describe( 'calc', function() {
-			const actions = {
-				calc( state: CustomCTAStateParam<typeof initial>, payload: Pick<typeof initial, 'hi'>, ) {
+			const actions = returnActionsType( initial, {
+				calc( state, payload: Pick<typeof initial, 'hi'>, ) {
 					const {
 						hi,
 					} = payload;
@@ -908,7 +908,10 @@ describe( 'useCTA', function() {
 						hi: state.previous.hi + hi,
 					};
 				},
-			};
+				update( ctaStateParam, payload, ) {
+					return payload;
+				},
+			}, );
 
 			describe( 'dispatch({type: "calc", payload: unknown}})', () => {
 				test( 'should `calc` `hi`', function() {
@@ -1126,8 +1129,8 @@ describe( 'useCTA', function() {
 		}, );
 
 		describe( 'doubleHi', function() {
-			const actions = {
-				double( state: CustomCTAStateParam<typeof initial>, ) {
+			const actions = returnActionsType( initial, {
+				double( state, ) {
 					if ( state.options?.ignore ) {
 						return;
 					}
@@ -1135,7 +1138,8 @@ describe( 'useCTA', function() {
 						hi: state.previous.hi * 2,
 					};
 				},
-			};
+			}, );
+
 			describe( 'dispatch({type: "doubleHi"}})', () => {
 				test( 'should double `hi`', function() {
 					const { result, } = renderHook( () => useCTA( {
@@ -1640,8 +1644,8 @@ describe( 'useCTA', function() {
 		}, );
 
 		describe( 'augment `update`', function() {
-			const customUpdateActions = {
-				update( state: CTAStateParam<typeof initial>, payload: Partial<typeof initial>, ) {
+			const customUpdateActions = returnActionsType( initial, {
+				update( state, payload: Partial<typeof initial>, ) {
 					const {
 						hi,
 						..._payload
@@ -1663,7 +1667,7 @@ describe( 'useCTA', function() {
 						hi: state.previous.hi + hi,
 					};
 				},
-			};
+			}, );
 
 			test( 'should `dispatch.cta.update("hi", number)`', function() {
 				const { result, } = renderHook( () => useCTA( {
@@ -1817,7 +1821,7 @@ describe( 'useCTA', function() {
 				}, );
 
 				describe( 'reset with options', function() {
-					const actions = {
+					const actions = returnActionsType( initial, {
 						reset( state: CTAStateParam<typeof initial>, payload?: typeof initial, ) {
 							if ( !payload || typeof payload !== 'object' ) {
 								const resetPayload = {
@@ -1837,7 +1841,7 @@ describe( 'useCTA', function() {
 
 							return payload;
 						},
-					};
+					}, );
 
 					test( 'should not change if overridden returns new initial', function() {
 						const { result, } = renderHook( () => useCTA( {
