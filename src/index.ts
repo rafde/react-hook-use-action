@@ -1,3 +1,4 @@
+import { useMemo, } from 'react';
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
@@ -12,9 +13,22 @@ export function useCTA<
 >(
 	useCTAParameter: UseCTAParameter<Initial, Actions>,
 ): UseCTAReturnType<Initial, Actions> {
-	const stateDispatcher = usePrivateCTA( useCTAParameter, );
+	const actions = useMemo(
+		() => {
+			if ( useCTAParameter.actions && typeof useCTAParameter.actions === 'object' ) {
+				return {
+					...useCTAParameter.actions,
+				};
+			}
+
+			return useCTAParameter.actions;
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[],
+	);
+	const stateDispatcher = usePrivateCTA( useCTAParameter, actions, );
 	return usePublicCTA( {
-		actions: useCTAParameter.actions,
+		actions,
 		stateDispatcher,
 	}, );
 }

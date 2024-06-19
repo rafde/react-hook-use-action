@@ -35,12 +35,13 @@ export default function usePrivateCTA<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 >(
 	params: UseCTAParameter<Initial, Actions>,
+	actions?: typeof params['actions'],
 ) {
 	return useReducer(
 		function reducerCallback( ctaReducerState: CTAReducerState<Initial>, nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], ) {
 			return ctaReducer( {
 				ctaReducerState,
-				actions: params.actions,
+				actions,
 				nextCTAProps,
 			}, );
 		},

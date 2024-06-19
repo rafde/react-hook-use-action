@@ -32,6 +32,22 @@ describe( 'useCTA', function() {
 		hi: 1,
 	};
 
+	test( 'should not create a new dispatch when an action is called', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const [
+			,
+			initDispatch,
+		] = result.current;
+
+		act( () => {
+			result.current[ 1 ].cta.update( 'hi', 1, );
+		}, );
+
+		expect( initDispatch, ).toEqual( result.current[ 1 ], );
+	}, );
+
 	describe( 'predefined', () => {
 		describe( 'dispatch.cta.replace( state | (state => state | undefined ))', function() {
 			test( 'should `replace` state', function() {
@@ -889,6 +905,29 @@ describe( 'useCTA', function() {
 	}, );
 
 	describe( 'custom actions', function() {
+		test( 'should not create a new dispatch when an action is called', () => {
+			const { result, } = renderHook( () => useCTA( {
+				initial,
+				actions: {
+					customAction() {
+						return {
+							hi: 999,
+						};
+					},
+				},
+			}, ), );
+			const [
+				,
+				initDispatch,
+			] = result.current;
+
+			act( () => {
+				result.current[ 1 ].cta.customAction();
+			}, );
+
+			expect( initDispatch, ).toEqual( result.current[ 1 ], );
+		}, );
+
 		describe( 'calc', function() {
 			const actions = returnActionsType( initial, {
 				calc( state, payload: Pick<typeof initial, 'hi'>, ) {
