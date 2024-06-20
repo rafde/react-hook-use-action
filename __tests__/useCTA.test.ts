@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { useCTA, CTAStateParam, returnActionsType, } from '../src';
+import { useCTA, returnActionsType, } from '../src';
 
 describe( 'useCTA', function() {
 	const initialChanges = {
@@ -109,6 +109,20 @@ describe( 'useCTA', function() {
 
 				act( () => {
 					result.current[ 1 ].cta.replace( initial, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+			}, );
+
+			test( 'should not `replace` state when function `payload` returns `null`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+				}, ), );
+
+				act( () => {
+					// @ts-expect-error making sure invalid return is not evaluated
+					result.current[ 1 ].cta.replace( () => null, );
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( initial, );
@@ -252,6 +266,21 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
 			}, );
 
+			test( 'should not set new `initial` when `payload` is a function that returns `null`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+				}, ), );
+
+				act( () => {
+					// @ts-expect-error making sure invalid return is not evaluated
+					result.current[ 1 ].cta.replaceInitial( () => null, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+			}, );
+
 			test( 'should have `changes` when setting new `initial`', function() {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
@@ -368,7 +397,7 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 			}, );
 
-			test( 'using `init`', function() {
+			test( 'should reset using `init` result', function() {
 				const payload = {
 					hi: 2,
 				};
@@ -410,7 +439,7 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 			}, );
 
-			test( 'using `init` and custom action is defined', function() {
+			test( 'should reset using `init` and custom action is defined', function() {
 				const payload = {
 					hi: 2,
 				};
@@ -457,7 +486,7 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 			}, );
 
-			describe( 'dispatch.cta.reset( initial | (state => initial | undefined ) )', function() {
+			describe( 'dispatch.cta.reset( initial | ( (state) => initial | undefined ) )', function() {
 				test( 'should set new `initial` to be `payload`', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -470,9 +499,10 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( payload, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 					expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+					expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 				}, );
 
-				test( 'should set new `initial` when `payload` is a function', function() {
+				test( 'should set new `initial` when `payload` is a function and returns a new state', function() {
 					const payload = {
 						there: 'me',
 						hi: 1,
@@ -490,6 +520,7 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( payload, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 					expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+					expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 				}, );
 
 				test( 'should set new `initial` when `payload` is a function that returns state with `{"arbitrary key": "value"}`', function() {
@@ -502,9 +533,9 @@ describe( 'useCTA', function() {
 					}, );
 
 					expect( result.current[ 0 ], ).toEqual( payloadWithArbitraryKey, );
-
 					expect( result.current[ 1 ].state.changes, ).toBeNull();
 					expect( result.current[ 1 ].state.initial, ).toEqual( payloadWithArbitraryKey, );
+					expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 
 					act( () => {
 						result.current[ 1 ].cta.replace( initial, );
@@ -516,6 +547,7 @@ describe( 'useCTA', function() {
 						...initialChanges,
 					}, );
 					expect( result.current[ 1 ].state.initial, ).toEqual( payloadWithArbitraryKey, );
+					expect( result.current[ 1 ].state.previous, ).toEqual( payloadWithArbitraryKey, );
 				}, );
 
 				test( 'should not set new `initial` when `payload` is a function that returns `undefined`', function() {
@@ -523,14 +555,30 @@ describe( 'useCTA', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
 					}, ), );
+					const newInitial = {
+						...initial,
+						there: 'newInitial',
+					};
+
+					act( () => {
+						result.current[ 1 ].cta.replaceInitial( newInitial, );
+					}, );
+
+					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( {
+						there: initial.there,
+					}, );
+					expect( result.current[ 1 ].state.initial, ).toEqual( newInitial, );
 
 					act( () => {
 						result.current[ 1 ].cta.reset( () => payload, );
 					}, );
 
 					expect( result.current[ 0 ], ).toEqual( initial, );
-					expect( result.current[ 1 ].state.changes, ).toBeNull();
-					expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+					expect( result.current[ 1 ].state.changes, ).toEqual( {
+						there: initial.there,
+					}, );
+					expect( result.current[ 1 ].state.initial, ).toEqual( newInitial, );
 				}, );
 
 				test( 'should not set new `initial` when `payload` = `initial`', function() {
@@ -545,7 +593,6 @@ describe( 'useCTA', function() {
 					}, ), );
 
 					act( () => {
-						result.current[ 1 ].cta.reset( () => payload, );
 						result.current[ 1 ].cta.reset( () => payload, );
 					}, );
 
@@ -984,12 +1031,12 @@ describe( 'useCTA', function() {
 					}, ), );
 
 					const payload = {
-						there: '',
+						hi: '',
 					};
 					act( () => {
-						// @ts-expect-error make sure payload is not used by calc when payload is forced
 						result.current[ 1 ]( {
 							type: 'calc',
+							// @ts-expect-error make sure payload is not used by calc when payload is forced
 							payload,
 						}, );
 					}, );
@@ -1833,88 +1880,128 @@ describe( 'useCTA', function() {
 		}, );
 
 		describe( 'augment `reset`', function() {
-			describe( 'reset()', function() {
-				test( 'should not change if overridden returns `undefined`', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							reset( state, payload, ) {
-								if ( !payload || typeof payload !== 'object' ) {
-									return;
-								}
+			const payloadMissingPartial = {
+				there: 'reset',
+			};
+			const payloadExceptionPartial = {
+				hi: 99,
+			};
+			const customResetUpdate = {
+				...initial,
+				...payloadMissingPartial,
+			};
+			const actions = returnActionsType( initial, {
+				reset( state, payload, ) {
+					if ( !payload || typeof payload !== 'object' ) {
+						const resetPayload = {
+							...state.initial,
+							...payloadMissingPartial,
+						};
 
-								if ( payload.hi < 0 ) {
-									return;
-								}
+						if ( state.options?.exceptionHi ) {
+							return {
+								...resetPayload,
+								...payloadExceptionPartial,
+							};
+						}
 
-								return payload;
-							},
-						},
-					}, ), );
+						return resetPayload;
+					}
 
-					act( () => {
-						result.current[ 1 ].cta.reset();
-					}, );
+					if ( payload.hi < 0 ) {
+						return;
+					}
 
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					return payload;
+				},
+			}, );
+
+			test( 'should `reset` when payload is nil', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions,
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.reset();
 				}, );
 
-				describe( 'reset with options', function() {
-					const actions = returnActionsType( initial, {
-						reset( state: CTAStateParam<typeof initial>, payload?: typeof initial, ) {
-							if ( !payload || typeof payload !== 'object' ) {
-								const resetPayload = {
-									...state.initial,
-									there: 'reset',
-								};
+				expect( result.current[ 0 ], ).toEqual( customResetUpdate, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( customResetUpdate, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
 
-								if ( state.options?.exceptionHi ) {
-									return {
-										...resetPayload,
-										hi: 99,
-									};
-								}
+			test( 'should not `reset` when payload function returns `undefined`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions,
+				}, ), );
 
-								return resetPayload;
-							}
-
-							return payload;
-						},
-					}, );
-
-					test( 'should not change if overridden returns new initial', function() {
-						const { result, } = renderHook( () => useCTA( {
-							initial,
-							actions,
-						}, ), );
-
-						act( () => {
-							result.current[ 1 ].cta.reset();
-						}, );
-
-						expect( result.current[ 0 ], ).toEqual( {
-							...initial,
-							there: 'reset',
-						}, );
-					}, );
-
-					test( 'should keep current `hi` with `options.exceptionHi`', function() {
-						const { result, } = renderHook( () => useCTA( {
-							initial,
-							actions,
-						}, ), );
-
-						act( () => {
-							result.current[ 1 ].cta.reset( undefined, { exceptionHi: true, }, );
-						}, );
-
-						expect( result.current[ 0 ], ).toEqual( {
-							...initial,
-							there: 'reset',
-							hi: 99,
-						}, );
-					}, );
+				act( () => {
+					result.current[ 1 ].cta.reset( () => undefined, );
 				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should reset when payload function returns new state', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions,
+				}, ), );
+				const partialNewState = {
+					2: 999,
+				};
+				const newState = {
+					...initial,
+					...partialNewState,
+				};
+
+				act( () => {
+					result.current[ 1 ].cta.reset( newState, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( newState, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( newState, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should keep current `hi` with `options.exceptionHi`', function() {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions,
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.reset( undefined, { exceptionHi: true, }, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( {
+					...customResetUpdate,
+					...payloadExceptionPartial,
+				}, );
+			}, );
+
+			test( 'should not have changes if hi < 0', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions,
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.reset( ctaParam => ( { ...ctaParam.initial,
+						hi: -1, } ), );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 			}, );
 		}, );
 	}, );

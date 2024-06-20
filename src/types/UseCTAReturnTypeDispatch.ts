@@ -2,6 +2,7 @@ import type { CTAInitial, } from './CTAInitial';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 import type { CustomCTAStateParam, } from './CustomCTAStateParam';
 import { OptionsParams, } from './OptionsParams';
+import { UseCTAParameterActionsCustomRecord, } from './UseCTAParameterActionsRecordProp';
 
 type OmitEmptyRecord<T,> = {
 	[K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K]
@@ -218,7 +219,7 @@ export type DispatchCustomCTAWithOptionalPayload<
 	CustomActionsWithOptionalPayloadRecord : Readonly<{
 		[Action in keyof CustomActionsWithOptionalPayloadRecord]: (
 			payload?: CustomActionsWithOptionalPayloadParameters | (
-				( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithOptionalPayloadParameters | undefined
+				( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithOptionalPayloadParameters | void
 			),
 			options?: OptionsParams,
 		) => void;
@@ -236,7 +237,7 @@ export type DispatchCustomCTAWithPayload<
 	CustomActionsWithPayloadRecord : {
 		[Action in keyof CustomActionsWithPayloadRecord]: (
 			payload: CustomActionsWithPayloadParameters | (
-				( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithPayloadParameters | undefined
+				( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => CustomActionsWithPayloadParameters | void
 			),
 			options?: OptionsParams,
 		) => void;
@@ -245,25 +246,25 @@ export type DispatchCustomCTAWithPayload<
 export type DispatchDefaultCTARecord<Initial extends CTAInitial,> = Readonly<{
 	replace(
 		payload: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
 		),
 		options?: OptionsParams,
 	): void
 	replaceInitial(
 		payload: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
 		),
 		options?: OptionsParams,
 	): void
 	reset(
 		payload?: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
 		),
 		options?: OptionsParams,
 	): void
 	update(
 		payload: Partial<Initial> | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | undefined
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | void
 		),
 		options?: OptionsParams,
 	): void
@@ -296,7 +297,7 @@ export type UseCTAReturnTypeDispatchState<Initial extends CTAInitial,> = Readonl
 
 export type UseCTAReturnTypeDispatch<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions extends UseCTAParameterActionsCustomRecord<Initial> | undefined = undefined,
 > = DispatchCTA<Initial, Actions> & {
 	readonly cta: UseCTAReturnTypeDispatchCTA<Initial, Actions>
 	readonly state: UseCTAReturnTypeDispatchState<Initial>
