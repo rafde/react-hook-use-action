@@ -160,13 +160,13 @@ function typeResult<
 	} = ctaReducerState;
 
 	if ( type === 'reset' ) {
-		if ( strictDeepEqual( initial, next, ) || strictDeepEqual( current, next, ) ) {
+		if ( strictDeepEqual( initial, next, ) && strictDeepEqual( current, next, ) ) {
 			return ctaReducerState;
 		}
 
 		changesMap.clear();
 		return {
-			changesMap,
+			...ctaReducerState,
 			changes: null,
 			initial: next as Initial,
 			current: next as Initial,
@@ -255,7 +255,6 @@ export default function ctaReducer<
 		actions,
 	} = params;
 	const {
-		changesMap,
 		current,
 		initial,
 	} = ctaReducerState;
@@ -273,21 +272,25 @@ export default function ctaReducer<
 	const isActionsObject = actions && typeof actions == 'object' && !Array.isArray( actions, );
 
 	if ( ctaType in predefinedActionsConst && ( !isActionsObject || !( ctaType in actions ) ) ) {
-		if ( ctaType === 'reset' && !nextCTAPayload ) {
-			changesMap.clear();
-			return {
-				...ctaReducerState,
-				changes: null,
-				current: initial,
-				previous: current,
-			};
+		if ( nextCTAPayload instanceof Function ) {
+			return typeResult( {
+				ctaReducerState,
+				next: nextCTAPayload( ctaState, ),
+				type: ctaType as PredefinedActions,
+			}, );
 		}
 
-		const nextPredefinedState = nextCTAPayload instanceof Function ? nextCTAPayload( ctaState, ) : nextCTAPayload;
+		if ( ctaType === 'reset' && typeof nextCTAPayload === 'undefined' ) {
+			return typeResult( {
+				ctaReducerState,
+				next: initial,
+				type: 'reset',
+			}, );
+		}
 
 		return typeResult( {
 			ctaReducerState,
-			next: nextPredefinedState,
+			next: nextCTAPayload,
 			type: ctaType as PredefinedActions,
 		}, );
 	}
@@ -298,42 +301,28 @@ export default function ctaReducer<
 		return ctaReducerState;
 	}
 
-	if ( ctaType === 'reset' && !nextCTAPayload ) {
-		const nextResetState = cta(
-			ctaHandleState,
-		);
-
-		if ( !nextResetState ) {
-			return ctaReducerState;
-		}
-
-		changesMap.clear();
-		return {
-			...ctaReducerState,
-			changes: null,
-			current: nextResetState,
-			previous: current,
-		};
-	}
-
-	let nextPayload = nextCTAPayload;
+	let nextPayload: typeof nextCTAPayload | null = nextCTAPayload;
 	if ( nextCTAPayload instanceof Function ) {
-		nextPayload = nextCTAPayload(
+		const nextCTAPayloadResult = nextCTAPayload(
 			ctaState,
 		);
 
-		if ( !nextPayload ) {
+		if ( typeof nextCTAPayloadResult === 'undefined' ) {
 			return ctaReducerState;
 		}
+
+		nextPayload = nextCTAPayloadResult;
 	}
 
 	if ( ctaType in predefinedActionsConst ) {
+		const next = cta(
+			ctaHandleState,
+			nextPayload,
+		);
+
 		return typeResult( {
 			ctaReducerState,
-			next: cta(
-				ctaHandleState,
-				nextPayload,
-			),
+			next,
 			type: ctaType as PredefinedActions,
 		}, );
 	}
@@ -348,10 +337,6 @@ export default function ctaReducer<
 		},
 		nextPayload,
 	);
-
-	if ( !nextState ) {
-		return ctaReducerState;
-	}
 
 	const actionType = getActionType( nextState, );
 

@@ -72,7 +72,7 @@ export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Ini
 }
 
 export class UpdateActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState: Partial<Initial>, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new UpdateActionType( {
 			nextState,
 			options,
