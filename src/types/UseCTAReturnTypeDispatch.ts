@@ -2,7 +2,9 @@ import type { CTAInitial, } from './CTAInitial';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 import type { CustomCTAStateParam, } from './CustomCTAStateParam';
 import { OptionsParams, } from './OptionsParams';
-import { UseCTAParameterActionsCustomRecord, } from './UseCTAParameterActionsRecordProp';
+import {
+	UseCTAParameterActionsRecordProp,
+} from './UseCTAParameterActionsRecordProp';
 
 type OmitEmptyRecord<T,> = {
 	[K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K]
@@ -305,7 +307,7 @@ export type UseCTAReturnTypeDispatchState<Initial extends CTAInitial,> = Readonl
 
 export type UseCTAReturnTypeDispatch<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsCustomRecord<Initial> | undefined = undefined,
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined,
 > = DispatchCTA<Initial, Actions> & {
 	readonly cta: UseCTAReturnTypeDispatchCTA<Initial, Actions>
 	readonly state: UseCTAReturnTypeDispatchState<Initial>
