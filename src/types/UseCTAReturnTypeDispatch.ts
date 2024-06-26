@@ -26,6 +26,10 @@ type ReplaceInitialCTAProps<Initial extends CTAInitial,> = {
 
 type ResetCTAProps<Initial extends CTAInitial,> = {
 	type: 'reset'
+	payload?: undefined
+	options?: OptionsParams
+} | {
+	type: 'reset'
 	payload?: Initial | (
 		( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 	)
@@ -246,25 +250,29 @@ export type DispatchCustomCTAWithPayload<
 export type DispatchDefaultCTARecord<Initial extends CTAInitial,> = Readonly<{
 	replace(
 		payload: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 		),
 		options?: OptionsParams,
 	): void
 	replaceInitial(
 		payload: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
 		),
 		options?: OptionsParams,
 	): void
 	reset(
+		payload?: undefined,
+		options?: OptionsParams,
+	): void
+	reset(
 		payload?: Initial | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | void
-		),
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Initial | undefined
+			),
 		options?: OptionsParams,
 	): void
 	update(
 		payload: Partial<Initial> | (
-			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | void
+			( ctaState: UseCTAReturnTypeDispatchState<Initial> ) => Partial<Initial> | undefined
 		),
 		options?: OptionsParams,
 	): void
