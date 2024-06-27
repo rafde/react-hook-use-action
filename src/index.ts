@@ -50,6 +50,8 @@ export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 
+export type { CTAPayloadCallbackParameter, } from './types/UseCTAReturnTypeDispatch';
+
 export type { CustomCTAStateParam, } from './types/CustomCTAStateParam';
 
 export type { CTAStateParam, } from './types/CTAStateParam';
