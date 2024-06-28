@@ -212,15 +212,15 @@ function getActionType<
 		return {
 			next: nextState,
 			type,
-			useCustom: Boolean( options?.useCustom, ),
+			useDefault: Boolean( options?.useDefault, ),
 		} as typeof type extends 'update' ? {
 			next: Partial<Initial>
 			type: 'update'
-			useCustom: boolean
+			useDefault: boolean
 		} : {
 			next: Initial
 			type: Exclude<PredefinedActions, 'update'>
-			useCustom: boolean
+			useDefault: boolean
 		};
 	}
 
@@ -228,7 +228,7 @@ function getActionType<
 		return {
 			next: ctaReturnType as Partial<Initial>,
 			type: 'update' as Extract<PredefinedActions, 'update'>,
-			useCustom: true,
+			useDefault: false,
 		};
 	}
 }
@@ -346,7 +346,7 @@ export default function ctaReducer<
 
 	const {
 		type,
-		useCustom,
+		useDefault,
 	} = actionType;
 
 	let {
@@ -355,7 +355,7 @@ export default function ctaReducer<
 
 	const customPredefinedCTA = isActionsObject && actions?.[ type as keyof typeof actions ];
 
-	if ( typeof customPredefinedCTA === 'function' && useCustom ) {
+	if ( typeof customPredefinedCTA === 'function' && !useDefault ) {
 		next = customPredefinedCTA( ctaHandleState, next, );
 	}
 

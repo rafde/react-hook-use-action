@@ -1857,7 +1857,7 @@ describe( 'useCTA', function() {
 									{
 										hi: state.current.hi * 3,
 									},
-									{ useCustom: false, },
+									{ useDefault: true, },
 								);
 							},
 						},

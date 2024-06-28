@@ -5,7 +5,7 @@ type PredefinedActions = 'replace' | 'replaceInitial' | 'reset' | 'update';
 export type ActionTypeConstructParam<Initial extends CTAInitial,> = {
 	type: PredefinedActions
 	nextState: Initial | Partial<Initial>
-	options?: { useCustom: boolean }
+	options?: { useDefault: boolean }
 };
 
 export class ActionType<Initial extends CTAInitial,> {
@@ -17,7 +17,7 @@ export class ActionType<Initial extends CTAInitial,> {
 		this.type = param.type;
 		this.nextState = param.nextState;
 		this.options = {
-			useCustom: true,
+			useDefault: false,
 			...param?.options,
 		};
 	}
