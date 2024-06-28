@@ -1607,15 +1607,30 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'that use action results', () => {
-			test( 'should use `replaceAction`', () => {
-				const nextStatePartial = {
-					hi: 7,
-					there: 'replaceAction',
+		describe( 'replaceAction', () => {
+			const nextStatePartial = {
+				hi: 7,
+				there: 'replaceAction',
+			};
+
+			const actions = returnActionsType( initial, {
+				replace( ctaState, payload, ) {
+					return {
+						...payload,
+						you: payload.there === 'replaceAction' ? 'done' : ctaState.current.you,
+					};
+				},
+			}, );
+
+			test( 'should use augmented `replace`', () => {
+				const nextChange = {
+					...nextStatePartial,
+					you: 'done',
 				};
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: {
+						...actions,
 						custom( state, ) {
 							return state.replaceAction( {
 								...state.current,
@@ -1626,26 +1641,79 @@ describe( 'useCTA', function() {
 				}, ), );
 				const nextState = {
 					...initial,
-					...nextStatePartial,
+					...nextChange,
 				};
+
 				act( () => {
 					result.current[ 1 ].cta.custom();
 				}, );
+
+				expect( result.current[ 0 ], ).toEqual( nextState, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( nextChange, );
+				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not use augmented `replace`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.replaceAction(
+								{
+									...state.current,
+									...nextStatePartial,
+								},
+								{
+									useDefault: true,
+								},
+							);
+						},
+					},
+				}, ), );
+				const nextState = {
+					...initial,
+					...nextStatePartial,
+				};
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
 				expect( result.current[ 0 ], ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.changes, ).toEqual( nextStatePartial, );
 				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 			}, );
+		}, );
 
-			test( 'should use `replaceInitialAction`', () => {
-				const nextStatePartial = {
-					hi: 7,
-					there: 'replaceInitialAction',
+		describe( 'replaceInitialAction', () => {
+			const nextStatePartial = {
+				hi: 7,
+				there: 'replaceInitialAction',
+			};
+
+			const actions = returnActionsType( initial, {
+				replaceInitial( ctaState, payload, ) {
+					return {
+						...payload,
+						you: payload.there === 'replaceInitialAction' ? 'done' : ctaState.current.you,
+					};
+				},
+			}, );
+
+			test( 'should use augmented `replaceInitial`', () => {
+				const nextChange = {
+					...nextStatePartial,
+					you: 'done',
 				};
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: {
+						...actions,
 						custom( state, ) {
 							return state.replaceInitialAction( {
 								...state.current,
@@ -1656,11 +1724,51 @@ describe( 'useCTA', function() {
 				}, ), );
 				const nextState = {
 					...initial,
-					...nextStatePartial,
+					...nextChange,
 				};
+
 				act( () => {
 					result.current[ 1 ].cta.custom();
 				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( {
+					hi: initial.hi,
+					there: initial.there,
+					you: initial.you,
+				}, );
+				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not use augmented `replaceInitial`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.replaceInitialAction(
+								{
+									...state.current,
+									...nextStatePartial,
+								},
+								{
+									useDefault: true,
+								},
+							);
+						},
+					},
+				}, ), );
+				const nextState = {
+					...initial,
+					...nextStatePartial,
+				};
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
 				expect( result.current[ 0 ], ).toEqual( initial, );
 				expect( result.current[ 1 ].state.changes, ).toEqual( {
 					hi: initial.hi,
@@ -1670,47 +1778,238 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 			}, );
+		}, );
 
-			test( 'should use `resetAction`', () => {
-				const nextStatePartial = {
-					hi: 7,
-					there: 'resetAction',
-				};
+		describe( 'resetAction', () => {
+			const nextStatePartial = {
+				hi: 7,
+				there: 'resetAction',
+			};
+			const emptyPayload = {
+				2: 999,
+				hi: 999,
+				there: 'augmented reset',
+				you: 'augmented reset',
+			};
+			const actions = returnActionsType( initial, {
+				reset( ctaState, payload, ) {
+					if ( !payload ) {
+						return emptyPayload;
+					}
+					return {
+						...payload,
+						you: payload.there === 'resetAction' ? 'done' : ctaState.current.you,
+					};
+				},
+			}, );
+
+			test( 'should use augmented `reset`', () => {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: {
+						...actions,
 						custom( state, ) {
-							return state.resetAction( {
-								...state.current,
-								...nextStatePartial,
-							}, );
+							return state.resetAction();
 						},
 					},
 				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( emptyPayload, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.current, ).toEqual( emptyPayload, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( emptyPayload, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not trigger with invalid `payload`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							// @ts-expect-error check that it doesn't trigger for invalid `payload`
+							return state.resetAction( [], );
+						},
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not trigger with `payload = null`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							// @ts-expect-error check that it doesn't trigger for invalid `payload`
+							return state.resetAction( null, );
+						},
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should use augmented `reset` with payload', () => {
 				const nextState = {
 					...initial,
 					...nextStatePartial,
 				};
+				const next = {
+					...nextState,
+					you: 'done',
+				};
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.resetAction( nextState, );
+						},
+					},
+				}, ), );
+
 				act( () => {
 					result.current[ 1 ].cta.custom();
 				}, );
+
+				expect( result.current[ 0 ], ).toEqual( next, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.current, ).toEqual( next, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( next, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not use augmented `reset`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.resetAction(
+								undefined,
+								{
+									useDefault: true,
+								},
+							);
+						},
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( initial, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not use augmented `reset` with `payload`', () => {
+				const nextState = {
+					...initial,
+					...nextStatePartial,
+				};
+
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.resetAction(
+								nextState,
+								{
+									useDefault: true,
+								},
+							);
+						},
+					},
+				}, ), );
+
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+
 				expect( result.current[ 0 ], ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.changes, ).toBeNull();
 				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 			}, );
+		}, );
 
-			test( 'should use `updateAction`', () => {
-				const nextStatePartial = {
-					hi: 7,
-					there: 'updateAction',
+		describe( 'updateAction', () => {
+			const nextStatePartial = {
+				hi: 7,
+				there: 'updateAction',
+			};
+			const actions = returnActionsType( initial, {
+				update( ctaState, payload, ) {
+					return {
+						...payload,
+						you: payload.there === 'updateAction' ? 'done' : ctaState.current.you,
+					};
+				},
+			}, );
+
+			test( 'should use augmented `update`', () => {
+				const nextChange = {
+					...nextStatePartial,
+					you: 'done',
 				};
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: {
+						...actions,
 						custom( state, ) {
 							return state.updateAction( nextStatePartial, );
+						},
+					},
+				}, ), );
+				const nextState = {
+					...initial,
+					...nextChange,
+				};
+				act( () => {
+					result.current[ 1 ].cta.custom();
+				}, );
+				expect( result.current[ 0 ], ).toEqual( nextState, );
+				expect( result.current[ 1 ].state.changes, ).toEqual( nextChange, );
+				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
+				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+			}, );
+
+			test( 'should not use augmented `update`', () => {
+				const { result, } = renderHook( () => useCTA( {
+					initial,
+					actions: {
+						...actions,
+						custom( state, ) {
+							return state.updateAction( nextStatePartial, { useDefault: true, }, );
 						},
 					},
 				}, ), );
@@ -1963,6 +2262,15 @@ describe( 'useCTA', function() {
 
 				act( () => {
 					result.current[ 1 ].cta.reset( newState, );
+				}, );
+
+				expect( result.current[ 0 ], ).toEqual( newState, );
+				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.initial, ).toEqual( newState, );
+				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
+
+				act( () => {
+					result.current[ 1 ].cta.reset( ctaPayloadCallbackParameter => ctaPayloadCallbackParameter.current, );
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( newState, );

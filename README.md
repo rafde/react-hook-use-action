@@ -2,8 +2,6 @@
 
 A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.
 
-[Playground](https://stackblitz.com/edit/usecta-playground-kqxz5zt?file=src%2FApp.tsx&terminal=dev)
-
 # Table of Contents
 
 - [Installation](#installation)
@@ -85,6 +83,8 @@ npm i react-hook-use-cta
 ---
 
 # useCTA
+
+[Playground](https://codesandbox.io/p/sandbox/react-hook-use-cta-7jnc32?file=%2Fsrc%2FApp.tsx%3A17%2C34)
 
 <details open>
 
@@ -1932,6 +1932,8 @@ function View() {
 ---
 
 # createCTAContext
+
+[Playground](https://codesandbox.io/p/sandbox/react-hook-use-cta-context-krpz5k?file=%2Fsrc%2FglobalContext.ts%3A5%2C18)
 
 > [!NOTE]
 > Combines `useCTA` with React `createContext` and `useContext`.

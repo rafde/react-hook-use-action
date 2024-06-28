@@ -4,7 +4,7 @@ type PredefinedActions = 'replace' | 'replaceInitial' | 'reset' | 'update';
 
 export type ActionTypeConstructParam<Initial extends CTAInitial,> = {
 	type: PredefinedActions
-	nextState: Initial | Partial<Initial>
+	nextState?: Initial | Partial<Initial>
 	options?: { useDefault: boolean }
 };
 
@@ -56,14 +56,14 @@ export class ReplaceInitialActionType<Initial extends CTAInitial,> extends Actio
 }
 
 export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState?: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
 		return new ResetActionType( {
 			nextState,
 			options,
 		}, );
 	}
 
-	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState: Initial }, ) {
+	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState?: Initial }, ) {
 		super( {
 			...param,
 			type: 'reset',

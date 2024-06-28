@@ -205,7 +205,30 @@ function getActionType<
 			options,
 		} = ctaReturnType;
 
-		if ( !nextState || typeof nextState !== 'object' || Array.isArray( nextState, ) ) {
+		if ( Array.isArray( nextState, ) ) {
+			return;
+		}
+
+		if ( type === 'reset' ) {
+			if ( typeof nextState === 'undefined' ) {
+				return {
+					type,
+					useDefault: Boolean( options?.useDefault, ),
+				};
+			}
+
+			if ( typeof nextState !== 'object' || !nextState ) {
+				return;
+			}
+
+			return {
+				type,
+				next: nextState,
+				useDefault: Boolean( options?.useDefault, ),
+			};
+		}
+
+		if ( !nextState || typeof nextState !== 'object' ) {
 			return;
 		}
 
