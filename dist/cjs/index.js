@@ -8,7 +8,9 @@ function $parcel$export(e, n, v, s) {
 }
 
 $parcel$export(module.exports, "useCTA", () => $882b6d93070905b3$export$68a5bb76170d2250);
+$parcel$export(module.exports, "returnActionsType", () => $882b6d93070905b3$export$2d3ca7b65448761f);
 $parcel$export(module.exports, "createCTAContext", () => $34d6e107948ce469$export$a85baad6d8324b85);
+
 
 
 class $39ac042edb60bbed$export$e4a712fff93fb00f {
@@ -16,7 +18,7 @@ class $39ac042edb60bbed$export$e4a712fff93fb00f {
         this.type = param.type;
         this.nextState = param.nextState;
         this.options = {
-            useCustom: true,
+            useDefault: false,
             ...param?.options
         };
     }
@@ -152,10 +154,10 @@ function $d1a0eb9e2dbe8803$var$typeResult(param) {
     const { type: type } = param;
     const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
     if (type === "reset") {
-        if ((0, $dYZEH$fastequals.strictDeepEqual)(initial, next) || (0, $dYZEH$fastequals.strictDeepEqual)(current, next)) return ctaReducerState;
+        if ((0, $dYZEH$fastequals.strictDeepEqual)(initial, next) && (0, $dYZEH$fastequals.strictDeepEqual)(current, next)) return ctaReducerState;
         changesMap.clear();
         return {
-            changesMap: changesMap,
+            ...ctaReducerState,
             changes: null,
             initial: next,
             current: next,
@@ -169,23 +171,36 @@ function $d1a0eb9e2dbe8803$var$typeResult(param) {
 function $d1a0eb9e2dbe8803$var$getActionType(ctaReturnType) {
     if (ctaReturnType instanceof (0, $39ac042edb60bbed$export$e4a712fff93fb00f)) {
         const { type: type, nextState: nextState, options: options } = ctaReturnType;
-        if (!nextState || typeof nextState !== "object" || Array.isArray(nextState)) return;
+        if (Array.isArray(nextState)) return;
+        if (type === "reset") {
+            if (typeof nextState === "undefined") return {
+                type: type,
+                useDefault: Boolean(options?.useDefault)
+            };
+            if (typeof nextState !== "object" || !nextState) return;
+            return {
+                type: type,
+                next: nextState,
+                useDefault: Boolean(options?.useDefault)
+            };
+        }
+        if (!nextState || typeof nextState !== "object") return;
         return {
             next: nextState,
             type: type,
-            useCustom: Boolean(options?.useCustom)
+            useDefault: Boolean(options?.useDefault)
         };
     }
     if (ctaReturnType && typeof ctaReturnType === "object") return {
         next: ctaReturnType,
         type: "update",
-        useCustom: true
+        useDefault: false
     };
 }
 function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     const { type: ctaType, payload: nextCTAPayload, options: options } = params.nextCTAProps;
     const { ctaReducerState: ctaReducerState, actions: actions } = params;
-    const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
+    const { current: current, initial: initial } = ctaReducerState;
     const ctaState = {
         changes: ctaReducerState.changes,
         current: current,
@@ -198,45 +213,38 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     };
     const isActionsObject = actions && typeof actions == "object" && !Array.isArray(actions);
     if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst && (!isActionsObject || !(ctaType in actions))) {
-        if (ctaType === "reset" && !nextCTAPayload) {
-            changesMap.clear();
-            return {
-                ...ctaReducerState,
-                changes: null,
-                current: initial,
-                previous: current
-            };
-        }
-        const nextPredefinedState = nextCTAPayload instanceof Function ? nextCTAPayload(ctaState) : nextCTAPayload;
+        if (nextCTAPayload instanceof Function) return $d1a0eb9e2dbe8803$var$typeResult({
+            ctaReducerState: ctaReducerState,
+            next: nextCTAPayload(ctaState),
+            type: ctaType
+        });
+        if (ctaType === "reset" && typeof nextCTAPayload === "undefined") return $d1a0eb9e2dbe8803$var$typeResult({
+            ctaReducerState: ctaReducerState,
+            next: initial,
+            type: "reset"
+        });
         return $d1a0eb9e2dbe8803$var$typeResult({
             ctaReducerState: ctaReducerState,
-            next: nextPredefinedState,
+            next: nextCTAPayload,
             type: ctaType
         });
     }
     const cta = isActionsObject && actions?.[ctaType];
     if (typeof cta !== "function") return ctaReducerState;
-    if (ctaType === "reset" && !nextCTAPayload) {
-        const nextResetState = cta(ctaHandleState);
-        if (!nextResetState) return ctaReducerState;
-        changesMap.clear();
-        return {
-            ...ctaReducerState,
-            changes: null,
-            current: nextResetState,
-            previous: current
-        };
-    }
     let nextPayload = nextCTAPayload;
     if (nextCTAPayload instanceof Function) {
-        nextPayload = nextCTAPayload(ctaState);
-        if (!nextPayload) return ctaReducerState;
+        const nextCTAPayloadResult = nextCTAPayload(ctaState);
+        if (typeof nextCTAPayloadResult === "undefined") return ctaReducerState;
+        nextPayload = nextCTAPayloadResult;
     }
-    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst) return $d1a0eb9e2dbe8803$var$typeResult({
-        ctaReducerState: ctaReducerState,
-        next: cta(ctaHandleState, nextPayload),
-        type: ctaType
-    });
+    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst) {
+        const next = cta(ctaHandleState, nextPayload);
+        return $d1a0eb9e2dbe8803$var$typeResult({
+            ctaReducerState: ctaReducerState,
+            next: next,
+            type: ctaType
+        });
+    }
     const nextState = cta({
         ...ctaHandleState,
         replaceAction: (0, $39ac042edb60bbed$export$8b725d9d25bcde8e).create,
@@ -244,13 +252,12 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
         resetAction: (0, $39ac042edb60bbed$export$8572caab90b686ec).create,
         updateAction: (0, $39ac042edb60bbed$export$36ff979fbd3521a9).create
     }, nextPayload);
-    if (!nextState) return ctaReducerState;
     const actionType = $d1a0eb9e2dbe8803$var$getActionType(nextState);
     if (!actionType) return ctaReducerState;
-    const { type: type, useCustom: useCustom } = actionType;
+    const { type: type, useDefault: useDefault } = actionType;
     let { next: next } = actionType;
     const customPredefinedCTA = isActionsObject && actions?.[type];
-    if (typeof customPredefinedCTA === "function" && useCustom) next = customPredefinedCTA(ctaHandleState, next);
+    if (typeof customPredefinedCTA === "function" && !useDefault) next = customPredefinedCTA(ctaHandleState, next);
     return $d1a0eb9e2dbe8803$var$typeResult({
         ctaReducerState: ctaReducerState,
         next: next,
@@ -273,11 +280,11 @@ function $062383fffa733698$var$_init(privateCTAState, init) {
         initial: initial
     };
 }
-function $062383fffa733698$export$2e2bcd8739ae039(params) {
+function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
     return (0, $dYZEH$react.useReducer)(function reducerCallback(ctaReducerState, nextCTAProps) {
         return (0, $d1a0eb9e2dbe8803$export$2e2bcd8739ae039)({
             ctaReducerState: ctaReducerState,
-            actions: params.actions,
+            actions: actions,
             nextCTAProps: nextCTAProps
         });
     }, {
@@ -369,8 +376,10 @@ function $217ab95d1d983957$var$wrapPrivateDispatcher(dispatcher, actions) {
 function $217ab95d1d983957$export$2e2bcd8739ae039(params) {
     const { actions: actions } = params;
     const [ctaState, ctaDispatch] = params.stateDispatcher;
-    const augmentedDispatcher = (0, $dYZEH$react.useMemo)(()=>$217ab95d1d983957$var$wrapPrivateDispatcher(ctaDispatch, actions), // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    const augmentedDispatcher = (0, $dYZEH$react.useMemo)(()=>$217ab95d1d983957$var$wrapPrivateDispatcher(ctaDispatch, actions), [
+        ctaDispatch,
+        actions
+    ]);
     return (0, $dYZEH$react.useMemo)(()=>{
         const state = {
             changes: ctaState.changes,
@@ -425,11 +434,21 @@ function $34d6e107948ce469$export$a85baad6d8324b85(contextParams) {
 
 
 function $882b6d93070905b3$export$68a5bb76170d2250(useCTAParameter) {
-    const stateDispatcher = (0, $062383fffa733698$export$2e2bcd8739ae039)(useCTAParameter);
+    const actions = (0, $dYZEH$react.useMemo)(()=>{
+        if (useCTAParameter.actions && typeof useCTAParameter.actions === "object") return {
+            ...useCTAParameter.actions
+        };
+        return useCTAParameter.actions;
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
+    const stateDispatcher = (0, $062383fffa733698$export$2e2bcd8739ae039)(useCTAParameter, actions);
     return (0, $217ab95d1d983957$export$2e2bcd8739ae039)({
-        actions: useCTAParameter.actions,
+        actions: actions,
         stateDispatcher: stateDispatcher
     });
+}
+function $882b6d93070905b3$export$2d3ca7b65448761f(initial, actions) {
+    return actions;
 }
 
 
