@@ -40,7 +40,7 @@ module.exports = {
 				'plugin:jest/style',
 				'plugin:testing-library/react',
 			],
-			files: '*.test.ts',
+			files: '*.test.ts(x)',
 			plugins: [
 				'jest',
 				'testing-library',
@@ -109,6 +109,7 @@ module.exports = {
 			'tab',
 		],
 		'@stylistic/jsx-closing-tag-location': 'off',
+		'@stylistic/jsx-closing-bracket-location': 'off',
 		'@stylistic/jsx-indent': [
 			'error',
 			'tab',
