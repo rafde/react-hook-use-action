@@ -6,6 +6,7 @@ A somewhat flexible react hook alternative to `React.useReducer`. Written in Typ
 
 - [Installation](#installation)
   - [NPM](#npm)
+  - [Yarn](#yarn)
 - [useCTA](#usecta)
   - [Parameter](#parameter)
     - [initial](#initial)
@@ -78,6 +79,12 @@ react-hook-use-cta
 
 ```bash
 npm i react-hook-use-cta
+```
+
+## Yarn
+
+```bash
+yarn add react-hook-use-cta
 ```
 
 ---
@@ -528,7 +535,7 @@ dispatch.cta.update(
 ```ts
 dispatch.cta.update(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -556,7 +563,7 @@ dispatch.cta.update(
 ```ts
 dispatch.cta.update(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -609,7 +616,7 @@ dispatch({
 dispatch({
 	type: 'update',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	payload(ctaPayloadCallbackParameter) {
@@ -629,7 +636,7 @@ dispatch({
 dispatch({
 	type: 'update',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	payload: (ctaPayloadCallbackParameter) => ({
@@ -1062,7 +1069,7 @@ dispatch.cta.replaceInitial(
 ```ts
 dispatch.cta.replaceInitial(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -1091,7 +1098,7 @@ dispatch.cta.replaceInitial(
 ```ts
 dispatch.cta.replaceInitial(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -1147,7 +1154,7 @@ dispatch({
 dispatch({
 	type: 'replaceInitial',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	payload(ctaPayloadCallbackParameter) {
@@ -1167,7 +1174,7 @@ dispatch({
 dispatch({
 	type: 'replaceInitial',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	payload: (ctaPayloadCallbackParameter) => ({
@@ -1403,7 +1410,7 @@ dispatch.cta.reset(
 // sets current state and initial state equal to payload
 dispatch.cta.reset(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -1434,7 +1441,7 @@ dispatch.cta.reset(
 // sets current state and initial state equal to payload
 dispatch.cta.reset(
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	(ctaPayloadCallbackParameter) => {
@@ -1490,7 +1497,7 @@ dispatch({
 dispatch({
 	type: 'reset',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | undefined)} returning `undefined` prevents action from triggering.
 	 */
 	payload(ctaPayloadCallbackParameter) {
@@ -1511,7 +1518,7 @@ dispatch({
 dispatch({
 	type: 'reset',
 	/**
-	 * @param {CTAPayloadCallbackParameter<Initial>} ctaPayloadCallbackParameter
+	 * @param {CTAPayloadCallbackParameter<CTAInitial>} ctaPayloadCallbackParameter
 	 * @returns {(CTAInitial | void)} returning `undefined` prevents action from triggering.
 	 */
 	payload(ctaPayloadCallbackParameter) {
@@ -1570,6 +1577,7 @@ function View() {
 					options,
 				} = ctaStateParam;
 				
+				// You must handle `payload` that is `undefined`
 				if (!payload) {
 					// this will set current = initial
 					return ctaStateParam.initial;
@@ -1963,7 +1971,10 @@ Returns an `object` the following key/value:
 ## CTAProvider
 
 > [!NOTE]
-> Provider to wrap the app or component for context.
+> Provider to wrap the app or component for context. It accepts props:
+> - `children`: React.ReactNode
+> - [initial](#initial): _optional_ Same as `useCTA` [parameter](#parameter)
+> - [onInit](#oninit): _optional_ Same as `useCTA` [parameter](#parameter)
 
 <details open>
 
@@ -1976,8 +1987,14 @@ import GlobalContext from './globalContext';
 import { GlobalCountView, } from './GlobalCountView'
 import { GlobalCountButton, } from './GlobalCountButton'
 
+const appInitial = {
+	search: 'app',
+	isFuzzy: true,
+	count: 11,
+}
+
 export function App() {
-	return <GlobalContext.CTAProvider>
+	return <GlobalContext.CTAProvider initial={appInitial}>
 		<GlobalCountButton/>
 		<GlobalCountView/>
 	</GlobalContext.CTAProvider>;
