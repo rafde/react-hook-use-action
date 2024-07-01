@@ -17,11 +17,19 @@ export function createCTAContext<
 	const CTAContextDispatch = createContext<UseCTAReturnTypeDispatch<Initial, Actions> | null>( null, );
 
 	return {
-		CTAProvider( props: React.PropsWithChildren, ) {
+		CTAProvider( props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit'>>>, ) {
+			const {
+				initial = contextParams.initial,
+				onInit = contextParams.onInit,
+			} = props;
 			const [
 				state,
 				dispatcher,
-			] = useCTA( contextParams, );
+			] = useCTA( {
+				initial,
+				onInit,
+				actions: contextParams.actions,
+			}, );
 			return <CTAContextState.Provider value={state}>
 				<CTAContextDispatch.Provider value={dispatcher}>
 					{props.children}
