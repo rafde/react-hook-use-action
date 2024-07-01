@@ -401,7 +401,12 @@ function $e33a9a219f4ab8aa$export$a85baad6d8324b85(contextParams) {
     const CTAContextDispatch = /*#__PURE__*/ (0, $26Zo0$createContext)(null);
     return {
         CTAProvider (props) {
-            const [state, dispatcher] = (0, $149c1bd638913645$export$68a5bb76170d2250)(contextParams);
+            const { initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit } = props;
+            const [state, dispatcher] = (0, $149c1bd638913645$export$68a5bb76170d2250)({
+                initial: initial,
+                onInit: onInit,
+                actions: contextParams.actions
+            });
             return /*#__PURE__*/ (0, $26Zo0$jsx)(CTAContextState.Provider, {
                 value: state,
                 children: /*#__PURE__*/ (0, $26Zo0$jsx)(CTAContextDispatch.Provider, {

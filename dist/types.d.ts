@@ -174,7 +174,7 @@ export type UseCTAReturnType<Initial extends CTAInitial, Actions extends UseCTAP
  * @param contextParams
  */
 export function createCTAContext<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined>(contextParams: UseCTAParameter<Initial, Actions>): {
-    CTAProvider(props: React.PropsWithChildren): import("react/jsx-runtime").JSX.Element;
+    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit">>>): import("react/jsx-runtime").JSX.Element;
     useCTAStateContext(): Initial;
     useCTADispatchContext(): UseCTAReturnTypeDispatch<Initial, Actions> | null;
 };

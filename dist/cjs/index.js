@@ -409,7 +409,12 @@ function $34d6e107948ce469$export$a85baad6d8324b85(contextParams) {
     const CTAContextDispatch = /*#__PURE__*/ (0, $dYZEH$react.createContext)(null);
     return {
         CTAProvider (props) {
-            const [state, dispatcher] = (0, $882b6d93070905b3$export$68a5bb76170d2250)(contextParams);
+            const { initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit } = props;
+            const [state, dispatcher] = (0, $882b6d93070905b3$export$68a5bb76170d2250)({
+                initial: initial,
+                onInit: onInit,
+                actions: contextParams.actions
+            });
             return /*#__PURE__*/ (0, $dYZEH$reactjsxruntime.jsx)(CTAContextState.Provider, {
                 value: state,
                 children: /*#__PURE__*/ (0, $dYZEH$reactjsxruntime.jsx)(CTAContextDispatch.Provider, {
