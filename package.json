@@ -53,7 +53,7 @@
   ],
   "license": "MIT",
   "lint-staged": {
-    "*.ts": [
+    "*.ts(x)": [
       "npm run lint"
     ]
   },
@@ -87,10 +87,10 @@
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
-    "version:premajor": "npm version premajor",
-    "version:preminor": "npm version preminor",
-    "version:prepatch": "npm version prepatch",
-    "version:prerelease": "npm version prerelease"
+    "version:premajor": "npm version premajor --preid=pre",
+    "version:preminor": "npm version preminor --preid=pre",
+    "version:prepatch": "npm version prepatch --preid=pre",
+    "version:prerelease": "npm version prerelease --preid=pre"
   },
   "source": "src/index.ts",
   "types": "dist/types.d.ts",
