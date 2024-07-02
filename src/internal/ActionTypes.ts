@@ -1,37 +1,41 @@
 import { CTAInitial, } from '../types/CTAInitial';
+import { OptionsParams, } from '../types/OptionsParams';
 
 type PredefinedActions = 'replace' | 'replaceInitial' | 'reset' | 'update';
 
 export type ActionTypeConstructParam<Initial extends CTAInitial,> = {
 	type: PredefinedActions
 	nextState?: Initial | Partial<Initial>
-	options?: { useDefault: boolean }
+	actionTypeOptions?: {
+		useDefault?: boolean
+		options?: OptionsParams
+	}
 };
 
 export class ActionType<Initial extends CTAInitial,> {
 	readonly type: ActionTypeConstructParam<Initial>['type'];
 	readonly nextState: Readonly<ActionTypeConstructParam<Initial>['nextState']>;
-	readonly options: Readonly<Exclude<ActionTypeConstructParam<Initial>['options'], undefined>>;
+	readonly actionTypeOptions: Readonly<Exclude<ActionTypeConstructParam<Initial>['actionTypeOptions'], undefined>>;
 
 	constructor( param: ActionTypeConstructParam<Initial>, ) {
 		this.type = param.type;
 		this.nextState = param.nextState;
-		this.options = {
+		this.actionTypeOptions = {
 			useDefault: false,
-			...param?.options,
+			...param?.actionTypeOptions,
 		};
 	}
 }
 
 export class ReplaceActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState: Initial, actionTypeOptions?: ActionTypeConstructParam<Initial>['actionTypeOptions'], ) {
 		return new ReplaceActionType( {
 			nextState,
-			options,
+			actionTypeOptions,
 		}, );
 	}
 
-	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState: Initial }, ) {
+	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'actionTypeOptions'> & { nextState: Initial }, ) {
 		super( {
 			...param,
 			type: 'replace',
@@ -40,14 +44,14 @@ export class ReplaceActionType<Initial extends CTAInitial,> extends ActionType<I
 }
 
 export class ReplaceInitialActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState: Initial, actionTypeOptions?: ActionTypeConstructParam<Initial>['actionTypeOptions'], ) {
 		return new ReplaceInitialActionType( {
 			nextState,
-			options,
+			actionTypeOptions,
 		}, );
 	}
 
-	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState: Initial }, ) {
+	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'actionTypeOptions'> & { nextState: Initial }, ) {
 		super( {
 			...param,
 			type: 'replaceInitial',
@@ -56,14 +60,14 @@ export class ReplaceInitialActionType<Initial extends CTAInitial,> extends Actio
 }
 
 export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState?: Initial, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState?: Initial, actionTypeOptions?: ActionTypeConstructParam<Initial>['actionTypeOptions'], ) {
 		return new ResetActionType( {
 			nextState,
-			options,
+			actionTypeOptions,
 		}, );
 	}
 
-	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState?: Initial }, ) {
+	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'actionTypeOptions'> & { nextState?: Initial }, ) {
 		super( {
 			...param,
 			type: 'reset',
@@ -72,14 +76,14 @@ export class ResetActionType<Initial extends CTAInitial,> extends ActionType<Ini
 }
 
 export class UpdateActionType<Initial extends CTAInitial,> extends ActionType<Initial> {
-	static create<Initial extends CTAInitial,>( nextState: Partial<Initial>, options?: ActionTypeConstructParam<Initial>['options'], ) {
+	static create<Initial extends CTAInitial,>( nextState: Partial<Initial>, actionTypeOptions?: ActionTypeConstructParam<Initial>['actionTypeOptions'], ) {
 		return new UpdateActionType( {
 			nextState,
-			options,
+			actionTypeOptions,
 		}, );
 	}
 
-	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'options'> & { nextState: Partial<Initial> }, ) {
+	constructor( param: Pick<ActionTypeConstructParam<Initial>, 'actionTypeOptions'> & { nextState: Partial<Initial> }, ) {
 		super( {
 			...param,
 			type: 'update',

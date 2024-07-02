@@ -1,6 +1,7 @@
 import { strictDeepEqual, } from 'fast-equals';
 
 import type { CTAInitial, } from '../types/CTAInitial';
+import { OptionsParams, } from '../types/OptionsParams';
 import {
 	UseCTAParameterActionsCustomRecord,
 } from '../types/UseCTAParameterActionsRecordProp';
@@ -202,8 +203,10 @@ function getActionType<
 		const {
 			type,
 			nextState,
-			options,
+			actionTypeOptions,
 		} = ctaReturnType;
+		const useDefault = Boolean( actionTypeOptions?.useDefault, );
+		const options = actionTypeOptions?.options;
 
 		if ( Array.isArray( nextState, ) ) {
 			return;
@@ -213,7 +216,8 @@ function getActionType<
 			if ( typeof nextState === 'undefined' ) {
 				return {
 					type,
-					useDefault: Boolean( options?.useDefault, ),
+					useDefault,
+					options,
 				};
 			}
 
@@ -224,7 +228,8 @@ function getActionType<
 			return {
 				type,
 				next: nextState,
-				useDefault: Boolean( options?.useDefault, ),
+				useDefault,
+				options,
 			};
 		}
 
@@ -235,15 +240,18 @@ function getActionType<
 		return {
 			next: nextState,
 			type,
-			useDefault: Boolean( options?.useDefault, ),
+			useDefault,
+			options,
 		} as typeof type extends 'update' ? {
 			next: Partial<Initial>
 			type: 'update'
 			useDefault: boolean
+			options?: OptionsParams
 		} : {
 			next: Initial
 			type: Exclude<PredefinedActions, 'update'>
 			useDefault: boolean
+			options?: OptionsParams
 		};
 	}
 
@@ -369,17 +377,17 @@ export default function ctaReducer<
 
 	const {
 		type,
-		useDefault,
-	} = actionType;
-
-	let {
 		next,
 	} = actionType;
 
 	const customPredefinedCTA = isActionsObject && actions?.[ type as keyof typeof actions ];
 
-	if ( typeof customPredefinedCTA === 'function' && !useDefault ) {
-		next = customPredefinedCTA( ctaHandleState, next, );
+	if ( typeof customPredefinedCTA === 'function' && !actionType.useDefault ) {
+		return typeResult( {
+			ctaReducerState,
+			next: customPredefinedCTA( ctaHandleState, next, actionType.options, ),
+			type,
+		}, );
 	}
 
 	return typeResult( {
