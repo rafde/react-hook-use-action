@@ -1,11 +1,10 @@
 import { strictDeepEqual, } from 'fast-equals';
 
 import type { CTAInitial, } from '../types/CTAInitial';
-import { OptionsParams, } from '../types/OptionsParams';
-import {
-	UseCTAParameterActionsCustomRecord,
-} from '../types/UseCTAParameterActionsRecordProp';
-import type { DispatchCTA, UseCTAReturnTypeDispatchState, } from '../types/UseCTAReturnTypeDispatch';
+import type { CTAState, } from '../types/CTAState';
+import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
+import type { UseCTAParameter, } from '../types/UseCTAParameter';
+import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
 	createReplaceActionType,
@@ -14,7 +13,7 @@ import {
 	createUpdateActionType,
 } from './ActionTypes';
 
-function _resetCurrentChangesMap<Initial extends CTAInitial,>(
+function _mutateToLatestChangesMap<Initial extends CTAInitial,>(
 	state: Initial,
 	initial: CTAReducerState<Initial>['initial'],
 	changesMap: CTAReducerState<Initial>['changesMap'],
@@ -42,14 +41,14 @@ function _resetCurrentChangesMap<Initial extends CTAInitial,>(
 	}
 }
 
-function _replace<Initial extends CTAInitial,>(
+function _replaceState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 ): CTAReducerState<Initial> {
 	const {
 		changesMap,
 	} = ctaReducerState;
-	_resetCurrentChangesMap( payload, ctaReducerState.initial, changesMap, );
+	_mutateToLatestChangesMap( payload, ctaReducerState.initial, changesMap, );
 
 	return {
 		...ctaReducerState,
@@ -59,14 +58,14 @@ function _replace<Initial extends CTAInitial,>(
 	};
 }
 
-function _replaceInitial<Initial extends CTAInitial,>(
+function _replaceInitialState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	initial: Initial,
 ): CTAReducerState<Initial> {
 	const {
 		changesMap,
 	} = ctaReducerState;
-	_resetCurrentChangesMap( ctaReducerState.current, initial, ctaReducerState.changesMap, );
+	_mutateToLatestChangesMap( ctaReducerState.current, initial, ctaReducerState.changesMap, );
 
 	return {
 		...ctaReducerState,
@@ -75,7 +74,7 @@ function _replaceInitial<Initial extends CTAInitial,>(
 	};
 }
 
-function _update<Initial extends CTAInitial,>(
+function _updateState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 ): CTAReducerState<Initial> {
@@ -122,6 +121,30 @@ function _update<Initial extends CTAInitial,>(
 	};
 }
 
+function _resetState<Initial extends CTAInitial, >(
+	ctaReducerState: CTAReducerState<Initial>,
+	next: Initial,
+) {
+	const {
+		changesMap,
+		current,
+		initial,
+	} = ctaReducerState;
+
+	if ( strictDeepEqual( initial, next, ) && strictDeepEqual( current, next, ) ) {
+		return ctaReducerState;
+	}
+
+	changesMap.clear();
+	return {
+		...ctaReducerState,
+		changes: null,
+		initial: next as Initial,
+		current: next as Initial,
+		previous: current,
+	};
+}
+
 const predefinedActionsConst = {
 	replace: 'replace',
 	replaceInitial: 'replaceInitial',
@@ -154,42 +177,29 @@ function typeResult<
 	const {
 		type,
 	} = param;
-	const {
-		changesMap,
-		current,
-		initial,
-	} = ctaReducerState;
 
 	if ( type === 'reset' ) {
-		if ( strictDeepEqual( initial, next, ) && strictDeepEqual( current, next, ) ) {
-			return ctaReducerState;
-		}
-
-		changesMap.clear();
-		return {
-			...ctaReducerState,
-			changes: null,
-			initial: next as Initial,
-			current: next as Initial,
-			previous: current,
-		};
+		return _resetState(
+			ctaReducerState,
+			next as Initial,
+		);
 	}
 
 	if ( type === 'replace' ) {
-		return _replace(
+		return _replaceState(
 			ctaReducerState,
 			next as Initial,
 		);
 	}
 
 	if ( type === 'replaceInitial' ) {
-		return _replaceInitial(
+		return _replaceInitialState(
 			ctaReducerState,
 			next as Initial,
 		);
 	}
 
-	return _update(
+	return _updateState(
 		ctaReducerState,
 		next,
 	);
@@ -197,8 +207,7 @@ function typeResult<
 
 function getActionType<
 	Initial extends CTAInitial,
-	CTAReturnType extends UseCTAParameterActionsCustomRecord<Initial>[string | number],
->( ctaReturnType: Exclude<ReturnType<CTAReturnType>, undefined>, ) {
+>( ctaReturnType: CustomCTAReturnType<Initial>, ) {
 	if ( ctaReturnType instanceof ActionType ) {
 		const {
 			type,
@@ -212,47 +221,30 @@ function getActionType<
 			return;
 		}
 
+		const actionType = {
+			next: nextState,
+			options,
+			type,
+			useDefault,
+		};
+
 		if ( type === 'reset' ) {
 			if ( typeof nextState === 'undefined' ) {
-				return {
-					type,
-					useDefault,
-					options,
-				};
+				return actionType;
 			}
 
 			if ( typeof nextState !== 'object' || !nextState ) {
 				return;
 			}
 
-			return {
-				type,
-				next: nextState,
-				useDefault,
-				options,
-			};
+			return actionType;
 		}
 
 		if ( !nextState || typeof nextState !== 'object' ) {
 			return;
 		}
 
-		return {
-			next: nextState,
-			type,
-			useDefault,
-			options,
-		} as typeof type extends 'update' ? {
-			next: Partial<Initial>
-			type: 'update'
-			useDefault: boolean
-			options?: OptionsParams
-		} : {
-			next: Initial
-			type: Exclude<PredefinedActions, 'update'>
-			useDefault: boolean
-			options?: OptionsParams
-		};
+		return actionType;
 	}
 
 	if ( ctaReturnType && typeof ctaReturnType === 'object' ) {
@@ -260,26 +252,28 @@ function getActionType<
 			next: ctaReturnType as Partial<Initial>,
 			type: 'update' as Extract<PredefinedActions, 'update'>,
 			useDefault: false,
+			options: undefined,
 		};
 	}
 }
 
-export type CTAReducerState<Initial extends CTAInitial,> = UseCTAReturnTypeDispatchState<Initial> & {
+export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
 	changesMap: Map<string | number, unknown>
 };
 
 export default function ctaReducer<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions,
 >( params: {
 	ctaReducerState: CTAReducerState<Initial>
-	actions?: Actions
+	actions?: UseCTAParameter<Initial, Actions>['actions']
 	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
 }, ): CTAReducerState<Initial> {
 	const {
-		type: ctaType,
-		payload: nextCTAPayload,
+		args = [],
 		options,
+		type: ctaType,
+		payload,
 	} = params.nextCTAProps;
 	const {
 		ctaReducerState,
@@ -289,29 +283,25 @@ export default function ctaReducer<
 		current,
 		initial,
 	} = ctaReducerState;
-	const ctaState: UseCTAReturnTypeDispatchState<Initial> = {
+	const ctaState: CTAState<Initial> = {
 		changes: ctaReducerState.changes,
 		current,
 		initial,
 		previous: ctaReducerState.previous,
 	};
-	const ctaHandleState = {
-		...ctaState,
-		options,
-	};
 
 	const isActionsObject = actions && typeof actions == 'object' && !Array.isArray( actions, );
 
 	if ( ctaType in predefinedActionsConst && ( !isActionsObject || !( ctaType in actions ) ) ) {
-		if ( nextCTAPayload instanceof Function ) {
+		if ( payload instanceof Function ) {
 			return typeResult( {
 				ctaReducerState,
-				next: nextCTAPayload( ctaState, ),
+				next: payload( ctaState, ),
 				type: ctaType as PredefinedActions,
 			}, );
 		}
 
-		if ( ctaType === 'reset' && typeof nextCTAPayload === 'undefined' ) {
+		if ( ctaType === 'reset' && typeof payload === 'undefined' ) {
 			return typeResult( {
 				ctaReducerState,
 				next: initial,
@@ -321,20 +311,20 @@ export default function ctaReducer<
 
 		return typeResult( {
 			ctaReducerState,
-			next: nextCTAPayload,
+			next: payload,
 			type: ctaType as PredefinedActions,
 		}, );
 	}
 
-	const cta = isActionsObject && actions?.[ ctaType as keyof typeof actions ];
+	const cta = isActionsObject && actions![ ctaType as keyof typeof actions ];
 
 	if ( typeof cta !== 'function' ) {
 		return ctaReducerState;
 	}
 
-	let nextPayload: typeof nextCTAPayload | null = nextCTAPayload;
-	if ( nextCTAPayload instanceof Function ) {
-		const nextCTAPayloadResult = nextCTAPayload(
+	let nextPayload: typeof payload | null = payload;
+	if ( payload instanceof Function ) {
+		const nextCTAPayloadResult = payload(
 			ctaState,
 		);
 
@@ -347,8 +337,9 @@ export default function ctaReducer<
 
 	if ( ctaType in predefinedActionsConst ) {
 		const next = cta(
-			ctaHandleState,
+			ctaState,
 			nextPayload,
+			options,
 		);
 
 		return typeResult( {
@@ -360,16 +351,17 @@ export default function ctaReducer<
 
 	const nextState = cta(
 		{
-			...ctaHandleState,
+			...ctaState,
 			replaceAction: createReplaceActionType,
 			replaceInitialAction: createReplaceInitialActionType,
 			resetAction: createResetActionType,
 			updateAction: createUpdateActionType,
 		},
 		nextPayload,
+		...args,
 	);
 
-	const actionType = getActionType( nextState, );
+	const actionType = getActionType<Initial>( nextState, );
 
 	if ( !actionType ) {
 		return ctaReducerState;
@@ -380,19 +372,19 @@ export default function ctaReducer<
 		next,
 	} = actionType;
 
-	const customPredefinedCTA = isActionsObject && actions?.[ type as keyof typeof actions ];
+	const customPredefinedCTA = isActionsObject && actions![ type as keyof typeof actions ];
 
-	if ( typeof customPredefinedCTA === 'function' && !actionType.useDefault ) {
+	if ( actionType.useDefault || typeof customPredefinedCTA !== 'function' ) {
 		return typeResult( {
 			ctaReducerState,
-			next: customPredefinedCTA( ctaHandleState, next, actionType.options, ),
+			next,
 			type,
 		}, );
 	}
 
 	return typeResult( {
 		ctaReducerState,
-		next,
+		next: customPredefinedCTA( ctaState, next, actionType.options, ),
 		type,
 	}, );
 }

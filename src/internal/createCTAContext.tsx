@@ -1,20 +1,18 @@
 import React, { createContext, useContext, } from 'react';
-import { useCTA, } from '../index';
+import { useCTA, UseCTAReturnType, } from '../index';
 import type { CTAInitial, } from '../types/CTAInitial';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
-import type { UseCTAReturnTypeDispatch, } from '../types/UseCTAReturnTypeDispatch';
 
 /**
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
- * @param contextParams
  */
 export function createCTAContext<
 	Initial extends CTAInitial,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 >( contextParams: UseCTAParameter<Initial, Actions>, ) {
 	const CTAContextState = createContext( contextParams.initial, );
-	const CTAContextDispatch = createContext<UseCTAReturnTypeDispatch<Initial, Actions> | null>( null, );
+	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, Actions>[1] | null>( null, );
 
 	return {
 		CTAProvider( props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit'>>>, ) {
@@ -46,7 +44,7 @@ export function createCTAContext<
 				return ctaDispatchContext satisfies null;
 			}
 
-			return ctaDispatchContext satisfies UseCTAReturnTypeDispatch<Initial, Actions>;
+			return ctaDispatchContext satisfies UseCTAReturnType<Initial, Actions>[1];
 		},
 	};
 }
