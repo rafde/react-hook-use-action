@@ -1,9 +1,11 @@
 import type { CTAInitial, } from './CTAInitial';
-import { CTAStateParam, } from './CTAStateParam';
+import type { CTAState, } from './CTAState';
 
-export type DefaultActionsRecord<Initial extends CTAInitial,> = {
-	replace( ctaState: CTAStateParam<Initial>, payload: Initial, ...args: never[] ): Initial | undefined
-	replaceInitial( ctaState: CTAStateParam<Initial>, payload: Initial, ...args: never[] ): Initial | undefined
-	reset( ctaState: CTAStateParam<Initial>, payload?: Initial, ...args: never[] ): Initial | undefined
-	update( ctaState: CTAStateParam<Initial>, payload: Partial<Initial>, ...args: never[] ): Partial<Initial> | undefined
+export type DefaultActionsRecord<
+	Initial extends CTAInitial,
+> = {
+	replace( ctaState: CTAState<Initial>, payload: Initial, options?: Record<never, never> ): Initial | undefined
+	replaceInitial( ctaState: CTAState<Initial>, payload: Initial, options?: Record<never, never> ): Initial | undefined
+	reset( ctaState: CTAState<Initial>, payload?: Initial, options?: Record<never, never> ): Initial | undefined
+	update( ctaState: CTAState<Initial>, payload: Partial<Initial>, options?: Record<never, never> ): Partial<Initial> | undefined
 };

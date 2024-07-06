@@ -1,23 +1,22 @@
 import { CTAInitial, } from '../types/CTAInitial';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
-import { RestAfterSecond, } from '../types/RestAfterSecond';
-import { OptionsParams, } from '../types/OptionsParams';
 
 export type ActionTypeConstructParam<
 	Initial extends CTAInitial,
 	Type extends keyof DefaultActionsRecord<Initial>,
 	Actions,
+	ActionType = Actions extends Pick<Partial<DefaultActionsRecord<Initial>>, Type> ? Pick<Actions, Type> : never,
+	Action = ActionType[keyof ActionType],
 > = {
 	type: Type
 	nextState: Parameters<DefaultActionsRecord<Initial>[Type]>[1]
 	actionTypeOptions?: {
-		useDefault?: true
-		args?: undefined
-		options?: undefined
-	} | {
 		useDefault?: false
-		args?: Actions extends Pick<DefaultActionsRecord<Initial>, Type> ? RestAfterSecond<Parameters<Actions[Type]>> : undefined
-		options?: OptionsParams
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		options?: Action extends ( ( ...args: any[] ) => any ) ? Parameters<Action>[2] : undefined
+	} | {
+		useDefault: true
+		options?: undefined
 	}
 };
 
@@ -42,7 +41,7 @@ export class ActionType<
 
 export class ReplaceActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions,
 > extends ActionType<Initial, 'replace', Actions> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'replace', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
 		super( {
@@ -54,8 +53,11 @@ export class ReplaceActionType<
 
 export function createReplaceActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
->( nextState: ActionTypeConstructParam<Initial, 'replace', Actions>['nextState'], actionTypeOptions?: ActionTypeConstructParam<Initial, 'replace', Actions>['actionTypeOptions'], ) {
+	Actions,
+>(
+	nextState: ActionTypeConstructParam<Initial, 'replace', Actions>['nextState'],
+	actionTypeOptions?: ActionTypeConstructParam<Initial, 'replace', Actions>['actionTypeOptions'],
+) {
 	return new ReplaceActionType( {
 		nextState,
 		actionTypeOptions,
@@ -64,7 +66,7 @@ export function createReplaceActionType<
 
 export class ReplaceInitialActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions,
 > extends ActionType<Initial, 'replaceInitial', Actions> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'replaceInitial', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
 		super( {
@@ -76,8 +78,11 @@ export class ReplaceInitialActionType<
 
 export function createReplaceInitialActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
->( nextState: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['nextState'], actionTypeOptions?: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['actionTypeOptions'], ) {
+	Actions,
+>(
+	nextState: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['nextState'],
+	actionTypeOptions?: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['actionTypeOptions'],
+) {
 	return new ReplaceInitialActionType( {
 		nextState,
 		actionTypeOptions,
@@ -86,7 +91,7 @@ export function createReplaceInitialActionType<
 
 export class ResetActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions,
 > extends ActionType<Initial, 'reset', Actions> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'reset', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
 		super( {
@@ -98,8 +103,11 @@ export class ResetActionType<
 
 export function createResetActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
->( nextState?: ActionTypeConstructParam<Initial, 'reset', Actions>['nextState'], actionTypeOptions?: ActionTypeConstructParam<Initial, 'reset', Actions>['actionTypeOptions'], ) {
+	Actions,
+>(
+	nextState?: ActionTypeConstructParam<Initial, 'reset', Actions>['nextState'],
+	actionTypeOptions?: ActionTypeConstructParam<Initial, 'reset', Actions>['actionTypeOptions'],
+) {
 	return new ResetActionType( {
 		nextState,
 		actionTypeOptions,
@@ -108,7 +116,7 @@ export function createResetActionType<
 
 export class UpdateActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
+	Actions,
 > extends ActionType<Initial, 'update', Actions> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'update', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
 		super( {
@@ -120,8 +128,11 @@ export class UpdateActionType<
 
 export function createUpdateActionType<
 	Initial extends CTAInitial,
-	Actions = undefined,
->( nextState: ActionTypeConstructParam<Initial, 'update', Actions>['nextState'], actionTypeOptions?: ActionTypeConstructParam<Initial, 'update', Actions>['actionTypeOptions'], ) {
+	Actions,
+>(
+	nextState: ActionTypeConstructParam<Initial, 'update', Actions>['nextState'],
+	actionTypeOptions?: ActionTypeConstructParam<Initial, 'update', Actions>['actionTypeOptions'],
+) {
 	return new UpdateActionType<Initial, Actions>( {
 		nextState,
 		actionTypeOptions,

@@ -1,5 +1,4 @@
 import { useReducer, } from 'react';
-import { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
@@ -8,7 +7,7 @@ import type { UseCTAParameter, } from '../types/UseCTAParameter';
 
 function _init<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions,
 >(
 	privateCTAState: CTAReducerState<Initial>,
 	init?: UseCTAParameter<Initial, Actions>['onInit'],
@@ -32,13 +31,16 @@ function _init<
 
 export default function usePrivateCTA<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions,
 >(
 	params: UseCTAParameter<Initial, Actions>,
-	actions?: typeof params['actions'],
+	actions?: UseCTAParameter<Initial, Actions>['actions'],
 ) {
 	return useReducer(
-		function reducerCallback( ctaReducerState: CTAReducerState<Initial>, nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], ) {
+		function reducerCallback(
+			ctaReducerState: CTAReducerState<Initial>,
+			nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'],
+		) {
 			return ctaReducer( {
 				ctaReducerState,
 				actions,
@@ -51,7 +53,7 @@ export default function usePrivateCTA<
 			changesMap: undefined as unknown as CTAReducerState<Initial>['changesMap'],
 			current: params.initial,
 			initial: params.initial,
-			previous: params.initial,
+			previous: null,
 		},
 		function _onInit( privateCTAState: CTAReducerState<Initial>, ) {
 			return _init<Initial, Actions>( privateCTAState, params.onInit, );
@@ -61,10 +63,10 @@ export default function usePrivateCTA<
 
 export type UsePrivateCTAReturnType<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions,
 > = ReturnType<typeof usePrivateCTA<Initial, Actions>>;
 
 export type UsePrivateCTADispatcher<
 	Initial extends CTAInitial,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions,
 > = UsePrivateCTAReturnType<Initial, Actions>[1];
