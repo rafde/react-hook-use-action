@@ -8,7 +8,8 @@ export type UseCTAParameterActionsCustomRecord<Initial extends CTAInitial,> = {
 		(
 			ctaParam: CustomCTAStateParam<Initial>,
 			// Needs to be `any` in order to take any type.
-			payload?: any // eslint-disable-line
+			payload?: any, // eslint-disable-line
+			...args: never[]
 		) => CustomCTAReturnType<Initial>
 	)
 };

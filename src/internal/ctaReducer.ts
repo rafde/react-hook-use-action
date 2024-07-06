@@ -8,10 +8,10 @@ import {
 import type { DispatchCTA, UseCTAReturnTypeDispatchState, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
-	ReplaceActionType,
-	ReplaceInitialActionType,
-	ResetActionType,
-	UpdateActionType,
+	createReplaceActionType,
+	createReplaceInitialActionType,
+	createResetActionType,
+	createUpdateActionType,
 } from './ActionTypes';
 
 function _resetCurrentChangesMap<Initial extends CTAInitial,>(
@@ -361,10 +361,10 @@ export default function ctaReducer<
 	const nextState = cta(
 		{
 			...ctaHandleState,
-			replaceAction: ReplaceActionType.create<Initial>,
-			replaceInitialAction: ReplaceInitialActionType.create<Initial>,
-			resetAction: ResetActionType.create<Initial>,
-			updateAction: UpdateActionType.create<Initial>,
+			replaceAction: createReplaceActionType,
+			replaceInitialAction: createReplaceInitialActionType,
+			resetAction: createResetActionType,
+			updateAction: createUpdateActionType,
 		},
 		nextPayload,
 	);

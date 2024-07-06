@@ -1,7 +1,6 @@
 import { useMemo, } from 'react';
 
 import type { CTAInitial, } from '../types/CTAInitial';
-import { OptionsParams, } from '../types/OptionsParams';
 import { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import type { DispatchDefaultCTARecord, DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
@@ -10,28 +9,29 @@ import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePri
 function mergeCustomCTAWithDefaultCTA<
 	Initial extends CTAInitial,
 	Actions,
+	Dispatch,
 >(
-	dispatch: DispatchCTA<Initial, Actions>,
+	dispatch: Dispatch,
 	defaultCTARecord: DispatchDefaultCTARecord<Initial>,
 	ctaRecord?: Actions,
 ) {
-	type ActionsRecord = Exclude<Actions, undefined>;
-	type CustomActionKeys = Exclude<keyof ActionsRecord, keyof DispatchDefaultCTARecord<Initial>>;
 	let hasCustomAction = false;
 	const customActions = {} as Record<
-		CustomActionKeys,
-		( payload?: unknown, options?: OptionsParams, ) => void
+		Exclude<keyof Exclude<Actions, undefined>, keyof DispatchDefaultCTARecord<Initial>>,
+		( payload?: unknown, ...args: unknown[] ) => void
 	>;
+	const dispatcher = dispatch as DispatchCTA<Initial, Actions>;
 	for ( const type in ctaRecord ) {
 		if ( type in defaultCTARecord || typeof ctaRecord[ type ] !== 'function' ) {
 			continue;
 		}
 
-		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, options?: OptionsParams, ) => {
-			dispatch( {
+		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, ...args ) => {
+			dispatcher( {
 				type,
 				payload,
-				options,
+				options: args[ 0 ],
+				args,
 			} as unknown as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		};
 
@@ -60,46 +60,56 @@ function wrapPrivateDispatcher<
 	};
 
 	const cta: DispatchDefaultCTARecord<Initial> = {
-		replace( payload, options?: OptionsParams, ) {
+		replace( payload, ...args ) {
 			publicDispatcher( {
+				args,
+				options: args[ 0 ],
+				payload,
 				type: 'replace',
-				payload,
-				options,
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		replaceInitial( payload, options?: OptionsParams, ) {
+		replaceInitial( payload, ...args ) {
 			publicDispatcher( {
+				args,
+				options: args[ 0 ],
+				payload,
 				type: 'replaceInitial',
-				payload,
-				options,
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		reset( payload, options?: OptionsParams, ) {
+		reset( payload, ...args ) {
 			publicDispatcher( {
-				type: 'reset',
+				args,
+				options: args[ 0 ],
 				payload,
-				options,
+				type: 'reset',
 			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 		},
-		update( payload, value, options?: OptionsParams, ) {
+		update( payload, value, ...args ) {
 			switch ( typeof payload ) {
 				case 'number':
-				case 'string':
+				case 'string': {
 					publicDispatcher( {
+						args,
 						type: 'update',
 						payload: {
 							[ payload ]: value,
 						},
-						options,
-					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
+						options: args[ 0 ],
+					} as unknown as Parameters<DispatchCTA<Initial, Actions>>[0], );
 					break;
-				default:
+				}
+				default: {
 					publicDispatcher( {
 						type: 'update',
 						payload,
-						value,
+						args: [
+							value,
+							...args,
+						],
+						options: value,
 					} as Parameters<DispatchCTA<Initial, Actions>>[0], );
 					break;
+				}
 			}
 		},
 	};
@@ -116,7 +126,11 @@ function wrapPrivateDispatcher<
 	return Object.assign(
 		publicDispatcher,
 		{
-			cta: mergeCustomCTAWithDefaultCTA( publicDispatcher, cta, actions, ),
+			cta: mergeCustomCTAWithDefaultCTA(
+				publicDispatcher,
+				cta,
+				actions,
+			),
 		},
 	);
 }
