@@ -151,6 +151,7 @@ export default function usePublicCTA<
 				current: ctaState.current,
 				initial: ctaState.initial,
 				previous: ctaState.previous,
+				previousInitial: ctaState.previousInitial,
 			};
 			const dispatch = Object.assign(
 				augmentedDispatcher,
