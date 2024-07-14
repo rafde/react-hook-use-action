@@ -9,7 +9,7 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.replace( payload, );
+			result.current[ 1 ].cta.update( payload, );
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 
@@ -30,7 +30,7 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.replace( () => payload, );
+			result.current[ 1 ].cta.update( () => payload, );
 			result.current[ 1 ].cta.replaceInitial( () => payload, );
 		}, );
 
@@ -111,7 +111,7 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.replace( payload, );
+			result.current[ 1 ].cta.update( payload, );
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 

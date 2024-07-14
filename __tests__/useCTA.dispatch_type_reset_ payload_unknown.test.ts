@@ -169,7 +169,7 @@ describe( 'dispatch({type: "reset"})', () => {
 				const { result, } = renderHook( () => useCTA( resetCTAParams, ), );
 
 				act( () => {
-					result.current[ 1 ].cta.replace( payload, );
+					result.current[ 1 ].cta.update( payload, );
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( payload, );
@@ -265,7 +265,7 @@ describe( 'dispatch({type: "reset"})', () => {
 				const { result, } = renderHook( () => useCTA( resetCTAWithOptionsParams, ), );
 
 				act( () => {
-					result.current[ 1 ].cta.replace( payload, );
+					result.current[ 1 ].cta.update( payload, );
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( payload, );

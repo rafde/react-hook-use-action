@@ -39,31 +39,6 @@ export class ActionType<
 	}
 }
 
-export class ReplaceActionType<
-	Initial extends CTAInitial,
-	Actions,
-> extends ActionType<Initial, 'replace', Actions> {
-	constructor( param: Pick<ActionTypeConstructParam<Initial, 'replace', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
-		super( {
-			...param,
-			type: 'replace',
-		}, );
-	}
-}
-
-export function createReplaceActionType<
-	Initial extends CTAInitial,
-	Actions,
->(
-	nextState: ActionTypeConstructParam<Initial, 'replace', Actions>['nextState'],
-	actionTypeOptions?: ActionTypeConstructParam<Initial, 'replace', Actions>['actionTypeOptions'],
-) {
-	return new ReplaceActionType( {
-		nextState,
-		actionTypeOptions,
-	}, );
-}
-
 export class ReplaceInitialActionType<
 	Initial extends CTAInitial,
 	Actions,

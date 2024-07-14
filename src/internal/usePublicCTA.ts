@@ -61,13 +61,6 @@ function wrapPrivateDispatcher<
 	};
 
 	const cta: DispatchDefaultCTARecord<Initial, Actions> = {
-		replace( payload, ...args ) {
-			publicDispatcher( {
-				options: args[ 0 ],
-				payload,
-				type: 'replace',
-			} as Parameters<DispatchCTA<Initial, Actions>>[0], );
-		},
 		replaceInitial( payload, ...args ) {
 			publicDispatcher( {
 				options: args[ 0 ],
