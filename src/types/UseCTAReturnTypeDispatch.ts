@@ -18,12 +18,6 @@ export type DispatchDefaultCTARecord<
 	Initial extends CTAInitial,
 	Actions,
 > = Readonly<{
-	replace(
-		payload: Initial | (
-			( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
-		),
-		...args: Actions extends Pick<DefaultActionsRecord<Initial>, 'replace'> ? RestOfArgs<Actions['replace']> : never[]
-	): void
 	replaceInitial(
 		payload: Initial | (
 			( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
@@ -49,18 +43,6 @@ export type DispatchDefaultCTARecord<
 		...args: Actions extends Pick<DefaultActionsRecord<Initial>, 'update'> ? RestAfterFirst<RestOfArgs<Actions['update']>> : never[]
 	): void
 }>;
-
-type ReplaceCTAProps<
-	Initial extends CTAInitial,
-	Actions,
-> = {
-	args?: Actions extends Pick<DefaultActionsRecord<Initial>, 'replace'> ? RestOfArgs<Actions['replace']> : never
-	options?: Actions extends Pick<DefaultActionsRecord<Initial>, 'replace'> ? Parameters<Actions['replace']>[2] : never
-	payload: Initial | (
-		( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
-	)
-	type: 'replace'
-};
 
 type ReplaceInitialCTAProps<
 	Initial extends CTAInitial,
@@ -101,8 +83,7 @@ type UpdateCTAProps<
 type DefaultCTAProps<
 	Initial extends CTAInitial,
 	Actions,
-> = ReplaceCTAProps<Initial, Actions> |
-ReplaceInitialCTAProps<Initial, Actions> |
+> = ReplaceInitialCTAProps<Initial, Actions> |
 ResetCTAProps<Initial, Actions> |
 UpdateCTAProps<Initial, Actions>;
 

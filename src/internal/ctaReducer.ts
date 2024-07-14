@@ -7,7 +7,6 @@ import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
-	createReplaceActionType,
 	createReplaceInitialActionType,
 	createResetActionType,
 	createUpdateActionType,
@@ -39,23 +38,6 @@ function _mutateToLatestChangesMap<Initial extends CTAInitial,>(
 		const value = initial[ key ];
 		changesMap.set( key, value, );
 	}
-}
-
-function _replaceState<Initial extends CTAInitial,>(
-	ctaReducerState: CTAReducerState<Initial>,
-	payload: Initial,
-): CTAReducerState<Initial> {
-	const {
-		changesMap,
-	} = ctaReducerState;
-	_mutateToLatestChangesMap( payload, ctaReducerState.initial, changesMap, );
-
-	return {
-		...ctaReducerState,
-		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
-		current: payload,
-		previous: ctaReducerState.current,
-	};
 }
 
 function _replaceInitialState<Initial extends CTAInitial,>(
@@ -180,13 +162,6 @@ function typeResult<
 
 	if ( type === 'reset' ) {
 		return _resetState(
-			ctaReducerState,
-			next as Initial,
-		);
-	}
-
-	if ( type === 'replace' ) {
-		return _replaceState(
 			ctaReducerState,
 			next as Initial,
 		);
@@ -352,7 +327,6 @@ export default function ctaReducer<
 	const nextState = cta(
 		{
 			...ctaState,
-			replaceAction: createReplaceActionType,
 			replaceInitialAction: createReplaceInitialActionType,
 			resetAction: createResetActionType,
 			updateAction: createUpdateActionType,

@@ -666,7 +666,7 @@ describe( 'useCTA', function() {
 					actions: {
 						double( state, ) {
 							// @ts-expect-error check to make sure this does not make changes with invalid type
-							return state.replaceAction( 'invalid', );
+							return state.updateAction( 'invalid', );
 						},
 					},
 				}, ), );
@@ -676,92 +676,6 @@ describe( 'useCTA', function() {
 				}, );
 				expect( result.current[ 0 ], ).toEqual( initial, );
 				expect( result.current[ 1 ].state.changes, ).toBeNull( );
-			}, );
-		}, );
-
-		describe( 'replaceAction', () => {
-			const nextStatePartial = {
-				hi: 7,
-				there: 'replaceAction',
-			};
-
-			const params = returnUseCTAParameter( {
-				initial,
-				actions: {
-					replace( ctaState, payload, ) {
-						return {
-							...payload,
-							you: payload.there === 'replaceAction' ? 'done' : ctaState.current.you,
-						};
-					},
-				},
-			}, );
-
-			test( 'should use augmented `replace`', () => {
-				const nextChange = {
-					...nextStatePartial,
-					you: 'done',
-				};
-				const { result, } = renderHook( () => useCTA( {
-					initial,
-					actions: {
-						...params.actions,
-						custom( state, ) {
-							return state.replaceAction( {
-								...state.current,
-								...nextStatePartial,
-							}, );
-						},
-					},
-				}, ), );
-				const nextState = {
-					...initial,
-					...nextChange,
-				};
-
-				act( () => {
-					result.current[ 1 ].cta.custom();
-				}, );
-
-				expect( result.current[ 0 ], ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.changes, ).toEqual( nextChange, );
-				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
-			}, );
-
-			test( 'should not use augmented `replace`', () => {
-				const { result, } = renderHook( () => useCTA( {
-					initial,
-					actions: {
-						...params.actions,
-						custom( state, ) {
-							return state.replaceAction(
-								{
-									...state.current,
-									...nextStatePartial,
-								},
-								{
-									useDefault: true,
-								},
-							);
-						},
-					},
-				}, ), );
-				const nextState = {
-					...initial,
-					...nextStatePartial,
-				};
-
-				act( () => {
-					result.current[ 1 ].cta.custom();
-				}, );
-
-				expect( result.current[ 0 ], ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.changes, ).toEqual( nextStatePartial, );
-				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
 			}, );
 		}, );
 
