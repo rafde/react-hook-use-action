@@ -99,7 +99,7 @@ describe( 'dispatch({type: "reset"})', () => {
 					test1: -1,
 				};
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,
@@ -142,7 +142,7 @@ describe( 'dispatch({type: "reset"})', () => {
 				};
 
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,
@@ -203,7 +203,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 		};
 
 		act( () => {
-			result.current[ 1 ].cta.replaceInitial( newInitial, );
+			result.current[ 1 ].cta.updateInitial( newInitial, );
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
@@ -287,7 +287,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					test1: -1,
 				};
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,
@@ -357,7 +357,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 				};
 
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,

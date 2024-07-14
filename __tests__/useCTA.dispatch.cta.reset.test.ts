@@ -226,7 +226,7 @@ describe( 'dispatch.cta.reset()', () => {
 					test1: -1,
 				};
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,
@@ -262,7 +262,7 @@ describe( 'dispatch.cta.reset()', () => {
 				};
 
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial( ctaParam => ( {
+					result.current[ 1 ].cta.updateInitial( ctaParam => ( {
 						...ctaParam.initial,
 						test2: 'be cool',
 					} ), );
@@ -322,7 +322,7 @@ describe( 'dispatch.cta.reset()', () => {
 				};
 
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial(
+					result.current[ 1 ].cta.updateInitial(
 						ctaParam => ( {
 							...ctaParam.initial,
 							test1: -1,
@@ -358,7 +358,7 @@ describe( 'dispatch.cta.reset()', () => {
 				};
 
 				act( () => {
-					result.current[ 1 ].cta.replaceInitial( ctaParam => ( {
+					result.current[ 1 ].cta.updateInitial( ctaParam => ( {
 						...ctaParam.initial,
 						test2: 'be cool',
 					} ), );
@@ -460,7 +460,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 		};
 
 		act( () => {
-			result.current[ 1 ].cta.replaceInitial( newInitial, );
+			result.current[ 1 ].cta.updateInitial( newInitial, );
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );

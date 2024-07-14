@@ -1,5 +1,5 @@
 import {
-	createReplaceInitialActionType,
+	createUpdateInitialActionType,
 	createResetActionType,
 	createUpdateActionType,
 } from '../internal/ActionTypes';
@@ -12,6 +12,6 @@ export type CustomCTAStateParam<
 	Actions,
 > = CTAState<Initial> & Immutable<{
 	updateAction: typeof createUpdateActionType<Initial, Actions>
-	replaceInitialAction: typeof createReplaceInitialActionType<Initial, Actions>
+	updateInitialAction: typeof createUpdateInitialActionType<Initial, Actions>
 	resetAction: typeof createResetActionType<Initial, Actions>
 }>;
