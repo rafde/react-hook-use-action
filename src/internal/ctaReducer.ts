@@ -53,6 +53,7 @@ function _replaceInitialState<Initial extends CTAInitial,>(
 		...ctaReducerState,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
 		initial,
+		previousInitial: ctaReducerState.initial,
 	};
 }
 
@@ -124,6 +125,7 @@ function _resetState<Initial extends CTAInitial, >(
 		initial: next as Initial,
 		current: next as Initial,
 		previous: current,
+		previousInitial: initial,
 	};
 }
 
@@ -263,6 +265,7 @@ export default function ctaReducer<
 		current,
 		initial,
 		previous: ctaReducerState.previous,
+		previousInitial: ctaReducerState.previousInitial,
 	};
 
 	const isActionsObject = actions && typeof actions == 'object' && !Array.isArray( actions, );

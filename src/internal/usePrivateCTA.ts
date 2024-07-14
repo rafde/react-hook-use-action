@@ -54,6 +54,7 @@ export default function usePrivateCTA<
 			current: params.initial,
 			initial: params.initial,
 			previous: null,
+			previousInitial: null,
 		},
 		function _onInit( privateCTAState: CTAReducerState<Initial>, ) {
 			return _init<Initial, Actions>( privateCTAState, params.onInit, );
