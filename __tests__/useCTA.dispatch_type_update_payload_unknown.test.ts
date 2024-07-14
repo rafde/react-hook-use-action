@@ -8,7 +8,72 @@ const actions = {
 	},
 };
 
+// Ensures typescript checking works. Primary tests are in __tests__/useCTA.dispatch.cta.update.test.ts
+
 describe( 'dispatch({type: "update", payload: unknown})', () => {
+	test( 'should `update` "test2"', function() {
+		const payload = {
+			test2: 'me',
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const nextState = {
+			...initial,
+			...payload,
+		};
+
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'update',
+				payload,
+			}, );
+		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+		act( () => {
+			result.current[ 1 ].cta.update( initial, );
+		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+	}, );
+
+	test( 'should `update` "test2" when custom action is defined', function() {
+		const payload = {
+			test1: 2,
+		};
+		const nextState = {
+			...initial,
+			...payload,
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			actions,
+		}, ), );
+
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'update',
+				payload,
+			}, );
+		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+	}, );
+
 	test( 'should `update` when `payload` is function', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -25,15 +90,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 			...initial,
 			...changes,
 		}, );
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
-
-		act( () => {
-			result.current[ 1 ]( { type: 'update',
-				payload: initial, }, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
 	}, );
 
 	test( 'should not `update` when `payload` is function that returns `undefined`', function() {
@@ -51,7 +111,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 
 		expect( result.current[ 0 ] === initial, ).toBe( true, );
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should not `update` when `payload` does not change state', function() {
@@ -69,40 +132,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 
 		expect( result.current[ 0 ] === initial, ).toBe( true, );
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-	}, );
-
-	test( 'should `update` `hi` when custom action is defined', function() {
-		const payload = {
-			test1: 2,
-		};
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-			actions,
-		}, ), );
-
-		act( () => {
-			result.current[ 1 ]( {
-				type: 'update',
-				payload,
-			}, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
-
-		act( () => {
-			result.current[ 1 ]( {
-				type: 'update',
-				payload: initial,
-			}, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	describe( 'as augmented action', function() {
@@ -125,6 +158,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -146,6 +181,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -167,6 +204,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -186,8 +225,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
 
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative () => Partial<Initial> without option', () => {
@@ -204,8 +245,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
 
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -220,9 +263,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined', () => {
@@ -237,8 +281,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
 
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 
@@ -261,6 +305,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -285,6 +331,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -306,6 +354,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -330,6 +380,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -351,6 +403,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -377,6 +431,8 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -398,9 +454,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative () => Partial<Initial> without option', () => {
@@ -419,9 +476,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -439,9 +497,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined without option', () => {
@@ -455,9 +514,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined with option', () => {
@@ -474,9 +534,10 @@ describe( 'dispatch({type: "update", payload: unknown})', () => {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 	}, );
