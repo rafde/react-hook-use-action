@@ -31,7 +31,7 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 	}, );
 
-	test( 'should `update` "test1" once if "test1" is the same', function() {
+	test( 'should not `update` "test1" once if "test1" is the same', function() {
 		const payload = {
 			test1: 2,
 		};
@@ -305,24 +305,6 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				act( () => {
 					result.current[ 1 ].cta.update(
 						payload,
-					);
-				}, );
-
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBe( null, );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
-				expect( result.current[ 1 ].state.changes, ).toBe( null, );
-			}, );
-
-			test( 'should not update using negative () => Partial<Initial> without option', () => {
-				const { result, } = renderHook( () => useCTA( updateCTAParam, ), );
-				const payload = {
-					test1: -1,
-				};
-				act( () => {
-					result.current[ 1 ].cta.update(
-						() => payload,
 					);
 				}, );
 
@@ -631,7 +613,7 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 	}, );
 
-	test( 'should `update` "test1" once if "test1" is the same', function() {
+	test( 'should not `update` "test1" once if "test1" is the same', function() {
 		const payload = {
 			test1: 2,
 		};

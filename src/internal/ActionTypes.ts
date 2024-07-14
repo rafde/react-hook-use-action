@@ -39,26 +39,26 @@ export class ActionType<
 	}
 }
 
-export class ReplaceInitialActionType<
+export class UpdateInitialActionType<
 	Initial extends CTAInitial,
 	Actions,
-> extends ActionType<Initial, 'replaceInitial', Actions> {
-	constructor( param: Pick<ActionTypeConstructParam<Initial, 'replaceInitial', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
+> extends ActionType<Initial, 'updateInitial', Actions> {
+	constructor( param: Pick<ActionTypeConstructParam<Initial, 'updateInitial', Actions>, 'actionTypeOptions' | 'nextState'>, ) {
 		super( {
 			...param,
-			type: 'replaceInitial',
+			type: 'updateInitial',
 		}, );
 	}
 }
 
-export function createReplaceInitialActionType<
+export function createUpdateInitialActionType<
 	Initial extends CTAInitial,
 	Actions,
 >(
-	nextState: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['nextState'],
-	actionTypeOptions?: ActionTypeConstructParam<Initial, 'replaceInitial', Actions>['actionTypeOptions'],
+	nextState: ActionTypeConstructParam<Initial, 'updateInitial', Actions>['nextState'],
+	actionTypeOptions?: ActionTypeConstructParam<Initial, 'updateInitial', Actions>['actionTypeOptions'],
 ) {
-	return new ReplaceInitialActionType( {
+	return new UpdateInitialActionType( {
 		nextState,
 		actionTypeOptions,
 	}, );

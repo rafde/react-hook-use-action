@@ -26,38 +26,6 @@ export const arbitraryKey = {
 	'arbitrary key': 'value',
 };
 
-export const updateCTAParam = returnUseCTAParameter( {
-	initial,
-	actions: {
-		update( state, payload, ) {
-			const {
-				test1,
-				..._payload
-			} = payload;
-			if ( typeof test1 === 'number' && test1 < 0 ) {
-				return _payload;
-			}
-			return payload;
-		},
-	},
-}, );
-
-export const updateCTAWithOptionParam = returnUseCTAParameter( {
-	initial,
-	actions: {
-		update( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
-			const {
-				test1,
-				..._payload
-			} = payload;
-			if ( typeof test1 === 'number' && test1 < 0 && options?.rejectNegativeTest1 ) {
-				return _payload;
-			}
-			return payload;
-		},
-	},
-}, );
-
 export const resetCTAParams = returnUseCTAParameter( {
 	initial,
 	actions: {
@@ -140,6 +108,70 @@ export const resetCTAWithOptionsParams = returnUseCTAParameter( {
 				...payload,
 				test1,
 			};
+		},
+	},
+}, );
+
+export const updateCTAParam = returnUseCTAParameter( {
+	initial,
+	actions: {
+		update( state, payload, ) {
+			const {
+				test1,
+				..._payload
+			} = payload;
+			if ( typeof test1 === 'number' && test1 < 0 ) {
+				return _payload;
+			}
+			return payload;
+		},
+	},
+}, );
+
+export const updateCTAWithOptionParam = returnUseCTAParameter( {
+	initial,
+	actions: {
+		update( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
+			const {
+				test1,
+				..._payload
+			} = payload;
+			if ( typeof test1 === 'number' && test1 < 0 && options?.rejectNegativeTest1 ) {
+				return _payload;
+			}
+			return payload;
+		},
+	},
+}, );
+
+export const updateInitialCTAParam = returnUseCTAParameter( {
+	initial,
+	actions: {
+		updateInitial( state, payload, ) {
+			const {
+				test1,
+				..._payload
+			} = payload;
+			if ( typeof test1 === 'number' && test1 < 0 ) {
+				return _payload;
+			}
+			return payload;
+		},
+	},
+}, );
+
+export const updateInitialCTAWithOptionParam = returnUseCTAParameter( {
+	initial,
+	actions: {
+		updateInitial( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
+			const {
+				test1,
+				..._payload
+			} = payload;
+			if ( typeof test1 === 'number' && test1 < 0 && options?.rejectNegativeTest1 ) {
+				return _payload;
+			}
+			return payload;
 		},
 	},
 }, );

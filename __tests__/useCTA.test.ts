@@ -679,25 +679,25 @@ describe( 'useCTA', function() {
 			}, );
 		}, );
 
-		describe( 'replaceInitialAction', () => {
+		describe( 'updateInitialAction', () => {
 			const nextStatePartial = {
 				hi: 7,
-				there: 'replaceInitialAction',
+				there: 'updateInitialAction',
 			};
 
 			const params = returnUseCTAParameter( {
 				initial,
 				actions: {
-					replaceInitial( ctaState, payload, ) {
+					updateInitial( ctaState, payload, ) {
 						return {
 							...payload,
-							you: payload.there === 'replaceInitialAction' ? 'done' : ctaState.current.you,
+							you: payload.there === 'updateInitialAction' ? 'done' : ctaState.current.you,
 						};
 					},
 				},
 			}, );
 
-			test( 'should use augmented `replaceInitial`', () => {
+			test( 'should use augmented `updateInitial`', () => {
 				const nextChange = {
 					...nextStatePartial,
 					you: 'done',
@@ -707,7 +707,7 @@ describe( 'useCTA', function() {
 					actions: {
 						...params.actions,
 						custom( state, ) {
-							return state.replaceInitialAction( {
+							return state.updateInitialAction( {
 								...state.current,
 								...nextStatePartial,
 							}, );
@@ -734,13 +734,13 @@ describe( 'useCTA', function() {
 				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 
-			test( 'should not use augmented `replaceInitial`', () => {
+			test( 'should not use augmented `updateInitial`', () => {
 				const { result, } = renderHook( () => useCTA( {
 					initial,
 					actions: {
 						...params.actions,
 						custom( state, ) {
-							return state.replaceInitialAction(
+							return state.updateInitialAction(
 								{
 									...state.current,
 									...nextStatePartial,

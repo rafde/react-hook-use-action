@@ -18,12 +18,6 @@ export type DispatchDefaultCTARecord<
 	Initial extends CTAInitial,
 	Actions,
 > = Readonly<{
-	replaceInitial(
-		payload: Initial | (
-			( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
-		),
-		...args: Actions extends Pick<DefaultActionsRecord<Initial>, 'replaceInitial'> ? RestOfArgs<Actions['replaceInitial']> : never[]
-	): void
 	reset(
 		payload?: undefined | Initial | (
 			( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
@@ -42,48 +36,48 @@ export type DispatchDefaultCTARecord<
 		value?: Actions extends Pick<DefaultActionsRecord<Initial>, 'update'> ? RestOfArgs<Actions['update']>[0] : never,
 		...args: Actions extends Pick<DefaultActionsRecord<Initial>, 'update'> ? RestAfterFirst<RestOfArgs<Actions['update']>> : never[]
 	): void
+	updateInitial(
+		payload: Parameters<DefaultActionsRecord<Initial>['updateInitial']>[1] | (
+			( ctaPayloadCallbackParameter: CTAState<Initial> ) => Parameters<DefaultActionsRecord<Initial>['updateInitial']>[1] | undefined
+		),
+		...args: Actions extends Pick<DefaultActionsRecord<Initial>, 'updateInitial'> ? RestOfArgs<Actions['updateInitial']> : never[]
+	): void
 }>;
 
-type ReplaceInitialCTAProps<
+export type UpdateInitialCTAProps<
 	Initial extends CTAInitial,
 	Actions,
 > = {
-	args?: Actions extends Pick<DefaultActionsRecord<Initial>, 'replaceInitial'> ? RestOfArgs<Actions['replaceInitial']> : never
-	options?: Actions extends Pick<DefaultActionsRecord<Initial>, 'replaceInitial'> ? Parameters<Actions['replaceInitial']>[2] : never
-	payload: Initial | (
-		( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
-	)
-	type: 'replaceInitial'
+	args?: Actions extends Pick<DefaultActionsRecord<Initial>, 'updateInitial'> ? RestOfArgs<Actions['updateInitial']> : never
+	options?: Actions extends Pick<DefaultActionsRecord<Initial>, 'updateInitial'> ? Parameters<Actions['updateInitial']>[2] : never
+	payload: Parameters<DispatchDefaultCTARecord<Initial, Actions>['updateInitial']>[0]
+	type: 'updateInitial'
 };
 
-type ResetCTAProps<
+export type ResetCTAProps<
 	Initial extends CTAInitial,
 	Actions,
 > = {
 	args?: Actions extends Pick<DefaultActionsRecord<Initial>, 'reset'> ? RestOfArgs<Actions['reset']> : never
 	options?: Actions extends Pick<DefaultActionsRecord<Initial>, 'reset'> ? Parameters<Actions['reset']>[2] : never
-	payload?: undefined | Initial | (
-		( ctaPayloadCallbackParameter: CTAState<Initial> ) => Initial | undefined
-	)
+	payload?: Parameters<DispatchDefaultCTARecord<Initial, Actions>['reset']>[0]
 	type: 'reset'
 };
 
-type UpdateCTAProps<
+export type UpdateCTAProps<
 	Initial extends CTAInitial,
 	Actions,
 > = {
 	args?: Actions extends Pick<DefaultActionsRecord<Initial>, 'update'> ? RestOfArgs<Actions['update']> : never
 	options?: Actions extends Pick<DefaultActionsRecord<Initial>, 'update'> ? Parameters<Actions['update']>[2] : never
-	payload: Partial<Initial> | (
-		( ctaPayloadCallbackParameter: CTAState<Initial> ) => Partial<Initial> | undefined
-	)
+	payload: Parameters<DispatchDefaultCTARecord<Initial, Actions>['update']>[0]
 	type: 'update'
 };
 
 type DefaultCTAProps<
 	Initial extends CTAInitial,
 	Actions,
-> = ReplaceInitialCTAProps<Initial, Actions> |
+> = UpdateInitialCTAProps<Initial, Actions> |
 ResetCTAProps<Initial, Actions> |
 UpdateCTAProps<Initial, Actions>;
 

@@ -3,57 +3,62 @@ import { strictDeepEqual, } from 'fast-equals';
 import type { CTAInitial, } from '../types/CTAInitial';
 import type { CTAState, } from '../types/CTAState';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
+import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
-	createReplaceInitialActionType,
+	createUpdateInitialActionType,
 	createResetActionType,
 	createUpdateActionType,
 } from './ActionTypes';
 
-function _mutateToLatestChangesMap<Initial extends CTAInitial,>(
-	state: Initial,
-	initial: CTAReducerState<Initial>['initial'],
-	changesMap: CTAReducerState<Initial>['changesMap'],
-) {
-	const checkedKeys: Record<string, boolean> = {};
-	changesMap.clear();
+export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
+	changesMap: Map<string | number, unknown>
+};
 
-	for ( const key in state ) {
-		const value = state[ key ];
-		checkedKeys[ key ] = true;
-
-		if ( strictDeepEqual( initial[ key ], value, ) ) {
-			changesMap.delete( key, );
-			continue;
-		}
-		changesMap.set( key, value, );
-	}
-
-	for ( const key in initial ) {
-		if ( checkedKeys[ key ] ) {
-			continue;
-		}
-		const value = initial[ key ];
-		changesMap.set( key, value, );
-	}
-}
-
-function _replaceInitialState<Initial extends CTAInitial,>(
+function _updateInitialState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
-	initial: Initial,
+	payload: Partial<Initial>,
 ): CTAReducerState<Initial> {
+	let hasUpdates = false;
+	const next: Record<string, unknown> = {};
 	const {
 		changesMap,
+		initial,
+		current,
 	} = ctaReducerState;
-	_mutateToLatestChangesMap( ctaReducerState.current, initial, ctaReducerState.changesMap, );
+
+	for ( const key in payload ) {
+		const value = payload[ key ];
+		if ( strictDeepEqual( initial[ key as keyof Initial ], value, ) ) {
+			continue;
+		}
+
+		next[ key ] = value;
+		hasUpdates = true;
+
+		const currentValue = current[ key as keyof Initial ];
+		if ( strictDeepEqual( currentValue, value, ) ) {
+			changesMap.delete( key, );
+		}
+		else {
+			changesMap.set( key, currentValue, );
+		}
+	}
+
+	if ( !hasUpdates ) {
+		return ctaReducerState;
+	}
 
 	return {
 		...ctaReducerState,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
-		initial,
-		previousInitial: ctaReducerState.initial,
+		initial: {
+			...initial,
+			...next,
+		},
+		previousInitial: initial,
 	};
 }
 
@@ -61,24 +66,21 @@ function _updateState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 ): CTAReducerState<Initial> {
-	const current: Record<string, unknown> = {};
 	let hasUpdates = false;
+	const next: Record<string, unknown> = {};
 	const {
-		current: previous,
-		...rest
-	} = ctaReducerState;
-	const {
+		current,
 		initial,
 		changesMap,
 	} = ctaReducerState;
 
 	for ( const key in payload ) {
 		const value = payload[ key ];
-		if ( strictDeepEqual( previous[ key as keyof Initial ], value, ) ) {
+		if ( strictDeepEqual( current[ key as keyof Initial ], value, ) ) {
 			continue;
 		}
 
-		current[ key ] = value;
+		next[ key ] = value;
 		hasUpdates = true;
 
 		if ( strictDeepEqual( initial[ key as keyof Initial ], value, ) ) {
@@ -94,13 +96,13 @@ function _updateState<Initial extends CTAInitial,>(
 	}
 
 	return {
-		...rest,
+		...ctaReducerState,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
 		current: {
-			...previous,
-			...payload,
+			...current,
+			...next,
 		},
-		previous,
+		previous: current,
 	};
 }
 
@@ -129,9 +131,8 @@ function _resetState<Initial extends CTAInitial, >(
 	};
 }
 
-const predefinedActionsConst = {
-	replace: 'replace',
-	replaceInitial: 'replaceInitial',
+const predefinedActionsConst: Record<keyof DefaultActionsRecord<NonNullable<unknown>>, keyof DefaultActionsRecord<NonNullable<unknown>>> = {
+	updateInitial: 'updateInitial',
 	reset: 'reset',
 	update: 'update',
 } as const;
@@ -169,8 +170,8 @@ function typeResult<
 		);
 	}
 
-	if ( type === 'replaceInitial' ) {
-		return _replaceInitialState(
+	if ( type === 'updateInitial' ) {
+		return _updateInitialState(
 			ctaReducerState,
 			next as Initial,
 		);
@@ -233,10 +234,6 @@ function getActionType<
 		};
 	}
 }
-
-export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
-	changesMap: Map<string | number, unknown>
-};
 
 export default function ctaReducer<
 	Initial extends CTAInitial,
@@ -330,7 +327,7 @@ export default function ctaReducer<
 	const nextState = cta(
 		{
 			...ctaState,
-			replaceInitialAction: createReplaceInitialActionType,
+			updateInitialAction: createUpdateInitialActionType,
 			resetAction: createResetActionType,
 			updateAction: createUpdateActionType,
 		},
