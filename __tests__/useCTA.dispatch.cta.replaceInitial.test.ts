@@ -13,9 +13,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( payload, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-		expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 	}, );
 
 	test( 'should set new `initial` when `payload` is a function', function() {
@@ -34,9 +35,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( () => payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( payload, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-		expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 	}, );
 
 	test( 'should not set new `initial` when `payload` is a function that returns `undefined`', function() {
@@ -49,9 +51,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( () => payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-		expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 	}, );
 
 	test( 'should not set new `initial` when `payload` is a function that returns `null`', function() {
@@ -64,9 +67,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( () => null, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-		expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 	}, );
 
 	test( 'should have `changes` when setting new `initial`', function() {
@@ -78,9 +82,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toEqual( initialChanges, );
-		expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 	}, );
 
 	test( 'should have `changes` when setting new `initial` with arbitrary key', function() {
@@ -95,9 +100,10 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toEqual( arbitraryKey, );
-		expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( arbitraryKey, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 	}, );
 
 	test( 'should set new `initial` when custom action is defined', function() {
@@ -115,8 +121,9 @@ describe( 'dispatch.cta.replaceInitial( payload )', function() {
 			result.current[ 1 ].cta.replaceInitial( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toEqual( payload, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-		expect( result.current[ 1 ].state.initial, ).toEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
+		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 	}, );
 }, );

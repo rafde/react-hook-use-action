@@ -1,6 +1,6 @@
 import { act, renderHook, } from '@testing-library/react';
 import { useCTA, } from '../src';
-import { changes, initial, payload, updateCTAParam, updateCTAWithOptionParam, } from './setup/simple';
+import { changes, initial, updateCTAParam, updateCTAWithOptionParam, } from './setup/simple';
 
 const actions = {
 	customAction() {
@@ -9,22 +9,47 @@ const actions = {
 };
 
 describe( 'dispatch.cta.update( partialState | ( state => partialState | undefined ))', function() {
-	test( 'should `update` "test1', function() {
+	test( 'should `update` "test1"', function() {
 		const payload = {
 			test1: 2,
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
-
+		const nextState = {
+			...initial,
+			...payload,
+		};
 		act( () => {
 			result.current[ 1 ].cta.update( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+	}, );
+
+	test( 'should `update` "test1" once if "test1" is the same', function() {
+		const payload = {
+			test1: 2,
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const nextState = {
 			...initial,
 			...payload,
+		};
+		act( () => {
+			result.current[ 1 ].cta.update( payload, );
 		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 
 		act( () => {
@@ -32,7 +57,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should `update` "test2"', function() {
@@ -42,15 +70,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
+		const nextState = {
+			...initial,
+			...payload,
+		};
 
 		act( () => {
 			result.current[ 1 ].cta.update( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 
 		act( () => {
@@ -58,19 +90,63 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+	}, );
+
+	test( 'should `update` "test2" when custom action is defined', function() {
+		const payload = {
+			test1: 2,
+		};
+		const nextState = {
+			...initial,
+			...payload,
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			actions,
+		}, ), );
+
+		act( () => {
+			result.current[ 1 ].cta.update( payload, );
+		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+		act( () => {
+			result.current[ 1 ].cta.update( initial, );
+		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should `update` "test1" and "test2"', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
+		const nextState = {
+			...initial,
+			...changes,
+		};
 
 		act( () => {
 			result.current[ 1 ].cta.update( changes, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
 		act( () => {
@@ -78,22 +154,29 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should `update` when `payload` is function', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
+		const nextState = {
+			...initial,
+			...changes,
+		};
 
 		act( () => {
 			result.current[ 1 ].cta.update( () => changes, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...changes,
-		}, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
 		act( () => {
@@ -101,7 +184,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should not `update` when `payload` is function that returns `undefined`', function() {
@@ -116,7 +202,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 
 		expect( result.current[ 0 ] === initial, ).toBe( true, );
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should not `update` when `payload` does not change state', function() {
@@ -131,34 +220,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 
 		expect( result.current[ 0 ] === initial, ).toBe( true, );
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
-	}, );
-
-	test( 'should `update` `hi` when custom action is defined', function() {
-		const payload = {
-			test1: 2,
-		};
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-			actions,
-		}, ), );
-
-		act( () => {
-			result.current[ 1 ].cta.update( payload, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
-
-		act( () => {
-			result.current[ 1 ].cta.update( initial, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	describe( 'as augmented action', function() {
@@ -168,18 +233,20 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				const payload = {
 					test1: 1000,
 				};
+				const nextState = {
+					...initial,
+					...payload,
+				};
 				act( () => {
 					result.current[ 1 ].cta.update(
 						payload,
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					...payload,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -188,24 +255,31 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				const payload = {
 					test1: 1000,
 				};
+				const nextState = {
+					...initial,
+					...payload,
+				};
 				act( () => {
 					result.current[ 1 ].cta.update(
 						() => payload,
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					...payload,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
 			test( 'should update using (ctaParam) => Partial<Initial>', () => {
 				const { result, } = renderHook( () => useCTA( updateCTAParam, ), );
 				const test1 = result.current[ 1 ].state.current.test1 + result.current[ 1 ].state.initial.test1;
+				const nextState = {
+					...initial,
+					test1,
+				};
+
 				act( () => {
 					result.current[ 1 ].cta.update(
 						ctaState => ( {
@@ -214,12 +288,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					test1,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -237,9 +309,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative () => Partial<Initial> without option', () => {
@@ -254,9 +327,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -270,9 +344,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined', () => {
@@ -285,9 +360,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 
@@ -307,8 +383,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					...payload,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -330,8 +407,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					...payload,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -350,8 +428,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					...payload,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -373,8 +452,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					...payload,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -393,8 +473,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					test1,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -418,8 +499,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					...initial,
 					test1,
 				}, );
-
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
@@ -440,9 +522,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative () => Partial<Initial> without option', () => {
@@ -460,9 +543,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -479,9 +563,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined without option', () => {
@@ -494,9 +579,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 
 			test( 'should not update with () => undefined with option', () => {
@@ -512,9 +598,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 	}, );
@@ -525,6 +612,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		const payload = {
 			test1: 2,
 		};
+		const nextState = {
+			...initial,
+			...payload,
+		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
@@ -533,10 +624,32 @@ describe( 'dispatch.cta.update(key, value)', function() {
 			result.current[ 1 ].cta.update( 'test1', payload.test1, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+	}, );
+
+	test( 'should `update` "test1" once if "test1" is the same', function() {
+		const payload = {
+			test1: 2,
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const nextState = {
 			...initial,
 			...payload,
+		};
+		act( () => {
+			result.current[ 1 ].cta.update( 'test1', payload.test1, );
 		}, );
+
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 
 		act( () => {
@@ -544,7 +657,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should not `update` "test1"', function() {
@@ -558,12 +674,19 @@ describe( 'dispatch.cta.update(key, value)', function() {
 
 		expect( result.current[ 0 ] === initial, ).toBe( true, );
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
+		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.changes, ).toBe( null, );
 	}, );
 
 	test( 'should update "test2"', function() {
 		const payload = {
 			test2: 'me',
+		};
+		const nextState = {
+			...initial,
+			...payload,
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -573,23 +696,20 @@ describe( 'dispatch.cta.update(key, value)', function() {
 			result.current[ 1 ].cta.update( 'test2', payload.test2, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
-
-		act( () => {
-			result.current[ 1 ].cta.update( initial, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
 	}, );
 
 	test( 'should update 2', function() {
 		const payload = {
 			2: 222,
+		};
+		const nextState = {
+			...initial,
+			...payload,
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -599,23 +719,20 @@ describe( 'dispatch.cta.update(key, value)', function() {
 			result.current[ 1 ].cta.update( 2, payload[ 2 ], );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
-
-		act( () => {
-			result.current[ 1 ].cta.update( initial, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
 	}, );
 
 	test( 'should `update` "test2" when custom action is defined', function() {
 		const payload = {
 			test2: 2,
+		};
+		const nextState = {
+			...initial,
+			...payload,
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -626,27 +743,24 @@ describe( 'dispatch.cta.update(key, value)', function() {
 			result.current[ 1 ].cta.update( 'test2', payload.test2, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( {
-			...initial,
-			...payload,
-		}, );
+		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
+		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
-
-		act( () => {
-			result.current[ 1 ].cta.update( initial, );
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBeNull();
 	}, );
 
 	describe( 'as augmented action', function() {
 		describe( 'without options', () => {
 			test( 'should update', () => {
-				const { result, } = renderHook( () => useCTA( updateCTAParam, ), );
 				const payload = {
 					test1: 11,
 				};
+				const nextState = {
+					...initial,
+					...payload,
+				};
+				const { result, } = renderHook( () => useCTA( updateCTAParam, ), );
 				act( () => {
 					result.current[ 1 ].cta.update(
 						'test1',
@@ -654,12 +768,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					...payload,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -676,9 +788,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 
@@ -688,16 +801,19 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				const payload = {
 					test1: -1,
 				};
+				const nextState = {
+					...initial,
+					...payload,
+				};
+
 				act( () => {
 					result.current[ 1 ].cta.update( 'test1', payload.test1, );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					...payload,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -706,6 +822,11 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				const payload = {
 					test1: -1,
 				};
+				const nextState = {
+					...initial,
+					...payload,
+				};
+
 				act( () => {
 					result.current[ 1 ].cta.update(
 						'test1',
@@ -716,12 +837,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( {
-					...initial,
-					...payload,
-				}, );
-
+				expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 			}, );
 
@@ -741,9 +860,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toStrictEqual( initial, );
-
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
+				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
+				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			}, );
 		}, );
 	}, );

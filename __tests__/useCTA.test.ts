@@ -37,8 +37,8 @@ describe( 'useCTA', () => {
 
 			expect( result.current[ 0 ] === initial, ).toBe( true, );
 			expect( result.current[ 0 ], ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.changes, ).toBeNull();
-			expect( result.current[ 1 ].state.previous, ).toBeNull();
+			expect( result.current[ 1 ].state.changes, ).toBe( null, );
+			expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		}, );
 
 		test( 'should not create a new dispatch when an action is called', () => {
@@ -425,7 +425,7 @@ describe( 'useCTA', function() {
 						}, );
 					}, );
 					expect( result.current[ 0 ], ).toEqual( initial, );
-					expect( result.current[ 1 ].state.changes, ).toBeNull();
+					expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				}, );
 
 				test( 'should add to `hi` when payload is a function', function() {
@@ -731,7 +731,7 @@ describe( 'useCTA', function() {
 				}, );
 				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 
 			test( 'should not use augmented `replaceInitial`', () => {
@@ -768,7 +768,7 @@ describe( 'useCTA', function() {
 				}, );
 				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 		}, );
 
@@ -814,7 +814,7 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( emptyPayload, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( emptyPayload, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( emptyPayload, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
@@ -837,10 +837,10 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( initial, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 
 			test( 'should not trigger with `payload = null`', () => {
@@ -860,10 +860,10 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( initial, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 
 			test( 'should use augmented `reset` with payload', () => {
@@ -890,7 +890,7 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( next, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( next, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( next, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
@@ -917,10 +917,10 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( initial, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull();
+				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			}, );
 
 			test( 'should not use augmented `reset` with `payload`', () => {
@@ -949,7 +949,7 @@ describe( 'useCTA', function() {
 				}, );
 
 				expect( result.current[ 0 ], ).toEqual( nextState, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull();
+				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				expect( result.current[ 1 ].state.current, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
 				expect( result.current[ 1 ].state.previous, ).toEqual( initial, );
