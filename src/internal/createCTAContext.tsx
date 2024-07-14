@@ -1,8 +1,9 @@
 import React, { createContext, useContext, } from 'react';
 import { useCTA, UseCTAReturnType, } from '../index';
 import type { CTAInitial, } from '../types/CTAInitial';
+import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
-import type { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
+import { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 
 /**
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
@@ -10,9 +11,10 @@ import type { UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameter
 export function createCTAContext<
 	Initial extends CTAInitial,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >( contextParams: UseCTAParameter<Initial, Actions>, ) {
 	const CTAContextState = createContext( contextParams.initial, );
-	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, Actions>[1] | null>( null, );
+	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
 		CTAProvider( props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit'>>>, ) {
@@ -29,7 +31,7 @@ export function createCTAContext<
 				actions: contextParams.actions,
 			}, );
 			return <CTAContextState.Provider value={state}>
-				<CTAContextDispatch.Provider value={dispatcher}>
+				<CTAContextDispatch.Provider value={dispatcher as unknown as UseCTAReturnType<Initial, ActionsRecord>[1]}>
 					{props.children}
 				</CTAContextDispatch.Provider>
 			</CTAContextState.Provider>;
@@ -44,7 +46,7 @@ export function createCTAContext<
 				return ctaDispatchContext satisfies null;
 			}
 
-			return ctaDispatchContext satisfies UseCTAReturnType<Initial, Actions>[1];
+			return ctaDispatchContext satisfies UseCTAReturnType<Initial, ActionsRecord>[1];
 		},
 	};
 }

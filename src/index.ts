@@ -41,7 +41,7 @@ export function useCTA<
 export function returnUseCTAParameter<
 	Initial extends CTAInitial,
 	Actions extends UseCTAParameterActionsRecordProp<Initial>,
-	ActionsRecord = Actions extends ActionsRecordProp<Initial, Actions> ? Actions : ( Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions ),
+	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >( params: UseCTAParameter<Initial, ActionsRecord>, ) {
 	return params;
 }

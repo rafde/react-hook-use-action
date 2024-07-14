@@ -22,9 +22,9 @@ export type UseCTAParameterActionsRecordProp<
 
 type CustomActionsRecord<
 	Initial extends CTAInitial,
-	Actions extends Partial<DefaultActionsRecord<Initial>>,
+	Actions,
 > = {
-	[customAction: string | number]: (
+	[Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: (
 		(
 			ctaParam: CustomCTAStateParam<Initial, Actions>,
 			// Needs to be `any` in order to take any type.

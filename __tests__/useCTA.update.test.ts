@@ -29,9 +29,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+		const updateCTADispatchState = result.current[ 1 ].state;
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'update',
+				payload,
+			}, );
+		}, );
+
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
-	test( 'should not `update` "test1" once if "test1" is the same', function() {
+	test( 'should set changes to null if payload is initial', function() {
 		const payload = {
 			test1: 2,
 		};
@@ -85,15 +95,15 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 
+		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
-			result.current[ 1 ].cta.update( initial, );
+			result.current[ 1 ]( {
+				type: 'update',
+				payload,
+			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
-		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	test( 'should `update` "test2" when custom action is defined', function() {
@@ -119,15 +129,15 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
 
+		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
-			result.current[ 1 ].cta.update( initial, );
+			result.current[ 1 ]( {
+				type: 'update',
+				payload,
+			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
-		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	test( 'should `update` "test1" and "test2"', function() {
@@ -149,15 +159,15 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
+		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
-			result.current[ 1 ].cta.update( initial, );
+			result.current[ 1 ]( {
+				type: 'update',
+				payload: changes,
+			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
-		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	test( 'should `update` when `payload` is function', function() {
@@ -179,15 +189,15 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
+		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
-			result.current[ 1 ].cta.update( initial, );
+			result.current[ 1 ]( {
+				type: 'update',
+				payload: () => changes,
+			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
-		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	test( 'should not `update` when `payload` is function that returns `undefined`', function() {
@@ -206,6 +216,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+		const updateCTADispatchState = result.current[ 1 ].state;
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'update',
+				payload: () => payload,
+			}, );
+		}, );
+
+		expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	test( 'should not `update` when `payload` does not change state', function() {
@@ -248,6 +268,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using () => Partial<Initial>', () => {
@@ -270,6 +300,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => payload,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using (ctaParam) => Partial<Initial>', () => {
@@ -295,6 +335,18 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: ctaState => ( {
+							test1: ctaState.current.test1,
+						} ),
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative Partial<Initial>', () => {
@@ -313,6 +365,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -330,6 +392,18 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: ctaState => ( {
+							test1: -( ctaState.current.test1 + ctaState.initial.test1 ),
+						} ),
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update with () => undefined', () => {
@@ -346,6 +420,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => undefined,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 		}, );
 
@@ -369,6 +453,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update with option', () => {
@@ -393,6 +487,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+						options: {
+							rejectNegativeTest1: false,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using () => Partial<Initial> without option', () => {
@@ -414,6 +521,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => payload,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using () => Partial<Initial> with option', () => {
@@ -438,6 +555,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => payload,
+						options: {
+							rejectNegativeTest1: false,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using (ctaState) => Partial<Initial> without option', () => {
@@ -461,6 +591,18 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: ctaState => ( {
+							test1: ctaState.current.test1,
+						} ),
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should update using (ctaState) => Partial<Initial> with option', () => {
@@ -487,6 +629,21 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
 					test1,
 				}, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: ctaState => ( {
+							test1: ctaState.current.test1,
+						} ),
+						options: {
+							rejectNegativeTest1: false,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative Partial<Initial> without option', () => {
@@ -508,6 +665,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload,
+						options: {
+							rejectNegativeTest1: true,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative () => Partial<Initial> without option', () => {
@@ -529,6 +699,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => payload,
+						options: {
+							rejectNegativeTest1: true,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -549,6 +732,21 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: ctaState => ( {
+							test1: -( ctaState.current.test1 + ctaState.initial.test1 ),
+						} ),
+						options: {
+							rejectNegativeTest1: true,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update with () => undefined without option', () => {
@@ -565,6 +763,16 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => undefined,
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 
 			test( 'should not update with () => undefined with option', () => {
@@ -584,6 +792,19 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
+
+				const updateCTADispatchState = result.current[ 1 ].state;
+				act( () => {
+					result.current[ 1 ]( {
+						type: 'update',
+						payload: () => undefined,
+						options: {
+							rejectNegativeTest1: false,
+						},
+					}, );
+				}, );
+
+				expect( updateCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 			}, );
 		}, );
 	}, );
