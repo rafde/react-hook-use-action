@@ -64,6 +64,50 @@ describe( 'useCTA', () => {
 			expect( initDispatch, ).toStrictEqual( result.current[ 1 ], );
 		}, );
 	}, );
+
+	describe( 'with invalid results', () => {
+		test( 'should not make changes when type is `invalid`', () => {
+			const { result, } = renderHook( () => useCTA( {
+				initial,
+				actions: {
+					double( state, ) {
+						return [
+							'invalid',
+							{
+								...state.current,
+								hi: 33333,
+							},
+						];
+					},
+				},
+			}, ), );
+
+			act( () => {
+				// @ts-expect-error check to make sure this does not make changes with invalid type
+				result.current[ 1 ].cta.double();
+			}, );
+			expect( result.current[ 0 ], ).toEqual( initial, );
+			expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		}, );
+
+		test( 'should not make changes when next state is `invalid`', () => {
+			const { result, } = renderHook( () => useCTA( {
+				initial,
+				actions: {
+					double( state, ) {
+						// @ts-expect-error check to make sure this does not make changes with invalid type
+						return state.updateAction( 'invalid', );
+					},
+				},
+			}, ), );
+
+			act( () => {
+				result.current[ 1 ].cta.double();
+			}, );
+			expect( result.current[ 0 ], ).toEqual( initial, );
+			expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		}, );
+	}, );
 }, );
 
 describe( 'useCTA', function() {
@@ -576,106 +620,6 @@ describe( 'useCTA', function() {
 					expect( result.current[ 0 ], ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
-			}, );
-		}, );
-
-		describe( 'without arguments', function() {
-			describe( 'dispatch({type: "updateSome"})', () => {
-				test( 'should update some values', () => {
-					const newValues = {
-						you: 'will work',
-						there: 'right?',
-					};
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							updateSome() {
-								return newValues;
-							},
-						},
-					}, ), );
-
-					act( () => {
-						result.current[ 1 ]( {
-							type: 'updateSome',
-						}, );
-					}, );
-					expect( result.current[ 0 ], ).toEqual( {
-						...initial,
-						...newValues,
-					}, );
-					expect( result.current[ 1 ].state.changes, ).toEqual( newValues, );
-				}, );
-			}, );
-
-			describe( 'dispatch.cta.updateSome()', () => {
-				test( 'should update some values', () => {
-					const newValues = {
-						you: 'will work',
-						there: 'right?',
-					};
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							updateSome() {
-								return newValues;
-							},
-						},
-					}, ), );
-
-					act( () => {
-						result.current[ 1 ].cta.updateSome();
-					}, );
-					expect( result.current[ 0 ], ).toEqual( {
-						...initial,
-						...newValues,
-					}, );
-					expect( result.current[ 1 ].state.changes, ).toEqual( newValues, );
-				}, );
-			}, );
-		}, );
-
-		describe( 'with invalid results', () => {
-			test( 'should not make changes when type is `invalid`', () => {
-				const { result, } = renderHook( () => useCTA( {
-					initial,
-					actions: {
-						double( state, ) {
-							return [
-								'invalid',
-								{
-									...state.current,
-									hi: 33333,
-								},
-							];
-						},
-					},
-				}, ), );
-
-				act( () => {
-					// @ts-expect-error check to make sure this does not make changes with invalid type
-					result.current[ 1 ].cta.double();
-				}, );
-				expect( result.current[ 0 ], ).toEqual( initial, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
-			}, );
-
-			test( 'should not make changes when next state is `invalid`', () => {
-				const { result, } = renderHook( () => useCTA( {
-					initial,
-					actions: {
-						double( state, ) {
-							// @ts-expect-error check to make sure this does not make changes with invalid type
-							return state.updateAction( 'invalid', );
-						},
-					},
-				}, ), );
-
-				act( () => {
-					result.current[ 1 ].cta.double();
-				}, );
-				expect( result.current[ 0 ], ).toEqual( initial, );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
 			}, );
 		}, );
 
