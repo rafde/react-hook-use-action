@@ -245,7 +245,6 @@ export default function ctaReducer<
 }, ): CTAReducerState<Initial> {
 	const {
 		args = [],
-		options,
 		type: ctaType,
 		payload,
 	} = params.nextCTAProps;
@@ -314,7 +313,7 @@ export default function ctaReducer<
 		const next = cta(
 			ctaState,
 			nextPayload,
-			options,
+			...args,
 		);
 
 		return typeResult( {

@@ -5,7 +5,7 @@ import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import {
-	DispatchDefaultCTARecord,
+	DispatchCTADefaultRecord,
 	DispatchCTA,
 	UpdateInitialCTAProps,
 	ResetCTAProps, UpdateCTAProps,
@@ -18,7 +18,7 @@ function mergeCustomCTAWithDefaultCTA<
 	Dispatch,
 >(
 	dispatch: Dispatch,
-	defaultCTARecord: DispatchDefaultCTARecord<Initial, Actions>,
+	defaultCTARecord: DispatchCTADefaultRecord<Initial, Actions>,
 	ctaRecord?: UseCTAParameter<Initial, Actions>['actions'],
 ) {
 	let hasCustomAction = false;
@@ -65,43 +65,47 @@ function wrapPrivateDispatcher<
 		dispatcher( cta, );
 	};
 
-	const cta: DispatchDefaultCTARecord<Initial, Actions> = {
+	const cta: DispatchCTADefaultRecord<Initial, Actions> = {
 		reset( payload, ...args ) {
 			publicDispatcher( {
-				options: args[ 0 ],
+				args,
 				payload,
 				type: 'reset',
-			} as ResetCTAProps<Initial, Actions>, );
+			} as unknown as ResetCTAProps<Initial, Actions>, );
 		},
 		update( payload, ...args ) {
 			switch ( typeof payload ) {
 				case 'number':
 				case 'string': {
+					const [
+						_payload,
+						..._args
+					] = args;
 					publicDispatcher( {
-						options: args[ 1 ],
+						args: _args,
 						payload: {
-							[ payload ]: args[ 0 ],
+							[ payload ]: _payload,
 						},
 						type: 'update',
-					} as UpdateCTAProps<Initial, Actions>, );
+					} as unknown as UpdateCTAProps<Initial, Actions>, );
 					break;
 				}
 				default: {
 					publicDispatcher( {
-						options: args[ 0 ],
+						args,
 						payload,
 						type: 'update',
-					} as UpdateCTAProps<Initial, Actions>, );
+					} as unknown as UpdateCTAProps<Initial, Actions>, );
 					break;
 				}
 			}
 		},
 		updateInitial( payload, ...args ) {
 			publicDispatcher( {
-				options: args[ 0 ],
+				args,
 				payload,
 				type: 'updateInitial',
-			} as UpdateInitialCTAProps<Initial, Actions>, );
+			} as unknown as UpdateInitialCTAProps<Initial, Actions>, );
 		},
 	};
 
