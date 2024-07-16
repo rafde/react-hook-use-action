@@ -493,9 +493,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					result.current[ 1 ]( {
 						type: 'update',
 						payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 
@@ -561,9 +561,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					result.current[ 1 ]( {
 						type: 'update',
 						payload: () => payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 
@@ -637,9 +637,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 						payload: ctaState => ( {
 							test1: ctaState.current.test1,
 						} ),
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 
@@ -671,9 +671,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					result.current[ 1 ]( {
 						type: 'update',
 						payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 
@@ -705,9 +705,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					result.current[ 1 ]( {
 						type: 'update',
 						payload: () => payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 
@@ -740,9 +740,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 						payload: ctaState => ( {
 							test1: -( ctaState.current.test1 + ctaState.initial.test1 ),
 						} ),
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 
@@ -798,9 +798,9 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 					result.current[ 1 ]( {
 						type: 'update',
 						payload: () => undefined,
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 

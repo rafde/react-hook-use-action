@@ -32,17 +32,18 @@ describe( 'resetAction', () => {
 
 	test( 'should use augmented `reset`', () => {
 		const { result, } = renderHook( () => useCTA( {
+			...params,
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customReset( state, ) {
 					return state.resetAction();
 				},
 			},
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customReset();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( emptyPayload, );
@@ -54,7 +55,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customReset',
 			}, );
 		}, );
 
@@ -66,7 +67,7 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetInvalidArray( state, ) {
 					// @ts-expect-error check that it doesn't trigger for invalid `payload`
 					return state.resetAction( [], );
 				},
@@ -74,7 +75,7 @@ describe( 'resetAction', () => {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetInvalidArray();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
@@ -86,7 +87,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetInvalidArray',
 			}, );
 		}, );
 
@@ -98,7 +99,7 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetNull( state, ) {
 					// @ts-expect-error check that it doesn't trigger for invalid `payload`
 					return state.resetAction( null, );
 				},
@@ -106,7 +107,7 @@ describe( 'resetAction', () => {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetNull();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
@@ -118,7 +119,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetNull',
 			}, );
 		}, );
 
@@ -138,14 +139,14 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetWithPayload( state, ) {
 					return state.resetAction( nextState, );
 				},
 			},
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetWithPayload();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( next, );
@@ -157,7 +158,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetWithPayload',
 			}, );
 		}, );
 
@@ -173,14 +174,14 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetWithPayloadAndOptions( state, ) {
 					return state.resetAction( nextState, { options: true, }, );
 				},
 			},
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetWithPayloadAndOptions();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( emptyPayload, );
@@ -192,7 +193,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetWithPayloadAndOptions',
 			}, );
 		}, );
 
@@ -204,7 +205,7 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetUndefinedDefault( state, ) {
 					return state.resetAction(
 						undefined,
 						{
@@ -216,7 +217,7 @@ describe( 'resetAction', () => {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetUndefinedDefault();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( initial, );
@@ -228,7 +229,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetUndefinedDefault',
 			}, );
 		}, );
 
@@ -245,7 +246,7 @@ describe( 'resetAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customResetNextStateDefault( state, ) {
 					return state.resetAction(
 						nextState,
 						{
@@ -257,7 +258,7 @@ describe( 'resetAction', () => {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customResetNextStateDefault();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
@@ -269,7 +270,7 @@ describe( 'resetAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customResetNextStateDefault',
 			}, );
 		}, );
 

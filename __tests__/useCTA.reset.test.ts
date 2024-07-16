@@ -419,10 +419,13 @@ describe( 'dispatch.cta.reset()', () => {
 				expect( result.current[ 1 ].state.changes, ).toBe( null, );
 
 				const resetCTADispatchState = result.current[ 1 ].state;
+
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'reset',
-						options: { rejectNegativeTest1: true, },
+						args: [{
+							rejectNegativeTest1: true,
+						},],
 					}, );
 				}, );
 
@@ -830,9 +833,9 @@ describe( 'dispatch.cta.reset( payload )', function() {
 							...ctaParam.initial,
 							test1: -1,
 						} ),
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 

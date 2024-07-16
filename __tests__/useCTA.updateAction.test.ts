@@ -32,7 +32,7 @@ describe( 'updateAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customUpdate( state, ) {
 					return state.updateAction( nextStatePartial, );
 				},
 			},
@@ -42,7 +42,7 @@ describe( 'updateAction', () => {
 			...nextChange,
 		};
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customUpdate();
 		}, );
 		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextChange, );
@@ -53,7 +53,7 @@ describe( 'updateAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customUpdate',
 			}, );
 		}, );
 
@@ -65,7 +65,7 @@ describe( 'updateAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customUpdateWithOption( state, ) {
 					return state.updateAction( nextStatePartial, { options: true, }, );
 				},
 			},
@@ -75,7 +75,7 @@ describe( 'updateAction', () => {
 			...nextStatePartial,
 		};
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customUpdateWithOption();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
@@ -87,7 +87,7 @@ describe( 'updateAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customUpdateWithOption',
 			}, );
 		}, );
 
@@ -99,7 +99,7 @@ describe( 'updateAction', () => {
 			initial,
 			actions: {
 				...params.actions,
-				custom( state, ) {
+				customUpdateDefault( state, ) {
 					return state.updateAction( nextStatePartial, { useDefault: true, }, );
 				},
 			},
@@ -109,7 +109,7 @@ describe( 'updateAction', () => {
 			...nextStatePartial,
 		};
 		act( () => {
-			result.current[ 1 ].cta.custom();
+			result.current[ 1 ].cta.customUpdateDefault();
 		}, );
 		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextStatePartial, );
@@ -120,7 +120,7 @@ describe( 'updateAction', () => {
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'custom',
+				type: 'customUpdateDefault',
 			}, );
 		}, );
 
