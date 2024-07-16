@@ -12,7 +12,7 @@ const payload = {
 const customCTAParam = returnUseCTAParameter( {
 	initial,
 	actions: {
-		customWithoutParameters() {
+		customNoArgs() {
 			return changes;
 		},
 	},
@@ -26,12 +26,12 @@ const customAndUpdateCTAParam = returnUseCTAParameter( {
 	},
 }, );
 
-describe( 'custom action without parameters', () => {
+describe( 'custom action without arguments', () => {
 	test( 'should `update` "test2"', function() {
 		const { result, } = renderHook( () => useCTA( customCTAParam, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.customWithoutParameters();
+			result.current[ 1 ].cta.customNoArgs();
 		}, );
 
 		expect( result.current[ 0 ], ).toStrictEqual( payload, );
@@ -40,15 +40,15 @@ describe( 'custom action without parameters', () => {
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
-		const customWithoutParametersCTADispatchState = result.current[ 1 ].state;
+		const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
 		act( () => {
 			result.current[ 1 ]( {
-				type: 'customWithoutParameters',
+				type: 'customNoArgs',
 			}, );
 		}, );
 
-		expect( customWithoutParametersCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
 	describe( 'with augmented update', function() {
@@ -64,14 +64,14 @@ describe( 'custom action without parameters', () => {
 				...customAndUpdateCTAParam,
 				actions: {
 					...customAndUpdateCTAParam.actions,
-					customWithoutParameters() {
+					customNoArgs() {
 						return changes;
 					},
 				},
 			}, ), );
 
 			act( () => {
-				result.current[ 1 ].cta.customWithoutParameters();
+				result.current[ 1 ].cta.customNoArgs();
 			}, );
 
 			expect( result.current[ 0 ], ).toStrictEqual( payload, );
@@ -80,21 +80,21 @@ describe( 'custom action without parameters', () => {
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 			expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
-			const customWithoutParametersCTADispatchState = result.current[ 1 ].state;
+			const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
 			act( () => {
 				result.current[ 1 ]( {
-					type: 'customWithoutParameters',
+					type: 'customNoArgs',
 				}, );
 			}, );
 
-			expect( customWithoutParametersCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 		}, );
 
 		test( 'should not `update` "test2"', function() {
 			const { result, } = renderHook( () => useCTA( customAndUpdateCTAParam, ), );
 			act( () => {
-				result.current[ 1 ].cta.customWithoutParameters();
+				result.current[ 1 ].cta.customNoArgs();
 			}, );
 
 			expect( result.current[ 0 ], ).toStrictEqual( initial, );
@@ -103,15 +103,15 @@ describe( 'custom action without parameters', () => {
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 			expect( result.current[ 1 ].state.changes, ).toStrictEqual( null, );
 
-			const customWithoutParametersCTADispatchState = result.current[ 1 ].state;
+			const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
 			act( () => {
 				result.current[ 1 ]( {
-					type: 'customWithoutParameters',
+					type: 'customNoArgs',
 				}, );
 			}, );
 
-			expect( customWithoutParametersCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 		}, );
 	}, );
 }, );

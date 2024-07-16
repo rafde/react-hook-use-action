@@ -487,9 +487,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -557,9 +557,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: () => payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -631,9 +631,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 						payload: ctaState => ( {
 							test1: ctaState.initial.test1,
 						} ),
-						options: {
+						args: [{
 							rejectNegativeTest1: false,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -664,9 +664,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload,
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -697,9 +697,11 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: () => payload,
-						options: {
-							rejectNegativeTest1: true,
-						},
+						args: [
+							{
+								rejectNegativeTest1: true,
+							},
+						],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -731,9 +733,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 						payload: ctaState => ( {
 							test1: ctaState.initial.test1,
 						} ),
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
@@ -787,9 +789,9 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: () => undefined,
-						options: {
+						args: [{
 							rejectNegativeTest1: true,
-						},
+						},],
 					}, );
 				}, );
 				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
