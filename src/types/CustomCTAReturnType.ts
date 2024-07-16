@@ -1,4 +1,8 @@
-import { UpdateInitialActionType, ResetActionType, UpdateActionType, } from '../internal/ActionTypes';
+import type {
+	UpdateInitialActionType,
+	ResetActionType,
+	UpdateActionType,
+} from '../internal/ActionTypes';
 import type { CTAInitial, } from './CTAInitial';
 
 export type CustomCTAReturnType<

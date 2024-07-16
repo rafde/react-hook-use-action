@@ -3,8 +3,8 @@ import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
 import type { CTAInitial, } from './types/CTAInitial';
-import { DefaultActionsRecord, } from './types/DefaultActionsRecord';
-import {
+import type { DefaultActionsRecord, } from './types/DefaultActionsRecord';
+import type {
 	ActionsRecordProp,
 	UseCTAParameterActionsRecordProp,
 } from './types/UseCTAParameterActionsRecordProp';
