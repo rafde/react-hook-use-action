@@ -327,9 +327,9 @@ export default function ctaReducer<
 	const nextState = cta(
 		{
 			...ctaState,
-			updateInitialAction: createUpdateInitialActionType,
-			resetAction: createResetActionType,
-			updateAction: createUpdateActionType,
+			updateInitialAction: createUpdateInitialActionType( actions, ),
+			resetAction: createResetActionType( actions, ),
+			updateAction: createUpdateActionType( actions, ),
 		},
 		nextPayload,
 		...args,
