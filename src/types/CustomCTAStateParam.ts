@@ -11,7 +11,7 @@ export type CustomCTAStateParam<
 	Initial extends CTAInitial,
 	Actions,
 > = CTAState<Initial> & Immutable<{
-	updateAction: typeof createUpdateActionType<Initial, Actions>
-	updateInitialAction: typeof createUpdateInitialActionType<Initial, Actions>
-	resetAction: typeof createResetActionType<Initial, Actions>
+	updateAction: ReturnType<typeof createUpdateActionType<Initial, Actions>>
+	updateInitialAction: ReturnType<typeof createUpdateInitialActionType<Initial, Actions>>
+	resetAction: ReturnType<typeof createResetActionType<Initial, Actions>>
 }>;
