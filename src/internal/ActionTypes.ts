@@ -3,31 +3,17 @@ import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 
 type ActionTypeOptionsNoAugmentedActionDefined = {
 	useDefault: true
-	options?: undefined
 };
 
-type ActionTypeOptions<
-	Initial extends CTAInitial,
-	Type extends keyof DefaultActionsRecord<Initial>,
-	Actions,
-	ActionType = Actions extends Pick<Partial<DefaultActionsRecord<Initial>>, Type> ? Pick<Actions, Type> : never,
-	Action = ActionType[keyof ActionType],
-> = {
+type ActionTypeOptions = {
 	useDefault?: false
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	options?: Action extends ( ( ...args: infer Args ) => any ) ? Args[2] : undefined
 } | ActionTypeOptionsNoAugmentedActionDefined;
 
 export type ActionTypeConstructParam<
 	Initial extends CTAInitial,
 	Type extends keyof DefaultActionsRecord<Initial>,
-	Actions,
 > = {
-	actionTypeOptions?: ActionTypeOptions<
-		Initial,
-		Type,
-		Actions
-	>
+	actionTypeOptions?: ActionTypeOptions
 	hasAugmentedAction: boolean
 	nextState: Parameters<DefaultActionsRecord<Initial>[Type]>[1]
 	type: Type
@@ -36,13 +22,12 @@ export type ActionTypeConstructParam<
 export class ActionType<
 	Initial extends CTAInitial,
 	Type extends keyof DefaultActionsRecord<Initial>,
-	Actions,
 > {
-	readonly type: ActionTypeConstructParam<Initial, Type, Actions>['type'];
-	readonly nextState: Readonly<ActionTypeConstructParam<Initial, Type, Actions>['nextState']>;
-	readonly actionTypeOptions: ActionTypeOptions<Initial, Type, Actions>;
+	readonly type: ActionTypeConstructParam<Initial, Type>['type'];
+	readonly nextState: Readonly<ActionTypeConstructParam<Initial, Type>['nextState']>;
+	readonly actionTypeOptions: ActionTypeOptions;
 
-	constructor( param: ActionTypeConstructParam<Initial, Type, Actions>, ) {
+	constructor( param: ActionTypeConstructParam<Initial, Type>, ) {
 		this.type = param.type;
 		this.nextState = param.nextState;
 		this.actionTypeOptions = !param.hasAugmentedAction
@@ -60,9 +45,8 @@ function _hasAugmentedAction<Actions,>( actions: Actions, type: keyof DefaultAct
 
 export class UpdateInitialActionType<
 	Initial extends CTAInitial,
-	Actions,
-> extends ActionType<Initial, 'updateInitial', Actions> {
-	constructor( param: Pick<ActionTypeConstructParam<Initial, 'updateInitial', Actions>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
+> extends ActionType<Initial, 'updateInitial'> {
+	constructor( param: Pick<ActionTypeConstructParam<Initial, 'updateInitial'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
 		super( {
 			...param,
 			type: 'updateInitial',
@@ -77,10 +61,10 @@ export function createUpdateInitialActionType<
 	const hasAction = _hasAugmentedAction( actions, 'updateInitial', );
 
 	return function updateActionType(
-		nextState: ActionTypeConstructParam<Initial, 'updateInitial', Actions>['nextState'],
-		actionTypeOptions?: ActionTypeOptions<Initial, 'updateInitial', Actions>,
+		nextState: ActionTypeConstructParam<Initial, 'updateInitial'>['nextState'],
+		actionTypeOptions?: ActionTypeOptions,
 	) {
-		return new UpdateInitialActionType<Initial, Actions>( {
+		return new UpdateInitialActionType<Initial>( {
 			actionTypeOptions,
 			hasAugmentedAction: hasAction,
 			nextState,
@@ -90,9 +74,8 @@ export function createUpdateInitialActionType<
 
 export class ResetActionType<
 	Initial extends CTAInitial,
-	Actions,
-> extends ActionType<Initial, 'reset', Actions> {
-	constructor( param: Pick<ActionTypeConstructParam<Initial, 'reset', Actions>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
+> extends ActionType<Initial, 'reset'> {
+	constructor( param: Pick<ActionTypeConstructParam<Initial, 'reset'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
 		super( {
 			...param,
 			type: 'reset',
@@ -107,10 +90,10 @@ export function createResetActionType<
 	const hasAction = _hasAugmentedAction( actions, 'reset', );
 
 	return function resetActionType(
-		nextState?: ActionTypeConstructParam<Initial, 'reset', Actions>['nextState'],
-		actionTypeOptions?: ActionTypeOptions<Initial, 'reset', Actions>,
+		nextState?: ActionTypeConstructParam<Initial, 'reset'>['nextState'],
+		actionTypeOptions?: ActionTypeOptions,
 	) {
-		return new ResetActionType<Initial, Actions>( {
+		return new ResetActionType<Initial>( {
 			actionTypeOptions,
 			hasAugmentedAction: hasAction,
 			nextState,
@@ -120,13 +103,11 @@ export function createResetActionType<
 
 export class UpdateActionType<
 	Initial extends CTAInitial,
-	Actions,
-> extends ActionType<Initial, 'update', Actions> {
+> extends ActionType<Initial, 'update'> {
 	constructor( param: Pick<
 		ActionTypeConstructParam<
 			Initial,
-			'update',
-			Actions
+			'update'
 		>,
 		'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'
 	>, ) {
@@ -144,10 +125,10 @@ export function createUpdateActionType<
 	const hasAugmentedAction = _hasAugmentedAction( actions, 'update', );
 
 	return function updateActionType(
-		nextState: ActionTypeConstructParam<Initial, 'update', Actions>['nextState'],
-		actionTypeOptions?: ActionTypeOptions<Initial, 'update', Actions>,
+		nextState: ActionTypeConstructParam<Initial, 'update'>['nextState'],
+		actionTypeOptions?: ActionTypeOptions,
 	) {
-		return new UpdateActionType<Initial, Actions>( {
+		return new UpdateActionType<Initial>( {
 			actionTypeOptions,
 			hasAugmentedAction,
 			nextState,

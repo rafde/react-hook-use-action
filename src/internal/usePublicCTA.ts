@@ -8,7 +8,7 @@ import {
 	DispatchCTADefaultRecord,
 	DispatchCTA,
 	UpdateInitialCTAProps,
-	ResetCTAProps, UpdateCTAProps,
+	ResetCTAProps, UpdateCTAProps, ReplaceCTAProps, ReplaceInitialCTAProps,
 } from '../types/UseCTAReturnTypeDispatch';
 import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
@@ -18,7 +18,7 @@ function mergeCustomCTAWithDefaultCTA<
 	Dispatch,
 >(
 	dispatch: Dispatch,
-	defaultCTARecord: DispatchCTADefaultRecord<Initial, Actions>,
+	defaultCTARecord: DispatchCTADefaultRecord<Initial>,
 	ctaRecord?: UseCTAParameter<Initial, Actions>['actions'],
 ) {
 	let hasCustomAction = false;
@@ -65,13 +65,24 @@ function wrapPrivateDispatcher<
 		dispatcher( cta, );
 	};
 
-	const cta: DispatchCTADefaultRecord<Initial, Actions> = {
-		reset( payload, ...args ) {
+	const cta: DispatchCTADefaultRecord<Initial> = {
+		replace( payload, ) {
 			publicDispatcher( {
-				args,
+				payload,
+				type: 'replace',
+			} as unknown as ReplaceCTAProps<Initial>, );
+		},
+		replaceInitial( payload, ) {
+			publicDispatcher( {
+				payload,
+				type: 'replaceInitial',
+			} as unknown as ReplaceInitialCTAProps<Initial>, );
+		},
+		reset( payload, ) {
+			publicDispatcher( {
 				payload,
 				type: 'reset',
-			} as unknown as ResetCTAProps<Initial, Actions>, );
+			} as unknown as ResetCTAProps<Initial>, );
 		},
 		update( payload, ...args ) {
 			switch ( typeof payload ) {
@@ -79,33 +90,29 @@ function wrapPrivateDispatcher<
 				case 'string': {
 					const [
 						_payload,
-						..._args
 					] = args;
 					publicDispatcher( {
-						args: _args,
 						payload: {
 							[ payload ]: _payload,
 						},
 						type: 'update',
-					} as unknown as UpdateCTAProps<Initial, Actions>, );
+					} as unknown as UpdateCTAProps<Initial>, );
 					break;
 				}
 				default: {
 					publicDispatcher( {
-						args,
 						payload,
 						type: 'update',
-					} as unknown as UpdateCTAProps<Initial, Actions>, );
+					} as unknown as UpdateCTAProps<Initial>, );
 					break;
 				}
 			}
 		},
-		updateInitial( payload, ...args ) {
+		updateInitial( payload, ) {
 			publicDispatcher( {
-				args,
 				payload,
 				type: 'updateInitial',
-			} as unknown as UpdateInitialCTAProps<Initial, Actions>, );
+			} as unknown as UpdateInitialCTAProps<Initial>, );
 		},
 	};
 

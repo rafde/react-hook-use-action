@@ -7,8 +7,7 @@ import type { CTAInitial, } from './CTAInitial';
 
 export type CustomCTAReturnType<
 	Initial extends CTAInitial,
-	Actions = undefined,
-> = undefined | UpdateInitialActionType<Initial, Actions> |
-ResetActionType<Initial, Actions> |
-UpdateActionType<Initial, Actions> |
+> = undefined | UpdateInitialActionType<Initial> |
+ResetActionType<Initial> |
+UpdateActionType<Initial> |
 Partial<Initial>;

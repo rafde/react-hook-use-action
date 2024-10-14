@@ -18,8 +18,8 @@ describe( 'resetAction', () => {
 	const params = returnUseCTAParameter( {
 		initial,
 		actions: {
-			reset( ctaState, payload, option?: boolean, ) {
-				if ( !payload || option ) {
+			reset( ctaState, payload, ) {
+				if ( !payload ) {
 					return emptyPayload;
 				}
 				return {
@@ -159,41 +159,6 @@ describe( 'resetAction', () => {
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetWithPayload',
-			}, );
-		}, );
-
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
-	}, );
-
-	test( 'should use augmented `reset` with `payload` and option', () => {
-		const nextState = {
-			...initial,
-			...nextStatePartial,
-		};
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-			actions: {
-				...params.actions,
-				customResetWithPayloadAndOptions( state, ) {
-					return state.resetAction( nextState, { options: true, }, );
-				},
-			},
-		}, ), );
-
-		act( () => {
-			result.current[ 1 ].cta.customResetWithPayloadAndOptions();
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( emptyPayload, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( emptyPayload, );
-		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toBe( null, );
-
-		const customCTADispatchState = result.current[ 1 ].state;
-		act( () => {
-			result.current[ 1 ]( {
-				type: 'customResetWithPayloadAndOptions',
 			}, );
 		}, );
 
