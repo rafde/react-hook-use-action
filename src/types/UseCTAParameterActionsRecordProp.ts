@@ -19,7 +19,7 @@ type CustomActionsRecord<
 	Actions,
 > = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: ( ctaState: CustomCTAStateParam<Initial, Actions>, ...args: any[] ) => CustomCTAReturnType<Initial, Actions>
+	[Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: ( ctaState: CustomCTAStateParam<Initial, Actions>, ...args: any[] ) => CustomCTAReturnType<Initial>
 };
 
 export type ActionsRecordProp<

@@ -11,11 +11,7 @@ describe( 'updateInitialAction', () => {
 	const params = returnUseCTAParameter( {
 		initial,
 		actions: {
-			updateInitial( ctaState, payload, option?: boolean, ) {
-				if ( option ) {
-					return payload;
-				}
-
+			updateInitial( ctaState, payload, ) {
 				return {
 					...payload,
 					test2: payload.test2 === 'updateInitialAction' ? 'done' : ctaState.current.test2,
@@ -60,47 +56,6 @@ describe( 'updateInitialAction', () => {
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customUpdateInitial',
-			}, );
-		}, );
-
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
-	}, );
-
-	test( 'should use augmented `updateInitial` with option', () => {
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-			actions: {
-				...params.actions,
-				customUpdateInitialWithOption( state, ) {
-					return state.updateInitialAction(
-						{
-							...state.current,
-							...nextStatePartial,
-						},
-						{ options: true, },
-					);
-				},
-			},
-		}, ), );
-		const nextState = {
-			...initial,
-			...nextStatePartial,
-		};
-
-		act( () => {
-			result.current[ 1 ].cta.customUpdateInitialWithOption();
-		}, );
-
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( null, );
-		expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
-		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
-
-		const customCTADispatchState = result.current[ 1 ].state;
-		act( () => {
-			result.current[ 1 ]( {
-				type: 'customUpdateInitialWithOption',
 			}, );
 		}, );
 

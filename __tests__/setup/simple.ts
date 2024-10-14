@@ -69,49 +69,6 @@ export const resetCTAParams = returnUseCTAParameter( {
 	},
 }, );
 
-export const resetCTAWithOptionsParams = returnUseCTAParameter( {
-	initial,
-	actions: {
-		reset( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
-			if ( !payload || typeof payload !== 'object' ) {
-				let {
-					test1,
-				} = state.initial;
-
-				if ( state.initial.test2 === 'be cool' ) {
-					return;
-				}
-
-				if ( test1 < 0 && options?.rejectNegativeTest1 ) {
-					test1 = 0;
-				}
-
-				return {
-					...state.initial,
-					test1,
-				};
-			}
-
-			let {
-				test1,
-			} = payload;
-
-			if ( payload.test2 === 'be cool' ) {
-				return;
-			}
-
-			if ( test1 < 0 && options?.rejectNegativeTest1 ) {
-				test1 = 0;
-			}
-
-			return {
-				...payload,
-				test1,
-			};
-		},
-	},
-}, );
-
 export const updateCTAParam = returnUseCTAParameter( {
 	initial,
 	actions: {
@@ -128,22 +85,6 @@ export const updateCTAParam = returnUseCTAParameter( {
 	},
 }, );
 
-export const updateCTAWithOptionParam = returnUseCTAParameter( {
-	initial,
-	actions: {
-		update( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
-			const {
-				test1,
-				..._payload
-			} = payload;
-			if ( typeof test1 === 'number' && test1 < 0 && options?.rejectNegativeTest1 ) {
-				return _payload;
-			}
-			return payload;
-		},
-	},
-}, );
-
 export const updateInitialCTAParam = returnUseCTAParameter( {
 	initial,
 	actions: {
@@ -153,22 +94,6 @@ export const updateInitialCTAParam = returnUseCTAParameter( {
 				..._payload
 			} = payload;
 			if ( typeof test1 === 'number' && test1 < 0 ) {
-				return _payload;
-			}
-			return payload;
-		},
-	},
-}, );
-
-export const updateInitialCTAWithOptionParam = returnUseCTAParameter( {
-	initial,
-	actions: {
-		updateInitial( state, payload, options?: { rejectNegativeTest1: boolean }, ) {
-			const {
-				test1,
-				..._payload
-			} = payload;
-			if ( typeof test1 === 'number' && test1 < 0 && options?.rejectNegativeTest1 ) {
 				return _payload;
 			}
 			return payload;
