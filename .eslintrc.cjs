@@ -67,7 +67,8 @@ module.exports = {
 			},
 			settings: {
 				jest: {
-					version: require('jest/package.json').version,
+					// eslint-disable-next-line @typescript-eslint/no-require-imports
+					version: require( 'jest/package.json', ).version,
 				},
 			},
 		},
