@@ -135,3 +135,73 @@ export function createUpdateActionType<
 		}, );
 	};
 }
+
+export class ReplaceActionType<
+	Initial extends CTAInitial,
+> extends ActionType<Initial, 'replace'> {
+	constructor( param: Pick<
+		ActionTypeConstructParam<
+			Initial,
+			'replace'
+		>,
+		'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'
+	>, ) {
+		super( {
+			...param,
+			type: 'replace',
+		}, );
+	}
+}
+
+export function createReplaceActionType<
+	Initial extends CTAInitial,
+	Actions,
+>( actions: Actions, ) {
+	const hasAugmentedAction = _hasAugmentedAction( actions, 'replace', );
+
+	return function replaceActionType(
+		nextState: ActionTypeConstructParam<Initial, 'replace'>['nextState'],
+		actionTypeOptions?: ActionTypeOptions,
+	) {
+		return new ReplaceActionType<Initial>( {
+			actionTypeOptions,
+			hasAugmentedAction,
+			nextState,
+		}, );
+	};
+}
+
+export class ReplaceInitialActionType<
+	Initial extends CTAInitial,
+> extends ActionType<Initial, 'replaceInitial'> {
+	constructor( param: Pick<
+		ActionTypeConstructParam<
+			Initial,
+			'replaceInitial'
+		>,
+		'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'
+	>, ) {
+		super( {
+			...param,
+			type: 'replaceInitial',
+		}, );
+	}
+}
+
+export function createReplaceInitialActionType<
+	Initial extends CTAInitial,
+	Actions,
+>( actions: Actions, ) {
+	const hasAugmentedAction = _hasAugmentedAction( actions, 'replaceInitial', );
+
+	return function replaceInitialActionType(
+		nextState: ActionTypeConstructParam<Initial, 'replaceInitial'>['nextState'],
+		actionTypeOptions?: ActionTypeOptions,
+	) {
+		return new ReplaceInitialActionType<Initial>( {
+			actionTypeOptions,
+			hasAugmentedAction,
+			nextState,
+		}, );
+	};
+}

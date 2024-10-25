@@ -10,52 +10,42 @@ import {
 	ActionType,
 	createUpdateInitialActionType,
 	createResetActionType,
-	createUpdateActionType,
+	createUpdateActionType, createReplaceActionType, createReplaceInitialActionType,
 } from './ActionTypes';
 
 export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
 	changesMap: Map<string | number, unknown>
 };
 
-function _resetCurrentChangesMap<Initial extends CTAInitial,>(
-	state: Initial,
-	initial: CTAReducerState<Initial>['initial'],
-	changesMap: CTAReducerState<Initial>['changesMap'],
-) {
-	const checkedKeys: Record<string, boolean> = {};
-	changesMap.clear();
-
-	for ( const key in state ) {
-		const value = state[ key ];
-		checkedKeys[ key ] = true;
-
-		if ( strictDeepEqual( initial[ key ], value, ) ) {
-			changesMap.delete( key, );
-			continue;
-		}
-		changesMap.set( key, value, );
-	}
-
-	for ( const key in initial ) {
-		if ( checkedKeys[ key ] ) {
-			continue;
-		}
-		const value = initial[ key ];
-		changesMap.set( key, value, );
-	}
-}
-
 function _replace<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 ): CTAReducerState<Initial> {
 	const {
-		changesMap,
+		initial,
+		current,
 	} = ctaReducerState;
-	_resetCurrentChangesMap( payload, ctaReducerState.initial, changesMap, );
+	const changesMap = new Map();
+	let hasChange = false;
+	for ( const key in payload ) {
+		const value = payload[ key ];
+
+		if ( !strictDeepEqual( current[ key ], value, ) ) {
+			hasChange = true;
+			if ( strictDeepEqual( initial[ key ], value, ) ) {
+				continue;
+			}
+			changesMap.set( key, value, );
+		}
+	}
+
+	if ( !hasChange ) {
+		return ctaReducerState;
+	}
 
 	return {
 		...ctaReducerState,
+		changesMap,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
 		current: payload,
 		previous: ctaReducerState.current,
@@ -64,17 +54,37 @@ function _replace<Initial extends CTAInitial,>(
 
 function _replaceInitial<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
-	initial: Initial,
+	payload: Initial,
 ): CTAReducerState<Initial> {
 	const {
-		changesMap,
+		initial,
+		current,
 	} = ctaReducerState;
-	_resetCurrentChangesMap( ctaReducerState.current, initial, ctaReducerState.changesMap, );
+	const changesMap = new Map();
+	let hasChange = false;
+	for ( const key in payload ) {
+		const value = payload[ key ];
+		const currentValue = current[ key ];
+
+		if ( !strictDeepEqual( initial[ key ], value, ) ) {
+			hasChange = true;
+			if ( strictDeepEqual( currentValue, value, ) ) {
+				continue;
+			}
+			changesMap.set( key, currentValue, );
+		}
+	}
+
+	if ( !hasChange ) {
+		return ctaReducerState;
+	}
 
 	return {
 		...ctaReducerState,
+		changesMap,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
-		initial,
+		previousInitial: initial,
+		initial: payload,
 	};
 }
 
@@ -246,7 +256,7 @@ function typeResult<
 		case 'updateInitial':
 			return _updateInitialState(
 				ctaReducerState,
-				next as Initial,
+				next,
 			);
 		default:
 			return _updateState(
@@ -398,9 +408,11 @@ export default function ctaReducer<
 	const nextState = cta(
 		{
 			...ctaState,
-			updateInitialAction: createUpdateInitialActionType( actions, ),
+			replaceAction: createReplaceActionType( actions, ),
+			replaceInitialAction: createReplaceInitialActionType( actions, ),
 			resetAction: createResetActionType( actions, ),
 			updateAction: createUpdateActionType( actions, ),
+			updateInitialAction: createUpdateInitialActionType( actions, ),
 		},
 		nextPayload,
 		...args,
