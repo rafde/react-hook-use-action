@@ -41,7 +41,7 @@ describe( 'updateAction', () => {
 		act( () => {
 			result.current[ 1 ].cta.customUpdate();
 		}, );
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextChange, );
 		expect( result.current[ 1 ].state.current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
@@ -74,7 +74,7 @@ describe( 'updateAction', () => {
 		act( () => {
 			result.current[ 1 ].cta.customUpdateDefault();
 		}, );
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextStatePartial, );
 		expect( result.current[ 1 ].state.current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );

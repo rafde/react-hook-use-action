@@ -46,7 +46,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customReset();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( emptyPayload, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( emptyPayload, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( emptyPayload, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -78,7 +78,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customResetInvalidArray();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( null, );
@@ -110,7 +110,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customResetNull();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -149,7 +149,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customResetWithPayload();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( next, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( next, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( next, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -185,7 +185,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customResetUndefinedDefault();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -226,7 +226,7 @@ describe( 'resetAction', () => {
 			result.current[ 1 ].cta.customResetNextStateDefault();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );

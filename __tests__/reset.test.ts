@@ -22,7 +22,7 @@ describe( 'dispatch.cta.reset()', () => {
 			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -32,7 +32,7 @@ describe( 'dispatch.cta.reset()', () => {
 			result.current[ 1 ].cta.reset();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -72,7 +72,7 @@ describe( 'dispatch.cta.reset()', () => {
 			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -82,7 +82,7 @@ describe( 'dispatch.cta.reset()', () => {
 			result.current[ 1 ].cta.reset();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -136,7 +136,7 @@ describe( 'dispatch.cta.reset()', () => {
 			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( current, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( current, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -146,7 +146,7 @@ describe( 'dispatch.cta.reset()', () => {
 			result.current[ 1 ].cta.reset();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initialExtra, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( current, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initialExtra, );
@@ -199,7 +199,7 @@ describe( 'dispatch.cta.reset()', () => {
 			}, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( current, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( current, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initialExtra, );
@@ -209,7 +209,7 @@ describe( 'dispatch.cta.reset()', () => {
 			result.current[ 1 ].cta.reset();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initialExtra, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initialExtra, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( current, );
@@ -234,7 +234,7 @@ describe( 'dispatch.cta.reset()', () => {
 					result.current[ 1 ].cta.update( payload, );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -244,7 +244,7 @@ describe( 'dispatch.cta.reset()', () => {
 					result.current[ 1 ].cta.reset();
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -279,7 +279,7 @@ describe( 'dispatch.cta.reset()', () => {
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( newInitial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -289,7 +289,7 @@ describe( 'dispatch.cta.reset()', () => {
 					result.current[ 1 ].cta.reset();
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( current, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( current, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( current, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( newInitial, );
@@ -322,7 +322,7 @@ describe( 'dispatch.cta.reset()', () => {
 					} ), );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( newInitial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -332,7 +332,7 @@ describe( 'dispatch.cta.reset()', () => {
 					result.current[ 1 ].cta.reset();
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( newInitial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -361,7 +361,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.reset( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -383,7 +383,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.reset( () => payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -413,7 +413,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.updateInitial( newInitial, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( newInitial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -425,7 +425,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.reset( () => undefined, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( newInitial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -459,7 +459,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.reset( () => payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -490,7 +490,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 			result.current[ 1 ].cta.reset( payload, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -515,7 +515,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					result.current[ 1 ].cta.reset( payload, );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -547,7 +547,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					);
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( current, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( current, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( current, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -564,7 +564,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					} ), );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previous, ).toBe( null, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -594,7 +594,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					} ), );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -621,7 +621,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					result.current[ 1 ].cta.update( changes, );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -631,7 +631,7 @@ describe( 'dispatch.cta.reset( payload )', function() {
 					result.current[ 1 ].cta.reset( () => undefined, );
 				}, );
 
-				expect( result.current[ 0 ], ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
 				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 				expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );

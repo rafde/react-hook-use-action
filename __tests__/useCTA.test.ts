@@ -35,8 +35,8 @@ describe( 'useCTA', () => {
 				}, );
 			}, );
 
-			expect( result.current[ 0 ] === initial, ).toBe( true, );
-			expect( result.current[ 0 ], ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].current === initial, ).toBe( true, );
+			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.changes, ).toBe( null, );
 			expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		}, );
@@ -86,7 +86,7 @@ describe( 'useCTA', () => {
 				// @ts-expect-error check to make sure this does not make changes with invalid type
 				result.current[ 1 ].cta.double();
 			}, );
-			expect( result.current[ 0 ], ).toEqual( initial, );
+			expect( result.current[ 0 ].current, ).toEqual( initial, );
 			expect( result.current[ 1 ].state.changes, ).toBeNull( );
 		}, );
 
@@ -104,7 +104,7 @@ describe( 'useCTA', () => {
 			act( () => {
 				result.current[ 1 ].cta.double();
 			}, );
-			expect( result.current[ 0 ], ).toEqual( initial, );
+			expect( result.current[ 0 ].current, ).toEqual( initial, );
 			expect( result.current[ 1 ].state.changes, ).toBeNull( );
 		}, );
 	}, );
@@ -194,7 +194,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload.hi,
 					}, );
@@ -217,8 +217,8 @@ describe( 'useCTA', function() {
 						}, );
 					}, );
 
-					expect( result.current[ 0 ] === initial, ).toBe( true, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current === initial, ).toBe( true, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 
@@ -234,7 +234,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload.hi,
 					}, );
@@ -253,8 +253,8 @@ describe( 'useCTA', function() {
 						}, );
 					}, );
 
-					expect( result.current[ 0 ] === initial, ).toBe( true, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current === initial, ).toBe( true, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 
@@ -275,7 +275,7 @@ describe( 'useCTA', function() {
 							],
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi,
 					}, );
@@ -292,7 +292,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.calc( val, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + val.hi,
 					}, );
@@ -312,8 +312,8 @@ describe( 'useCTA', function() {
 						result.current[ 1 ].cta.calc( payload, );
 					}, );
 
-					expect( result.current[ 0 ] === initial, ).toBe( true, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current === initial, ).toBe( true, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 
@@ -326,7 +326,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.calc( () => payload, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload.hi,
 					}, );
@@ -342,8 +342,8 @@ describe( 'useCTA', function() {
 						result.current[ 1 ].cta.calc( () => undefined, );
 					}, );
 
-					expect( result.current[ 0 ] === initial, ).toBe( true, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current === initial, ).toBe( true, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 
@@ -358,7 +358,7 @@ describe( 'useCTA', function() {
 							ignoreNegatives: true,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi,
 					}, );
@@ -388,7 +388,7 @@ describe( 'useCTA', function() {
 							type: 'double',
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi * 2,
 					}, );
@@ -404,7 +404,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.double();
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi * 2,
 					}, );
@@ -436,7 +436,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload,
 					}, );
@@ -468,7 +468,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBe( null, );
 				}, );
 
@@ -491,7 +491,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload(),
 					}, );
@@ -523,7 +523,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 				test( 'should add to `hi` when payload is a function that returns `undefined`', function() {
@@ -545,7 +545,7 @@ describe( 'useCTA', function() {
 							payload,
 						}, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 			}, );
@@ -567,7 +567,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.val( payload, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload,
 					}, );
@@ -592,7 +592,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.val( payload, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( {
+					expect( result.current[ 0 ].current, ).toEqual( {
 						...initial,
 						hi: initial.hi + payload(),
 					}, );
@@ -617,7 +617,7 @@ describe( 'useCTA', function() {
 					act( () => {
 						result.current[ 1 ].cta.val( payload, );
 					}, );
-					expect( result.current[ 0 ], ).toEqual( initial, );
+					expect( result.current[ 0 ].current, ).toEqual( initial, );
 					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 			}, );
