@@ -1,5 +1,3 @@
-import { strictDeepEqual, } from 'fast-equals';
-
 import type { CTAInitial, } from '../types/CTAInitial';
 import type { CTAState, } from '../types/CTAState';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
@@ -10,8 +8,11 @@ import {
 	ActionType,
 	createUpdateInitialActionType,
 	createResetActionType,
-	createUpdateActionType, createReplaceActionType, createReplaceInitialActionType,
+	createUpdateActionType,
+	createReplaceActionType,
+	createReplaceInitialActionType,
 } from './ActionTypes';
+import type { CompareCallbackReturnType, } from './compareCallback';
 
 export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
 	changesMap: Map<string | number, unknown>
@@ -20,6 +21,7 @@ export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
 function _replace<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
+	compare: CompareCallbackReturnType,
 ): CTAReducerState<Initial> {
 	const {
 		initial,
@@ -30,9 +32,9 @@ function _replace<Initial extends CTAInitial,>(
 	for ( const key in payload ) {
 		const value = payload[ key ];
 
-		if ( !strictDeepEqual( current[ key ], value, ) ) {
+		if ( !compare( current[ key ], value, ) ) {
 			hasChange = true;
-			if ( strictDeepEqual( initial[ key ], value, ) ) {
+			if ( compare( initial[ key ], value, ) ) {
 				continue;
 			}
 			changesMap.set( key, value, );
@@ -55,6 +57,7 @@ function _replace<Initial extends CTAInitial,>(
 function _replaceInitial<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
+	compare: CompareCallbackReturnType,
 ): CTAReducerState<Initial> {
 	const {
 		initial,
@@ -66,9 +69,9 @@ function _replaceInitial<Initial extends CTAInitial,>(
 		const value = payload[ key ];
 		const currentValue = current[ key ];
 
-		if ( !strictDeepEqual( initial[ key ], value, ) ) {
+		if ( !compare( initial[ key ], value, ) ) {
 			hasChange = true;
-			if ( strictDeepEqual( currentValue, value, ) ) {
+			if ( compare( currentValue, value, ) ) {
 				continue;
 			}
 			changesMap.set( key, currentValue, );
@@ -91,6 +94,7 @@ function _replaceInitial<Initial extends CTAInitial,>(
 function _updateInitialState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
+	compare: CompareCallbackReturnType,
 ): CTAReducerState<Initial> {
 	const {
 		changesMap,
@@ -102,7 +106,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 
 	for ( const key in payload ) {
 		const value = payload[ key ];
-		if ( strictDeepEqual( initial[ key as keyof Initial ], value, ) ) {
+		if ( compare( initial[ key as keyof Initial ], value, ) ) {
 			continue;
 		}
 
@@ -110,7 +114,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 		hasUpdates = true;
 
 		const currentValue = current[ key as keyof Initial ];
-		if ( strictDeepEqual( currentValue, value, ) ) {
+		if ( compare( currentValue, value, ) ) {
 			changesMap.delete( key, );
 		}
 		else {
@@ -136,6 +140,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 function _updateState<Initial extends CTAInitial,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
+	compare: CompareCallbackReturnType,
 ): CTAReducerState<Initial> {
 	const {
 		changesMap,
@@ -147,7 +152,7 @@ function _updateState<Initial extends CTAInitial,>(
 
 	for ( const key in payload ) {
 		const value = payload[ key ];
-		if ( strictDeepEqual( current[ key as keyof Initial ], value, ) ) {
+		if ( compare( current[ key as keyof Initial ], value, ) ) {
 			continue;
 		}
 
@@ -155,7 +160,7 @@ function _updateState<Initial extends CTAInitial,>(
 		hasUpdates = true;
 
 		const initialValue = initial[ key as keyof Initial ];
-		if ( strictDeepEqual( initialValue, value, ) ) {
+		if ( compare( initialValue, value, ) ) {
 			changesMap.delete( key, );
 		}
 		else {
@@ -181,6 +186,7 @@ function _updateState<Initial extends CTAInitial,>(
 function _resetState<Initial extends CTAInitial, >(
 	ctaReducerState: CTAReducerState<Initial>,
 	next: Initial,
+	compare: CompareCallbackReturnType,
 ) {
 	const {
 		changesMap,
@@ -188,7 +194,7 @@ function _resetState<Initial extends CTAInitial, >(
 		initial,
 	} = ctaReducerState;
 
-	if ( strictDeepEqual( initial, next, ) && strictDeepEqual( current, next, ) ) {
+	if ( compare( initial, next, ) && compare( current, next, ) ) {
 		return ctaReducerState;
 	}
 
@@ -222,6 +228,7 @@ function typeResult<
 		ctaReducerState: CTAReducerState<Initial>
 		type: Type
 		next: Next
+		compare: CompareCallbackReturnType
 	},
 ) {
 	const {
@@ -235,6 +242,7 @@ function typeResult<
 
 	const {
 		type,
+		compare,
 	} = param;
 
 	switch ( type ) {
@@ -242,26 +250,31 @@ function typeResult<
 			return _replace(
 				ctaReducerState,
 				next as Initial,
+				compare,
 			);
 		case 'replaceInitial':
 			return _replaceInitial(
 				ctaReducerState,
 				next as Initial,
+				compare,
 			);
 		case 'reset':
 			return _resetState(
 				ctaReducerState,
 				next as Initial,
+				compare,
 			);
 		case 'updateInitial':
 			return _updateInitialState(
 				ctaReducerState,
 				next,
+				compare,
 			);
 		default:
 			return _updateState(
 				ctaReducerState,
 				next,
+				compare,
 			);
 	}
 }
@@ -324,6 +337,7 @@ export default function ctaReducer<
 	ctaReducerState: CTAReducerState<Initial>
 	actions?: UseCTAParameter<Initial, Actions>['actions']
 	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
+	compare: CompareCallbackReturnType
 }, ): CTAReducerState<Initial> {
 	const {
 		args = _args,
@@ -333,6 +347,7 @@ export default function ctaReducer<
 	const {
 		ctaReducerState,
 		actions,
+		compare,
 	} = params;
 	const {
 		current,
@@ -354,6 +369,7 @@ export default function ctaReducer<
 				ctaReducerState,
 				next: payload( ctaState, ),
 				type: ctaType as PredefinedActions,
+				compare,
 			}, );
 		}
 
@@ -362,6 +378,7 @@ export default function ctaReducer<
 				ctaReducerState,
 				next: initial,
 				type: 'reset',
+				compare,
 			}, );
 		}
 
@@ -369,6 +386,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next: payload,
 			type: ctaType as PredefinedActions,
+			compare,
 		}, );
 	}
 
@@ -402,6 +420,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next,
 			type: ctaType as PredefinedActions,
+			compare,
 		}, );
 	}
 
@@ -436,6 +455,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next,
 			type,
+			compare,
 		}, );
 	}
 
@@ -443,5 +463,6 @@ export default function ctaReducer<
 		ctaReducerState,
 		next: customPredefinedCTA( ctaState, next, ),
 		type,
+		compare,
 	}, );
 }
