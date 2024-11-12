@@ -35,6 +35,7 @@ export function createCTAContext<
 				initial,
 				onInit,
 				actions: contextParams.actions,
+				compare: contextParams.compare,
 			}, );
 			return <CTAContextState.Provider value={state}>
 				<CTAContextDispatch.Provider value={dispatcher as unknown as UseCTAReturnType<Initial, ActionsRecord>[1]}>

@@ -1,4 +1,5 @@
-import { useReducer, } from 'react';
+import { useMemo, useReducer, } from 'react';
+import { compareCallback, } from './compareCallback';
 
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
@@ -36,6 +37,12 @@ export default function usePrivateCTA<
 	params: UseCTAParameter<Initial, Actions>,
 	actions?: UseCTAParameter<Initial, Actions>['actions'],
 ) {
+	const compare = useMemo(
+		() => compareCallback( params.compare, ),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[
+		],
+	);
 	return useReducer(
 		function reducerCallback(
 			ctaReducerState: CTAReducerState<Initial>,
@@ -45,6 +52,7 @@ export default function usePrivateCTA<
 				ctaReducerState,
 				actions,
 				nextCTAProps,
+				compare,
 			}, );
 		},
 		{
