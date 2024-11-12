@@ -31,9 +31,9 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <>
-				<div data-testid="test-there">{ctaStateContext.there}</div>
-				<div data-testid="test-you">{ctaStateContext.you}</div>
-				<div data-testid="test-2">{ctaStateContext[ 2 ]}</div>
+				<div data-testid="test-there">{ctaStateContext.current.there}</div>
+				<div data-testid="test-you">{ctaStateContext.current.you}</div>
+				<div data-testid="test-2">{ctaStateContext.current[ 2 ]}</div>
 			</>;
 		};
 		const Consumer = () => <CTAProvider>
@@ -65,9 +65,9 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <>
-				<div data-testid="test-there">{ctaStateContext.there}</div>
-				<div data-testid="test-you">{ctaStateContext.you}</div>
-				<div data-testid="test-2">{ctaStateContext[ 2 ]}</div>
+				<div data-testid="test-there">{ctaStateContext.current.there}</div>
+				<div data-testid="test-you">{ctaStateContext.current.you}</div>
+				<div data-testid="test-2">{ctaStateContext.current[ 2 ]}</div>
 			</>;
 		};
 		const Consumer = () => <CTAProvider initial={newInitial}>
@@ -94,9 +94,9 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <>
-				<div data-testid="test-there">{ctaStateContext.there}</div>
-				<div data-testid="test-you">{ctaStateContext.you}</div>
-				<div data-testid="test-2">{ctaStateContext[ 2 ]}</div>
+				<div data-testid="test-there">{ctaStateContext.current.there}</div>
+				<div data-testid="test-you">{ctaStateContext.current.you}</div>
+				<div data-testid="test-2">{ctaStateContext.current[ 2 ]}</div>
 			</>;
 		};
 		const Consumer = () => <CTAProvider onInit={initial => ( {
@@ -143,9 +143,9 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <>
-				<div data-testid="test-there">{ctaStateContext.there}</div>
-				<div data-testid="test-you">{ctaStateContext.you}</div>
-				<div data-testid="test-2">{ctaStateContext[ 2 ]}</div>
+				<div data-testid="test-there">{ctaStateContext.current.there}</div>
+				<div data-testid="test-you">{ctaStateContext.current.you}</div>
+				<div data-testid="test-2">{ctaStateContext.current[ 2 ]}</div>
 			</>;
 		};
 		const Consumer = () => <CTAProvider>
@@ -190,9 +190,9 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <>
-				<div data-testid="test-there">{ctaStateContext.there}</div>
-				<div data-testid="test-you">{ctaStateContext.you}</div>
-				<div data-testid="test-2">{ctaStateContext[ 2 ]}</div>
+				<div data-testid="test-there">{ctaStateContext.current.there}</div>
+				<div data-testid="test-you">{ctaStateContext.current.you}</div>
+				<div data-testid="test-2">{ctaStateContext.current[ 2 ]}</div>
 			</>;
 		};
 		const Consumer = () => <CTAProvider>
@@ -219,7 +219,7 @@ describe( 'createCTAContext', () => {
 				],
 			);
 			return <CTAProvider>
-				<div data-testid="test-view">{ctaStateContext.there}</div>
+				<div data-testid="test-view">{ctaStateContext.current.there}</div>
 			</CTAProvider>;
 		};
 

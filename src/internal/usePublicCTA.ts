@@ -1,6 +1,7 @@
 import { useMemo, } from 'react';
 
 import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTAState, } from '../types/CTAState';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
@@ -162,7 +163,7 @@ export default function usePublicCTA<
 
 	return useMemo(
 		() => {
-			const state: UseCTAReturnType<Initial, Actions>[1]['state'] = {
+			const state: CTAState<Initial> = {
 				changes: ctaState.changes,
 				current: ctaState.current,
 				initial: ctaState.initial,
@@ -176,7 +177,7 @@ export default function usePublicCTA<
 				},
 			);
 			return [
-				ctaState.current,
+				state,
 				dispatch as unknown as UseCTAReturnType<Initial, Actions>[1],
 			];
 		},

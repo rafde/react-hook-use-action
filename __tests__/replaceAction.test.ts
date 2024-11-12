@@ -45,7 +45,7 @@ describe( 'replaceAction', () => {
 		act( () => {
 			result.current[ 1 ].cta.customReplace();
 		}, );
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextChange, );
 		expect( result.current[ 1 ].state.current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
@@ -84,7 +84,7 @@ describe( 'replaceAction', () => {
 		act( () => {
 			result.current[ 1 ].cta.customReplaceDefault();
 		}, );
-		expect( result.current[ 0 ], ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( nextStatePartial, );
 		expect( result.current[ 1 ].state.current, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );

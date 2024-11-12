@@ -27,7 +27,7 @@ describe( 'custom action with ctaState', () => {
 			result.current[ 1 ].cta.val( test2, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( state, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -71,7 +71,7 @@ describe( 'custom action with ctaState', () => {
 			result.current[ 1 ].cta.val( test2, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
@@ -113,7 +113,7 @@ describe( 'custom action with ctaState', () => {
 			result.current[ 1 ].cta.val( test2, );
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( state, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
@@ -178,7 +178,7 @@ describe( 'custom action with ctaState', () => {
 				result.current[ 1 ].cta.val( test2, );
 			}, );
 
-			expect( result.current[ 0 ], ).toStrictEqual( state, );
+			expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -210,7 +210,7 @@ describe( 'custom action with ctaState', () => {
 				result.current[ 1 ].cta.val( test2, true, );
 			}, );
 
-			expect( result.current[ 0 ], ).toStrictEqual( state, );
+			expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
@@ -246,7 +246,7 @@ describe( 'custom action with ctaState', () => {
 				result.current[ 1 ].cta.val( test2, false, 'initial', );
 			}, );
 
-			expect( result.current[ 0 ], ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.previous, ).toBe( null, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
@@ -282,7 +282,7 @@ describe( 'custom action with ctaState', () => {
 				result.current[ 1 ].cta.val( test2, false, 'resetCurrent', );
 			}, );
 
-			expect( result.current[ 0 ], ).toStrictEqual( state, );
+			expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );

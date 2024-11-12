@@ -46,7 +46,7 @@ describe( 'replaceInitialAction', () => {
 			result.current[ 1 ].cta.customUpdateInitial();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( null, );
 		expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
@@ -89,7 +89,7 @@ describe( 'replaceInitialAction', () => {
 			result.current[ 1 ].cta.customReplaceInitialDefault();
 		}, );
 
-		expect( result.current[ 0 ], ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.previous, ).toBe( null, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );

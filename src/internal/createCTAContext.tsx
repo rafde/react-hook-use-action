@@ -13,7 +13,13 @@ export function createCTAContext<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >( contextParams: UseCTAParameter<Initial, Actions>, ) {
-	const CTAContextState = createContext( contextParams.initial, );
+	const CTAContextState = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
+		changes: null,
+		current: contextParams.initial,
+		initial: contextParams.initial,
+		previous: null,
+		previousInitial: null,
+	}, );
 	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
