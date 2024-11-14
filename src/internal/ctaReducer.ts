@@ -194,8 +194,14 @@ function _resetState<Initial extends CTAInitial, >(
 		initial,
 	} = ctaReducerState;
 
-	if ( compare( initial, next, ) && compare( current, next, ) ) {
+	const isNextSameAsInitial = compare( initial, next, );
+	if ( isNextSameAsInitial && compare( current, next, ) ) {
 		return ctaReducerState;
+	}
+
+	let previousInitial: CTAReducerState<Initial>['previousInitial'] = initial;
+	if ( ctaReducerState.previousInitial === null && isNextSameAsInitial ) {
+		previousInitial = null;
 	}
 
 	changesMap.clear();
@@ -205,7 +211,7 @@ function _resetState<Initial extends CTAInitial, >(
 		initial: next as Initial,
 		current: next as Initial,
 		previous: current,
-		previousInitial: initial,
+		previousInitial,
 	};
 }
 
