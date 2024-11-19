@@ -15,44 +15,48 @@ type PayloadValues<
 	( ctaPayloadCallbackParameter: CTAState<Initial> ) => Payload | undefined
 );
 
-type DispatchCTAFlatUpdateRecord<
+export type DispatchCTAFlatUpdateRecord<
 	Initial extends CTAInitial,
+	ReturnValue = void,
 > = {
 	update(
 		payload: PayloadValues<Initial, 'update'>,
-	): void
+	): ReturnValue
 };
 
-type DispatchCTABaseDefaultRecord<
+export type DispatchCTABaseDefaultRecord<
 	Initial extends CTAInitial,
+	ReturnValue = void,
 > = Readonly<{
 	reset(
 		payload?: PayloadValues<Initial, 'reset'>,
-	): void
+	): ReturnValue
 	updateInitial(
 		payload: PayloadValues<Initial, 'updateInitial'>,
-	): void
+	): ReturnValue
 	replace(
 		payload: PayloadValues<Initial, 'replace'>,
-	): void
+	): ReturnValue
 	replaceInitial(
 		payload: PayloadValues<Initial, 'replaceInitial'>,
-	): void
+	): ReturnValue
 }>;
 
 export type DispatchCTADefaultRecord<
 	Initial extends CTAInitial,
+	ReturnValue = void,
 > = DispatchCTABaseDefaultRecord<
-	Initial
+	Initial,
+	ReturnValue
 > & Readonly<{
 	update(
 		key: keyof Initial,
 		value: Initial[keyof Initial],
-	): void
+	): ReturnValue
 	update(
 		payload: PayloadValues<Initial, 'update'>,
 		value?: never,
-	): void
+	): ReturnValue
 }>;
 
 export type UpdateInitialCTAProps<
@@ -148,43 +152,47 @@ type CustomCTARecord<
 type DispatchCustomCTARecordValues<
 	Initial extends CTAInitial,
 	ActionValue,
+	ReturnValue = void,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = ActionValue extends ( ( ctaParam: any, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
 	Args extends []
 		// Represents CTA object without arguments.
-		? ( () => void )
+		? ( () => ReturnValue )
 		: (
 			Args extends [unknown?, ...infer A,]
-				? ( ( payload?: Args[0] | ( ( payloadParameter: CTAState<Initial> ) => Args[0] | undefined ), ...args: A ) => void )
+				? ( ( payload?: Args[0] | ( ( payloadParameter: CTAState<Initial> ) => Args[0] | undefined ), ...args: A ) => ReturnValue )
 				: Args extends [infer Payload, ...infer A,] ? (
 					Payload extends undefined
 					// Represents CTA object optional payload.
-						? ( ( payload?: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => void )
+						? ( ( payload?: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue )
 					// Represents CTA object a payload.
-						: ( payload: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => void
+						: ( payload: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue
 				) : never
 		)
 ) : never;
 
-type DispatchCustomCTARecord<
+export type DispatchCustomCTARecord<
 	Initial extends CTAInitial,
 	Actions,
+	ReturnValue = void,
 	CustomActions = CustomCTARecord<Initial, Actions>,
 > = CustomActions extends Record<string | number | symbol, never> ?
 	CustomActions : {
 		[Action in keyof CustomActions]: DispatchCustomCTARecordValues<
 			Initial,
-			CustomActions[Action]
+			CustomActions[Action],
+			ReturnValue
 		>
 	};
 
 export type UseCTAReturnTypeDispatchCTA<
 	Initial extends CTAInitial,
 	Actions,
+	ReturnValue = void,
 > = Readonly<
 	OmitEmptyRecord<
-		DispatchCustomCTARecord<Initial, Actions> &
-		DispatchCTADefaultRecord<Initial>
+		DispatchCustomCTARecord<Initial, Actions, ReturnValue> &
+		DispatchCTADefaultRecord<Initial, ReturnValue>
 	>
 >;
 
@@ -203,7 +211,7 @@ type CustomDispatchValueRecord<
 		}
 	};
 
-type CustomDispatchValueRecordValues<
+export type CustomDispatchValueRecordValues<
 	Initial extends CTAInitial,
 	Actions,
 	CustomActions = CustomDispatchValueRecord<Initial, Actions>,
@@ -212,14 +220,16 @@ type CustomDispatchValueRecordValues<
 export type DispatchCTA<
 	Initial extends CTAInitial,
 	Actions,
-> = ( value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never> ) => void;
+	ReturnValue = void,
+> = ( value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never> ) => ReturnValue;
 
 export type UseCTAReturnTypeDispatch<
 	Initial extends CTAInitial,
 	Actions,
+	ReturnValue = void,
 > = Immutable<
-	DispatchCTA<Initial, Actions> & {
-		cta: UseCTAReturnTypeDispatchCTA<Initial, Actions>
+	DispatchCTA<Initial, Actions, ReturnValue> & {
+		cta: UseCTAReturnTypeDispatchCTA<Initial, Actions, ReturnValue>
 		state: CTAState<Initial>
 	}
 >;
