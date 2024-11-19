@@ -12,7 +12,7 @@
   "devDependencies": {
     "@parcel/packager-ts": "2.13.0",
     "@parcel/transformer-typescript-types": "2.13.0",
-    "@stylistic/eslint-plugin": "2.10.1",
+    "@stylistic/eslint-plugin": "2.11.0",
     "@swc/jest": "0.2.37",
     "@testing-library/react": "16.0.1",
     "@types/jest": "29.5.14",
