@@ -506,6 +506,25 @@ describe( 'dispatch.cta.reset( payload )', function() {
 		expect( resetCTADispatchState === result.current[ 0 ], ).toBe( true, );
 	}, );
 
+	test( 'should not reset when previous is null', function() {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+
+		const [state,] = result.current;
+		act( () => {
+			// @ts-expect-error test `null` case
+			result.current[ 1 ].cta.reset( state => state.previous, );
+		}, );
+
+		expect( result.current[ 0 ], ).toBe( state, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previous, ).toBe( null, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBe( null, );
+		expect( result.current[ 0 ].changes, ).toBe( null, );
+	}, );
+
 	describe( 'as augmented action', function() {
 		describe( 'without options', () => {
 			test( 'should set new `initial` to be `payload`', function() {
