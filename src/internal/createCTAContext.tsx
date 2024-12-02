@@ -1,9 +1,10 @@
 import React, { createContext, useContext, } from 'react';
-import { useCTA, UseCTAReturnType, } from '../index';
 import type { CTAInitial, } from '../types/CTAInitial';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
+import { UseCTAReturnType, } from '../types/UseCTAReturnType';
+import { useCTA, } from './useCTA';
 
 /**
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
