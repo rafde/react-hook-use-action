@@ -1,9 +1,6 @@
-import { strictDeepEqual, } from 'fast-equals';
+import { UseCTAParameterCompare, } from './UseCTAParameterCompare';
 import type { CTAInitial, } from './CTAInitial';
-
-type OnInitCallback<Initial,> = ( initial: Initial ) => Initial;
-
-type CompareCallback = ( a: unknown, b: unknown, cmp: typeof strictDeepEqual ) => boolean;
+import { UseCTAParameterOnInit, } from './UseCTAParameterOnInit';
 
 export type UseCTAParameter<
 	Initial extends CTAInitial,
@@ -11,11 +8,11 @@ export type UseCTAParameter<
 > = Actions extends undefined ? {
 	actions?: undefined
 	initial: Initial
-	onInit?: OnInitCallback<Initial>
-	compare?: CompareCallback
+	onInit?: UseCTAParameterOnInit<Initial>
+	compare?: UseCTAParameterCompare
 } : {
 	actions: Actions
 	initial: Initial
-	onInit?: OnInitCallback<Initial>
-	compare?: CompareCallback
+	onInit?: UseCTAParameterOnInit<Initial>
+	compare?: UseCTAParameterCompare
 };

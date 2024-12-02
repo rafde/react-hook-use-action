@@ -10,6 +10,10 @@ export type { CTAInitial, } from './types/CTAInitial';
 
 export type { UseCTAParameter, } from './types/UseCTAParameter';
 
+export type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
+
+export type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
+
 export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
