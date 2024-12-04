@@ -1,184 +1,199 @@
+import { strictDeepEqual } from "fast-equals";
 import React from "react";
+import { JSX } from "react/jsx-runtime";
 export type CTAInitial = Record<string | number, unknown>;
-type PredefinedActions = 'replace' | 'replaceInitial' | 'reset' | 'update';
-type ActionTypeConstructParam<Initial extends CTAInitial> = {
-    type: PredefinedActions;
-    nextState?: Initial | Partial<Initial>;
-    options?: {
-        useDefault: boolean;
-    };
-};
-declare class ActionType<Initial extends CTAInitial> {
-    readonly type: ActionTypeConstructParam<Initial>['type'];
-    readonly nextState: Readonly<ActionTypeConstructParam<Initial>['nextState']>;
-    readonly options: Readonly<Exclude<ActionTypeConstructParam<Initial>['options'], undefined>>;
-    constructor(param: ActionTypeConstructParam<Initial>);
-}
-declare class ReplaceActionType<Initial extends CTAInitial> extends ActionType<Initial> {
-    static create<Initial extends CTAInitial>(nextState: Initial, options?: ActionTypeConstructParam<Initial>['options']): ReplaceActionType<Initial>;
-    constructor(param: Pick<ActionTypeConstructParam<Initial>, 'options'> & {
-        nextState: Initial;
-    });
-}
-declare class ReplaceInitialActionType<Initial extends CTAInitial> extends ActionType<Initial> {
-    static create<Initial extends CTAInitial>(nextState: Initial, options?: ActionTypeConstructParam<Initial>['options']): ReplaceInitialActionType<Initial>;
-    constructor(param: Pick<ActionTypeConstructParam<Initial>, 'options'> & {
-        nextState: Initial;
-    });
-}
-declare class ResetActionType<Initial extends CTAInitial> extends ActionType<Initial> {
-    static create<Initial extends CTAInitial>(nextState?: Initial, options?: ActionTypeConstructParam<Initial>['options']): ResetActionType<Initial>;
-    constructor(param: Pick<ActionTypeConstructParam<Initial>, 'options'> & {
-        nextState?: Initial;
-    });
-}
-declare class UpdateActionType<Initial extends CTAInitial> extends ActionType<Initial> {
-    static create<Initial extends CTAInitial>(nextState: Partial<Initial>, options?: ActionTypeConstructParam<Initial>['options']): UpdateActionType<Initial>;
-    constructor(param: Pick<ActionTypeConstructParam<Initial>, 'options'> & {
-        nextState: Partial<Initial>;
-    });
-}
-type OptionsParams = Record<string | number, unknown>;
-export type CustomCTAStateParam<Initial extends CTAInitial> = Readonly<{
+export type CTAState<Initial extends CTAInitial> = Readonly<{
     initial: Readonly<Initial>;
+    previousInitial: Readonly<Initial> | null;
     current: Readonly<Initial>;
-    previous: Readonly<Initial>;
+    previous: Readonly<Initial> | null;
     changes: Readonly<Partial<Initial>> | null;
-    options?: Readonly<OptionsParams>;
-    updateAction(result: Partial<Initial>, options?: ActionTypeConstructParam<Initial>['options']): UpdateActionType<Initial>;
-    replaceAction(result: Initial, options?: ActionTypeConstructParam<Initial>['options']): ReplaceActionType<Initial>;
-    replaceInitialAction(result: Initial, options?: ActionTypeConstructParam<Initial>['options']): ReplaceInitialActionType<Initial>;
-    resetAction(result?: Initial, options?: ActionTypeConstructParam<Initial>['options']): ResetActionType<Initial>;
 }>;
-type CustomCTAReturnType<Initial extends CTAInitial> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | Partial<Initial>;
-export type CTAStateParam<Initial extends CTAInitial> = Readonly<Pick<CustomCTAStateParam<Initial>, 'changes' | 'current' | 'initial' | 'previous' | 'options'>>;
-type UseCTAParameterActionsPredefinedRecord<Initial extends CTAInitial> = {
-    replace?: (ctaState: CTAStateParam<Initial>, payload: Initial) => Initial | undefined;
-    replaceInitial?: (ctaState: CTAStateParam<Initial>, payload: Initial) => Initial | undefined;
-    reset?: (ctaState: CTAStateParam<Initial>, payload?: Initial) => Initial | undefined;
-    update?: (ctaState: CTAStateParam<Initial>, payload: Partial<Initial>) => Partial<Initial> | undefined;
+type DefaultActionsRecord<Initial extends CTAInitial> = {
+    replace(ctaState: CTAState<Initial>, payload: Initial): Initial | undefined;
+    replaceInitial(ctaState: CTAState<Initial>, payload: Initial): Initial | undefined;
+    reset(ctaState: CTAState<Initial>, payload?: Initial): Initial | undefined;
+    update(ctaState: CTAState<Initial>, payload: Partial<Initial>): Partial<Initial> | undefined;
+    updateInitial(ctaState: CTAState<Initial>, payload: Partial<Initial>): Partial<Initial> | undefined;
 };
+export type UseCTAParameterCompare = (a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean;
+export type UseCTAParameterOnInit<Initial> = (initial: Initial) => Initial;
+export type UseCTAParameter<Initial extends CTAInitial, Actions> = Actions extends undefined ? {
+    actions?: undefined;
+    initial: Initial;
+    onInit?: UseCTAParameterOnInit<Initial>;
+    compare?: UseCTAParameterCompare;
+} : {
+    actions: Actions;
+    initial: Initial;
+    onInit?: UseCTAParameterOnInit<Initial>;
+    compare?: UseCTAParameterCompare;
+};
+type ActionTypeOptionsNoAugmentedActionDefined = {
+    useDefault: true;
+};
+type ActionTypeOptions = {
+    useDefault?: false;
+} | ActionTypeOptionsNoAugmentedActionDefined;
+type ActionTypeConstructParam<Initial extends CTAInitial, Type extends keyof DefaultActionsRecord<Initial>> = {
+    actionTypeOptions?: ActionTypeOptions;
+    hasAugmentedAction: boolean;
+    nextState: Parameters<DefaultActionsRecord<Initial>[Type]>[1];
+    type: Type;
+};
+declare class ActionType<Initial extends CTAInitial, Type extends keyof DefaultActionsRecord<Initial>> {
+    readonly type: ActionTypeConstructParam<Initial, Type>['type'];
+    readonly nextState: Readonly<ActionTypeConstructParam<Initial, Type>['nextState']>;
+    readonly actionTypeOptions: ActionTypeOptions;
+    constructor(param: ActionTypeConstructParam<Initial, Type>);
+}
+declare class UpdateInitialActionType<Initial extends CTAInitial> extends ActionType<Initial, 'updateInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Initial, 'updateInitial'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>);
+}
+declare function createUpdateInitialActionType<Initial extends CTAInitial, Actions>(actions: Actions): (nextState: ActionTypeConstructParam<Initial, "updateInitial">["nextState"], actionTypeOptions?: ActionTypeOptions) => UpdateInitialActionType<Initial>;
+declare class ResetActionType<Initial extends CTAInitial> extends ActionType<Initial, 'reset'> {
+    constructor(param: Pick<ActionTypeConstructParam<Initial, 'reset'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>);
+}
+declare function createResetActionType<Initial extends CTAInitial, Actions>(actions: Actions): (nextState?: ActionTypeConstructParam<Initial, "reset">["nextState"], actionTypeOptions?: ActionTypeOptions) => ResetActionType<Initial>;
+declare class UpdateActionType<Initial extends CTAInitial> extends ActionType<Initial, 'update'> {
+    constructor(param: Pick<ActionTypeConstructParam<Initial, 'update'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>);
+}
+declare function createUpdateActionType<Initial extends CTAInitial, Actions>(actions: Actions): (nextState: ActionTypeConstructParam<Initial, "update">["nextState"], actionTypeOptions?: ActionTypeOptions) => UpdateActionType<Initial>;
+declare class ReplaceActionType<Initial extends CTAInitial> extends ActionType<Initial, 'replace'> {
+    constructor(param: Pick<ActionTypeConstructParam<Initial, 'replace'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>);
+}
+declare function createReplaceActionType<Initial extends CTAInitial, Actions>(actions: Actions): (nextState: ActionTypeConstructParam<Initial, "replace">["nextState"], actionTypeOptions?: ActionTypeOptions) => ReplaceActionType<Initial>;
+declare class ReplaceInitialActionType<Initial extends CTAInitial> extends ActionType<Initial, 'replaceInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Initial, 'replaceInitial'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>);
+}
+declare function createReplaceInitialActionType<Initial extends CTAInitial, Actions>(actions: Actions): (nextState: ActionTypeConstructParam<Initial, "replaceInitial">["nextState"], actionTypeOptions?: ActionTypeOptions) => ReplaceInitialActionType<Initial>;
+type Immutable<T> = T extends (infer R)[] ? ReadonlyArray<Immutable<R>> : T extends Function ? T : T extends object ? {
+    readonly [P in keyof T]: Immutable<T[P]>;
+} : T;
+export type CustomCTAStateParam<Initial extends CTAInitial, Actions> = CTAState<Initial> & Immutable<{
+    replaceAction: ReturnType<typeof createReplaceActionType<Initial, Actions>>;
+    replaceInitialAction: ReturnType<typeof createReplaceInitialActionType<Initial, Actions>>;
+    resetAction: ReturnType<typeof createResetActionType<Initial, Actions>>;
+    updateAction: ReturnType<typeof createUpdateActionType<Initial, Actions>>;
+    updateInitialAction: ReturnType<typeof createUpdateInitialActionType<Initial, Actions>>;
+}>;
+type CustomCTAReturnType<Initial extends CTAInitial> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | UpdateInitialActionType<Initial> | Partial<Initial>;
 type UseCTAParameterActionsCustomRecord<Initial extends CTAInitial> = {
-    [customAction: string | number]: ((ctaParam: CustomCTAStateParam<Initial>, payload?: any) => CustomCTAReturnType<Initial>);
+    [customAction: string | number]: (ctaState: CustomCTAStateParam<Initial, undefined>, ...args: any[]) => CustomCTAReturnType<Initial>;
 };
-type UseCTAParameterActionsRecordProp<Initial extends CTAInitial> = UseCTAParameterActionsCustomRecord<Initial> & UseCTAParameterActionsPredefinedRecord<Initial>;
+type UseCTAParameterActionsRecordProp<Initial extends CTAInitial> = Partial<DefaultActionsRecord<Initial>> & UseCTAParameterActionsCustomRecord<Initial>;
+type CustomActionsRecord<Initial extends CTAInitial, Actions> = {
+    [Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: (ctaState: CustomCTAStateParam<Initial, Actions>, ...args: any[]) => CustomCTAReturnType<Initial>;
+};
+type ActionsRecordProp<Initial extends CTAInitial, Actions extends Partial<DefaultActionsRecord<Initial>>> = Partial<DefaultActionsRecord<Initial>> & CustomActionsRecord<Initial, Actions>;
+type ArgsProp<Args extends unknown[]> = Args extends [] ? {
+    args?: undefined;
+} : ([
+    undefined
+] extends Args ? {
+    args?: Args;
+} : {
+    args: Args;
+});
+type DispatchValueActionPayloadArgsProps<Args extends unknown[]> = Args extends [infer Payload, ...infer A] ? ({
+    payload: Payload;
+} & ArgsProp<A>) : Args extends [] ? {
+    payload?: undefined;
+    args?: undefined;
+} : ([
+    undefined
+] extends Args ? ({
+    payload?: Args[0];
+} & (Args extends [unknown?, ...infer Options] ? ArgsProp<Options> : {
+    args?: undefined;
+})) : never);
 type OmitEmptyRecord<T> = {
     [K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K];
 };
-export type CTAPayloadCallbackParameter<Initial extends CTAInitial> = Readonly<Pick<CustomCTAStateParam<Initial>, 'changes' | 'current' | 'initial' | 'previous'>>;
-type ReplaceCTAProps<Initial extends CTAInitial> = {
-    type: 'replace';
-    payload: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined);
-    options?: OptionsParams;
+type PayloadValues<Initial extends CTAInitial, ActionType extends keyof DefaultActionsRecord<Initial>, Payload = Parameters<DefaultActionsRecord<Initial>[ActionType]>[1]> = Payload | ((ctaPayloadCallbackParameter: CTAState<Initial>) => Payload | undefined);
+type DispatchCTAFlatUpdateRecord<Initial extends CTAInitial, ReturnValue = void> = {
+    update(payload: PayloadValues<Initial, 'update'>): ReturnValue;
 };
-type ReplaceInitialCTAProps<Initial extends CTAInitial> = {
-    type: 'replaceInitial';
-    payload: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined);
-    options?: OptionsParams;
+type DispatchCTABaseDefaultRecord<Initial extends CTAInitial, ReturnValue = void> = Readonly<{
+    reset(payload?: PayloadValues<Initial, 'reset'>): ReturnValue;
+    updateInitial(payload: PayloadValues<Initial, 'updateInitial'>): ReturnValue;
+    replace(payload: PayloadValues<Initial, 'replace'>): ReturnValue;
+    replaceInitial(payload: PayloadValues<Initial, 'replaceInitial'>): ReturnValue;
+}>;
+type DispatchCTADefaultRecord<Initial extends CTAInitial, ReturnValue = void> = DispatchCTABaseDefaultRecord<Initial, ReturnValue> & Readonly<{
+    update(key: keyof Initial, value: Initial[keyof Initial]): ReturnValue;
+    update(payload: PayloadValues<Initial, 'update'>, value?: never): ReturnValue;
+}>;
+type UpdateInitialCTAProps<Initial extends CTAInitial> = DispatchValueActionPayloadArgsProps<Parameters<DispatchCTADefaultRecord<Initial>['updateInitial']>> & {
+    type: 'updateInitial';
+    args?: never;
 };
-type ResetCTAProps<Initial extends CTAInitial> = {
+type ResetCTAProps<Initial extends CTAInitial> = DispatchValueActionPayloadArgsProps<Parameters<DispatchCTADefaultRecord<Initial>['reset']>> & {
     type: 'reset';
-    payload?: undefined;
-    options?: OptionsParams;
-} | {
-    type: 'reset';
-    payload?: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined);
-    options?: OptionsParams;
+    args?: never;
 };
-type UpdateCTAProps<Initial extends CTAInitial> = {
+type UpdateCTAProps<Initial extends CTAInitial> = DispatchValueActionPayloadArgsProps<Parameters<DispatchCTAFlatUpdateRecord<Initial>['update']>> & {
     type: 'update';
-    payload: Partial<Initial> | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Partial<Initial> | undefined);
-    options?: OptionsParams;
+    args?: never;
 };
-type DefaultCTAProps<Initial extends CTAInitial> = ReplaceCTAProps<Initial> | ReplaceInitialCTAProps<Initial> | ResetCTAProps<Initial> | UpdateCTAProps<Initial>;
-type CustomCTAWithoutArgumentsRecord<Initial extends CTAInitial, Actions = undefined> = {
-    [Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends (() => Partial<Initial>) ? (Parameters<Actions[Action]>['length'] extends 0 ? Action : never) : never]: (() => Partial<Initial>);
+type ReplaceCTAProps<Initial extends CTAInitial> = DispatchValueActionPayloadArgsProps<Parameters<DispatchCTADefaultRecord<Initial>['replace']>> & {
+    type: 'replace';
+    args?: never;
 };
-type CustomCTAWithoutArgumentsProps<Initial extends CTAInitial, Actions = undefined, CustomActionsWithoutPayloadRecord = CustomCTAWithoutArgumentsRecord<Initial, Actions>> = CustomActionsWithoutPayloadRecord extends Record<string | number | symbol, never> ? never : {
-    type: keyof CustomActionsWithoutPayloadRecord;
-    payload?: never;
-    options?: never;
+type ReplaceInitialCTAProps<Initial extends CTAInitial> = DispatchValueActionPayloadArgsProps<Parameters<DispatchCTADefaultRecord<Initial>['replaceInitial']>> & {
+    type: 'replaceInitial';
+    args?: never;
 };
-type CustomCTAWithoutPayloadRecord<Initial extends CTAInitial, Actions = undefined> = {
-    [Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends ((ctaParam: CustomCTAStateParam<Initial>, payload: never) => CustomCTAReturnType<Initial>) ? (Parameters<Actions[Action]>['length'] extends 1 ? Action : never) : never]: ((ctaParam: CustomCTAStateParam<Initial>, payload: never) => CustomCTAReturnType<Initial>);
+type DefaultCTAProps<Initial extends CTAInitial> = UpdateInitialCTAProps<Initial> | ResetCTAProps<Initial> | UpdateCTAProps<Initial> | ReplaceCTAProps<Initial> | ReplaceInitialCTAProps<Initial>;
+type CustomCTARecord<Initial extends CTAInitial, Actions> = {
+    [Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>> as Actions[Action] extends (...args: infer Args) => CustomCTAReturnType<Initial> ? (Args extends [] ? Action : ([
+        undefined
+    ] extends Args ? Action : (Args extends [...infer A] ? (A[0] extends CustomCTAStateParam<Initial, Actions> ? Action : never) : never))) : never]: Actions[Action];
 };
-type CustomCTAWithoutPayloadProps<Initial extends CTAInitial, Actions = undefined, CustomActionsWithoutPayloadRecord = CustomCTAWithoutPayloadRecord<Initial, Actions>> = CustomActionsWithoutPayloadRecord extends Record<string | number | symbol, never> ? never : {
-    type: keyof CustomActionsWithoutPayloadRecord;
-    payload?: never;
-    options?: OptionsParams;
+type DispatchCustomCTARecordValues<Initial extends CTAInitial, ActionValue, ReturnValue = void> = ActionValue extends ((ctaParam: any, ...args: infer Args) => CustomCTAReturnType<Initial>) ? (Args extends [] ? (() => ReturnValue) : (Args extends [unknown?, ...infer A] ? ((payload?: Args[0] | ((payloadParameter: CTAState<Initial>) => Args[0] | undefined), ...args: A) => ReturnValue) : Args extends [infer Payload, ...infer A] ? (Payload extends undefined ? ((payload?: Payload | ((payloadParameter: CTAState<Initial>) => Payload | undefined), ...args: A) => ReturnValue) : (payload: Payload | ((payloadParameter: CTAState<Initial>) => Payload | undefined), ...args: A) => ReturnValue) : never)) : never;
+type DispatchCustomCTARecord<Initial extends CTAInitial, Actions, ReturnValue = void, CustomActions = CustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
+    [Action in keyof CustomActions]: DispatchCustomCTARecordValues<Initial, CustomActions[Action], ReturnValue>;
 };
-type CTAWithOptionalPayloadRecordParameters<Initial extends CTAInitial, CTA> = CTA extends ((ctaParam: CustomCTAStateParam<Initial>, payload?: infer P) => Partial<Initial> | undefined) ? P : never;
-type CustomCTAWithOptionalPayloadRecord<Initial extends CTAInitial, Actions = undefined> = {
-    [Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends ((ctaParam: CustomCTAStateParam<Initial>, payload?: infer U) => CustomCTAReturnType<Initial>) ? (undefined extends U ? never : Action) : never]: (ctaParam: CustomCTAStateParam<Initial>, payload?: CTAWithOptionalPayloadRecordParameters<Initial, Actions[Action]>) => CustomCTAReturnType<Initial>;
+type UseCTAReturnTypeDispatchCTA<Initial extends CTAInitial, Actions, ReturnValue = void> = Readonly<OmitEmptyRecord<DispatchCustomCTARecord<Initial, Actions, ReturnValue> & DispatchCTADefaultRecord<Initial, ReturnValue>>>;
+type CustomDispatchValueRecord<Initial extends CTAInitial, Actions, CustomActions = DispatchCustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
+    [Action in keyof CustomActions]: (CustomActions[Action] extends ((...args: infer Args) => void) ? DispatchValueActionPayloadArgsProps<Args> : never) & {
+        type: Action;
+    };
 };
-type CustomCTAWithOptionalPayloadProps<Initial extends CTAInitial, Actions = undefined, CustomActionsWithOptionalPayloadRecord = CustomCTAWithOptionalPayloadRecord<Initial, Actions>, CustomActionsWithOptionalPayloadParameter = CTAWithOptionalPayloadRecordParameters<Initial, CustomActionsWithOptionalPayloadRecord[keyof CustomActionsWithOptionalPayloadRecord]>> = CustomCTAWithOptionalPayloadRecord<Initial, Actions> extends Record<string | number | symbol, never> ? never : {
-    type: keyof CustomActionsWithOptionalPayloadRecord;
-    payload?: CustomActionsWithOptionalPayloadParameter | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => CustomActionsWithOptionalPayloadParameter | undefined);
-    options?: OptionsParams;
-};
-type CTAWithPayloadParameter<Initial extends CTAInitial, CTA> = CTA extends ((ctaParam: CustomCTAStateParam<Initial>, payload: infer P) => CustomCTAReturnType<Initial>) ? P : never;
-type CustomCTAWithPayloadRecord<Initial extends CTAInitial, Actions = undefined> = {
-    [Action in Exclude<keyof Actions, keyof DispatchDefaultCTARecord<Initial>> as Actions[Action] extends ((ctaParam: CustomCTAStateParam<Initial>, payload: infer U) => CustomCTAReturnType<Initial>) ? (undefined extends U ? never : Action) : never]: (ctaParam: CustomCTAStateParam<Initial>, payload: CTAWithPayloadParameter<Initial, Actions[Action]>) => CustomCTAReturnType<Initial>;
-};
-type CustomCTAWithPayloadProps<Initial extends CTAInitial, Actions = undefined, CustomActionsWithPayload = CustomCTAWithPayloadRecord<Initial, Actions>, CustomActionsWithPayloadParameter = CTAWithPayloadParameter<Initial, CustomActionsWithPayload[keyof CustomActionsWithPayload]>> = CustomActionsWithPayload extends Record<string | number | symbol, never> ? never : {
-    type: keyof CustomActionsWithPayload;
-    payload: CustomActionsWithPayloadParameter | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => CustomActionsWithPayloadParameter | undefined);
-    options?: OptionsParams;
-};
-type DispatchCTA<Initial extends CTAInitial, Actions = undefined> = (value: Exclude<CustomCTAWithoutArgumentsProps<Initial, Actions> | CustomCTAWithoutPayloadProps<Initial, Actions> | CustomCTAWithOptionalPayloadProps<Initial, Actions> | CustomCTAWithPayloadProps<Initial, Actions> | DefaultCTAProps<Initial>, never>) => void;
-type DispatchCustomCTAWithoutArguments<Initial extends CTAInitial, Actions = undefined, CustomActionsWithoutArgumentsRecord = CustomCTAWithoutArgumentsRecord<Initial, Actions>> = CustomActionsWithoutArgumentsRecord extends Record<string | number | symbol, never> ? CustomActionsWithoutArgumentsRecord : {
-    [Action in keyof CustomActionsWithoutArgumentsRecord]: () => void;
-};
-type DispatchCustomCTAWithoutPayload<Initial extends CTAInitial, Actions = undefined, CustomActionsWithoutPayloadRecord = CustomCTAWithoutPayloadRecord<Initial, Actions>> = CustomActionsWithoutPayloadRecord extends Record<string | number | symbol, never> ? CustomActionsWithoutPayloadRecord : {
-    [Action in keyof CustomActionsWithoutPayloadRecord]: (payload?: undefined, options?: OptionsParams) => void;
-};
-type DispatchCustomCTAWithOptionalPayload<Initial extends CTAInitial, Actions = undefined, CustomActionsWithOptionalPayloadRecord = CustomCTAWithOptionalPayloadRecord<Initial, Actions>, CustomActionsWithOptionalPayloadParameters = CTAWithOptionalPayloadRecordParameters<Initial, CustomActionsWithOptionalPayloadRecord[keyof CustomActionsWithOptionalPayloadRecord]>> = CustomActionsWithOptionalPayloadRecord extends Record<string | number | symbol, never> ? CustomActionsWithOptionalPayloadRecord : Readonly<{
-    [Action in keyof CustomActionsWithOptionalPayloadRecord]: (payload?: CustomActionsWithOptionalPayloadParameters | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => CustomActionsWithOptionalPayloadParameters | void), options?: OptionsParams) => void;
+type CustomDispatchValueRecordValues<Initial extends CTAInitial, Actions, CustomActions = CustomDispatchValueRecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
+type DispatchCTA<Initial extends CTAInitial, Actions, ReturnValue = void> = (value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never>) => ReturnValue;
+export type UseCTAReturnTypeDispatch<Initial extends CTAInitial, Actions, ReturnValue = void> = Immutable<DispatchCTA<Initial, Actions, ReturnValue> & {
+    cta: UseCTAReturnTypeDispatchCTA<Initial, Actions, ReturnValue>;
+    state: CTAState<Initial>;
 }>;
-type DispatchCustomCTAWithPayload<Initial extends CTAInitial, Actions = undefined, CustomActionsWithPayloadRecord = CustomCTAWithPayloadRecord<Initial, Actions>, CustomActionsWithPayloadParameters = CTAWithPayloadParameter<Initial, CustomActionsWithPayloadRecord[keyof CustomActionsWithPayloadRecord]>> = CustomActionsWithPayloadRecord extends Record<string | number | symbol, never> ? CustomActionsWithPayloadRecord : {
-    [Action in keyof CustomActionsWithPayloadRecord]: (payload: CustomActionsWithPayloadParameters | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => CustomActionsWithPayloadParameters | void), options?: OptionsParams) => void;
-};
-type DispatchDefaultCTARecord<Initial extends CTAInitial> = Readonly<{
-    replace(payload: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined), options?: OptionsParams): void;
-    replaceInitial(payload: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined), options?: OptionsParams): void;
-    reset(payload?: undefined, options?: OptionsParams): void;
-    reset(payload?: Initial | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Initial | undefined), options?: OptionsParams): void;
-    update(payload: Partial<Initial> | ((ctaPayloadCallbackParameter: CTAPayloadCallbackParameter<Initial>) => Partial<Initial> | undefined), options?: OptionsParams): void;
-    update(key: keyof Initial, value: Initial[keyof Initial], options?: OptionsParams): void;
-}>;
-type UseCTAReturnTypeDispatchCTA<Initial extends CTAInitial, Actions = undefined> = Readonly<OmitEmptyRecord<DispatchCustomCTAWithoutArguments<Initial, Actions> & DispatchCustomCTAWithOptionalPayload<Initial, Actions> & DispatchCustomCTAWithoutPayload<Initial, Actions> & DispatchCustomCTAWithPayload<Initial, Actions> & DispatchDefaultCTARecord<Initial>>>;
-type UseCTAReturnTypeDispatchState<Initial extends CTAInitial> = Readonly<Pick<CustomCTAStateParam<Initial>, 'changes' | 'current' | 'initial' | 'previous'>>;
-export type UseCTAReturnTypeDispatch<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined> = DispatchCTA<Initial, Actions> & {
-    readonly cta: UseCTAReturnTypeDispatchCTA<Initial, Actions>;
-    readonly state: UseCTAReturnTypeDispatchState<Initial>;
-};
-/**
- * @template Initial - Initial state of the CTA.
- * @template Actions - Record of action functions to be used in the context of the CTA.
- * @typedef {Object} UseCTAParameter
- * @property {Actions | undefined} [actions] - Record of action functions to be used in the context of the CTA.
- * @property {Initial} initial - Initial state of the CTA.
- * @property {((initial: Initial) => Initial) | undefined} [onInit] - Function to be called when the CTA is initialized.
- */
-export type UseCTAParameter<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined> = {
-    actions?: Actions;
-    initial: Initial;
-    onInit?: ((initial: Initial) => Initial);
-};
-export type UseCTAReturnType<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined = undefined> = [
-    Initial,
-    UseCTAReturnTypeDispatch<Initial, Actions>
+export type UseCTAReturnType<Initial extends CTAInitial, Actions, ReturnValue = void> = [
+    CTAState<Initial>,
+    UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>
 ];
+export function useCTA<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: UseCTAParameter<Initial, ActionsRecord>): UseCTAReturnType<Initial, ActionsRecord>;
+export function returnUseCTAParameter<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial>, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(params: UseCTAParameter<Initial, ActionsRecord>): UseCTAParameter<Initial, ActionsRecord>;
 /**
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
- * @param contextParams
  */
-export function createCTAContext<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined>(contextParams: UseCTAParameter<Initial, Actions>): {
-    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit">>>): import("react/jsx-runtime").JSX.Element;
-    useCTAStateContext(): Initial;
-    useCTADispatchContext(): UseCTAReturnTypeDispatch<Initial, Actions> | null;
+export function createCTAContext<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(contextParams: UseCTAParameter<Initial, Actions>): {
+    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit">>>): JSX.Element;
+    useCTAStateContext(): Readonly<{
+        initial: Readonly<Initial>;
+        previousInitial: Readonly<Initial> | null;
+        current: Readonly<Initial>;
+        previous: Readonly<Initial> | null;
+        changes: Readonly<Partial<Initial>> | null;
+    }>;
+    useCTADispatchContext(): UseCTAReturnTypeDispatch<Initial, ActionsRecord, void> | null;
 };
-export function useCTA<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined>(useCTAParameter: UseCTAParameter<Initial, Actions>): UseCTAReturnType<Initial, Actions>;
-export function returnActionsType<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial>>(initial: Initial, actions: Actions): Actions;
+export function ctaCallback<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: ActionsRecord extends undefined ? {
+    actions?: undefined;
+    initial: Initial;
+    compare?: ((a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean);
+} : {
+    actions: ActionsRecord;
+    initial: Initial;
+    compare?: ((a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean);
+}): UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>>;
 
 //# sourceMappingURL=types.d.ts.map
