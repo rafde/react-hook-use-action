@@ -24,6 +24,14 @@ module.exports = {
 				node: true,
 			},
 			files: [
+				'next.config.js',
+			],
+		},
+		{
+			env: {
+				node: true,
+			},
+			files: [
 				'.eslintrc.{js,cjs}',
 			],
 			parserOptions: {

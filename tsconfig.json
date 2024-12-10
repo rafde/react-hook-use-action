@@ -13,25 +13,35 @@
     "jsxImportSource": "react",
     "lib": [
       "ESNext",
-      "DOM"
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "strictBindCallApply": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES2017"
   },
   "exclude": [
     "./node_modules",
     "./dist"
   ],
   "include": [
+    "next-env.d.ts",
     "src/**/*.ts",
-    "__tests__/**/*"
+    "__tests__/**/*",
+    "next.config.js",
+    ".next/types/**/*.ts"
   ]
 }
