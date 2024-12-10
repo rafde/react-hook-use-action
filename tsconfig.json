@@ -13,7 +13,6 @@
     "jsxImportSource": "react",
     "lib": [
       "ESNext",
-      "DOM"
     ],
     "module": "esnext",
     "moduleResolution": "node",
