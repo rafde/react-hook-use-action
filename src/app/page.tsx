@@ -1,7 +1,11 @@
+import Install from './Install';
+import Introduction from './Introduction';
+
 export default function Home() {
 	return (
-		<div>
-			react-hook-use-cta docs
-		</div>
+		<>
+			<Introduction />
+			<Install />
+		</>
 	);
 }

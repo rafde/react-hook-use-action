@@ -21,6 +21,11 @@
     "noEmit": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"

@@ -10,6 +10,8 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:react-hooks/recommended',
+		'plugin:@next/next/recommended',
+		'plugin:tailwindcss/recommended',
 	],
 	globals: {
 		globalThis: false, // means it is not writeable
@@ -24,8 +26,11 @@ module.exports = {
 				node: true,
 			},
 			files: [
-				'next.config.js',
+				'{next,postcss,tailwind}.config.js',
 			],
+			rules: {
+				'@typescript-eslint/no-require-imports': 'off',
+			},
 		},
 		{
 			env: {
@@ -133,6 +138,10 @@ module.exports = {
 			'error',
 			'tab',
 		],
+		'@stylistic/jsx-indent-props': [
+			'error',
+			'tab',
+		],
 		'@stylistic/jsx-wrap-multilines': 'off',
 		'@stylistic/linebreak-style': 'error',
 		'@stylistic/lines-around-comment': 'off',
@@ -234,5 +243,14 @@ module.exports = {
 		strict: 'error',
 		'unicode-bom': 'error',
 		yoda: 'error',
+	},
+	settings: {
+		tailwindcss: {
+			config: './tailwind.config.js',
+			callees: [
+				'cn',
+			],
+			classRegex: '(^c|C)lass(Name)?$',
+		},
 	},
 };
