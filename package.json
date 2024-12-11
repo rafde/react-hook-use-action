@@ -8,7 +8,7 @@
   "dependencies": {
     "fast-equals": "^5.0.1"
   },
-  "description": "A somewhat flexible react hook alternative to `React.useReducer`. Written in Typescript.",
+  "description": "A React hook for managing complex state with custom actions, history tracking, and type safety.",
   "devDependencies": {
     "@parcel/bundler-library": "2.13.2",
     "@parcel/packager-ts": "2.13.2",
@@ -44,6 +44,7 @@
     "dist",
     "src"
   ],
+  "homepage": "https://rafde.github.io/react-hook-use-cta",
   "isLibrary": true,
   "keywords": [
     "hooks",
