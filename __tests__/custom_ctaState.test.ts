@@ -30,7 +30,7 @@ describe( 'custom action with ctaState', () => {
 		expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
 		const calcCTADispatchState = result.current[ 1 ].state;
@@ -72,7 +72,7 @@ describe( 'custom action with ctaState', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.previous, ).toBeNull( );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
@@ -117,7 +117,7 @@ describe( 'custom action with ctaState', () => {
 		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 		expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( null, );
+		expect( result.current[ 1 ].state.changes, ).toBeNull( );
 
 		const calcCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -181,7 +181,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+			expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
 			expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
 			const calcCTADispatchState = result.current[ 1 ].state;
@@ -213,7 +213,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].current, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previousInitial, ).toBe( null, );
+			expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
 			expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
 
 			const calcCTADispatchState = result.current[ 1 ].state;
@@ -247,7 +247,7 @@ describe( 'custom action with ctaState', () => {
 			}, );
 
 			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previous, ).toBe( null, );
+			expect( result.current[ 1 ].state.previous, ).toBeNull( );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
 			expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
@@ -286,7 +286,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 1 ].state.previous, ).toBe( initial, );
 			expect( result.current[ 1 ].state.initial, ).toStrictEqual( state, );
 			expect( result.current[ 1 ].state.previousInitial, ).toBe( initial, );
-			expect( result.current[ 1 ].state.changes, ).toStrictEqual( null, );
+			expect( result.current[ 1 ].state.changes, ).toBeNull( );
 
 			const calcCTADispatchState = result.current[ 1 ].state;
 			act( () => {
@@ -303,103 +303,4 @@ describe( 'custom action with ctaState', () => {
 			expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
 		}, );
 	}, );
-/*
-	describe( 'augmented actions', () => {
-		describe( 'options', () => {
-			const params = returnUseCTAParameter( {
-				initial,
-				actions: {
-					update( state, payload, options: { ignoreTrim: boolean }, ) {
-						const { test2, } = payload;
-
-						if ( typeof test2 !== 'string' ) {
-							return payload;
-						}
-
-						if ( options?.ignoreTrim ) {
-							return {
-								test2,
-							};
-						}
-
-						const test3 = test2 === test2.trim();
-
-						return {
-							test2,
-							test3,
-						};
-					},
-					updateInitial( state, payload, options: { ignoreTrim: boolean }, ) {
-						const { test2, } = payload;
-
-						if ( typeof test2 !== 'string' ) {
-							return payload;
-						}
-
-						if ( options?.ignoreTrim ) {
-							return {
-								test2,
-							};
-						}
-
-						const test3 = test2 === test2.trim();
-
-						return {
-							test2,
-							test3,
-						};
-					},
-					reset( state, payload, options: { ignoreTrim: boolean }, ) {
-						if ( !payload ) {
-							return;
-						}
-
-						const { test2, } = payload;
-
-						if ( typeof test2 !== 'string' ) {
-							return payload;
-						}
-
-						if ( options?.ignoreTrim ) {
-							return {
-								test2,
-							};
-						}
-
-						const test3 = test2 === test2.trim();
-
-						return {
-							...state.current,
-							test2,
-							test3,
-						};
-					},
-					val( state, payload: string, trim?: boolean, type?: 'initial' | 'resetCurrent', ) {
-						let test2 = payload;
-						if ( trim ) {
-							test2 = payload.trim();
-						}
-						const next = {
-							test2,
-						};
-						switch ( type ) {
-							case 'initial':
-								return state.updateInitialAction(
-									next,
-								);
-							case 'resetCurrent':
-								return state.resetAction( {
-									...state.current,
-									...next,
-								}, );
-						}
-
-						return next;
-					},
-				},
-			}, );
-		}, );
-	}, );
-
- */
 }, );

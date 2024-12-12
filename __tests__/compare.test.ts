@@ -31,7 +31,7 @@ describe( 'useCTA compare parameter', () => {
 		return cmp( p, n, );
 	};
 
-	it( 'should use custom compare function to determine state changes', () => {
+	test( 'should use custom compare function to determine state changes', () => {
 		const initial = {
 			test1: new CompareTest( 'test', ),
 			test2: 2,
@@ -53,7 +53,7 @@ describe( 'useCTA compare parameter', () => {
 		expect( result.current[ 0 ].current, ).toStrictEqual( newPayload, );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
-		expect( result.current[ 0 ].previousInitial, ).toBe( null, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( { test1, }, );
 		expect( compare, ).toHaveBeenCalledTimes( 2, );
 
@@ -71,7 +71,7 @@ describe( 'useCTA compare parameter', () => {
 		expect( compare, ).toHaveBeenCalledTimes( 3, );
 	}, );
 
-	it( 'should not change when using custom compare function', () => {
+	test( 'should not change when using custom compare function', () => {
 		const compare = jest.fn( compareFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -83,10 +83,10 @@ describe( 'useCTA compare parameter', () => {
 			result.current[ 1 ].cta.update( 'test1', initial.test1, );
 		}, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 0 ].previous, ).toBe( null, );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
-		expect( result.current[ 0 ].previousInitial, ).toBe( null, );
-		expect( result.current[ 0 ].changes, ).toBe( null, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 		expect( state === result.current[ 0 ], ).toBe( true, );
 		expect( compare, ).toHaveBeenCalledTimes( 1, );
 	}, );

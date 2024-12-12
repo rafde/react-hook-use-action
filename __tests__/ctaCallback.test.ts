@@ -34,7 +34,7 @@ describe( 'ctaCallback', () => {
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( { count, }, );
 	}, );
 
@@ -49,7 +49,7 @@ describe( 'ctaCallback', () => {
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( { count, }, );
 	}, );
 
@@ -64,7 +64,7 @@ describe( 'ctaCallback', () => {
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( { 2: val, }, );
 	}, );
 
@@ -80,8 +80,8 @@ describe( 'ctaCallback', () => {
 			count,
 		}, );
 		expect( resetState.initial, ).toStrictEqual( initial, );
-		expect( resetState.previousInitial, ).toBe( null, );
-		expect( resetState.changes, ).toBe( null, );
+		expect( resetState.previousInitial, ).toBeNull( );
+		expect( resetState.changes, ).toBeNull( );
 	}, );
 
 	test( 'should handle custom actions', () => {
@@ -105,7 +105,7 @@ describe( 'ctaCallback', () => {
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( { count, }, );
 	}, );
 
@@ -133,7 +133,7 @@ describe( 'ctaCallback', () => {
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( {
 			count,
 			text,
@@ -147,7 +147,7 @@ describe( 'ctaCallback', () => {
 		const newState = dispatch.cta.updateInitial( { count, }, );
 
 		expect( newState.current, ).toStrictEqual( initial, );
-		expect( newState.previous, ).toBe( null, );
+		expect( newState.previous, ).toBeNull( );
 		expect( newState.initial, ).toStrictEqual( {
 			...initial,
 			count,
@@ -168,7 +168,7 @@ describe( 'ctaCallback', () => {
 		const newState = dispatch.cta.replaceInitial( newInitial, );
 
 		expect( newState.current, ).toStrictEqual( initial, );
-		expect( newState.previous, ).toBe( null, );
+		expect( newState.previous, ).toBeNull( );
 		expect( newState.initial, ).toEqual( newInitial, );
 		expect( newState.previousInitial, ).toEqual( initial, );
 		expect( newState.changes, ).toStrictEqual( initial, );
@@ -188,7 +188,7 @@ describe( 'ctaCallback', () => {
 		expect( newState.current, ).toStrictEqual( newInitial, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
-		expect( newState.previousInitial, ).toBe( null, );
+		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( newInitial, );
 	}, );
 
@@ -200,6 +200,6 @@ describe( 'ctaCallback', () => {
 		}, );
 
 		const newState = dispatch.cta.update( { count: 0, }, );
-		expect( newState.changes, ).toBe( null, );
+		expect( newState.changes, ).toBeNull( );
 	}, );
 }, );

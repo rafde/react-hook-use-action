@@ -85,7 +85,7 @@ describe( 'updateAction', () => {
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
-		expect( result.current[ 0 ].previousInitial, ).toBe( null, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 	}, );
 

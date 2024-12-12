@@ -37,11 +37,11 @@ describe( 'useCTA', () => {
 
 			expect( result.current[ 0 ].current === initial, ).toBe( true, );
 			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.changes, ).toBe( null, );
-			expect( result.current[ 1 ].state.previous, ).toBe( null, );
+			expect( result.current[ 1 ].state.changes, ).toBeNull( );
+			expect( result.current[ 1 ].state.previous, ).toBeNull( );
 		}, );
 
-		test( 'should not create a new dispatch when an action is called', () => {
+		test( 'should not create a new dispatch when a custom action is called', () => {
 			const { result, } = renderHook( () => useCTA( {
 				initial,
 				actions: {
@@ -108,20 +108,18 @@ describe( 'useCTA', () => {
 			expect( result.current[ 1 ].state.changes, ).toBeNull( );
 		}, );
 	}, );
-}, );
-
-describe( 'useCTA', function() {
-	const initialChanges = {
-		there: 'you',
-		you: 'me?',
-		2: 2,
-	};
-	const initial = {
-		...initialChanges,
-		hi: 1,
-	};
 
 	describe( 'custom actions', function() {
+		const initialChanges = {
+			there: 'you',
+			you: 'me?',
+			2: 2,
+		};
+		const initial = {
+			...initialChanges,
+			hi: 1,
+		};
+
 		describe( 'calc', function() {
 			const params = returnUseCTAParameter( {
 				initial,
@@ -469,7 +467,7 @@ describe( 'useCTA', function() {
 						}, );
 					}, );
 					expect( result.current[ 0 ].current, ).toEqual( initial, );
-					expect( result.current[ 1 ].state.changes, ).toBe( null, );
+					expect( result.current[ 1 ].state.changes, ).toBeNull( );
 				}, );
 
 				test( 'should add to `hi` when payload is a function', function() {

@@ -47,7 +47,7 @@ describe( 'replaceInitialAction', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( null, );
+		expect( result.current[ 1 ].state.previous, ).toBeNull( );
 		expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
@@ -90,7 +90,7 @@ describe( 'replaceInitialAction', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBe( null, );
+		expect( result.current[ 1 ].state.previous, ).toBeNull( );
 		expect( result.current[ 1 ].state.initial, ).toStrictEqual( nextState, );
 		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
