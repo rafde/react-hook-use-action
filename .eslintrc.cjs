@@ -25,51 +25,10 @@ module.exports = {
 			},
 			files: [
 				'.eslintrc.{js,cjs}',
+				'__tests__/.eslintrc.{js,cjs}',
 			],
 			parserOptions: {
 				sourceType: 'script',
-			},
-		},
-		{
-			env: {
-				jest: true,
-				'jest/globals': true,
-			},
-			'extends': [
-				'plugin:jest/recommended',
-				'plugin:jest/style',
-				'plugin:testing-library/react',
-			],
-			files: '*.test.ts(x)',
-			plugins: [
-				'jest',
-				'testing-library',
-			],
-			rules: {
-				'jest/consistent-test-it': [
-					'error',
-					{
-						fn: 'test',
-						withinDescribe: 'test',
-					},
-				],
-				'jest/no-alias-methods': 'error',
-				'jest/prefer-comparison-matcher': 'error',
-				'jest/prefer-jest-mocked': 'error',
-				'jest/prefer-lowercase-title': 'error',
-				'jest/prefer-to-be': 'error',
-				'jest/prefer-mock-promise-shorthand': 'error',
-				'jest/prefer-expect-resolves': 'error',
-				'jest/prefer-spy-on': 'error',
-				'jest/prefer-todo': 'error',
-				'testing-library/no-dom-import': 'error',
-				'testing-library/prefer-find-by': 'error',
-			},
-			settings: {
-				jest: {
-					// eslint-disable-next-line @typescript-eslint/no-require-imports
-					version: require( 'jest/package.json', ).version,
-				},
 			},
 		},
 	],
@@ -122,6 +81,10 @@ module.exports = {
 		'@stylistic/jsx-closing-tag-location': 'off',
 		'@stylistic/jsx-closing-bracket-location': 'off',
 		'@stylistic/jsx-indent': [
+			'error',
+			'tab',
+		],
+		'@stylistic/jsx-indent-props': [
 			'error',
 			'tab',
 		],
