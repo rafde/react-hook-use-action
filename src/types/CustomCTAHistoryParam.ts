@@ -6,13 +6,13 @@ import {
 	createUpdateInitialActionType,
 } from '../internal/ActionTypes';
 import type { CTAInitial, } from './CTAInitial';
-import type { CTAState, } from './CTAState';
+import type { CTAHistory, } from './CTAHistory';
 import type { Immutable, } from './Immutable';
 
-export type CustomCTAStateParam<
+export type CustomCTAHistoryParam<
 	Initial extends CTAInitial,
 	Actions,
-> = CTAState<Initial> & Immutable<{
+> = CTAHistory<Initial> & Immutable<{
 	replaceAction: ReturnType<typeof createReplaceActionType<Initial, Actions>>
 	replaceInitialAction: ReturnType<typeof createReplaceInitialActionType<Initial, Actions>>
 	resetAction: ReturnType<typeof createResetActionType<Initial, Actions>>

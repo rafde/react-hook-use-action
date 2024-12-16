@@ -18,6 +18,6 @@ export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 
-export type { CustomCTAStateParam, } from './types/CustomCTAStateParam';
+export type { CustomCTAHistoryParam, } from './types/CustomCTAHistoryParam';
 
-export type { CTAState, } from './types/CTAState';
+export type { CTAHistory, } from './types/CTAHistory';
