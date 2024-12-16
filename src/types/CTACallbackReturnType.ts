@@ -1,4 +1,4 @@
-import { CTAInitial, } from './CTAInitial';
+import { CTAState, } from './CTAState';
 import { CTAHistory, } from './CTAHistory';
 import type { OmitEmptyRecord, } from './OmitEmptyRecord';
 import {
@@ -10,16 +10,16 @@ import {
 } from './UseCTAReturnTypeDispatch';
 
 type CTACallbackFunction<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = ( value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never> ) => CTAHistory<Initial>;
 
 type CTACallbackBaseDefaultRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchCTABaseDefaultRecord<Initial, CTAHistory<Initial>> & DispatchCTAFlatUpdateRecord<Initial, CTAHistory<Initial>>;
 
 export type CTACallbackReturnType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = CTACallbackFunction<Initial, Actions> & OmitEmptyRecord<
 	CTACallbackBaseDefaultRecord<Initial> &

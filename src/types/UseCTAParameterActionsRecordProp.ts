@@ -1,21 +1,21 @@
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 import type { CustomCTAHistoryParam, } from './CustomCTAHistoryParam';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 
 export type UseCTAParameterActionsCustomRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[customAction: string | number]: ( ctaState: CustomCTAHistoryParam<Initial, undefined>, ...args: any[] ) => CustomCTAReturnType<Initial>
 };
 
 export type UseCTAParameterActionsRecordProp<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = Partial<DefaultActionsRecord<Initial>> & UseCTAParameterActionsCustomRecord<Initial>;
 
 type CustomActionsRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,6 +23,6 @@ type CustomActionsRecord<
 };
 
 export type ActionsRecordProp<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions extends Partial<DefaultActionsRecord<Initial>>,
 > = Partial<DefaultActionsRecord<Initial>> & CustomActionsRecord<Initial, Actions>;

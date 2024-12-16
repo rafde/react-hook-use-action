@@ -1,4 +1,4 @@
-import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
@@ -14,11 +14,11 @@ import {
 } from './ActionTypes';
 import type { CompareCallbackReturnType, } from './compareCallback';
 
-export type CTAReducerState<Initial extends CTAInitial,> = CTAHistory<Initial> & {
+export type CTAReducerState<Initial extends CTAState,> = CTAHistory<Initial> & {
 	changesMap: Map<string | number, unknown>
 };
 
-function _replace<Initial extends CTAInitial,>(
+function _replace<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 	compare: CompareCallbackReturnType,
@@ -54,7 +54,7 @@ function _replace<Initial extends CTAInitial,>(
 	};
 }
 
-function _replaceInitial<Initial extends CTAInitial,>(
+function _replaceInitial<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 	compare: CompareCallbackReturnType,
@@ -91,7 +91,7 @@ function _replaceInitial<Initial extends CTAInitial,>(
 	};
 }
 
-function _updateInitialState<Initial extends CTAInitial,>(
+function _updateInitialState<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 	compare: CompareCallbackReturnType,
@@ -137,7 +137,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 	};
 }
 
-function _updateState<Initial extends CTAInitial,>(
+function _updateState<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 	compare: CompareCallbackReturnType,
@@ -183,7 +183,7 @@ function _updateState<Initial extends CTAInitial,>(
 	};
 }
 
-function _resetState<Initial extends CTAInitial, >(
+function _resetState<Initial extends CTAState, >(
 	ctaReducerState: CTAReducerState<Initial>,
 	next: Initial,
 	compare: CompareCallbackReturnType,
@@ -245,7 +245,7 @@ const predefinedActionsConst: Record<keyof DefaultActionsRecord<NonNullable<unkn
 type PredefinedActions = keyof typeof predefinedActionsConst;
 
 function typeResult<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Type extends PredefinedActions,
 	Next = Type extends 'update' ? Partial<Initial> : Initial,
 >(
@@ -305,7 +305,7 @@ function typeResult<
 }
 
 function getActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 >( ctaReturnType: CustomCTAReturnType<Initial>, ) {
 	if ( ctaReturnType instanceof ActionType ) {
 		const {
@@ -356,7 +356,7 @@ function getActionType<
 const _args: unknown[] = [];
 
 export default function ctaReducer<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( params: {
 	ctaReducerState: CTAReducerState<Initial>

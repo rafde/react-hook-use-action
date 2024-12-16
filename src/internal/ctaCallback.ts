@@ -1,4 +1,4 @@
-import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTAState, } from '../types/CTAState';
 import { CTAHistory, } from '../types/CTAHistory';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
@@ -9,7 +9,7 @@ import { compareCallback, } from './compareCallback';
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
 export function ctaCallback<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >(

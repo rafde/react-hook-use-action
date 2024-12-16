@@ -1,4 +1,4 @@
-import { CTAInitial, } from '../types/CTAInitial';
+import { CTAState, } from '../types/CTAState';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 
 type ActionTypeOptionsNoAugmentedActionDefined = {
@@ -10,7 +10,7 @@ type ActionTypeOptions = {
 } | ActionTypeOptionsNoAugmentedActionDefined;
 
 export type ActionTypeConstructParam<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Type extends keyof DefaultActionsRecord<Initial>,
 > = {
 	actionTypeOptions?: ActionTypeOptions
@@ -20,7 +20,7 @@ export type ActionTypeConstructParam<
 };
 
 export class ActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Type extends keyof DefaultActionsRecord<Initial>,
 > {
 	readonly type: ActionTypeConstructParam<Initial, Type>['type'];
@@ -44,7 +44,7 @@ function _hasAugmentedAction<Actions,>( actions: Actions, type: keyof DefaultAct
 }
 
 export class UpdateInitialActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > extends ActionType<Initial, 'updateInitial'> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'updateInitial'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
 		super( {
@@ -55,7 +55,7 @@ export class UpdateInitialActionType<
 }
 
 export function createUpdateInitialActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( actions: Actions, ) {
 	const hasAction = _hasAugmentedAction( actions, 'updateInitial', );
@@ -73,7 +73,7 @@ export function createUpdateInitialActionType<
 }
 
 export class ResetActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > extends ActionType<Initial, 'reset'> {
 	constructor( param: Pick<ActionTypeConstructParam<Initial, 'reset'>, 'actionTypeOptions' | 'nextState' | 'hasAugmentedAction'>, ) {
 		super( {
@@ -84,7 +84,7 @@ export class ResetActionType<
 }
 
 export function createResetActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( actions: Actions, ) {
 	const hasAction = _hasAugmentedAction( actions, 'reset', );
@@ -102,7 +102,7 @@ export function createResetActionType<
 }
 
 export class UpdateActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > extends ActionType<Initial, 'update'> {
 	constructor( param: Pick<
 		ActionTypeConstructParam<
@@ -119,7 +119,7 @@ export class UpdateActionType<
 }
 
 export function createUpdateActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( actions: Actions, ) {
 	const hasAugmentedAction = _hasAugmentedAction( actions, 'update', );
@@ -137,7 +137,7 @@ export function createUpdateActionType<
 }
 
 export class ReplaceActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > extends ActionType<Initial, 'replace'> {
 	constructor( param: Pick<
 		ActionTypeConstructParam<
@@ -154,7 +154,7 @@ export class ReplaceActionType<
 }
 
 export function createReplaceActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( actions: Actions, ) {
 	const hasAugmentedAction = _hasAugmentedAction( actions, 'replace', );
@@ -172,7 +172,7 @@ export function createReplaceActionType<
 }
 
 export class ReplaceInitialActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > extends ActionType<Initial, 'replaceInitial'> {
 	constructor( param: Pick<
 		ActionTypeConstructParam<
@@ -189,7 +189,7 @@ export class ReplaceInitialActionType<
 }
 
 export function createReplaceInitialActionType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( actions: Actions, ) {
 	const hasAugmentedAction = _hasAugmentedAction( actions, 'replaceInitial', );

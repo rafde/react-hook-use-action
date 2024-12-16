@@ -1,8 +1,8 @@
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 
 export type DefaultActionsRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = {
 	replace( ctaState: CTAHistory<Initial>, payload: Initial ): Initial | undefined
 	replaceInitial( ctaState: CTAHistory<Initial>, payload: Initial ): Initial | undefined

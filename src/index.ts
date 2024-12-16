@@ -6,7 +6,7 @@ export { createCTAContext, } from './internal/createCTAContext';
 
 export { ctaCallback, } from './internal/ctaCallback';
 
-export type { CTAInitial, } from './types/CTAInitial';
+export type { CTAState, } from './types/CTAState';
 
 export type { UseCTAParameter, } from './types/UseCTAParameter';
 

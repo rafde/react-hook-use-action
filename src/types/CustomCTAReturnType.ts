@@ -5,10 +5,10 @@ import {
 	UpdateActionType,
 	UpdateInitialActionType,
 } from '../internal/ActionTypes';
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 
 export type CustomCTAReturnType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = undefined |
 ReplaceActionType<Initial> |
 ReplaceInitialActionType<Initial> |

@@ -1,4 +1,4 @@
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 import type { CustomCTAHistoryParam, } from './CustomCTAHistoryParam';
@@ -8,7 +8,7 @@ import type { Immutable, } from './Immutable';
 import type { OmitEmptyRecord, } from './OmitEmptyRecord';
 
 type PayloadValues<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	ActionType extends keyof DefaultActionsRecord<Initial>,
 	Payload = Parameters<DefaultActionsRecord<Initial>[ActionType]>[1],
 > = Payload | (
@@ -16,7 +16,7 @@ type PayloadValues<
 );
 
 export type DispatchCTAFlatUpdateRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	ReturnValue = void,
 > = {
 	update(
@@ -25,7 +25,7 @@ export type DispatchCTAFlatUpdateRecord<
 };
 
 export type DispatchCTABaseDefaultRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	ReturnValue = void,
 > = Readonly<{
 	reset(
@@ -43,7 +43,7 @@ export type DispatchCTABaseDefaultRecord<
 }>;
 
 export type DispatchCTADefaultRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	ReturnValue = void,
 > = DispatchCTABaseDefaultRecord<
 	Initial,
@@ -60,7 +60,7 @@ export type DispatchCTADefaultRecord<
 }>;
 
 export type UpdateInitialCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchValueActionPayloadArgsProps<
 	Parameters<
 		DispatchCTADefaultRecord<Initial>['updateInitial']
@@ -71,7 +71,7 @@ export type UpdateInitialCTAProps<
 };
 
 export type ResetCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchValueActionPayloadArgsProps<
 	Parameters<
 		DispatchCTADefaultRecord<Initial>['reset']
@@ -82,7 +82,7 @@ export type ResetCTAProps<
 };
 
 export type UpdateCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchValueActionPayloadArgsProps<
 	Parameters<
 		DispatchCTAFlatUpdateRecord<Initial>['update']
@@ -93,7 +93,7 @@ export type UpdateCTAProps<
 };
 
 export type ReplaceCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchValueActionPayloadArgsProps<
 	Parameters<
 		DispatchCTADefaultRecord<Initial>['replace']
@@ -104,7 +104,7 @@ export type ReplaceCTAProps<
 };
 
 export type ReplaceInitialCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = DispatchValueActionPayloadArgsProps<
 	Parameters<
 		DispatchCTADefaultRecord<Initial>['replaceInitial']
@@ -115,7 +115,7 @@ export type ReplaceInitialCTAProps<
 };
 
 export type DefaultCTAProps<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 > = UpdateInitialCTAProps<Initial> |
 ResetCTAProps<Initial> |
 UpdateCTAProps<Initial> |
@@ -123,7 +123,7 @@ ReplaceCTAProps<Initial> |
 ReplaceInitialCTAProps<Initial>;
 
 type CustomCTARecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = {
 	[Action in Exclude<
@@ -150,7 +150,7 @@ type CustomCTARecord<
 };
 
 type DispatchCustomCTARecordValues<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	ActionValue,
 	ReturnValue = void,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -172,7 +172,7 @@ type DispatchCustomCTARecordValues<
 ) : never;
 
 export type DispatchCustomCTARecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
 	CustomActions = CustomCTARecord<Initial, Actions>,
@@ -186,7 +186,7 @@ export type DispatchCustomCTARecord<
 	};
 
 export type UseCTAReturnTypeDispatchCTA<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = Readonly<
@@ -197,7 +197,7 @@ export type UseCTAReturnTypeDispatchCTA<
 >;
 
 type CustomDispatchValueRecord<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	CustomActions = DispatchCustomCTARecord<Initial, Actions>,
 > = CustomActions extends Record<string | number | symbol, never> ?
@@ -212,19 +212,19 @@ type CustomDispatchValueRecord<
 	};
 
 export type CustomDispatchValueRecordValues<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	CustomActions = CustomDispatchValueRecord<Initial, Actions>,
 > = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
 
 export type DispatchCTA<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = ( value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never> ) => ReturnValue;
 
 export type UseCTAReturnTypeDispatch<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = Immutable<

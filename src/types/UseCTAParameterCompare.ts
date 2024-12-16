@@ -1,7 +1,7 @@
 import { strictDeepEqual, } from 'fast-equals';
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 
-export type UseCTAParameterCompare<Initial extends CTAInitial,> = (
+export type UseCTAParameterCompare<Initial extends CTAState,> = (
 	a: unknown,
 	b: unknown,
 	extra: {
