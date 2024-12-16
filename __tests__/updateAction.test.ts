@@ -47,14 +47,14 @@ describe( 'updateAction', () => {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customUpdate',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should use custom increment update', () => {
@@ -112,13 +112,13 @@ describe( 'updateAction', () => {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customUpdateDefault',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );

@@ -51,14 +51,14 @@ describe( 'replaceAction', () => {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customReplace',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not use augmented `replace`', () => {
@@ -90,13 +90,13 @@ describe( 'replaceAction', () => {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customReplaceDefault',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );

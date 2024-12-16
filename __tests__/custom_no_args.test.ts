@@ -40,7 +40,7 @@ describe( 'custom action without arguments', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
-		const customNoArgsCTADispatchState = result.current[ 1 ].state;
+		const customNoArgsCTADispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -48,7 +48,7 @@ describe( 'custom action without arguments', () => {
 			}, );
 		}, );
 
-		expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customNoArgsCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	describe( 'with augmented update', function() {
@@ -80,7 +80,7 @@ describe( 'custom action without arguments', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 			expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
-			const customNoArgsCTADispatchState = result.current[ 1 ].state;
+			const customNoArgsCTADispatchState = result.current[ 1 ].history;
 
 			act( () => {
 				result.current[ 1 ]( {
@@ -88,7 +88,7 @@ describe( 'custom action without arguments', () => {
 				}, );
 			}, );
 
-			expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( customNoArgsCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
 		test( 'should not `update` "test2"', function() {
@@ -103,7 +103,7 @@ describe( 'custom action without arguments', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 			expect( result.current[ 0 ].changes, ).toBeNull( );
 
-			const customNoArgsCTADispatchState = result.current[ 1 ].state;
+			const customNoArgsCTADispatchState = result.current[ 1 ].history;
 
 			act( () => {
 				result.current[ 1 ]( {
@@ -111,7 +111,7 @@ describe( 'custom action without arguments', () => {
 				}, );
 			}, );
 
-			expect( customNoArgsCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( customNoArgsCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 	}, );
 }, );

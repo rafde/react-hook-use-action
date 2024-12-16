@@ -33,7 +33,7 @@ describe( 'custom action with ctaState', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
-		const calcCTADispatchState = result.current[ 1 ].state;
+		const calcCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'val',
@@ -41,7 +41,7 @@ describe( 'custom action with ctaState', () => {
 			}, );
 		}, );
 
-		expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should update initial', () => {
@@ -77,7 +77,7 @@ describe( 'custom action with ctaState', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const calcCTADispatchState = result.current[ 1 ].state;
+		const calcCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'val',
@@ -85,7 +85,7 @@ describe( 'custom action with ctaState', () => {
 			}, );
 		}, );
 
-		expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should resetCurrent using payload', () => {
@@ -119,7 +119,7 @@ describe( 'custom action with ctaState', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const calcCTADispatchState = result.current[ 1 ].state;
+		const calcCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'val',
@@ -127,7 +127,7 @@ describe( 'custom action with ctaState', () => {
 			}, );
 		}, );
 
-		expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	describe( 'options', () => {
@@ -184,7 +184,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 			expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
-			const calcCTADispatchState = result.current[ 1 ].state;
+			const calcCTADispatchState = result.current[ 1 ].history;
 			act( () => {
 				result.current[ 1 ]( {
 					type: 'val',
@@ -192,7 +192,7 @@ describe( 'custom action with ctaState', () => {
 				}, );
 			}, );
 
-			expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
 		test( 'should update with trim', () => {
@@ -216,7 +216,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 			expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
-			const calcCTADispatchState = result.current[ 1 ].state;
+			const calcCTADispatchState = result.current[ 1 ].history;
 			act( () => {
 				result.current[ 1 ]( {
 					type: 'val',
@@ -225,7 +225,7 @@ describe( 'custom action with ctaState', () => {
 				}, );
 			}, );
 
-			expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
 		test( 'should update initial', () => {
@@ -252,7 +252,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 			expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-			const calcCTADispatchState = result.current[ 1 ].state;
+			const calcCTADispatchState = result.current[ 1 ].history;
 			act( () => {
 				result.current[ 1 ]( {
 					type: 'val',
@@ -264,7 +264,7 @@ describe( 'custom action with ctaState', () => {
 				}, );
 			}, );
 
-			expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
 		test( 'should resetCurrent using payload', () => {
@@ -288,7 +288,7 @@ describe( 'custom action with ctaState', () => {
 			expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 			expect( result.current[ 0 ].changes, ).toBeNull( );
 
-			const calcCTADispatchState = result.current[ 1 ].state;
+			const calcCTADispatchState = result.current[ 1 ].history;
 			act( () => {
 				result.current[ 1 ]( {
 					type: 'val',
@@ -300,7 +300,7 @@ describe( 'custom action with ctaState', () => {
 				}, );
 			}, );
 
-			expect( calcCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 	}, );
 }, );

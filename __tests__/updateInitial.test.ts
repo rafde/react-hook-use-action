@@ -30,14 +30,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload: changes,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `updateInitial` when custom action is defined', function() {
@@ -56,14 +56,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload: changes,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should have `changes` when setting new `initial` with arbitrary key', function() {
@@ -84,14 +84,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( payload, );
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `updateInitial` when `payload = () => Partial<Initial>`', function() {
@@ -109,14 +109,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload: () => changes,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should have `changes = null` if `current` and `initial` are the same', function() {
@@ -135,14 +135,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload: changes,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not set new `initial` when `payload` is a function that returns `undefined`', function() {
@@ -160,14 +160,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
 				payload: () => payload,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not set new `initial` when `payload` is a function that returns `null`', function() {
@@ -185,7 +185,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 
-		const updateInitialCTADispatchState = result.current[ 1 ].state;
+		const updateInitialCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'updateInitial',
@@ -193,7 +193,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				payload: () => null,
 			}, );
 		}, );
-		expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	describe( 'as augmented action', function() {
@@ -210,14 +210,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 				expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: changes,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should `updateInitial` when custom action is defined', function() {
@@ -239,14 +239,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 				expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: changes,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should have `changes` when setting new `initial` with arbitrary key', function() {
@@ -265,14 +265,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].initial, ).toStrictEqual( payload, );
 				expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should update when `payload = () => Partial<Initial>`', () => {
@@ -290,14 +290,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 				expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: () => changes,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should update when `payload = (ctaParam) => Partial<Initial>`', () => {
@@ -324,7 +324,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 					test1: initial.test1,
 				}, );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
@@ -333,7 +333,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 						} ),
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative Partial<Initial>', () => {
@@ -353,14 +353,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 				expect( result.current[ 0 ].changes, ).toBeNull( );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should not update using negative (ctaState) => Partial<Initial>', () => {
@@ -379,7 +379,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 				expect( result.current[ 0 ].changes, ).toBeNull( );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
@@ -388,7 +388,7 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 						} ),
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 
 			test( 'should not update with () => undefined', () => {
@@ -406,14 +406,14 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 				expect( result.current[ 0 ].changes, ).toBeNull( );
 
-				const updateInitialCTADispatchState = result.current[ 1 ].state;
+				const updateInitialCTADispatchState = result.current[ 1 ].history;
 				act( () => {
 					result.current[ 1 ]( {
 						type: 'updateInitial',
 						payload: () => undefined,
 					}, );
 				}, );
-				expect( updateInitialCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+				expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 			}, );
 		}, );
 	}, );
