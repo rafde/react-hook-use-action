@@ -1,5 +1,5 @@
 import type { CTAInitial, } from '../types/CTAInitial';
-import { CTAState, } from '../types/CTAState';
+import { CTAHistory, } from '../types/CTAHistory';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
@@ -22,7 +22,7 @@ export function ctaCallback<
 		initial: Initial
 		compare?: UseCTAParameterCompare<Initial>
 	},
-): UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>> {
+): UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>> {
 	const {
 		initial,
 	} = useCTAParameter;
@@ -31,7 +31,7 @@ export function ctaCallback<
 		: {
 			...useCTAParameter.actions,
 		};
-	let state: CTAState<Initial> = {
+	let state: CTAHistory<Initial> = {
 		changes: null,
 		current: initial,
 		initial,
@@ -104,12 +104,12 @@ export function ctaCallback<
 			payload,
 			type: 'updateInitial',
 		}, ),
-	} as DispatchCTADefaultRecord<Initial, CTAState<Initial>>;
+	} as DispatchCTADefaultRecord<Initial, CTAHistory<Initial>>;
 
 	if ( actions == null || typeof actions !== 'object' ) {
 		return [
 			state,
-			_ctaCallback as unknown as UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>>[1],
+			_ctaCallback as unknown as UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>>[1],
 		];
 	}
 
@@ -140,6 +140,6 @@ export function ctaCallback<
 
 	return [
 		state,
-		_ctaCallback as unknown as UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>>[1],
+		_ctaCallback as unknown as UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>>[1],
 	];
 }

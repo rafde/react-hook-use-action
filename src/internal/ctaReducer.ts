@@ -1,5 +1,5 @@
 import type { CTAInitial, } from '../types/CTAInitial';
-import type { CTAState, } from '../types/CTAState';
+import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
@@ -14,7 +14,7 @@ import {
 } from './ActionTypes';
 import type { CompareCallbackReturnType, } from './compareCallback';
 
-export type CTAReducerState<Initial extends CTAInitial,> = CTAState<Initial> & {
+export type CTAReducerState<Initial extends CTAInitial,> = CTAHistory<Initial> & {
 	changesMap: Map<string | number, unknown>
 };
 
@@ -378,7 +378,7 @@ export default function ctaReducer<
 		current,
 		initial,
 	} = ctaReducerState;
-	const ctaState: CTAState<Initial> = {
+	const ctaState: CTAHistory<Initial> = {
 		changes: ctaReducerState.changes,
 		current,
 		initial,

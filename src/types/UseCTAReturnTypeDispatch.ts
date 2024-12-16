@@ -1,7 +1,7 @@
 import type { CTAInitial, } from './CTAInitial';
-import type { CTAState, } from './CTAState';
+import type { CTAHistory, } from './CTAHistory';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
-import type { CustomCTAStateParam, } from './CustomCTAStateParam';
+import type { CustomCTAHistoryParam, } from './CustomCTAHistoryParam';
 import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueActionPayloadArgsProps';
 import type { Immutable, } from './Immutable';
@@ -12,7 +12,7 @@ type PayloadValues<
 	ActionType extends keyof DefaultActionsRecord<Initial>,
 	Payload = Parameters<DefaultActionsRecord<Initial>[ActionType]>[1],
 > = Payload | (
-	( ctaPayloadCallbackParameter: CTAState<Initial> ) => Payload | undefined
+	( ctaPayloadCallbackParameter: CTAHistory<Initial> ) => Payload | undefined
 );
 
 export type DispatchCTAFlatUpdateRecord<
@@ -141,7 +141,7 @@ type CustomCTARecord<
 						Args extends [...infer A,]
 							? (
 								// Represents CustomCTAStateParam with at least one argument
-								A[0] extends CustomCTAStateParam<Initial, Actions> ? Action : never
+								A[0] extends CustomCTAHistoryParam<Initial, Actions> ? Action : never
 							)
 							: never
 					)
@@ -160,13 +160,13 @@ type DispatchCustomCTARecordValues<
 		? ( () => ReturnValue )
 		: (
 			Args extends [unknown?, ...infer A,]
-				? ( ( payload?: Args[0] | ( ( payloadParameter: CTAState<Initial> ) => Args[0] | undefined ), ...args: A ) => ReturnValue )
+				? ( ( payload?: Args[0] | ( ( payloadParameter: CTAHistory<Initial> ) => Args[0] | undefined ), ...args: A ) => ReturnValue )
 				: Args extends [infer Payload, ...infer A,] ? (
 					Payload extends undefined
 					// Represents CTA object optional payload.
-						? ( ( payload?: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue )
+						? ( ( payload?: Payload | ( ( payloadParameter: CTAHistory<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue )
 					// Represents CTA object a payload.
-						: ( payload: Payload | ( ( payloadParameter: CTAState<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue
+						: ( payload: Payload | ( ( payloadParameter: CTAHistory<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue
 				) : never
 		)
 ) : never;
@@ -230,6 +230,6 @@ export type UseCTAReturnTypeDispatch<
 > = Immutable<
 	DispatchCTA<Initial, Actions, ReturnValue> & {
 		cta: UseCTAReturnTypeDispatchCTA<Initial, Actions, ReturnValue>
-		state: CTAState<Initial>
+		state: CTAHistory<Initial>
 	}
 >;

@@ -1,6 +1,6 @@
 import type { CTAInitial, } from './CTAInitial';
 
-export type CTAState<Initial extends CTAInitial,> = Readonly<{
+export type CTAHistory<Initial extends CTAInitial,> = Readonly<{
 	initial: Readonly<Initial>
 	previousInitial: Readonly<Initial> | null
 	current: Readonly<Initial>
