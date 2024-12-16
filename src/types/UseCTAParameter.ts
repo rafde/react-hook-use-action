@@ -9,10 +9,10 @@ export type UseCTAParameter<
 	actions?: undefined
 	initial: Initial
 	onInit?: UseCTAParameterOnInit<Initial>
-	compare?: UseCTAParameterCompare
+	compare?: UseCTAParameterCompare<Initial>
 } : {
 	actions: Actions
 	initial: Initial
 	onInit?: UseCTAParameterOnInit<Initial>
-	compare?: UseCTAParameterCompare
+	compare?: UseCTAParameterCompare<Initial>
 };

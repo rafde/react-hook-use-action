@@ -17,18 +17,20 @@ describe( 'useCTA compare parameter', () => {
 		test1: new CompareTest( 'test', ),
 		test2: 2,
 	};
-	const compareFn: UseCTAParameter<Record<string, unknown>, undefined>['compare'] = ( prev, next, cmp, ) => {
+	const compareFn: UseCTAParameter<typeof initial, undefined>['compare'] = ( prev, next, extra, ) => {
 		let p = prev;
 		let n = next;
-		if ( p instanceof CompareTest ) {
-			p = p.getValue();
+
+		if ( extra.key === 'test1' ) {
+			if ( prev instanceof CompareTest ) {
+				p = prev.getValue();
+			}
+			if ( n instanceof CompareTest ) {
+				n = n.getValue();
+			}
 		}
 
-		if ( n instanceof CompareTest ) {
-			n = n.getValue();
-		}
-
-		return cmp( p, n, );
+		return extra.cmp( p, n, );
 	};
 
 	test( 'should use custom compare function to determine state changes', () => {
