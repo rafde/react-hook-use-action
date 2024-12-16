@@ -24,10 +24,10 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -57,10 +57,10 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -91,10 +91,10 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -126,10 +126,10 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -160,20 +160,20 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		act( () => {
 			result.current[ 1 ].cta.replace( initial, );
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -206,10 +206,10 @@ describe( 'dispatch.cta.replace(state)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -239,10 +239,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -274,10 +274,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -310,10 +310,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -347,10 +347,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -383,20 +383,20 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		act( () => {
 			result.current[ 1 ].cta.replace( () => initial, );
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 
 		const dispatchState = result.current[ 1 ].state;
 
@@ -431,10 +431,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( someChanges, );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( someChanges, );
 
 		const dispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -459,10 +459,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 
@@ -476,10 +476,10 @@ describe( 'dispatch.cta.replace(() => newState | undefined))', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
 	}, );
 }, );

@@ -25,10 +25,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -57,20 +57,20 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull();
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull();
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		act( () => {
 			result.current[ 1 ].cta.update( initial, );
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 	}, );
 
 	test( 'should `update` "test2"', function() {
@@ -90,10 +90,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -124,10 +124,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -154,10 +154,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -184,10 +184,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -212,10 +212,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 
 		expect( result.current[ 0 ].current === initial, ).toBe( true, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 
 		const updateCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -240,10 +240,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 
 		expect( result.current[ 0 ].current === initial, ).toBe( true, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 	}, );
 
 	describe( 'as augmented action', function() {
@@ -264,10 +264,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 				const updateCTADispatchState = result.current[ 1 ].state;
 				act( () => {
@@ -296,10 +296,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 				const updateCTADispatchState = result.current[ 1 ].state;
 				act( () => {
@@ -314,7 +314,7 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 
 			test( 'should update using (ctaParam) => Partial<Initial>', () => {
 				const { result, } = renderHook( () => useCTA( updateCTAParam, ), );
-				const test1 = result.current[ 1 ].state.current.test1 + result.current[ 1 ].state.initial.test1;
+				const test1 = result.current[ 0 ].current.test1 + result.current[ 0 ].initial.test1;
 				const nextState = {
 					...initial,
 					test1,
@@ -329,10 +329,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toStrictEqual( {
+				expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toStrictEqual( {
 					test1,
 				}, );
 
@@ -361,10 +361,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull( );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				expect( result.current[ 0 ].previous, ).toBeNull( );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toBeNull( );
 
 				const updateCTADispatchState = result.current[ 1 ].state;
 				act( () => {
@@ -388,10 +388,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull( );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				expect( result.current[ 0 ].previous, ).toBeNull( );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toBeNull( );
 
 				const updateCTADispatchState = result.current[ 1 ].state;
 				act( () => {
@@ -416,10 +416,10 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull( );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				expect( result.current[ 0 ].previous, ).toBeNull( );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toBeNull( );
 
 				const updateCTADispatchState = result.current[ 1 ].state;
 				act( () => {
@@ -453,10 +453,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 	}, );
 
 	test( 'should not `update` "test1" once if "test1" is the same', function() {
@@ -475,20 +475,20 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 
 		act( () => {
 			result.current[ 1 ].cta.update( initial, );
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 	}, );
 
 	test( 'should not `update` "test1"', function() {
@@ -502,10 +502,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 
 		expect( result.current[ 0 ].current === initial, ).toBe( true, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toBeNull( );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toBeNull( );
 	}, );
 
 	test( 'should update "test2"', function() {
@@ -525,10 +525,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 	}, );
 
 	test( 'should update 2', function() {
@@ -548,10 +548,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 	}, );
 
 	test( 'should `update` "test2" when custom action is defined', function() {
@@ -572,10 +572,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 	}, );
 
 	describe( 'as augmented action', function() {
@@ -597,10 +597,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
-				expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toStrictEqual( payload, );
+				expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
 			}, );
 
 			test( 'should not update', () => {
@@ -616,10 +616,10 @@ describe( 'dispatch.cta.update(key, value)', function() {
 				}, );
 
 				expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previous, ).toBeNull( );
-				expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-				expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-				expect( result.current[ 1 ].state.changes, ).toBeNull( );
+				expect( result.current[ 0 ].previous, ).toBeNull( );
+				expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+				expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+				expect( result.current[ 0 ].changes, ).toBeNull( );
 			}, );
 		}, );
 	}, );
