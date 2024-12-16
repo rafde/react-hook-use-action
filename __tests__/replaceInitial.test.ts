@@ -29,7 +29,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initial, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -38,7 +38,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` entire state including extra key', function() {
@@ -65,7 +65,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			extra: undefined,
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -74,7 +74,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` some state', function() {
@@ -102,7 +102,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			2: initial[ '2' ],
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -111,7 +111,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` some state including extra key', function() {
@@ -141,7 +141,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			extra: undefined,
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -150,7 +150,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should set changes to null if payload is initial', function() {
@@ -188,7 +188,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( payload, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -197,7 +197,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` when custom action is defined', function() {
@@ -227,7 +227,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			2: initial[ '2' ],
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'replaceInitial',
@@ -235,7 +235,7 @@ describe( 'dispatch.cta.replaceInitial(state)', function() {
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );
 
@@ -260,7 +260,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 		expect( result.current[ 0 ].previousInitial, ).toBe( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initial, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -271,7 +271,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` entire state including extra key', function() {
@@ -298,7 +298,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			extra: undefined,
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -309,7 +309,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` some state', function() {
@@ -337,7 +337,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			2: initial[ '2' ],
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -348,7 +348,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` some state including extra key', function() {
@@ -378,7 +378,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			extra: undefined,
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -389,7 +389,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should set changes to null if payload is initial', function() {
@@ -427,7 +427,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( payload, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 
 		act( () => {
 			result.current[ 1 ]( {
@@ -438,7 +438,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should `replaceInitial` when custom action is defined', function() {
@@ -468,7 +468,7 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			2: initial[ '2' ],
 		}, );
 
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'replaceInitial',
@@ -478,14 +478,14 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 			}, );
 		}, );
 
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not `replaceInitial` entire state when callback returns undefined', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ].cta.replaceInitial( () => undefined, );
 		}, );
@@ -495,14 +495,14 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not `replaceInitial` entire state when callback returns null', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
-		const dispatchState = result.current[ 1 ].state;
+		const dispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ].cta.replaceInitial( () => undefined, );
 		}, );
@@ -512,6 +512,6 @@ describe( 'dispatch.cta.replaceInitial(() => newState | undefined))', function()
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
-		expect( dispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( dispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );

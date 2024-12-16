@@ -52,14 +52,14 @@ describe( 'replaceInitialAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customUpdateInitial',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not use augmented `replaceInitial`', () => {
@@ -95,13 +95,13 @@ describe( 'replaceInitialAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customReplaceInitialDefault',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );

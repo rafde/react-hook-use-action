@@ -52,14 +52,14 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customReset',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not trigger with invalid `payload`', () => {
@@ -84,14 +84,14 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetInvalidArray',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not trigger with `payload = null`', () => {
@@ -116,14 +116,14 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetNull',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should use augmented `reset` with `payload`', () => {
@@ -155,14 +155,14 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetWithPayload',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not use augmented `reset`', () => {
@@ -191,14 +191,14 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetUndefinedDefault',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
 	test( 'should not use augmented `reset` with `payload`', () => {
@@ -232,13 +232,13 @@ describe( 'resetAction', () => {
 		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
 		expect( result.current[ 0 ].changes, ).toBeNull( );
 
-		const customCTADispatchState = result.current[ 1 ].state;
+		const customCTADispatchState = result.current[ 1 ].history;
 		act( () => {
 			result.current[ 1 ]( {
 				type: 'customResetNextStateDefault',
 			}, );
 		}, );
 
-		expect( customCTADispatchState === result.current[ 1 ].state, ).toBe( true, );
+		expect( customCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 }, );

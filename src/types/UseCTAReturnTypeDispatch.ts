@@ -230,6 +230,6 @@ export type UseCTAReturnTypeDispatch<
 > = Immutable<
 	DispatchCTA<Initial, Actions, ReturnValue> & {
 		cta: UseCTAReturnTypeDispatchCTA<Initial, Actions, ReturnValue>
-		state: CTAHistory<Initial>
+		history: CTAHistory<Initial>
 	}
 >;
