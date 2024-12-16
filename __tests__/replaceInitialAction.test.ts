@@ -47,10 +47,10 @@ describe( 'replaceInitialAction', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toEqual( nextState, );
-		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toEqual( nextState, );
+		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {
@@ -90,10 +90,10 @@ describe( 'replaceInitialAction', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previous, ).toBeNull( );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( nextState, );
-		expect( result.current[ 1 ].state.previousInitial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( initialChanges, );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( initialChanges, );
 
 		const customCTADispatchState = result.current[ 1 ].state;
 		act( () => {

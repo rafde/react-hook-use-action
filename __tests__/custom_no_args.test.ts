@@ -35,10 +35,10 @@ describe( 'custom action without arguments', () => {
 		}, );
 
 		expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-		expect( result.current[ 1 ].state.previous, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-		expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-		expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
 		const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
@@ -75,10 +75,10 @@ describe( 'custom action without arguments', () => {
 			}, );
 
 			expect( result.current[ 0 ].current, ).toStrictEqual( payload, );
-			expect( result.current[ 1 ].state.previous, ).toBe( initial, );
-			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-			expect( result.current[ 1 ].state.changes, ).toStrictEqual( changes, );
+			expect( result.current[ 0 ].previous, ).toBe( initial, );
+			expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+			expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
 
 			const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
@@ -98,10 +98,10 @@ describe( 'custom action without arguments', () => {
 			}, );
 
 			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previous, ).toBeNull( );
-			expect( result.current[ 1 ].state.initial, ).toStrictEqual( initial, );
-			expect( result.current[ 1 ].state.previousInitial, ).toBeNull( );
-			expect( result.current[ 1 ].state.changes, ).toBeNull( );
+			expect( result.current[ 0 ].previous, ).toBeNull( );
+			expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+			expect( result.current[ 0 ].changes, ).toBeNull( );
 
 			const customNoArgsCTADispatchState = result.current[ 1 ].state;
 
