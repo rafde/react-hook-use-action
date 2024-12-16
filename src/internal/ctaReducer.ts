@@ -32,9 +32,9 @@ function _replace<Initial extends CTAInitial,>(
 	for ( const key in payload ) {
 		const value = payload[ key ];
 
-		if ( !compare( current[ key ], value, ) ) {
+		if ( !compare( current[ key ], value, key, ) ) {
 			hasChange = true;
-			if ( compare( initial[ key ], value, ) ) {
+			if ( compare( initial[ key ], value, key, ) ) {
 				continue;
 			}
 			changesMap.set( key, value, );
@@ -69,9 +69,9 @@ function _replaceInitial<Initial extends CTAInitial,>(
 		const value = payload[ key ];
 		const currentValue = current[ key ];
 
-		if ( !compare( initial[ key ], value, ) ) {
+		if ( !compare( initial[ key ], value, key, ) ) {
 			hasChange = true;
-			if ( compare( currentValue, value, ) ) {
+			if ( compare( currentValue, value, key, ) ) {
 				continue;
 			}
 			changesMap.set( key, currentValue, );
@@ -106,7 +106,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 
 	for ( const key in payload ) {
 		const value = payload[ key ];
-		if ( compare( initial[ key as keyof Initial ], value, ) ) {
+		if ( compare( initial[ key as keyof Initial ], value, key, ) ) {
 			continue;
 		}
 
@@ -114,7 +114,7 @@ function _updateInitialState<Initial extends CTAInitial,>(
 		hasUpdates = true;
 
 		const currentValue = current[ key as keyof Initial ];
-		if ( compare( currentValue, value, ) ) {
+		if ( compare( currentValue, value, key, ) ) {
 			changesMap.delete( key, );
 		}
 		else {
@@ -152,7 +152,7 @@ function _updateState<Initial extends CTAInitial,>(
 
 	for ( const key in payload ) {
 		const value = payload[ key ];
-		if ( compare( current[ key as keyof Initial ], value, ) ) {
+		if ( compare( current[ key as keyof Initial ], value, key, ) ) {
 			continue;
 		}
 
@@ -160,7 +160,7 @@ function _updateState<Initial extends CTAInitial,>(
 		hasUpdates = true;
 
 		const initialValue = initial[ key as keyof Initial ];
-		if ( compare( initialValue, value, ) ) {
+		if ( compare( initialValue, value, key, ) ) {
 			changesMap.delete( key, );
 		}
 		else {
@@ -194,8 +194,27 @@ function _resetState<Initial extends CTAInitial, >(
 		initial,
 	} = ctaReducerState;
 
-	const isNextSameAsInitial = compare( initial, next, );
-	if ( isNextSameAsInitial && compare( current, next, ) ) {
+	let isNextSameAsInitial = true;
+	let isNextSameAsCurrent = true;
+	for ( const key in next ) {
+		const value = next[ key as keyof Initial ];
+		const currentValue = current[ key as keyof Initial ];
+		const initialValue = initial[ key as keyof Initial ];
+
+		if ( !compare( initialValue, value, key, ) ) {
+			isNextSameAsInitial = false;
+		}
+
+		if ( !compare( currentValue, value, key, ) ) {
+			isNextSameAsCurrent = false;
+		}
+
+		if ( !isNextSameAsInitial && !isNextSameAsCurrent ) {
+			break;
+		}
+	}
+
+	if ( isNextSameAsInitial && isNextSameAsCurrent ) {
 		return ctaReducerState;
 	}
 

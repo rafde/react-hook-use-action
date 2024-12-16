@@ -1,8 +1,8 @@
-import { strictDeepEqual, } from 'fast-equals';
 import type { CTAInitial, } from '../types/CTAInitial';
 import { CTAState, } from '../types/CTAState';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
+import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
 import { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import { DispatchCTADefaultRecord, UpdateCTAProps, } from '../types/UseCTAReturnTypeDispatch';
 import { compareCallback, } from './compareCallback';
@@ -16,11 +16,11 @@ export function ctaCallback<
 	useCTAParameter: ActionsRecord extends undefined ? {
 		actions?: undefined
 		initial: Initial
-		compare?: ( ( a: unknown, b: unknown, cmp: typeof strictDeepEqual ) => boolean )
+		compare?: UseCTAParameterCompare<Initial>
 	} : {
 		actions: ActionsRecord
 		initial: Initial
-		compare?: ( ( a: unknown, b: unknown, cmp: typeof strictDeepEqual ) => boolean )
+		compare?: UseCTAParameterCompare<Initial>
 	},
 ): UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>> {
 	const {
