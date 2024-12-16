@@ -3,11 +3,11 @@ import { compareCallback, } from './compareCallback';
 
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
-import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTAState, } from '../types/CTAState';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 
 function _init<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >(
 	privateCTAState: CTAReducerState<Initial>,
@@ -31,7 +31,7 @@ function _init<
 }
 
 export default function usePrivateCTA<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >(
 	params: UseCTAParameter<Initial, Actions>,
@@ -71,11 +71,11 @@ export default function usePrivateCTA<
 }
 
 export type UsePrivateCTAReturnType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = ReturnType<typeof usePrivateCTA<Initial, Actions>>;
 
 export type UsePrivateCTADispatcher<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = UsePrivateCTAReturnType<Initial, Actions>[1];

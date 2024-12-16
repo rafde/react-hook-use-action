@@ -1,6 +1,6 @@
 import { useMemo, } from 'react';
 
-import type { CTAInitial, } from '../types/CTAInitial';
+import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
@@ -14,7 +14,7 @@ import {
 import type { UsePrivateCTADispatcher, UsePrivateCTAReturnType, } from './usePrivateCTA';
 
 function mergeCustomCTAWithDefaultCTA<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	Dispatch,
 >(
@@ -56,7 +56,7 @@ function mergeCustomCTAWithDefaultCTA<
 }
 
 function wrapPrivateDispatcher<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >(
 	dispatcher: UsePrivateCTADispatcher<Initial, Actions>,
@@ -139,7 +139,7 @@ function wrapPrivateDispatcher<
 }
 
 export default function usePublicCTA<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 >( params: {
 	actions?: UseCTAParameter<Initial, Actions>['actions']

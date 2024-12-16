@@ -1,9 +1,9 @@
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 export type UseCTAReturnType<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = [

@@ -1,9 +1,9 @@
 import { UseCTAParameterCompare, } from './UseCTAParameterCompare';
-import type { CTAInitial, } from './CTAInitial';
+import type { CTAState, } from './CTAState';
 import { UseCTAParameterOnInit, } from './UseCTAParameterOnInit';
 
 export type UseCTAParameter<
-	Initial extends CTAInitial,
+	Initial extends CTAState,
 	Actions,
 > = Actions extends undefined ? {
 	actions?: undefined
