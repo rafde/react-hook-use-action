@@ -16,18 +16,21 @@ type DefaultActionsRecord<Initial extends CTAInitial> = {
     update(ctaState: CTAState<Initial>, payload: Partial<Initial>): Partial<Initial> | undefined;
     updateInitial(ctaState: CTAState<Initial>, payload: Partial<Initial>): Partial<Initial> | undefined;
 };
-export type UseCTAParameterCompare = (a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean;
+export type UseCTAParameterCompare<Initial extends CTAInitial> = (a: unknown, b: unknown, extra: {
+    cmp: typeof strictDeepEqual;
+    key: keyof Initial;
+}) => boolean;
 export type UseCTAParameterOnInit<Initial> = (initial: Initial) => Initial;
 export type UseCTAParameter<Initial extends CTAInitial, Actions> = Actions extends undefined ? {
     actions?: undefined;
     initial: Initial;
     onInit?: UseCTAParameterOnInit<Initial>;
-    compare?: UseCTAParameterCompare;
+    compare?: UseCTAParameterCompare<Initial>;
 } : {
     actions: Actions;
     initial: Initial;
     onInit?: UseCTAParameterOnInit<Initial>;
-    compare?: UseCTAParameterCompare;
+    compare?: UseCTAParameterCompare<Initial>;
 };
 type ActionTypeOptionsNoAugmentedActionDefined = {
     useDefault: true;
@@ -189,11 +192,11 @@ export function createCTAContext<Initial extends CTAInitial, Actions extends Use
 export function ctaCallback<Initial extends CTAInitial, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: ActionsRecord extends undefined ? {
     actions?: undefined;
     initial: Initial;
-    compare?: ((a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean);
+    compare?: UseCTAParameterCompare<Initial>;
 } : {
     actions: ActionsRecord;
     initial: Initial;
-    compare?: ((a: unknown, b: unknown, cmp: typeof strictDeepEqual) => boolean);
+    compare?: UseCTAParameterCompare<Initial>;
 }): UseCTAReturnType<Initial, ActionsRecord, CTAState<Initial>>;
 
 //# sourceMappingURL=types.d.ts.map
