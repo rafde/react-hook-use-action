@@ -310,34 +310,34 @@ function getActionType<
 	if ( ctaReturnType instanceof ActionType ) {
 		const {
 			type,
-			nextState,
+			payload,
 			actionTypeOptions,
 		} = ctaReturnType;
 		const useDefault = Boolean( actionTypeOptions?.useDefault, );
 
-		if ( Array.isArray( nextState, ) ) {
+		if ( Array.isArray( payload, ) ) {
 			return;
 		}
 
 		const actionType = {
-			next: nextState,
+			next: payload,
 			type,
 			useDefault,
 		};
 
 		if ( type === 'reset' ) {
-			if ( typeof nextState === 'undefined' ) {
+			if ( typeof payload === 'undefined' ) {
 				return actionType;
 			}
 
-			if ( nextState == null ) {
+			if ( payload == null ) {
 				return;
 			}
 
 			return actionType;
 		}
 
-		if ( !nextState || typeof nextState !== 'object' ) {
+		if ( !payload || typeof payload !== 'object' ) {
 			return;
 		}
 
