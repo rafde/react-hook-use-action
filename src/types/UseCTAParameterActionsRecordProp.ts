@@ -7,7 +7,7 @@ export type UseCTAParameterActionsCustomRecord<
 	Initial extends CTAState,
 > = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[customAction: string | number]: ( ctaState: CustomCTAHistory<Initial>, ...args: any[] ) => CustomCTAReturnType<Initial>
+	[customAction: string | number]: ( ( ctaState: CustomCTAHistory<Initial>, ...args: any[] ) => CustomCTAReturnType<Initial> ) | ( () => Partial<Initial> )
 };
 
 export type UseCTAParameterActionsRecordProp<
@@ -19,7 +19,7 @@ type CustomActionsRecord<
 	Actions,
 > = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: ( ctaState: CustomCTAHistory<Initial>, ...args: any[] ) => CustomCTAReturnType<Initial>
+	[Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>>]: ( ( ctaState: CustomCTAHistory<Initial>, ...args: any[] ) => CustomCTAReturnType<Initial> ) | ( () => Partial<Initial> )
 };
 
 export type ActionsRecordProp<
