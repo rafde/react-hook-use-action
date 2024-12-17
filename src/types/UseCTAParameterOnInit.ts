@@ -1,1 +1,3 @@
-export type UseCTAParameterOnInit<Initial, > = ( initial: Initial ) => Initial;
+import { CTAState, } from './CTAState';
+
+export type UseCTAParameterOnInit<Initial extends CTAState, > = ( initial: Initial ) => Initial;
