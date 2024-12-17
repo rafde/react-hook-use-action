@@ -2,11 +2,11 @@ import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 
 export type DefaultActionsRecord<
-	Initial extends CTAState,
+	Payload extends CTAState,
 > = {
-	replace( ctaState: CTAHistory<Initial>, payload: Initial ): Initial | undefined
-	replaceInitial( ctaState: CTAHistory<Initial>, payload: Initial ): Initial | undefined
-	reset( ctaState: CTAHistory<Initial>, payload?: Initial ): Initial | undefined
-	update( ctaState: CTAHistory<Initial>, payload: Partial<Initial> ): Partial<Initial> | undefined
-	updateInitial( ctaState: CTAHistory<Initial>, payload: Partial<Initial> ): Partial<Initial> | undefined
+	replace( ctaHistory: CTAHistory<Payload>, payload: Payload ): Payload | undefined
+	replaceInitial( ctaHistory: CTAHistory<Payload>, payload: Payload ): Payload | undefined
+	reset( ctaHistory: CTAHistory<Payload>, payload?: Payload ): Payload | undefined
+	update( ctaHistory: CTAHistory<Payload>, payload: Partial<Payload> ): Partial<Payload> | undefined
+	updateInitial( ctaHistory: CTAHistory<Payload>, payload: Partial<Payload> ): Partial<Payload> | undefined
 };
