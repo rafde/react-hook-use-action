@@ -1,7 +1,7 @@
 import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 import type { CustomCTAReturnType, } from './CustomCTAReturnType';
-import type { CustomCTAHistoryParam, } from './CustomCTAHistoryParam';
+import type { CustomCTAHistory, } from './CustomCTAHistory';
 import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueActionPayloadArgsProps';
 import type { Immutable, } from './Immutable';
@@ -141,7 +141,7 @@ type CustomCTARecord<
 						Args extends [...infer A,]
 							? (
 								// Represents CustomCTAStateParam with at least one argument
-								A[0] extends CustomCTAHistoryParam<Initial, Actions> ? Action : never
+								A[0] extends CustomCTAHistory<Initial> ? Action : never
 							)
 							: never
 					)
