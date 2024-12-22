@@ -160,13 +160,13 @@ type DispatchCustomCTARecordValues<
 		? ( () => ReturnValue )
 		: (
 			Args extends [unknown?, ...infer A,]
-				? ( ( payload?: Args[0] | ( ( payloadParameter: CTAHistory<Initial> ) => Args[0] | undefined ), ...args: A ) => ReturnValue )
+				? ( ( payload?: Args[0], ...args: A ) => ReturnValue )
 				: Args extends [infer Payload, ...infer A,] ? (
 					Payload extends undefined
 					// Represents CTA object optional payload.
-						? ( ( payload?: Payload | ( ( payloadParameter: CTAHistory<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue )
+						? ( ( payload?: Payload, ...args: A ) => ReturnValue )
 					// Represents CTA object a payload.
-						: ( payload: Payload | ( ( payloadParameter: CTAHistory<Initial> ) => Payload | undefined ), ...args: A ) => ReturnValue
+						: ( payload: Payload, ...args: A ) => ReturnValue
 				) : never
 		)
 ) : never;

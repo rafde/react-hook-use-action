@@ -241,21 +241,6 @@ describe( 'useCTA', () => {
 					}, );
 				}, );
 
-				test( 'should not `calc` `hi` when `payload` is function that returns `undefined`', function() {
-					const { result, } = renderHook( () => useCTA( params, ), );
-
-					act( () => {
-						result.current[ 1 ]( {
-							type: 'calc',
-							payload: () => undefined,
-						}, );
-					}, );
-
-					expect( result.current[ 0 ].current === initial, ).toBe( true, );
-					expect( result.current[ 0 ].current, ).toEqual( initial, );
-					expect( result.current[ 0 ].changes, ).toBeNull( );
-				}, );
-
 				test( 'should not `calc` when `payload` is negative and `options.ignoreNegatives` === true', function() {
 					const { result, } = renderHook( () => useCTA( params, ), );
 
@@ -308,36 +293,6 @@ describe( 'useCTA', () => {
 					act( () => {
 						// @ts-expect-error make sure payload is not used by calc when payload is forced
 						result.current[ 1 ].cta.calc( payload, );
-					}, );
-
-					expect( result.current[ 0 ].current === initial, ).toBe( true, );
-					expect( result.current[ 0 ].current, ).toEqual( initial, );
-					expect( result.current[ 0 ].changes, ).toBeNull( );
-				}, );
-
-				test( 'should `calc` `hi` when `payload` is function', function() {
-					const { result, } = renderHook( () => useCTA( params, ), );
-
-					const payload = {
-						hi: 4,
-					};
-					act( () => {
-						result.current[ 1 ].cta.calc( () => payload, );
-					}, );
-					expect( result.current[ 0 ].current, ).toEqual( {
-						...initial,
-						hi: initial.hi + payload.hi,
-					}, );
-					expect( result.current[ 0 ].changes, ).toEqual( {
-						hi: initial.hi + payload.hi,
-					}, );
-				}, );
-
-				test( 'should not `calc` `hi` when `payload` is function that returns `undefined`', function() {
-					const { result, } = renderHook( () => useCTA( params, ), );
-
-					act( () => {
-						result.current[ 1 ].cta.calc( () => undefined, );
 					}, );
 
 					expect( result.current[ 0 ].current === initial, ).toBe( true, );
@@ -470,34 +425,6 @@ describe( 'useCTA', () => {
 					expect( result.current[ 0 ].changes, ).toBeNull( );
 				}, );
 
-				test( 'should add to `hi` when payload is a function', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							val( state, payload: Pick<typeof initial, 'hi'>['hi'], ) {
-								return {
-									hi: state.current.hi + payload,
-								};
-							},
-						},
-					}, ), );
-
-					const payload = () => 4;
-					act( () => {
-						result.current[ 1 ]( {
-							type: 'val',
-							payload,
-						}, );
-					}, );
-					expect( result.current[ 0 ].current, ).toEqual( {
-						...initial,
-						hi: initial.hi + payload(),
-					}, );
-					expect( result.current[ 0 ].changes, ).toEqual( {
-						hi: initial.hi + payload(),
-					}, );
-				}, );
-
 				test( 'should not add to `hi` when payload is a function that returns a string', function() {
 					const { result, } = renderHook( () => useCTA( {
 						initial,
@@ -518,28 +445,6 @@ describe( 'useCTA', () => {
 						result.current[ 1 ]( {
 							type: 'val',
 							// @ts-expect-error make sure payload is not used by calc when payload is forced
-							payload,
-						}, );
-					}, );
-					expect( result.current[ 0 ].current, ).toEqual( initial, );
-					expect( result.current[ 0 ].changes, ).toBeNull( );
-				}, );
-				test( 'should add to `hi` when payload is a function that returns `undefined`', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							val( state, payload: Pick<typeof initial, 'hi'>['hi'], ) {
-								return {
-									hi: state.current.hi + payload,
-								};
-							},
-						},
-					}, ), );
-
-					const payload = () => undefined;
-					act( () => {
-						result.current[ 1 ]( {
-							type: 'val',
 							payload,
 						}, );
 					}, );
@@ -572,51 +477,6 @@ describe( 'useCTA', () => {
 					expect( result.current[ 0 ].changes, ).toEqual( {
 						hi: initial.hi + payload,
 					}, );
-				}, );
-
-				test( 'should add to `hi` when payload is a function', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							val( state, payload: Pick<typeof initial, 'hi'>['hi'], ) {
-								return {
-									hi: state.current.hi + payload,
-								};
-							},
-						},
-					}, ), );
-
-					const payload = () => 4;
-					act( () => {
-						result.current[ 1 ].cta.val( payload, );
-					}, );
-					expect( result.current[ 0 ].current, ).toEqual( {
-						...initial,
-						hi: initial.hi + payload(),
-					}, );
-					expect( result.current[ 0 ].changes, ).toEqual( {
-						hi: initial.hi + payload(),
-					}, );
-				}, );
-
-				test( 'should add to `hi` when payload is a function that returns `undefined`', function() {
-					const { result, } = renderHook( () => useCTA( {
-						initial,
-						actions: {
-							val( state, payload: Pick<typeof initial, 'hi'>['hi'], ) {
-								return {
-									hi: state.current.hi + payload,
-								};
-							},
-						},
-					}, ), );
-
-					const payload = () => undefined;
-					act( () => {
-						result.current[ 1 ].cta.val( payload, );
-					}, );
-					expect( result.current[ 0 ].current, ).toEqual( initial, );
-					expect( result.current[ 0 ].changes, ).toBeNull( );
 				}, );
 			}, );
 		}, );
