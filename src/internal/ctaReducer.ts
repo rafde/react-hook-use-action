@@ -1,7 +1,6 @@
 import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
-import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
@@ -234,12 +233,12 @@ function _resetState<Initial extends CTAState, >(
 	};
 }
 
-const predefinedActionsConst: Record<keyof DefaultActionsRecord<NonNullable<unknown>>, keyof DefaultActionsRecord<NonNullable<unknown>>> = {
-	updateInitial: 'updateInitial',
-	reset: 'reset',
-	update: 'update',
+const predefinedActionsConst = {
 	replace: 'replace',
 	replaceInitial: 'replaceInitial',
+	reset: 'reset',
+	update: 'update',
+	updateInitial: 'updateInitial',
 } as const;
 
 type PredefinedActions = keyof typeof predefinedActionsConst;
@@ -422,19 +421,20 @@ export default function ctaReducer<
 	}
 
 	let nextPayload: typeof payload | null = payload;
-	if ( payload instanceof Function ) {
-		const nextCTAPayloadResult = payload(
-			ctaState,
-		);
-
-		if ( typeof nextCTAPayloadResult === 'undefined' ) {
-			return ctaReducerState;
-		}
-
-		nextPayload = nextCTAPayloadResult;
-	}
 
 	if ( ctaType in predefinedActionsConst ) {
+		if ( payload instanceof Function ) {
+			const nextCTAPayloadResult = payload(
+				ctaState,
+			);
+
+			if ( typeof nextCTAPayloadResult === 'undefined' ) {
+				return ctaReducerState;
+			}
+
+			nextPayload = nextCTAPayloadResult;
+		}
+
 		const next = cta(
 			ctaState,
 			nextPayload,
