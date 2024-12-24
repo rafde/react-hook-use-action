@@ -4,7 +4,7 @@ export { returnUseCTAParameter, } from './internal/returnUseCTAParameter';
 
 export { createCTAContext, } from './internal/createCTAContext';
 
-export { ctaCallback, } from './internal/ctaCallback';
+export { createCTA, } from './internal/createCTA';
 
 export type { CTAState, } from './types/CTAState';
 

@@ -1,4 +1,4 @@
-import { ctaCallback, } from '../src';
+import { createCTA, } from '../src';
 
 describe( 'ctaCallback', () => {
 	const initial = {
@@ -9,7 +9,7 @@ describe( 'ctaCallback', () => {
 	};
 
 	test( 'should initialize with correct default state', () => {
-		const [state,] = ctaCallback( {
+		const [state,] = createCTA( {
 			initial,
 			actions: {},
 		}, );
@@ -23,8 +23,20 @@ describe( 'ctaCallback', () => {
 		}, );
 	}, );
 
+	test( 'should initialize with history equal to dispatch.history', () => {
+		const [
+			state,
+			dispatch,
+		] = createCTA( {
+			initial,
+			actions: {},
+		}, );
+
+		expect( state, ).toEqual( dispatch.history, );
+	}, );
+
 	test( 'should handle update action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 		const count = 1;
 		const newState = dispatch.cta.update( { count, }, );
 
@@ -39,7 +51,7 @@ describe( 'ctaCallback', () => {
 	}, );
 
 	test( 'should handle update(string, value) action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 		const count = 1;
 		const newState = dispatch.cta.update( 'count', count, );
 
@@ -54,7 +66,7 @@ describe( 'ctaCallback', () => {
 	}, );
 
 	test( 'should handle update(number, value) action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 		const val = 'count';
 		const newState = dispatch.cta.update( 2, val, );
 
@@ -69,7 +81,7 @@ describe( 'ctaCallback', () => {
 	}, );
 
 	test( 'should handle reset action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 		const count = 1;
 		dispatch.cta.update( { count, }, );
 		const resetState = dispatch.cta.reset();
@@ -86,7 +98,7 @@ describe( 'ctaCallback', () => {
 
 	test( 'should handle custom actions', () => {
 		const count = 1;
-		const [, dispatch,] = ctaCallback( {
+		const [, dispatch,] = createCTA( {
 			initial,
 			actions: {
 				increment( ctaParam, ) {
@@ -112,7 +124,7 @@ describe( 'ctaCallback', () => {
 	test( 'should handle custom update action', () => {
 		const count = 1;
 		const text = 'customUpdate';
-		const [, dispatch,] = ctaCallback( {
+		const [, dispatch,] = createCTA( {
 			initial,
 			actions: {
 				update( ctaParam, payload, ) {
@@ -142,7 +154,7 @@ describe( 'ctaCallback', () => {
 
 	test( 'should handle updateInitial action', () => {
 		const count = 1;
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 
 		const newState = dispatch.cta.updateInitial( { count, }, );
 
@@ -157,7 +169,7 @@ describe( 'ctaCallback', () => {
 	}, );
 
 	test( 'should handle replaceInitial action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 
 		const newInitial = {
 			2: 'replaceInitial',
@@ -175,7 +187,7 @@ describe( 'ctaCallback', () => {
 	}, );
 
 	test( 'should handle replace action', () => {
-		const [, dispatch,] = ctaCallback( { initial, }, );
+		const [, dispatch,] = createCTA( { initial, }, );
 
 		const newInitial = {
 			2: 'replace',
@@ -194,7 +206,7 @@ describe( 'ctaCallback', () => {
 
 	test( 'should handle custom compare function', () => {
 		const customCompare = ( a: unknown, b: unknown, ) => JSON.stringify( a, ) === JSON.stringify( b, );
-		const [, dispatch,] = ctaCallback( {
+		const [, dispatch,] = createCTA( {
 			initial,
 			compare: customCompare,
 		}, );

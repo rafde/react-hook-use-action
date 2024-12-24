@@ -74,8 +74,3 @@ export type UsePrivateCTAReturnType<
 	Initial extends CTAState,
 	Actions,
 > = ReturnType<typeof usePrivateCTA<Initial, Actions>>;
-
-export type UsePrivateCTADispatcher<
-	Initial extends CTAState,
-	Actions,
-> = UsePrivateCTAReturnType<Initial, Actions>[1];

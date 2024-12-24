@@ -20,6 +20,18 @@ describe( 'useCTA', () => {
 			expect( initDispatch, ).toStrictEqual( result.current[ 1 ], );
 		}, );
 
+		test( 'should have history equal to dispatch.history', () => {
+			const { result, } = renderHook( () => useCTA( {
+				initial,
+			}, ), );
+			const [
+				history,
+				dispatch,
+			] = result.current;
+
+			expect( history, ).toEqual( dispatch.history, );
+		}, );
+
 		test( 'should not change state when type is not defined', function() {
 			const payload = 'not updating';
 			const { result, } = renderHook( () => useCTA( {
