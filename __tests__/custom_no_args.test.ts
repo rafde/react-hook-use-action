@@ -1,5 +1,5 @@
 import { act, renderHook, } from '@testing-library/react';
-import { returnUseCTAParameter, useCTA, } from '../src';
+import { returnCTAParameter, useCTA, } from '../src';
 import { initial, updateCTAParam, } from './setup/simple';
 
 const changes = {
@@ -9,7 +9,7 @@ const payload = {
 	...initial,
 	...changes,
 };
-const customCTAParam = returnUseCTAParameter( {
+const customCTAParam = returnCTAParameter( {
 	initial,
 	actions: {
 		customNoArgs() {
@@ -18,7 +18,7 @@ const customCTAParam = returnUseCTAParameter( {
 	},
 }, );
 
-const customAndUpdateCTAParam = returnUseCTAParameter( {
+const customAndUpdateCTAParam = returnCTAParameter( {
 	...customCTAParam,
 	actions: {
 		...customCTAParam.actions,

@@ -1,5 +1,5 @@
 import { act, renderHook, } from '@testing-library/react';
-import { returnUseCTAParameter, useCTA, } from '../src';
+import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'resetAction', () => {
@@ -15,7 +15,7 @@ describe( 'resetAction', () => {
 		test3: false,
 		2: 404,
 	};
-	const params = returnUseCTAParameter( {
+	const params = returnCTAParameter( {
 		initial,
 		actions: {
 			reset( ctaState, payload, ) {

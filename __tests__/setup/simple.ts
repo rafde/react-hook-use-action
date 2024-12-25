@@ -1,4 +1,4 @@
-import { returnUseCTAParameter, } from '../../src';
+import { returnCTAParameter, } from '../../src';
 
 export const initial = {
 	test1: 1,
@@ -26,7 +26,7 @@ export const arbitraryKey = {
 	'arbitrary key': 'value',
 };
 
-export const resetCTAParams = returnUseCTAParameter( {
+export const resetCTAParams = returnCTAParameter( {
 	initial,
 	actions: {
 		reset( state, payload, ) {
@@ -69,7 +69,7 @@ export const resetCTAParams = returnUseCTAParameter( {
 	},
 }, );
 
-export const updateCTAParam = returnUseCTAParameter( {
+export const updateCTAParam = returnCTAParameter( {
 	initial,
 	actions: {
 		update( state, payload, ) {
@@ -85,7 +85,7 @@ export const updateCTAParam = returnUseCTAParameter( {
 	},
 }, );
 
-export const updateInitialCTAParam = returnUseCTAParameter( {
+export const updateInitialCTAParam = returnCTAParameter( {
 	initial,
 	actions: {
 		updateInitial( state, payload, ) {

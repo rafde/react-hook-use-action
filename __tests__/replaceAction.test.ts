@@ -1,5 +1,5 @@
 import { act, renderHook, } from '@testing-library/react';
-import { returnUseCTAParameter, useCTA, } from '../src';
+import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'replaceAction', () => {
@@ -7,7 +7,7 @@ describe( 'replaceAction', () => {
 		test1: 7,
 		test2: 'replaceAction',
 	};
-	const params = returnUseCTAParameter( {
+	const params = returnCTAParameter( {
 		initial,
 		actions: {
 			replace( ctaState, payload, ) {

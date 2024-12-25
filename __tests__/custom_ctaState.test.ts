@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { returnUseCTAParameter, useCTA, } from '../src';
+import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'custom action with ctaState', () => {
@@ -131,7 +131,7 @@ describe( 'custom action with ctaState', () => {
 	}, );
 
 	describe( 'options', () => {
-		const params = returnUseCTAParameter( {
+		const params = returnCTAParameter( {
 			initial,
 			actions: {
 				val( state, payload: string, trim?: boolean, type?: 'initial' | 'resetCurrent', ) {

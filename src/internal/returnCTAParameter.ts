@@ -3,7 +3,7 @@ import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 
-export function returnUseCTAParameter<
+export function returnCTAParameter<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,

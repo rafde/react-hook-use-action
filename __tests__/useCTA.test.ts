@@ -1,5 +1,5 @@
 import { renderHook, act, } from '@testing-library/react';
-import { useCTA, returnUseCTAParameter, } from '../src';
+import { useCTA, returnCTAParameter, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'useCTA', () => {
@@ -133,7 +133,7 @@ describe( 'useCTA', () => {
 		};
 
 		describe( 'calc', function() {
-			const params = returnUseCTAParameter( {
+			const params = returnCTAParameter( {
 				initial,
 				actions: {
 					calc(
@@ -333,7 +333,7 @@ describe( 'useCTA', () => {
 		}, );
 
 		describe( 'doubleHi', function() {
-			const params = returnUseCTAParameter( {
+			const params = returnCTAParameter( {
 				initial,
 				actions: {
 					double( state, ) {
