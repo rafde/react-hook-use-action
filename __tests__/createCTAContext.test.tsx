@@ -14,13 +14,13 @@ describe( 'createCTAContext', () => {
 	}, );
 	const {
 		CTAProvider,
-		useCTAStateContext,
+		useCTAHistoryContext,
 		useCTADispatchContext,
 	} = ctaContext;
 
 	test( 'should update when view is wrapped in a Provided', () => {
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
@@ -54,7 +54,7 @@ describe( 'createCTAContext', () => {
 			2: 22,
 		};
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
@@ -83,7 +83,7 @@ describe( 'createCTAContext', () => {
 
 	test( 'should update when with `onInit` prop', () => {
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
@@ -127,12 +127,12 @@ describe( 'createCTAContext', () => {
 		}, );
 		const {
 			CTAProvider,
-			useCTAStateContext,
+			useCTAHistoryContext,
 			useCTADispatchContext,
 		} = ctaContext;
 
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
@@ -173,12 +173,12 @@ describe( 'createCTAContext', () => {
 		}, );
 		const {
 			CTAProvider,
-			useCTAStateContext,
+			useCTAHistoryContext,
 			useCTADispatchContext,
 		} = ctaContext;
 
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
@@ -208,7 +208,7 @@ describe( 'createCTAContext', () => {
 
 	test( 'should not update when useCTADispatchContext is outside Provider', () => {
 		const View = () => {
-			const ctaStateContext = useCTAStateContext();
+			const ctaStateContext = useCTAHistoryContext();
 			const ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {

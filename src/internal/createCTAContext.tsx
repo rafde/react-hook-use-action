@@ -14,7 +14,7 @@ export function createCTAContext<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >( contextParams: UseCTAParameter<Initial, Actions>, ) {
-	const CTAContextState = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
+	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
 		changes: null,
 		current: contextParams.initial,
 		initial: contextParams.initial,
@@ -24,10 +24,11 @@ export function createCTAContext<
 	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
-		CTAProvider( props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit'>>>, ) {
+		CTAProvider( props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit' | 'compare'>>>, ) {
 			const {
 				initial = contextParams.initial,
 				onInit = contextParams.onInit,
+				compare = contextParams.compare,
 			} = props;
 			const [
 				state,
@@ -36,16 +37,16 @@ export function createCTAContext<
 				initial,
 				onInit,
 				actions: contextParams.actions,
-				compare: contextParams.compare,
+				compare,
 			}, );
-			return <CTAContextState.Provider value={state}>
+			return <CTAContextHistory.Provider value={state}>
 				<CTAContextDispatch.Provider value={dispatcher as unknown as UseCTAReturnType<Initial, ActionsRecord>[1]}>
 					{props.children}
 				</CTAContextDispatch.Provider>
-			</CTAContextState.Provider>;
+			</CTAContextHistory.Provider>;
 		},
-		useCTAStateContext() {
-			return useContext( CTAContextState, );
+		useCTAHistoryContext() {
+			return useContext( CTAContextHistory, );
 		},
 		useCTADispatchContext() {
 			const ctaDispatchContext = useContext( CTAContextDispatch, );
