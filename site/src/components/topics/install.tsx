@@ -1,4 +1,4 @@
-import { installConfig, installNPMConfig, installYarnConfig, } from '../nav-sidebar/config';
+import { installConfig, installDenoConfig, installNPMConfig, installYarnConfig, } from '../nav-sidebar/config';
 import CodeBlock from '../ui/codeBlock';
 
 import Sect from '../ui/sect';
@@ -15,6 +15,10 @@ export default function InstallTopic() {
 
 		<Sect {...installYarnConfig}>
 			<CodeBlock lang="bash" copyButton={true}>yarn add react-hook-use-cta</CodeBlock>
+		</Sect>
+
+		<Sect {...installDenoConfig}>
+			<CodeBlock lang="bash" copyButton={true}>deno add jsr:@rafde/react-hook-use-cta</CodeBlock>
 		</Sect>
 	</>;
 }
