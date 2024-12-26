@@ -1,6 +1,14 @@
 {
 	"name": "@rafde/react-hook-use-cta",
-	"version": "2.0.0-pre.1",
+	"version": "2.0.1",
 	"license": "MIT",
-	"exports": "./src/index.ts"
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": [
+			"src",
+			"LICENSE",
+			"README.md",
+			"package.json"
+		]
+	}
 }
