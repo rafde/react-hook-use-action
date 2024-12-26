@@ -25,7 +25,7 @@ import Sect from '../ui/sect';
 export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...createCtaConfig}>
-			<CodeBlock copyButton={true}>
+			<CodeBlock copyButton={true} className="mr-4">
 				{'import { createCTA, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 			<Content>

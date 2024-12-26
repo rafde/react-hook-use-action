@@ -7,5 +7,5 @@ function onChange() {
 
 export default function NavOverlyHiddenCheck() {
 	const isOverlayNavOpen = useNav( state => state.isNavOverlayOpen, );
-	return <input type="checkbox" className="peer/overlay navOverlay hidden" checked={isOverlayNavOpen} onChange={onChange} />;
+	return <input type="checkbox" className="peer/overlay hidden" checked={isOverlayNavOpen} onChange={onChange} />;
 }

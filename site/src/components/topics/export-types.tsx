@@ -14,7 +14,7 @@ export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
 		</Sect>
 
 		<Sect {...exportTypesCTAStateConfig}>
-			<CodeBlock copyButton={true}>
+			<CodeBlock copyButton={true} className="mr-4">
 				{'import type { CTAState, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
@@ -24,7 +24,7 @@ export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
 		</Sect>
 
 		<Sect {...exportTypesUseCTAParameterCompareConfig}>
-			<CodeBlock copyButton={true}>
+			<CodeBlock copyButton={true} className="mr-4">
 				{'import type { UseCTAParameterCompare, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
@@ -33,7 +33,7 @@ export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
 		</Sect>
 
 		<Sect {...exportTypesUseCTAReturnTypeConfig}>
-			<CodeBlock copyButton={true}>
+			<CodeBlock copyButton={true} className="mr-4">
 				{'import type { UseCTAReturnType, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
@@ -42,7 +42,7 @@ export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
 		</Sect>
 
 		<Sect {...exportTypesUseCTAReturnTypeDispatchConfig}>
-			<CodeBlock copyButton={true}>
+			<CodeBlock copyButton={true} className="mr-4">
 				{'import type { UseCTAReturnTypeDispatch, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 

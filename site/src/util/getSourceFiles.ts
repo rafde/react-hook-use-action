@@ -17,13 +17,11 @@ const sourceFileList = [
 	{
 		filePath: 'types/CTAHistory.ts',
 		start: 2,
-		end: 9,
 	},
 	'types/UseCTAParameterActionsCustomRecord.ts',
 	{
 		filePath: 'types/UseCTAReturnTypeDispatch.ts',
-		start: 225,
-		end: 235,
+		start: 210,
 	},
 	{
 		filePath: 'types/CustomCTAHistory.ts',

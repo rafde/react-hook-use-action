@@ -6,6 +6,7 @@ type CodeBlockProp = {
 	lang?: string
 	children: string
 	copyButton?: boolean
+	className?: string
 };
 
 export default function CodeBlock( props: CodeBlockProp, ) {
@@ -13,8 +14,9 @@ export default function CodeBlock( props: CodeBlockProp, ) {
 		lang = 'tsx',
 		children,
 		copyButton = false,
+		className = '',
 	} = props;
-	return <div className="relative">
+	return <div className={`relative ${className}`}>
 		{copyButton && <CodeBlockCopyButton code={children} />}
 		<SyntaxHighlighter
 			language={lang}
