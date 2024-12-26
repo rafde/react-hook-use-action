@@ -131,20 +131,15 @@ type CustomCTARecord<
 		keyof DefaultActionsRecord<Initial>
 	> as Actions[Action] extends ( ...args: infer Args ) => CustomCTAReturnType<Initial> ? (
 		Args extends []
-			// Represents CTA object without arguments.
+			// Action without arguments.
 			? Action
 			: (
-				// Represents CTA object optional CustomCTAStateParam.
-				[undefined,] extends Args
-					? Action
-					: (
-						Args extends [...infer A,]
-							? (
-								// Represents CustomCTAStateParam with at least one argument
-								A[0] extends CustomCTAHistory<Initial> ? Action : never
-							)
-							: never
+				Args extends [...infer A,]
+					? (
+						// Represents cta with at least one argument that is CustomCTAHistory
+						A[0] extends CustomCTAHistory<Initial> ? Action : never
 					)
+					: never
 			)
 	) : never]: Actions[Action];
 };
@@ -156,19 +151,9 @@ type DispatchCustomCTARecordValues<
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = ActionValue extends ( ( ctaParam: any, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
 	Args extends []
-		// Represents CTA object without arguments.
+		// Represents CTA without arguments.
 		? ( () => ReturnValue )
-		: (
-			Args extends [unknown?, ...infer A,]
-				? ( ( payload?: Args[0], ...args: A ) => ReturnValue )
-				: Args extends [infer Payload, ...infer A,] ? (
-					Payload extends undefined
-					// Represents CTA object optional payload.
-						? ( ( payload?: Payload, ...args: A ) => ReturnValue )
-					// Represents CTA object a payload.
-						: ( payload: Payload, ...args: A ) => ReturnValue
-				) : never
-		)
+		: ( ( ...args: Args ) => ReturnValue )
 ) : never;
 
 export type DispatchCustomCTARecord<
