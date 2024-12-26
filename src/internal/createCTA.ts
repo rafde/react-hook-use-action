@@ -4,7 +4,7 @@ import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { ActionsRecordProp, UseCTAParameterActionsRecordProp, } from '../types/UseCTAParameterActionsRecordProp';
 import { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import { compareCallback, } from './compareCallback';
-import { CreateCTACallbackProps, } from './CreateCTACallbackProps';
+import { CreateCTAProps, } from '../types/CreateCTAProps';
 import { createDispatchInterface, } from './createDispatchInterface';
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
 
@@ -13,7 +13,7 @@ export function createCTA<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
 >(
-	useCTAParameter: CreateCTACallbackProps<Initial, ActionsRecord>,
+	useCTAParameter: CreateCTAProps<Initial, ActionsRecord>,
 ): UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>> {
 	const {
 		initial,

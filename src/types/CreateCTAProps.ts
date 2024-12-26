@@ -1,7 +1,7 @@
-import type { CTAState, } from '../types/CTAState';
-import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
+import type { CTAState, } from './CTAState';
+import { UseCTAParameterCompare, } from './UseCTAParameterCompare';
 
-export type CreateCTACallbackProps<
+export type CreateCTAProps<
 	Initial extends CTAState,
 	Actions,
 > = Actions extends undefined ? {
