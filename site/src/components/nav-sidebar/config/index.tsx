@@ -30,11 +30,17 @@ export const installYarnConfig: NavItem = {
 	title: 'Yarn',
 };
 
+export const installDenoConfig: NavItem = {
+	href: 'install-deno',
+	title: 'Deno',
+};
+
 export const installConfig: NavItem = {
 	href: 'install',
 	subNav: [
 		installNPMConfig,
 		installYarnConfig,
+		installDenoConfig,
 	],
 	title: 'Install',
 };
