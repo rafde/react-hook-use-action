@@ -1,6 +1,5 @@
 import { strictDeepEqual } from "fast-equals";
 import React from "react";
-import { JSX } from "react/jsx-runtime";
 export type CTAState = Record<string | number, unknown>;
 type CTAHistory<Initial extends CTAState> = Readonly<{
     current: Readonly<Initial>;
@@ -171,15 +170,9 @@ export function returnCTAParameter<Initial extends CTAState, Actions extends Use
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
  */
 export function createCTAContext<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(contextParams: UseCTAParameter<Initial, Actions>): {
-    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit" | "compare">>>): JSX.Element;
-    useCTAHistoryContext(): Readonly<{
-        current: Readonly<Initial>;
-        previous: Readonly<Initial> | null;
-        changes: Readonly<Partial<Initial>> | null;
-        initial: Readonly<Initial>;
-        previousInitial: Readonly<Initial> | null;
-    }>;
-    useCTADispatchContext(): UseCTAReturnTypeDispatch<Initial, ActionsRecord, void> | null;
+    CTAProvider: React.FC<React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit' | 'compare'>>>>;
+    useCTAHistoryContext: () => UseCTAReturnType<Initial, Actions>[0];
+    useCTADispatchContext: () => UseCTAReturnType<Initial, ActionsRecord>[1] | null;
 };
 type CreateCTACallbackProps<Initial extends CTAState, Actions> = Actions extends undefined ? {
     actions?: undefined;
