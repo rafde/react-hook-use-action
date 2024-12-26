@@ -132,3 +132,5 @@ site/next-env.d.ts
 /site/next-env.d.ts
 !/site/tsconfig.tsbuildinfo
 /site/tsconfig.tsbuildinfo
+
+.DS_Store
