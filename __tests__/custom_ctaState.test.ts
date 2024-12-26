@@ -137,10 +137,6 @@ describe( 'custom action with ctaState', () => {
 				val( state, payload: string, trim?: boolean, type?: 'initial' | 'resetCurrent', ) {
 					let test2 = payload;
 
-					if ( typeof payload !== 'string' ) {
-						return;
-					}
-
 					if ( trim ) {
 						test2 = payload.trim();
 					}
@@ -163,7 +159,7 @@ describe( 'custom action with ctaState', () => {
 			},
 		}, );
 
-		test( 'should update', () => {
+		test( 'should update dispatch.cta.val(string)', () => {
 			const { result, } = renderHook( () => useCTA( params, ), );
 			const test2 = 'payload';
 			const changes = {
@@ -195,7 +191,7 @@ describe( 'custom action with ctaState', () => {
 			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
-		test( 'should update with trim', () => {
+		test( 'should update with trim with dispatch.cta.val(string, boolean)', () => {
 			const { result, } = renderHook( () => useCTA( params, ), );
 			const test2 = '      payload      ';
 			const changes = {
@@ -228,7 +224,7 @@ describe( 'custom action with ctaState', () => {
 			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
-		test( 'should update initial', () => {
+		test( 'should update initial with dispatch.cta.val(string, boolean, "initial")', () => {
 			const { result, } = renderHook( () => useCTA( params, ), );
 			const test2 = 'payload';
 			const changes = {
@@ -267,7 +263,7 @@ describe( 'custom action with ctaState', () => {
 			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 		}, );
 
-		test( 'should resetCurrent using payload', () => {
+		test( 'should resetCurrent using payload with dispatch.cta.val(string, boolean, "resetCurrent")', () => {
 			const { result, } = renderHook( () => useCTA( params, ), );
 			const test2 = 'payload';
 			const changes = {
@@ -301,6 +297,61 @@ describe( 'custom action with ctaState', () => {
 			}, );
 
 			expect( calcCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
+		}, );
+	}, );
+
+	describe( 'required parameters', () => {
+		const params = returnCTAParameter( {
+			initial,
+			actions: {
+				setter( state, test1: number, test2: string, test3: boolean, ) {
+					return {
+						test1,
+						test2,
+						test3,
+					};
+				},
+			},
+		}, );
+
+		test( 'should change with dispatch.cta.setter(number, string, boolean)', () => {
+			const { result, } = renderHook( () => useCTA( params, ), );
+			const test1 = 11;
+			const test2 = 'payload';
+			const test3 = false;
+			const changes = {
+				test1,
+				test2,
+				test3,
+			};
+			const current = {
+				...initial,
+				...changes,
+			};
+			act( () => {
+				result.current[ 1 ].cta.setter( test1, test2, test3, );
+			}, );
+
+			expect( result.current[ 0 ].current, ).toStrictEqual( current, );
+			expect( result.current[ 0 ].previous, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+			expect( result.current[ 0 ].changes, ).toStrictEqual( changes, );
+		}, );
+
+		test( 'should not change with dispatch.cta.setter(number, string, boolean)', () => {
+			const { result, } = renderHook( () => useCTA( params, ), );
+			const [oldHistory,] = result.current;
+			act( () => {
+				result.current[ 1 ].cta.setter( initial.test1, initial.test2, initial.test3, );
+			}, );
+
+			expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].previous, ).toBeNull( );
+			expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+			expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+			expect( result.current[ 0 ].changes, ).toBeNull( );
+			expect( result.current[ 0 ], ).toStrictEqual( oldHistory, );
 		}, );
 	}, );
 }, );
