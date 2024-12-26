@@ -7,6 +7,6 @@ export function returnCTAParameter<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
->( params: UseCTAParameter<Initial, ActionsRecord>, ) {
+>( params: UseCTAParameter<Initial, ActionsRecord>, ): UseCTAParameter<Initial, ActionsRecord> {
 	return params;
 }

@@ -13,7 +13,11 @@ export function createCTAContext<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions,
->( contextParams: UseCTAParameter<Initial, Actions>, ) {
+>( contextParams: UseCTAParameter<Initial, Actions>, ): {
+	CTAProvider: React.FC<React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit' | 'compare'>>>>
+	useCTAHistoryContext: () => UseCTAReturnType<Initial, Actions>[0]
+	useCTADispatchContext: () => UseCTAReturnType<Initial, ActionsRecord>[1] | null
+} {
 	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
 		changes: null,
 		current: contextParams.initial,
