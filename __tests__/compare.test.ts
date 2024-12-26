@@ -1,5 +1,5 @@
 import { act, renderHook, } from '@testing-library/react';
-import { useCTA, UseCTAParameter, } from '../src';
+import { useCTA, UseCTAParameterCompare, } from '../src';
 
 class CompareTest {
 	value: unknown;
@@ -17,7 +17,7 @@ describe( 'useCTA compare parameter', () => {
 		test1: new CompareTest( 'test', ),
 		test2: 2,
 	};
-	const compareFn: UseCTAParameter<typeof initial, undefined>['compare'] = ( prev, next, extra, ) => {
+	const compareFn: UseCTAParameterCompare<typeof initial> = ( prev, next, extra, ) => {
 		let p = prev;
 		let n = next;
 
