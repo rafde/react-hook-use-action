@@ -1,9 +1,9 @@
 import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
-import { createCTAReturnValuesConfig, } from '../nav-sidebar/config/create-cta-config';
 import {
 	createCTAContextConfig,
 	createCTAContextExampleConfig,
 	createCTAContextParametersConfig,
+	createCTAContextReturnValueConfig,
 } from '../nav-sidebar/config/create-cta-context-config';
 import {
 	useCTAConfig,
@@ -112,7 +112,7 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 				</ul>
 			</Content>
 		</Sect>
-		<Sect {...createCTAReturnValuesConfig}>
+		<Sect {...createCTAContextReturnValueConfig}>
 			<Content>
 				<p>
 					Returns an
