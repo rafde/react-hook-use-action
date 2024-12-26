@@ -2,7 +2,7 @@ import { strictDeepEqual } from "fast-equals";
 import React from "react";
 import { JSX } from "react/jsx-runtime";
 export type CTAState = Record<string | number, unknown>;
-export type CTAHistory<Initial extends CTAState> = Readonly<{
+type CTAHistory<Initial extends CTAState> = Readonly<{
     current: Readonly<Initial>;
     previous: Readonly<Initial> | null;
     changes: Readonly<Partial<Initial>> | null;
@@ -20,8 +20,8 @@ export type UseCTAParameterCompare<Initial extends CTAState> = (previousValue: u
     cmp: typeof strictDeepEqual;
     key: keyof Initial;
 }) => boolean;
-export type UseCTAParameterOnInit<Initial extends CTAState> = (initial: Initial) => Initial;
-export type UseCTAParameter<Initial extends CTAState, Actions> = Actions extends undefined ? {
+type UseCTAParameterOnInit<Initial extends CTAState> = (initial: Initial) => Initial;
+type UseCTAParameter<Initial extends CTAState, Actions> = Actions extends undefined ? {
     actions?: undefined;
     initial: Initial;
     onInit?: UseCTAParameterOnInit<Initial>;
@@ -65,7 +65,7 @@ declare class ReplaceInitialActionType<Payload extends CTAState> extends ActionT
 type Immutable<T> = T extends (infer R)[] ? ReadonlyArray<Immutable<R>> : T extends Function ? T : T extends object ? {
     readonly [P in keyof T]: Immutable<T[P]>;
 } : T;
-export type CustomCTAHistory<Payload extends CTAState> = CTAHistory<Payload> & Immutable<{
+type CustomCTAHistory<Payload extends CTAState> = CTAHistory<Payload> & Immutable<{
     replaceAction: (payload: Payload, actionTypeOptions?: ActionTypeOptions) => ReplaceActionType<Payload>;
     replaceInitialAction: (payload: Payload, actionTypeOptions?: ActionTypeOptions) => ReplaceInitialActionType<Payload>;
     resetAction: (payload?: (Payload | undefined), actionTypeOptions?: ActionTypeOptions) => ResetActionType<Payload>;
@@ -166,13 +166,13 @@ export type UseCTAReturnType<Initial extends CTAState, Actions, ReturnValue = vo
     UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>
 ];
 export function useCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: UseCTAParameter<Initial, ActionsRecord>): UseCTAReturnType<Initial, ActionsRecord>;
-export function returnUseCTAParameter<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial>, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(params: UseCTAParameter<Initial, ActionsRecord>): UseCTAParameter<Initial, ActionsRecord>;
+export function returnCTAParameter<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial>, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(params: UseCTAParameter<Initial, ActionsRecord>): UseCTAParameter<Initial, ActionsRecord>;
 /**
  * https://react.dev/learn/scaling-up-with-reducer-and-context#moving-all-wiring-into-a-single-file
  */
 export function createCTAContext<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(contextParams: UseCTAParameter<Initial, Actions>): {
-    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit">>>): JSX.Element;
-    useCTAStateContext(): Readonly<{
+    CTAProvider(props: React.PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, "initial" | "onInit" | "compare">>>): JSX.Element;
+    useCTAHistoryContext(): Readonly<{
         current: Readonly<Initial>;
         previous: Readonly<Initial> | null;
         changes: Readonly<Partial<Initial>> | null;
