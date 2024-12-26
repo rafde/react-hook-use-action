@@ -1,4 +1,4 @@
-import React, { createContext, useContext, } from 'react';
+import React, { createContext, useContext, createElement, } from 'react';
 import type { CTAState, } from '../types/CTAState';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
@@ -35,19 +35,22 @@ export function createCTAContext<
 				compare = contextParams.compare,
 			} = props;
 			const [
-				state,
-				dispatcher,
+				value,
+				dispatch,
 			] = useCTA( {
 				initial,
 				onInit,
 				actions: contextParams.actions,
 				compare,
 			}, );
-			return <CTAContextHistory.Provider value={state}>
-				<CTAContextDispatch.Provider value={dispatcher as unknown as UseCTAReturnType<Initial, ActionsRecord>[1]}>
-					{props.children}
-				</CTAContextDispatch.Provider>
-			</CTAContextHistory.Provider>;
+
+			return createElement( CTAContextHistory.Provider, {
+				value,
+				children: createElement( CTAContextDispatch.Provider, {
+					value: dispatch as unknown as UseCTAReturnType<Initial, ActionsRecord>[1],
+					children: props.children,
+				}, ),
+			}, );
 		},
 		useCTAHistoryContext() {
 			return useContext( CTAContextHistory, );
