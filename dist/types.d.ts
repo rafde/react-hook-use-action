@@ -140,11 +140,9 @@ type ReplaceInitialCTAProps<Initial extends CTAState> = DispatchValueActionPaylo
 };
 type DefaultCTAProps<Initial extends CTAState> = UpdateInitialCTAProps<Initial> | ResetCTAProps<Initial> | UpdateCTAProps<Initial> | ReplaceCTAProps<Initial> | ReplaceInitialCTAProps<Initial>;
 type CustomCTARecord<Initial extends CTAState, Actions> = {
-    [Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>> as Actions[Action] extends (...args: infer Args) => CustomCTAReturnType<Initial> ? (Args extends [] ? Action : ([
-        undefined
-    ] extends Args ? Action : (Args extends [...infer A] ? (A[0] extends CustomCTAHistory<Initial> ? Action : never) : never))) : never]: Actions[Action];
+    [Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>> as Actions[Action] extends (...args: infer Args) => CustomCTAReturnType<Initial> ? (Args extends [] ? Action : (Args extends [...infer A] ? (A[0] extends CustomCTAHistory<Initial> ? Action : never) : never)) : never]: Actions[Action];
 };
-type DispatchCustomCTARecordValues<Initial extends CTAState, ActionValue, ReturnValue = void> = ActionValue extends ((ctaParam: any, ...args: infer Args) => CustomCTAReturnType<Initial>) ? (Args extends [] ? (() => ReturnValue) : (Args extends [unknown?, ...infer A] ? ((payload?: Args[0], ...args: A) => ReturnValue) : Args extends [infer Payload, ...infer A] ? (Payload extends undefined ? ((payload?: Payload, ...args: A) => ReturnValue) : (payload: Payload, ...args: A) => ReturnValue) : never)) : never;
+type DispatchCustomCTARecordValues<Initial extends CTAState, ActionValue, ReturnValue = void> = ActionValue extends ((ctaParam: any, ...args: infer Args) => CustomCTAReturnType<Initial>) ? (Args extends [] ? (() => ReturnValue) : ((...args: Args) => ReturnValue)) : never;
 type DispatchCustomCTARecord<Initial extends CTAState, Actions, ReturnValue = void, CustomActions = CustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
     [Action in keyof CustomActions]: DispatchCustomCTARecordValues<Initial, CustomActions[Action], ReturnValue>;
 };
