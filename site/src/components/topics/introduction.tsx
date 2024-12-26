@@ -7,7 +7,7 @@ import Content from '../ui/content';
 import Sect from '../ui/sect';
 
 export default function IntroductionTopic() {
-	return <Sect {...introductionConfig} Header="h2" title={introductionConfig.desc}>
+	return <Sect {...introductionConfig} Header="h2">
 		<Content>
 			<p>
 				A React hook for managing complex state with custom actions, history tracking, and type safety.
