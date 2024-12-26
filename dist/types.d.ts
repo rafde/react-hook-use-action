@@ -174,7 +174,7 @@ export function createCTAContext<Initial extends CTAState, Actions extends UseCT
     useCTAHistoryContext: () => UseCTAReturnType<Initial, Actions>[0];
     useCTADispatchContext: () => UseCTAReturnType<Initial, ActionsRecord>[1] | null;
 };
-type CreateCTACallbackProps<Initial extends CTAState, Actions> = Actions extends undefined ? {
+type CreateCTAProps<Initial extends CTAState, Actions> = Actions extends undefined ? {
     actions?: undefined;
     initial: Initial;
     compare?: UseCTAParameterCompare<Initial>;
@@ -183,6 +183,6 @@ type CreateCTACallbackProps<Initial extends CTAState, Actions> = Actions extends
     initial: Initial;
     compare?: UseCTAParameterCompare<Initial>;
 };
-export function createCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: CreateCTACallbackProps<Initial, ActionsRecord>): UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>>;
+export function createCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends Partial<DefaultActionsRecord<Initial>> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: CreateCTAProps<Initial, ActionsRecord>): UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>>;
 
 //# sourceMappingURL=types.d.ts.map
