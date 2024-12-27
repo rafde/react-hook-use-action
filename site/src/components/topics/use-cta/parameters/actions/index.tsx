@@ -18,7 +18,7 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 				<p>
 					<i>Optional</i>
 					{' '}
-					<Code>Record</Code>
+					<Code>object</Code>
 					{' '}
 					with the following capabilities:
 				</p>
@@ -28,8 +28,8 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 						Gives you a clean, type-safe way to encapsulate your state logic while keeping your component code focused
 						on presentation.
 					</li>
-					<li>Defines reusable state operations</li>
-					<li>Maintains full TypeScript type safety</li>
+					<li>Defines reusable state operations.</li>
+					<li>Maintains full TypeScript type safety.</li>
 					<li>
 						Can be called via
 						{' '}
@@ -48,7 +48,7 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 						{' '}
 						<PopoverDefaultActionsRecord {...props} />
 					</li>
-					<li>Can accept multiple parameters</li>
+					<li>Can accept multiple parameters.</li>
 					<li>
 						Has access all built-in actions.
 					</li>
