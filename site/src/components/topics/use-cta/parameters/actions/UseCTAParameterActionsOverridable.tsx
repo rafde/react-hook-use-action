@@ -7,6 +7,7 @@ import {
 	useCTAParameterActionsOverridableReturnConfig,
 } from '../../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
 import PopoverDefaultActionsRecord from '../../../../popover/defaultActionsRecord';
+import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
 import CodeBlock from '../../../../ui/codeBlock';
 import Content from '../../../../ui/content';
@@ -23,9 +24,9 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 				</p>
 				<p>This pattern enables:</p>
 				<ul className="list-inside list-[square]">
-					<li>Adding custom validation</li>
-					<li>Transforming data</li>
-					<li>Adding side effects</li>
+					<li>Adding custom validation.</li>
+					<li>Transforming data.</li>
+					<li>Adding side effects.</li>
 				</ul>
 			</Content>
 		</Sect>
@@ -55,7 +56,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 				<ul className="list-inside list-[square]">
 					<li>
 						<Code>current</Code>
-						: The current hook state
+						: The current hook state.
 					</li>
 
 					<li>
@@ -64,7 +65,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						{' '}
 						<Code>current</Code>
 						{' '}
-						state object before the last update.
+						state object before it was last updated.
 						<p>
 							Starts of as
 							{' '}
@@ -80,11 +81,11 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 
 					<li>
 						<Code>changes</Code>
-						: The changes between the
+						: The changes between
 						{' '}
 						<Code>initial</Code>
 						{' '}
-						state and the
+						and
 						{' '}
 						<Code>current</Code>
 						{' '}
@@ -94,7 +95,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 							{' '}
 							<Code>null</Code>
 							{' '}
-							if the there are no differences between the
+							if the there are no differences between
 							{' '}
 							<Code>initial</Code>
 							{' '}
@@ -118,7 +119,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						{' '}
 						<Code>initial</Code>
 						{' '}
-						state object before the last update.
+						state object before it was last updated.
 						<p>
 							Starts of as
 							{' '}
@@ -142,12 +143,12 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					The second parameter is the expected signature of the overridden action
 					(please refer to
 					{' '}
-					<a
+					<Anchor
 						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title}`}
-						href={`#${useCTAParameterActionsOverridableConfig.href}`}
-						className="underline">
+						href={useCTAParameterActionsOverridableConfig.href}
+					>
 						<Code>DefaultActionsRecord</Code>
-					</a>
+					</Anchor>
 					{' '}
 					<PopoverDefaultActionsRecord {...props} />
 					{' '}
@@ -211,13 +212,12 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					The expected return signature of the overridden action
 					(please refer to
 					{' '}
-					<a
+					<Anchor
 						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title}`}
-						href={`#${useCTAParameterActionsOverridableConfig.href}`}
-						className="underline"
+						href={useCTAParameterActionsOverridableConfig.href}
 					>
 						<Code>DefaultActionsRecord</Code>
-					</a>
+					</Anchor>
 					{' '}
 					<PopoverDefaultActionsRecord {...props} />
 					{' '}
