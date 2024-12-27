@@ -17,7 +17,45 @@ export type CTAReducerState<Initial extends CTAState,> = CTAHistory<Initial> & {
 	changesMap: Map<string | number, unknown>
 };
 
-function _replace<Initial extends CTAState,>(
+function _replace<Initial extends CTAState,>( prop: {
+	payload: Initial
+	a: Initial
+	b: Initial
+	compare: CompareCallbackReturnType
+	useBValue?: boolean
+}, ) {
+	const {
+		a,
+		b,
+		compare,
+		payload,
+		useBValue,
+	} = prop;
+	const changesMap = new Map();
+	let hasChange = false;
+	for ( const key in payload ) {
+		const value = payload[ key ];
+
+		if ( !compare( a[ key ], value, key, ) ) {
+			hasChange = true;
+			if ( compare( b[ key ], value, key, ) ) {
+				continue;
+			}
+			if ( useBValue ) {
+				changesMap.set( key, b[ key ], );
+				continue;
+			}
+			changesMap.set( key, value, );
+		}
+	}
+
+	if ( !hasChange ) {
+		return;
+	}
+	return changesMap;
+}
+
+function _replaceCurrent<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Initial,
 	compare: CompareCallbackReturnType,
@@ -26,21 +64,14 @@ function _replace<Initial extends CTAState,>(
 		initial,
 		current,
 	} = ctaReducerState;
-	const changesMap = new Map();
-	let hasChange = false;
-	for ( const key in payload ) {
-		const value = payload[ key ];
+	const changesMap = _replace( {
+		a: current,
+		b: initial,
+		compare,
+		payload,
+	}, );
 
-		if ( !compare( current[ key ], value, key, ) ) {
-			hasChange = true;
-			if ( compare( initial[ key ], value, key, ) ) {
-				continue;
-			}
-			changesMap.set( key, value, );
-		}
-	}
-
-	if ( !hasChange ) {
+	if ( !changesMap ) {
 		return ctaReducerState;
 	}
 
@@ -62,22 +93,15 @@ function _replaceInitial<Initial extends CTAState,>(
 		initial,
 		current,
 	} = ctaReducerState;
-	const changesMap = new Map();
-	let hasChange = false;
-	for ( const key in payload ) {
-		const value = payload[ key ];
-		const currentValue = current[ key ];
+	const changesMap = _replace( {
+		a: initial,
+		b: current,
+		compare,
+		payload,
+		useBValue: true,
+	}, );
 
-		if ( !compare( initial[ key ], value, key, ) ) {
-			hasChange = true;
-			if ( compare( currentValue, value, key, ) ) {
-				continue;
-			}
-			changesMap.set( key, currentValue, );
-		}
-	}
-
-	if ( !hasChange ) {
+	if ( !changesMap ) {
 		return ctaReducerState;
 	}
 
@@ -90,7 +114,56 @@ function _replaceInitial<Initial extends CTAState,>(
 	};
 }
 
-function _updateInitialState<Initial extends CTAState,>(
+function _update<Initial extends CTAState,>( prop: {
+	a: Initial
+	b: Initial
+	changesMap: CTAReducerState<Initial>['changesMap']
+	compare: CompareCallbackReturnType
+	payload: Initial
+	useCompareValue?: boolean
+}, ) {
+	const {
+		a,
+		b,
+		compare,
+		payload,
+		useCompareValue,
+		changesMap,
+	} = prop;
+	let hasChange = false;
+	const next: Record<string, unknown> = {};
+
+	for ( const key in payload ) {
+		const value = payload[ key ];
+		if ( compare( a[ key as keyof Initial ], value, key, ) ) {
+			continue;
+		}
+
+		next[ key ] = value;
+		hasChange = true;
+
+		const compareValue = b[ key as keyof Initial ];
+		if ( compare( compareValue, value, key, ) ) {
+			changesMap.delete( key, );
+			continue;
+		}
+
+		if ( useCompareValue ) {
+			changesMap.set( key, compareValue, );
+			continue;
+		}
+
+		changesMap.set( key, value, );
+	}
+
+	if ( !hasChange ) {
+		return;
+	}
+
+	return next;
+}
+
+function _updateInitial<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 	compare: CompareCallbackReturnType,
@@ -100,28 +173,16 @@ function _updateInitialState<Initial extends CTAState,>(
 		current,
 		initial,
 	} = ctaReducerState;
-	let hasUpdates = false;
-	const next: Record<string, unknown> = {};
+	const next = _update( {
+		a: initial,
+		b: current,
+		changesMap,
+		compare,
+		payload,
+		useCompareValue: true,
+	}, );
 
-	for ( const key in payload ) {
-		const value = payload[ key ];
-		if ( compare( initial[ key as keyof Initial ], value, key, ) ) {
-			continue;
-		}
-
-		next[ key ] = value;
-		hasUpdates = true;
-
-		const currentValue = current[ key as keyof Initial ];
-		if ( compare( currentValue, value, key, ) ) {
-			changesMap.delete( key, );
-		}
-		else {
-			changesMap.set( key, currentValue, );
-		}
-	}
-
-	if ( !hasUpdates ) {
+	if ( !next ) {
 		return ctaReducerState;
 	}
 
@@ -136,7 +197,7 @@ function _updateInitialState<Initial extends CTAState,>(
 	};
 }
 
-function _updateState<Initial extends CTAState,>(
+function _updateCurrent<Initial extends CTAState,>(
 	ctaReducerState: CTAReducerState<Initial>,
 	payload: Partial<Initial>,
 	compare: CompareCallbackReturnType,
@@ -146,28 +207,15 @@ function _updateState<Initial extends CTAState,>(
 		current,
 		initial,
 	} = ctaReducerState;
-	let hasUpdates = false;
-	const next: Record<string, unknown> = {};
+	const next = _update( {
+		a: current,
+		b: initial,
+		changesMap,
+		compare,
+		payload,
+	}, );
 
-	for ( const key in payload ) {
-		const value = payload[ key ];
-		if ( compare( current[ key as keyof Initial ], value, key, ) ) {
-			continue;
-		}
-
-		next[ key ] = value;
-		hasUpdates = true;
-
-		const initialValue = initial[ key as keyof Initial ];
-		if ( compare( initialValue, value, key, ) ) {
-			changesMap.delete( key, );
-		}
-		else {
-			changesMap.set( key, value, );
-		}
-	}
-
-	if ( !hasUpdates ) {
+	if ( !next ) {
 		return ctaReducerState;
 	}
 
@@ -271,7 +319,7 @@ function typeResult<
 
 	switch ( type ) {
 		case 'replace':
-			return _replace(
+			return _replaceCurrent(
 				ctaReducerState,
 				next as Initial,
 				compare,
@@ -289,13 +337,13 @@ function typeResult<
 				compare,
 			);
 		case 'updateInitial':
-			return _updateInitialState(
+			return _updateInitial(
 				ctaReducerState,
 				next,
 				compare,
 			);
 		default:
-			return _updateState(
+			return _updateCurrent(
 				ctaReducerState,
 				next,
 				compare,
