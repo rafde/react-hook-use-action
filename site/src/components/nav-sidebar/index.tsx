@@ -18,7 +18,7 @@ export default function NavSidebar() {
 			+ ' sm:peer-checked/side:*:translate-x-0 sm:peer-checked/side:w-full'}
 		>
 			<nav
-				className="flex w-full max-w-[--navbar-max-width] grow -translate-x-full flex-col space-y-2 overflow-hidden bg-black pb-2 transition-transform duration-300"
+				className="flex w-full max-w-[--navbar-max-width] grow -translate-x-full flex-col space-y-2 overflow-hidden bg-black pb-2 transition-transform"
 			>
 				<header className="flex p-1">
 					<h1 className="grow text-wrap text-2xl font-bold">react-hook-use-cta</h1>
