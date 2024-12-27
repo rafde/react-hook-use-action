@@ -400,6 +400,28 @@ function getActionType<
 	}
 }
 
+const customCTAHistoryCache = new WeakMap<Record<string | number, unknown>>();
+function getCustomCTAHistoryCache<Initial extends CTAState, Actions,>( actions?: UseCTAParameter<Initial, Actions>['actions'], ) {
+	if ( !actions ) {
+		return;
+	}
+	if ( customCTAHistoryCache.has( actions, ) ) {
+		return customCTAHistoryCache.get( actions, );
+	}
+
+	const customCTAHistoryActions = {
+		replaceAction: createReplaceActionType( actions, ),
+		replaceInitialAction: createReplaceInitialActionType( actions, ),
+		resetAction: createResetActionType( actions, ),
+		updateAction: createUpdateActionType( actions, ),
+		updateInitialAction: createUpdateInitialActionType( actions, ),
+	};
+
+	customCTAHistoryCache.set( actions, customCTAHistoryActions, );
+
+	return customCTAHistoryActions;
+}
+
 const _args: unknown[] = [];
 
 export default function ctaReducer<
@@ -498,14 +520,7 @@ export default function ctaReducer<
 	}
 
 	const nextState = cta(
-		{
-			...ctaState,
-			replaceAction: createReplaceActionType( actions, ),
-			replaceInitialAction: createReplaceInitialActionType( actions, ),
-			resetAction: createResetActionType( actions, ),
-			updateAction: createUpdateActionType( actions, ),
-			updateInitialAction: createUpdateInitialActionType( actions, ),
-		},
+		Object.assign( ctaState, getCustomCTAHistoryCache( actions, ), ),
 		nextPayload,
 		...args,
 	);
