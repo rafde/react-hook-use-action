@@ -21,11 +21,56 @@ export default function IntroductionTopic() {
 				<li>
 					Built-in
 					{' '}
-					<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title} section`}>
+					<Anchor
+						href={useCTAReturnValues0HistoryConfig.href}
+						aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title} section`}>
 						state history
 					</Anchor>
 					{' '}
-					tracking
+					tracking.
+					<ul className="list-inside list-[circle] pl-4">
+						<li>
+							<Code>current</Code>
+							: The current hook state
+						</li>
+
+						<li>
+							<Code>initial</Code>
+							: The initial state of the hook.
+						</li>
+
+						<li>
+							<Code>changes</Code>
+							: The changes between the
+							{' '}
+							<Code>initial</Code>
+							{' '}
+							and
+							{' '}
+							<Code>current</Code>
+							{' '}
+							state.
+						</li>
+
+						<li>
+							<Code>previous</Code>
+							: The previous
+							{' '}
+							<Code>current</Code>
+							{' '}
+							state object.
+						</li>
+
+						<li>
+							<Code>previousInitial</Code>
+							: The previous
+							{' '}
+							<Code>initial</Code>
+							{' '}
+							state object.
+						</li>
+
+					</ul>
 				</li>
 				<li>
 					Built-in action types
