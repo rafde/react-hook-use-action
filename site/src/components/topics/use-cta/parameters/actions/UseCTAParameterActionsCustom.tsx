@@ -29,10 +29,10 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					This gives you the flexibility to:
 				</p>
 				<ul className="list-inside list-[square]">
-					<li>Create domain-specific actions</li>
-					<li>Encapsulate complex state updates</li>
-					<li>Build reusable action patterns</li>
-					<li>Handle specialized business logic</li>
+					<li>Create domain-specific actions.</li>
+					<li>Encapsulate complex state updates.</li>
+					<li>Build reusable action patterns.</li>
+					<li>Handle specialized business logic.</li>
 				</ul>
 				<p>
 					They are defined as a record of functions, where the key is the action name and the value is the
@@ -85,10 +85,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					{' '}
 					<Code>update</Code>
 					,
-					but you can customize them to behave like any other
-				</p>
-				<p>
-					built-in action through
+					but you can customize them to behave like any other built-in action through
 					{' '}
 					<Code>CustomCTAHistory</Code>
 					.
@@ -135,14 +132,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					</li>
 					<li>
 						<Code>{'Partial<CTAState>'}</Code>
-						: This will have it behave like an
+						: Behaves like an
 						{' '}
 						<Code>update</Code>
 						{' '}
-						action. It will use using overridden
-						{' '}
-						<Code>update</Code>
-						.
+						action. It will use using overridden update action.
 					</li>
 					<li>
 						<article className="inline-flex">
@@ -154,7 +148,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 							</Code>
 							<div className="pl-2">
 								<p>
-									: This will have it behave like an
+									: Behaves like an
 									{' '}
 									<Code>update</Code>
 									{' '}
@@ -163,7 +157,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 								<p>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
-									will bypass the overridden action behavior
+									will bypass the overridden update action behavior
 								</p>
 							</div>
 						</article>
@@ -178,7 +172,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 							</Code>
 							<div className="pl-2">
 								<p>
-									: This will have it behave like an
+									: Behaves like an
 									{' '}
 									<Code>replace</Code>
 									{' '}
@@ -187,7 +181,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 								<p>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
-									will bypass the overridden action behavior
+									will bypass the overridden replace action behavior
 								</p>
 							</div>
 						</article>
@@ -211,7 +205,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 								<p>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
-									will bypass the overridden action behavior
+									will bypass the overridden reset action behavior
 								</p>
 							</div>
 						</article>
@@ -236,7 +230,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 								<p>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
-									will bypass the overridden action behavior
+									will bypass the overridden updateInitial action behavior
 								</p>
 							</div>
 						</article>
@@ -260,7 +254,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 								<p>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
-									will bypass the overridden action behavior
+									will bypass the overridden replaceInitial action behavior
 								</p>
 							</div>
 						</article>
