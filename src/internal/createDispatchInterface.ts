@@ -62,7 +62,7 @@ export function createDispatchInterface<
 	let hasCustomAction = false;
 	const customActions = {} as Record<
 		Exclude<keyof Exclude<Actions, undefined>, keyof DefaultActionsRecord<Initial>>,
-		( payload?: unknown, ...args: unknown[] ) => void
+		( ...args: unknown[] ) => ReturnValue
 	>;
 
 	for ( const type in actions ) {
