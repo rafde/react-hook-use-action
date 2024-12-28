@@ -12,8 +12,7 @@ import {
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
-import PopoverCustomActionsRecord from '../popover/customActionsRecord';
-import PopoverDefaultActionsRecord from '../popover/defaultActionsRecord';
+import PopoverUseCTAParameterActionsOptionalRecordProp from '../popover/UseCTAParameterActionsOptionalRecordProp';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
@@ -88,9 +87,7 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 							<Code>actions</Code>
 						</Anchor>
 						{' '}
-						<PopoverDefaultActionsRecord sourceCodeRecord={props.sourceCodeRecord} />
-						{' '}
-						<PopoverCustomActionsRecord sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterActionsOptionalRecordProp sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
 						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>

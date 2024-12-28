@@ -16,9 +16,9 @@ import {
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
-import PopoverCustomActionsRecord from '../popover/customActionsRecord';
-import PopoverDefaultActionsRecord from '../popover/defaultActionsRecord';
+import PopoverUseCTAParameterActionsOptionalRecordProp from '../popover/UseCTAParameterActionsOptionalRecordProp';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
+import PopoverUseCTAParameterOnInit from '../popover/UseCTAParameterOnInit';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
@@ -91,16 +91,14 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 							<Code>onInit</Code>
 						</Anchor>
 						{' '}
-						<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterOnInit sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
 						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
 							<Code>actions</Code>
 						</Anchor>
 						{' '}
-						<PopoverDefaultActionsRecord sourceCodeRecord={props.sourceCodeRecord} />
-						{' '}
-						<PopoverCustomActionsRecord sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterActionsOptionalRecordProp sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
 						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
@@ -166,7 +164,7 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 									<Code>onInit</Code>
 								</Anchor>
 								{' '}
-								<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
+								<PopoverUseCTAParameterOnInit sourceCodeRecord={props.sourceCodeRecord} />
 							</li>
 							<li>
 								<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>

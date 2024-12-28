@@ -6,8 +6,7 @@ import {
 	useCTAParameterActionsOverridableParameterPayloadConfig,
 	useCTAParameterActionsOverridableReturnConfig,
 } from '../../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
-import PopoverDefaultActionsRecord from '../../../../popover/defaultActionsRecord';
-import Anchor from '../../../../ui/anchor';
+import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
 import Code from '../../../../ui/code';
 import CodeBlock from '../../../../ui/codeBlock';
 import Content from '../../../../ui/content';
@@ -17,7 +16,7 @@ import Sect from '../../../../ui/sect';
 export default function UseCTAParameterActionsOverridableTopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...useCTAParameterActionsOverridableConfig}>
-			<CodeBlock copyButton={false}>{props.sourceCodeRecord[ 'types/DefaultActionsRecord.ts' ]}</CodeBlock>
+			<CodeBlock copyButton={false}>{props.sourceCodeRecord.UseCTAParameterActionsOverridable}</CodeBlock>
 			<Content>
 				<p>
 					All built-in call-to-actions (CTA) can have their behaviors extended or modified.
@@ -141,18 +140,9 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 			<Content>
 				<p>
 					The second parameter is the expected signature of the overridden action
-					(please refer to
 					{' '}
-					<Anchor
-						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title}`}
-						href={useCTAParameterActionsOverridableConfig.href}
-					>
-						<Code>DefaultActionsRecord</Code>
-					</Anchor>
-					{' '}
-					<PopoverDefaultActionsRecord {...props} />
-					{' '}
-					type).
+					<PopoverUseCTAParameterActionsOverridableRecord {...props} />
+					.
 				</p>
 
 				<ul className="list-inside list-[square]">
@@ -210,18 +200,9 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 			<Content>
 				<p>
 					The expected return signature of the overridden action
-					(please refer to
 					{' '}
-					<Anchor
-						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title}`}
-						href={useCTAParameterActionsOverridableConfig.href}
-					>
-						<Code>DefaultActionsRecord</Code>
-					</Anchor>
-					{' '}
-					<PopoverDefaultActionsRecord {...props} />
-					{' '}
-					type).
+					<PopoverUseCTAParameterActionsOverridableRecord {...props} />
+					.
 				</p>
 				<p>
 					If the action returns

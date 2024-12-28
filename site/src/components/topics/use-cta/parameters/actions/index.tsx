@@ -3,7 +3,7 @@ import {
 	useCTAParameterActionsConfig,
 } from '../../../../nav-sidebar/config/use-cta-config';
 import { useCTAReturnValues1DispatchConfig, } from '../../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
-import PopoverDefaultActionsRecord from '../../../../popover/defaultActionsRecord';
+import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
 import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
 import Content from '../../../../ui/content';
@@ -46,7 +46,7 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 						{' '}
 						<Code>actions</Code>
 						{' '}
-						<PopoverDefaultActionsRecord {...props} />
+						<PopoverUseCTAParameterActionsOverridableRecord {...props} />
 					</li>
 					<li>Can accept multiple parameters.</li>
 					<li>

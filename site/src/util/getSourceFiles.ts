@@ -2,8 +2,16 @@ import * as fs from 'node:fs';
 
 type SourceCodeFileRecord = {
 	filePath: string
-	start: number
-	end?: number
+	segments: Array<
+		{
+			start?: number
+			end: number
+		} | {
+			start: number
+			end?: number
+		}
+	>
+	key?: string
 };
 
 type SourceFileList = string | SourceCodeFileRecord;
@@ -13,24 +21,48 @@ const sourceFileList = [
 	'types/CTAHistory.ts',
 	'types/UseCTAParameterOnInit.ts',
 	'types/UseCTAParameterCompare.ts',
-	'types/DefaultActionsRecord.ts',
+	'types/UseCTAParameterActionsOptionalRecordProp.ts',
 	{
-		filePath: 'types/CTAHistory.ts',
-		start: 2,
+		filePath: 'types/UseCTAParameterActionsOptionalRecordProp.ts',
+		key: 'UseCTAParameterActionsOverridable',
+		segments: [
+			{
+				start: 3,
+				end: 6,
+			},
+			{
+				start: 47,
+				end: 56,
+			},
+		],
 	},
-	'types/UseCTAParameterActionsCustomRecord.ts',
+	{
+		filePath: 'types/UseCTAParameterActionsOptionalRecordProp.ts',
+		key: 'UseCTAParameterActionsCustomRecord',
+		segments: [
+			{
+				end: 3,
+			},
+			{
+				start: 47,
+				end: 50,
+			},
+			{
+				start: 58,
+			},
+		],
+	},
 	{
 		filePath: 'types/UseCTAReturnTypeDispatch.ts',
-		start: 210,
+		segments: [{
+			start: 210,
+		},],
 	},
-	{
-		filePath: 'types/CustomCTAHistory.ts',
-		start: 11,
-	},
+	'types/CustomCTAHistory.ts',
 	'types/UseCTAReturnType.ts',
 ] as const;
 
-type SourceFilePath<T extends SourceFileList,> = T extends SourceCodeFileRecord ? T['filePath'] : T;
+type SourceFilePath<T,> = T extends { key: string } ? T['key'] : ( T extends { filePath: string } ? T['filePath'] : T );
 
 function getSourceFile( sourceFilePath: SourceFileList, ) {
 	return new Promise<string>( ( resolve, reject, ) => {
@@ -41,14 +73,16 @@ function getSourceFile( sourceFilePath: SourceFileList, ) {
 				reject( err, );
 				return;
 			}
-			let sourceRange = sourceText.trim();
+			let sourceRange = sourceText;
 			if ( typeof sourceFilePath !== 'string' ) {
-				sourceRange = sourceText.split( '\n', ).slice( sourceFilePath.start, sourceFilePath.end, )
-					.join( '\n', )
-					.trim();
+				const { segments, } = sourceFilePath;
+				if ( Array.isArray( segments, ) ) {
+					const sourceTextSplit = sourceText.split( '\n', );
+					sourceRange = segments.map( segment => sourceTextSplit.slice( segment.start ?? 0, segment.end, ).join( '\n', ), )
+						.join( '\n', );
+				}
 			}
-			// console.log( filePath, sourceText, );
-			resolve( sourceRange, );
+			resolve( sourceRange.replace( /\n?\/\*\*[\s\S]*?\*\//g, '', ).trim(), );
 		}, );
 	}, );
 }
@@ -56,15 +90,20 @@ function getSourceFile( sourceFilePath: SourceFileList, ) {
 export default async function getSourceFiles() {
 	return Promise.all(
 		sourceFileList.map(
-			filePath => getSourceFile( filePath, ),
+			filePath => getSourceFile( filePath as SourceFileList, ),
 		),
-	).then( data => data.reduce( ( acc, file, index, ) => {
-		const sourceFilePath = sourceFileList[ index ];
-		const key = typeof sourceFilePath === 'string' ? sourceFilePath : sourceFilePath.filePath;
+	).then( data => data.reduce<Record<string, string>>( ( acc, file, index, ) => {
+		const sourceFilePath = sourceFileList[ index ] as SourceFileList;
+		if ( typeof sourceFilePath === 'string' ) {
+			acc[ sourceFilePath ] = file;
+			return acc;
+		}
+
+		const key = sourceFilePath.key ?? sourceFilePath.filePath;
 
 		acc[ key ] = file;
 		return acc;
-	}, {} as Record<SourceFilePath<typeof sourceFileList[number]>, string>, ), );
+	}, {}, ) as Record<SourceFilePath<typeof sourceFileList[number]>, string>, );
 }
 
 export type SourceCodeRecord = Awaited<ReturnType<typeof getSourceFiles>>;
