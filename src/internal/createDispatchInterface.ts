@@ -1,18 +1,22 @@
 import type { CTAState, } from '../types/CTAState';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
-import {
+import type {
 	DispatchCTA,
 	DispatchCTADefaultRecord,
-	UpdateCTAProps,
-	type UseCTAReturnTypeDispatch,
+	UseCTAReturnTypeDispatch,
 } from '../types/UseCTAReturnTypeDispatch';
+
 import ctaReducer from './ctaReducer';
+
+type UpdateCTAProps<
+	Initial extends CTAState,
+> = Extract<Parameters<DispatchCTA<Initial, undefined>>[0], { type: 'update' | 'updateInitial' }>;
 
 export function createDispatchInterface<
 	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
->( dispatch: DispatchCTA<Initial, Actions, ReturnValue>, actions?: Actions, ) {
+>( dispatch: DispatchCTA<Initial, Actions, ReturnValue>, actions?: Actions, ): UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue> {
 	const dispatchWrapper = ( value: Parameters<typeof dispatch>[0], ) => dispatch( value, );
 
 	const cta: DispatchCTADefaultRecord<Initial, ReturnValue> = {
@@ -34,29 +38,45 @@ export function createDispatchInterface<
 				case 'string': {
 					return dispatch( {
 						payload: {
-							[ payload ]: value as Initial[keyof Initial],
+							[ payload ]: value,
 						},
 						type: 'update',
-					} as unknown as UpdateCTAProps<Initial>, );
+					} as UpdateCTAProps<Initial>, );
 				}
 				default: {
 					return dispatch( {
 						payload,
 						type: 'update',
-					} as unknown as UpdateCTAProps<Initial>, );
+					} as UpdateCTAProps<Initial>, );
 				}
 			}
 		},
-		updateInitial: payload => dispatch( {
-			payload,
-			type: 'updateInitial',
-		}, ),
+		updateInitial( payload: unknown, value: unknown, ) {
+			switch ( typeof payload ) {
+				case 'number':
+				case 'string': {
+					return dispatch( {
+						payload: {
+							[ payload ]: value,
+						},
+						type: 'updateInitial',
+					} as UpdateCTAProps<Initial>, );
+				}
+				default: {
+					return dispatch( {
+						payload,
+						type: 'updateInitial',
+					} as UpdateCTAProps<Initial>, );
+				}
+			}
+		},
 	};
+
 	const props = {
 		cta,
 	};
 	if ( actions == null || typeof actions !== 'object' ) {
-		return Object.assign( dispatchWrapper, props, ) as unknown as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
+		return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
 	}
 
 	let hasCustomAction = false;
@@ -70,7 +90,7 @@ export function createDispatchInterface<
 			continue;
 		}
 
-		customActions[ type as unknown as keyof typeof customActions ] = ( payload?: unknown, ...args ) => dispatch( {
+		customActions[ type as unknown as keyof typeof customActions ] = ( payload, ...args ) => dispatch( {
 			payload,
 			type,
 			args,
@@ -83,5 +103,5 @@ export function createDispatchInterface<
 		Object.assign( props.cta, customActions, );
 	}
 
-	return Object.assign( dispatchWrapper, props, ) as unknown as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
+	return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
 }
