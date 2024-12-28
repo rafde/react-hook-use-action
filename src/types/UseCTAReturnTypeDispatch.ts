@@ -49,9 +49,9 @@ export type DispatchCTADefaultRecord<
 	Initial,
 	ReturnValue
 > & Readonly<{
-	update(
-		key: keyof Initial,
-		value: Initial[keyof Initial],
+	update<K extends keyof Initial,>(
+		key: K,
+		value: Initial[K],
 	): ReturnValue
 	update(
 		payload: PayloadValues<Initial, 'update'>,
