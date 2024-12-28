@@ -1,6 +1,10 @@
 import { CTAState, } from '../types/CTAState';
 import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 
+/**
+ * Options for configuring action type behavior
+ * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
+ */
 export type ActionTypeOptions = {
 	useDefault?: boolean
 };

@@ -1,10 +1,10 @@
-export { useCTA, } from './internal/useCTA';
+export { useCTA, } from './useCTA';
 
-export { returnCTAParameter, } from './internal/returnCTAParameter';
+export { returnCTAParameter, } from './returnCTAParameter';
 
-export { createCTAContext, } from './internal/createCTAContext';
+export { createCTAContext, } from './createCTAContext';
 
-export { createCTA, } from './internal/createCTA';
+export { createCTA, } from './createCTA';
 
 export type { CTAState, } from './types/CTAState';
 
