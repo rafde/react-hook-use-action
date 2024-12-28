@@ -7,120 +7,10 @@ import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueAction
 import type { Immutable, } from './Immutable';
 import type { OmitEmptyRecord, } from './OmitEmptyRecord';
 
-type PayloadValues<
-	Initial extends CTAState,
-	ActionType extends keyof DefaultActionsRecord<Initial>,
-	Payload = Parameters<DefaultActionsRecord<Initial>[ActionType]>[1],
-> = Payload | (
-	( ctaPayloadCallbackParameter: CTAHistory<Initial> ) => Payload | undefined
-);
-
-export type DispatchCTAFlatUpdateRecord<
-	Initial extends CTAState,
-	ReturnValue = void,
-> = {
-	update(
-		payload: PayloadValues<Initial, 'update'>,
-	): ReturnValue
-};
-
-export type DispatchCTABaseDefaultRecord<
-	Initial extends CTAState,
-	ReturnValue = void,
-> = Readonly<{
-	reset(
-		payload?: PayloadValues<Initial, 'reset'>,
-	): ReturnValue
-	updateInitial(
-		payload: PayloadValues<Initial, 'updateInitial'>,
-	): ReturnValue
-	replace(
-		payload: PayloadValues<Initial, 'replace'>,
-	): ReturnValue
-	replaceInitial(
-		payload: PayloadValues<Initial, 'replaceInitial'>,
-	): ReturnValue
-}>;
-
 export type DispatchCTADefaultRecord<
 	Initial extends CTAState,
 	ReturnValue = void,
-> = DispatchCTABaseDefaultRecord<
-	Initial,
-	ReturnValue
-> & Readonly<{
-	update<K extends keyof Initial,>(
-		key: K,
-		value: Initial[K],
-	): ReturnValue
-	update(
-		payload: PayloadValues<Initial, 'update'>,
-		value?: never,
-	): ReturnValue
-}>;
-
-export type UpdateInitialCTAProps<
-	Initial extends CTAState,
-> = DispatchValueActionPayloadArgsProps<
-	Parameters<
-		DispatchCTADefaultRecord<Initial>['updateInitial']
-	>
-> & {
-	type: 'updateInitial'
-	args?: never
-};
-
-export type ResetCTAProps<
-	Initial extends CTAState,
-> = DispatchValueActionPayloadArgsProps<
-	Parameters<
-		DispatchCTADefaultRecord<Initial>['reset']
-	>
-> & {
-	type: 'reset'
-	args?: never
-};
-
-export type UpdateCTAProps<
-	Initial extends CTAState,
-> = DispatchValueActionPayloadArgsProps<
-	Parameters<
-		DispatchCTAFlatUpdateRecord<Initial>['update']
-	>
-> & {
-	type: 'update'
-	args?: never
-};
-
-export type ReplaceCTAProps<
-	Initial extends CTAState,
-> = DispatchValueActionPayloadArgsProps<
-	Parameters<
-		DispatchCTADefaultRecord<Initial>['replace']
-	>
-> & {
-	type: 'replace'
-	args?: never
-};
-
-export type ReplaceInitialCTAProps<
-	Initial extends CTAState,
-> = DispatchValueActionPayloadArgsProps<
-	Parameters<
-		DispatchCTADefaultRecord<Initial>['replaceInitial']
-	>
-> & {
-	type: 'replaceInitial'
-	args?: never
-};
-
-export type DefaultCTAProps<
-	Initial extends CTAState,
-> = UpdateInitialCTAProps<Initial> |
-ResetCTAProps<Initial> |
-UpdateCTAProps<Initial> |
-ReplaceCTAProps<Initial> |
-ReplaceInitialCTAProps<Initial>;
+> = UseCTAReturnTypeDispatch<Initial, undefined, ReturnValue>['cta'];
 
 type CustomCTARecord<
 	Initial extends CTAState,
@@ -149,7 +39,7 @@ type DispatchCustomCTARecordValues<
 	ActionValue,
 	ReturnValue = void,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-> = ActionValue extends ( ( ctaParam: any, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
+> = ActionValue extends ( ( ctaParam: CustomCTAHistory<Initial>, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
 	Args extends []
 		// Represents CTA without arguments.
 		? ( () => ReturnValue )
@@ -169,17 +59,6 @@ export type DispatchCustomCTARecord<
 			ReturnValue
 		>
 	};
-
-export type UseCTAReturnTypeDispatchCTA<
-	Initial extends CTAState,
-	Actions,
-	ReturnValue = void,
-> = Readonly<
-	OmitEmptyRecord<
-		DispatchCustomCTARecord<Initial, Actions, ReturnValue> &
-		DispatchCTADefaultRecord<Initial, ReturnValue>
-	>
->;
 
 type CustomDispatchValueRecord<
 	Initial extends CTAState,
@@ -206,7 +85,35 @@ export type DispatchCTA<
 	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
-> = ( value: Exclude<CustomDispatchValueRecordValues<Initial, Actions> | DefaultCTAProps<Initial>, never> ) => ReturnValue;
+> = ( // dispatch
+	value: Exclude<
+		{
+			type: 'replaceInitial' | 'replace'
+			payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined )
+			args?: never
+		}
+		| {
+			type: 'update' | 'updateInitial'
+			payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined )
+			args?: never
+		}
+		| {
+			type: 'reset'
+			payload?: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined )
+			args?: never
+		}
+		// Custom action without args
+		// {type: 'Your Action without args'}
+
+		// Custom action with one arg
+		// {type: 'Your Action without args', payload: 'your payload'}
+
+		// Custom action with multiple args
+		// {type: 'Your Action without args', payload: 'your payload', args:['more args']}
+		| CustomDispatchValueRecordValues<Initial, Actions>,
+		never
+	>
+) => ReturnValue;
 
 export type UseCTAReturnTypeDispatch<
 	Initial extends CTAState,
@@ -214,7 +121,28 @@ export type UseCTAReturnTypeDispatch<
 	ReturnValue = void,
 > = Immutable<
 	DispatchCTA<Initial, Actions, ReturnValue> & {
-		cta: UseCTAReturnTypeDispatchCTA<Initial, Actions, ReturnValue>
+		// CTAHistory reference
 		history: CTAHistory<Initial>
+
+		cta: OmitEmptyRecord<{
+			// built-in actions
+			update( payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined ), _?: never ): ReturnValue
+			update<K extends keyof Initial,>( key: K, value: Initial[K] ): ReturnValue
+
+			replace( payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
+
+			updateInitial( payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined ), _?: never ): ReturnValue
+			updateInitial<K extends keyof Initial,>( key: K, value: Initial[K] ): void
+
+			replaceInitial( payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
+
+			reset( payload?: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
+
+		} & {
+			// Custom actions
+			[p in keyof Omit<Actions, keyof DefaultActionsRecord<Initial>>]: Actions[p] extends ( ( ctaParam: CustomCTAHistory<Initial>, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
+				( ...args: Args ) => ReturnValue
+			) : never
+		}>
 	}
 >;

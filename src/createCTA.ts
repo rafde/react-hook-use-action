@@ -3,12 +3,12 @@ import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsOptionalRecordProp, } from './types/UseCTAParameterActionsOptionalRecordProp';
-import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
 
 import { compareCallback, } from './internal/compareCallback';
 import { createDispatchInterface, } from './internal/createDispatchInterface';
-import ctaReducer, { CTAReducerState, } from './internal/ctaReducer';
+import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
+import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 
 /**
  * A `function` that provides a way to execute like {@link useCTA} but outside a React component.
@@ -19,7 +19,12 @@ import ctaReducer, { CTAReducerState, } from './internal/ctaReducer';
  * @template {UseCTAParameterActionsOptionalRecordProp} Actions - The actions type.
  *
  * @param {CreateCTAProps} ctaParameter - {@link CreateCTAProps} parameter.
- * @returns {UseCTAReturnType} The CTA return type.
+ * @returns {[CTAHistory, UseCTAReturnTypeDispatch]} An array containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch}:
+ * 1. {@link CTAHistory} - An `object` representing the history of hook state changes.
+ * 2. {@link UseCTAReturnTypeDispatch} - An `function` containing the following properties:
+ *    - `cta` - An `object` containing the following properties:
+ *    - {@link CTAHistory history} - A read-only reference to {@link CTAHistory} object,
+ * in case you need to read it from somewhere that doesn't need as a dependency.
  */
 export function createCTA<
 	Initial extends CTAState,
@@ -27,7 +32,10 @@ export function createCTA<
 	ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions,
 >(
 	ctaParameter: CreateCTAProps<Initial, ActionsRecord>,
-): UseCTAReturnType<Initial, ActionsRecord, CTAHistory<Initial>> {
+): [
+		CTAHistory<Initial>,
+		UseCTAReturnTypeDispatch<Initial, ActionsRecord, CTAHistory<Initial>>,
+	] {
 	const {
 		initial,
 	} = ctaParameter;

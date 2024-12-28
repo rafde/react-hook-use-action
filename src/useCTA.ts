@@ -49,7 +49,7 @@ import usePublicCTA from './internal/usePublicCTA';
  * @param {UseCTAParameter<CTAState, UseCTAParameterActionsOptionalRecordProp<CTAState> | undefined>['actions']} useCTAParameter.actions
  * - Optional {@link UseCTAParameterActionsOptionalRecordProp} `object` type to define custom and/or overridden actions for state management.
  *
- * @returns {UseCTAReturnType} A {@link UseCTAReturnType} array containing the following elements:
+ * @returns {[CTAHistory, UseCTAReturnTypeDispatch]} A {@link UseCTAReturnType} array containing the following elements:
  * 1. {@link CTAHistory} - An `object` representing the history of hook state changes.
  * 2. {@link UseCTAReturnTypeDispatch} - An `function` containing the following properties:
  *    - `cta` - An `object` containing the following properties:
