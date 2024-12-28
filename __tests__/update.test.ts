@@ -556,7 +556,7 @@ describe( 'dispatch.cta.update(key, value)', function() {
 
 	test( 'should `update` "test2" when custom action is defined', function() {
 		const payload = {
-			test2: 2,
+			test2: '2',
 		};
 		const nextState = {
 			...initial,

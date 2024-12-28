@@ -28,7 +28,7 @@ export function createDispatchInterface<
 			payload,
 			type: 'reset',
 		}, ),
-		update( payload, value, ) {
+		update( payload: unknown, value: unknown, ) {
 			switch ( typeof payload ) {
 				case 'number':
 				case 'string': {
