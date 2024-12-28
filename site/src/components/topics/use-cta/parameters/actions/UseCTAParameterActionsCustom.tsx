@@ -11,7 +11,7 @@ import {
 	useCTAParameterActionsOverridableConfig,
 } from '../../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
 import PopoverCTAHistory from '../../../../popover/ctaHistory';
-import PopoverDefaultActionsRecord from '../../../../popover/defaultActionsRecord';
+import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
 import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
 import CodeBlock from '../../../../ui/codeBlock';
@@ -22,7 +22,7 @@ import Sect from '../../../../ui/sect';
 export default function UseCTAParameterActionsCustomTopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...useCTAParameterActionsCustomConfig}>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterActionsCustomRecord.ts' ]}</CodeBlock>
+			<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}</CodeBlock>
 			<Content>
 				<p>
 					Custom actions are a powerful way to extend the functionality of your state management system.
@@ -268,7 +268,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						overridden the built-in
 					</Anchor>
 					{' '}
-					<PopoverDefaultActionsRecord {...props} />
+					<PopoverUseCTAParameterActionsOverridableRecord {...props} />
 					{' '}
 					actions, the custom action will use the overridden action.
 				</p>
