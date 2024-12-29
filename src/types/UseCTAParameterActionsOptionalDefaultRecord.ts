@@ -1,7 +1,7 @@
 import type { CTAState, } from './CTAState';
-import { UseCTAParameterActionsOptionalRecordProp, } from './UseCTAParameterActionsOptionalRecordProp';
+import { UseCTAParameterActionsRecordProp, } from './UseCTAParameterActionsRecordProp';
 
 export type UseCTAParameterActionsOptionalDefaultRecord<Payload extends CTAState, > = Pick<
-	UseCTAParameterActionsOptionalRecordProp<Payload>,
+	UseCTAParameterActionsRecordProp<Payload>,
 	'update' | 'replace' | 'reset' | 'updateInitial' | 'replaceInitial'
 >;

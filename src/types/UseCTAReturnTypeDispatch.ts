@@ -82,24 +82,24 @@ export type CustomDispatchValueRecordValues<
 > = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
 
 export type DispatchCTA<
-	Initial extends CTAState,
+	Payload extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = ( // dispatch
 	value: Exclude<
 		{
 			type: 'replaceInitial' | 'replace'
-			payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined )
+			payload: Payload | ( ( ctaHistory: CTAHistory<Payload> ) => Payload | undefined )
 			args?: never
 		}
 		| {
 			type: 'update' | 'updateInitial'
-			payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined )
+			payload: Partial<Payload> | ( ( ctaHistory: CTAHistory<Payload> ) => Partial<Payload> | undefined )
 			args?: never
 		}
 		| {
 			type: 'reset'
-			payload?: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined )
+			payload?: Payload | ( ( ctaHistory: CTAHistory<Payload> ) => Payload | undefined )
 			args?: never
 		}
 		// Custom action without args
@@ -110,39 +110,72 @@ export type DispatchCTA<
 
 		// Custom action with multiple args
 		// {type: 'Your Action without args', payload: 'your payload', args:['more args']}
-		| CustomDispatchValueRecordValues<Initial, Actions>,
+		| CustomDispatchValueRecordValues<Payload, Actions>,
 		never
 	>
 ) => ReturnValue;
 
+export type UseCTAReturnTypeDispatchCTA<
+	Payload extends CTAState,
+	Actions,
+	ReturnValue = void,
+> = {
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-update dispatch.cta.update}
+	*/
+	update( payload: Partial<Payload> | ( ( ctaHistory: CTAHistory<Payload> ) => Partial<Payload> | undefined ), _?: never ): ReturnValue
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-update dispatch.cta.update}
+	 */
+	update<K extends keyof Payload,>( key: K, value: Payload[K] ): ReturnValue
+
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-replace dispatch.cta.replace}
+	 */
+	replace( payload: Payload | ( ( ctaHistory: CTAHistory<Payload> ) => Payload | undefined ) ): ReturnValue
+
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitial dispatch.cta.updateInitial}
+	 */
+	updateInitial( payload: Partial<Payload> | ( ( ctaHistory: CTAHistory<Payload> ) => Partial<Payload> | undefined ), _?: never ): ReturnValue
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitial dispatch.cta.updateInitial}
+	 */
+	updateInitial<K extends keyof Payload,>( key: K, value: Payload[K] ): ReturnValue
+
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-replaceInitial dispatch.cta.replaceInitial}
+	 */
+	replaceInitial( payload: Payload | ( ( ctaHistory: CTAHistory<Payload> ) => Payload | undefined ) ): ReturnValue
+
+	/**
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-reset dispatch.cta.reset}
+	 */
+	reset( payload?: Payload | ( ( ctaHistory: CTAHistory<Payload> ) => Payload | undefined ) ): ReturnValue
+} & {
+	/**
+	 * @typeParam {string | number} P - Placeholder for custom action key.
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-custom-actions dispatch.cta.YourCustomAction}
+	 */
+	[P in keyof Omit<Actions, keyof DefaultActionsRecord<Payload>>]: Actions[P] extends ( ( ctaParam: CustomCTAHistory<Payload>, ...args: infer Args ) => CustomCTAReturnType<Payload> ) ? (
+		( ...args: Args ) => ReturnValue
+	) : never
+};
+
 export type UseCTAReturnTypeDispatch<
-	Initial extends CTAState,
+	State extends CTAState,
 	Actions,
 	ReturnValue = void,
 > = Immutable<
-	DispatchCTA<Initial, Actions, ReturnValue> & {
-		// CTAHistory reference
-		history: CTAHistory<Initial>
-
-		cta: OmitEmptyRecord<{
-			// built-in actions
-			update( payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined ), _?: never ): ReturnValue
-			update<K extends keyof Initial,>( key: K, value: Initial[K] ): ReturnValue
-
-			replace( payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
-
-			updateInitial( payload: Partial<Initial> | ( ( ctaHistory: CTAHistory<Initial> ) => Partial<Initial> | undefined ), _?: never ): ReturnValue
-			updateInitial<K extends keyof Initial,>( key: K, value: Initial[K] ): void
-
-			replaceInitial( payload: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
-
-			reset( payload?: Initial | ( ( ctaHistory: CTAHistory<Initial> ) => Initial | undefined ) ): ReturnValue
-
-		} & {
-			// Custom actions
-			[p in keyof Omit<Actions, keyof DefaultActionsRecord<Initial>>]: Actions[p] extends ( ( ctaParam: CustomCTAHistory<Initial>, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
-				( ...args: Args ) => ReturnValue
-			) : never
-		}>
+	DispatchCTA<State, Actions, ReturnValue> & {
+	/**
+	 * {@link CTAHistory} reference
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-0-history useCTA return value [0]: history}
+	 */
+		history: CTAHistory<State>
+		/**
+		 * Reference for call-to-action dispatch functions.
+		 */
+		cta: OmitEmptyRecord<UseCTAReturnTypeDispatchCTA<State, Actions, ReturnValue>>
 	}
 >;

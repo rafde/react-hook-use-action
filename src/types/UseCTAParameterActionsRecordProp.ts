@@ -19,23 +19,23 @@ import type { CTAState, } from './CTAState';
  *
  * @template {CTAState} Payload - Extended {@link CTAState} hook state.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAState>['update']} [update]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['update']} [update]
  * - Partially updates properties in {@link CTAHistory}.`current` state.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAHistory>['replace']} [replace]
+ * @property {UseCTAParameterActionsRecordProp<CTAHistory>['replace']} [replace]
  * - Replaces all properties in {@link CTAHistory}.`current` state.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAState>['reset']} [reset]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['reset']} [reset]
  * - Resets the {@link CTAHistory}.`current` state to {@link CTAHistory}.`initial` state
  * <b>or</b> replaces {@link CTAHistory}.`initial` and {@link CTAHistory}.`current` state when a {@link CTAState Payload} is provided.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAState>['updateInitial']} [updateInitial]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['updateInitial']} [updateInitial]
  * - Partially updates properties in {@link CTAHistory}.`initial` state.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAState>['replaceInitial']} [replaceInitial]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['replaceInitial']} [replaceInitial]
  * - Replaces all properties in {@link CTAHistory}.`initial` state.
  *
- * @property {UseCTAParameterActionsOptionalRecordProp<CTAState>['p']} [p]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['p']} [p]
  * - Custom action key `p` can be a `string` or a `number`. This is a powerful way to extend
  * the functionality of your state management system. This gives you the flexibility to:
  * - Create domain-specific actions
@@ -45,7 +45,7 @@ import type { CTAState, } from './CTAState';
  *
  * They are defined as Records of functions that accepts 0 to any number of parameters.
  */
-export type UseCTAParameterActionsOptionalRecordProp<
+export type UseCTAParameterActionsRecordProp<
 	Payload extends CTAState,
 > = {
 	update?: ( ctaHistory: CTAHistory<Payload>, payload: Partial<Payload> ) => Partial<Payload> | undefined

@@ -18,7 +18,8 @@ import type { UseCTAParameterCompare, } from './UseCTAParameterCompare';
  * Type definition for the `CTAProvider` component.
  *
  * @template {CTAState} Initial - The initial state type.
- * @template {UseCTAParameterActionsOptionalRecordProp} Actions - The actions type.
+ * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
+ *
  * @param {Partial<UseCTAParameter<Initial, Actions>>} props - The {@link UseCTAParameter} parameter.
  *
  * @param {ReactNode} props.children - `CTAProvider` {@link ReactNode} children.
@@ -49,7 +50,7 @@ type CreateCTAContextReturnCTAProvider<
  * Type definition for the return value of the {@link createCTAContext} `function`.
  *
  * @template {CTAState} Initial - The initial state type.
- * @template {UseCTAParameterActionsOptionalRecordProp} Actions - The actions type.
+ * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
  *
  * @property {CreateCTAContextReturnCTAProvider<Initial, Actions>} CTAProvider - {@link CreateCTAContextReturnCTAProvider} component.
  * @property {() => CTAHistory} useCTAHistoryContext
