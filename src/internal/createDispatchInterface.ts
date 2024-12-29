@@ -33,42 +33,30 @@ export function createDispatchInterface<
 			type: 'reset',
 		}, ),
 		update( payload: unknown, value: unknown, ) {
-			switch ( typeof payload ) {
-				case 'number':
-				case 'string': {
-					return dispatch( {
-						payload: {
-							[ payload ]: value,
-						},
-						type: 'update',
-					} as UpdateCTAProps<Initial>, );
-				}
-				default: {
-					return dispatch( {
-						payload,
-						type: 'update',
-					} as UpdateCTAProps<Initial>, );
-				}
+			if ( typeof payload === 'number' || typeof payload === 'string' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: 'update',
+				} as UpdateCTAProps<Initial>, );
 			}
+
+			return dispatch( {
+				payload,
+				type: 'update',
+			} as UpdateCTAProps<Initial>, );
 		},
 		updateInitial( payload: unknown, value: unknown, ) {
-			switch ( typeof payload ) {
-				case 'number':
-				case 'string': {
-					return dispatch( {
-						payload: {
-							[ payload ]: value,
-						},
-						type: 'updateInitial',
-					} as UpdateCTAProps<Initial>, );
-				}
-				default: {
-					return dispatch( {
-						payload,
-						type: 'updateInitial',
-					} as UpdateCTAProps<Initial>, );
-				}
+			if ( typeof payload === 'number' || typeof payload === 'string' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: 'updateInitial',
+				} as UpdateCTAProps<Initial>, );
 			}
+
+			return dispatch( {
+				payload,
+				type: 'updateInitial',
+			} as UpdateCTAProps<Initial>, );
 		},
 	};
 
@@ -79,29 +67,22 @@ export function createDispatchInterface<
 		return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
 	}
 
-	let hasCustomAction = false;
 	const customActions = {} as Record<
 		Exclude<keyof Exclude<Actions, undefined>, keyof DefaultActionsRecord<Initial>>,
 		( ...args: unknown[] ) => ReturnValue
 	>;
 
 	for ( const type in actions ) {
-		if ( type in cta || typeof actions[ type ] !== 'function' ) {
-			continue;
+		if ( !( type in cta ) && typeof actions[ type ] === 'function' ) {
+			customActions[ type as unknown as keyof typeof customActions ] = ( payload, ...args ) => dispatch( {
+				payload,
+				type,
+				args,
+			} as Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], );
 		}
-
-		customActions[ type as unknown as keyof typeof customActions ] = ( payload, ...args ) => dispatch( {
-			payload,
-			type,
-			args,
-		} as Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], );
-
-		hasCustomAction = true;
 	}
 
-	if ( hasCustomAction ) {
-		Object.assign( props.cta, customActions, );
-	}
+	Object.assign( props.cta, customActions, );
 
 	return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
 }
