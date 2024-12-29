@@ -38,14 +38,9 @@ function _replace<Initial extends CTAState,>( prop: {
 
 		if ( !compare( a[ key ], value, key, ) ) {
 			hasChange = true;
-			if ( compare( b[ key ], value, key, ) ) {
-				continue;
+			if ( !compare( b[ key ], value, key, ) ) {
+				changesMap.set( key, useBValue ? b[ key ] : value, );
 			}
-			if ( useBValue ) {
-				changesMap.set( key, b[ key ], );
-				continue;
-			}
-			changesMap.set( key, value, );
 		}
 	}
 
@@ -145,15 +140,10 @@ function _update<Initial extends CTAState,>( prop: {
 		const compareValue = b[ key as keyof Initial ];
 		if ( compare( compareValue, value, key, ) ) {
 			changesMap.delete( key, );
-			continue;
 		}
-
-		if ( useCompareValue ) {
-			changesMap.set( key, compareValue, );
-			continue;
+		else {
+			changesMap.set( key, useCompareValue ? b[ key ] : value, );
 		}
-
-		changesMap.set( key, value, );
 	}
 
 	if ( !hasChange ) {
@@ -245,14 +235,12 @@ function _resetState<Initial extends CTAState, >(
 	let isNextSameAsCurrent = true;
 	for ( const key in next ) {
 		const value = next[ key as keyof Initial ];
-		const currentValue = current[ key as keyof Initial ];
-		const initialValue = initial[ key as keyof Initial ];
 
-		if ( !compare( initialValue, value, key, ) ) {
+		if ( !compare( initial[ key as keyof Initial ], value, key, ) ) {
 			isNextSameAsInitial = false;
 		}
 
-		if ( !compare( currentValue, value, key, ) ) {
+		if ( !compare( current[ key as keyof Initial ], value, key, ) ) {
 			isNextSameAsCurrent = false;
 		}
 
@@ -265,11 +253,6 @@ function _resetState<Initial extends CTAState, >(
 		return ctaReducerState;
 	}
 
-	let previousInitial: CTAReducerState<Initial>['previousInitial'] = initial;
-	if ( ctaReducerState.previousInitial === null && isNextSameAsInitial ) {
-		previousInitial = null;
-	}
-
 	changesMap.clear();
 	return {
 		...ctaReducerState,
@@ -277,7 +260,7 @@ function _resetState<Initial extends CTAState, >(
 		initial: next as Initial,
 		current: next as Initial,
 		previous: current,
-		previousInitial,
+		previousInitial: isNextSameAsInitial ? null : initial,
 	};
 }
 
