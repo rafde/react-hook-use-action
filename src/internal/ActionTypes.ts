@@ -30,12 +30,9 @@ export class ActionType<
 	constructor( param: ActionTypeConstructParam<Payload, Type>, ) {
 		this.type = param.type;
 		this.payload = param.payload;
-		this.actionTypeOptions = !param.hasAugmentedAction
-			? { useDefault: true, }
-			: {
-				useDefault: !param.hasAugmentedAction,
-				...param?.actionTypeOptions,
-			};
+		this.actionTypeOptions = param.hasAugmentedAction
+			? { ...param?.actionTypeOptions, }
+			: { useDefault: true, };
 	}
 }
 
