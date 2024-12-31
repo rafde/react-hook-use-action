@@ -81,9 +81,7 @@
     "type": "git",
     "url": "git+https://github.com/rafde/react-hook-use-cta.git"
   },
-
   "scripts": {
-
     "build": "rimraf dist && parcel build --log-level verbose --no-cache",
     "lint": "eslint --cache --fix src/ __tests__/",
     "postversion": "node util/versioning.cjs && git add jsr.json && git commit -m 'chore: update jsr version' && git push && git push --follow-tags",
@@ -101,7 +99,7 @@
   "sideEffects": false,
   "source": "src/index.ts",
   "types": "dist/types.d.ts",
-  "version": "2.0.3",
+  "version": "2.0.4-pre.0",
   "workspaces": [
     "./site"
   ]
