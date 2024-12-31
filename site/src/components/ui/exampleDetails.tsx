@@ -1,5 +1,5 @@
 'use client';
-import { Code, } from 'lucide-react';
+import { Code as CodeIcon, } from 'lucide-react';
 import { ReactNode, useCallback, useEffect, useRef, useState, } from 'react';
 
 type ExampleDetailsProps = {
@@ -33,7 +33,7 @@ export default function ExampleDetails( props: ExampleDetailsProps, ) {
 			<div className="inline-flex grow flex-row items-start gap-2 pl-2 text-lg">
 				<p className="font-extrabold">{summary}</p>
 				{' '}
-				<Code size="1rem" />
+				<CodeIcon size="1rem" />
 			</div>
 		</summary>
 		{openRef.current && <iframe
