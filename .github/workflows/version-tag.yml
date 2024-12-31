@@ -19,7 +19,7 @@ on:
     inputs:
         release:
             description: 'The type of release: major, minor, or patch'
-            required: true
+            default: ''
 
 jobs:
   publish:
