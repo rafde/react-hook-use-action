@@ -44,17 +44,23 @@ import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch
  * `cta.update` - Update specific properties of your `current` state while preserving other values.
  *
  * {@link UseCTAReturnTypeDispatchCTA.update} Signature:
- * - `cta.update( Partial<CTAState> )`
- * - `cta.update( ( CTAHistory<CTAState> ) => Partial<CTAState> | undefined )` - `undefined` prevents triggering action
- * - `cta.update( key: keyof CTAState, value: CTAState[keyof CTAState] )`
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.update( Partial<CTAState> );
+ * const ctaHistory: CTAHistory<CTAState> = cta.update( ( CTAHistory<CTAState> ) => Partial<CTAState> | undefined );
+ * const ctaHistory: CTAHistory<CTAState> = cta.update( key: keyof CTAState, value: CTAState[keyof CTAState] );
+ * ```
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-update cta.update docs}
  *
  * `cta.replace` - Replaces all `current` property values with new property values.
  *
  * {@link UseCTAReturnTypeDispatchCTA.replace} Signature:
- * - `cta.replace( CTAState )`
- * - `cta.replace( ( CTAHistory<CTAState> ) => CTAState | undefined )` - `undefined` prevents triggering action
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.replace( CTAState );
+ * const ctaHistory: CTAHistory<CTAState> = cta.replace( ( CTAHistory<CTAState> ) => CTAState | undefined );
+ * ```
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-replace cta.replace docs}
  *
@@ -62,34 +68,47 @@ import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch
  * Resets the `current` state back to the `initial` state or to synchronize the `current` state and the `initial` state.
  *
  * {@link UseCTAReturnTypeDispatchCTA.reset} Signature:
- * - `cta.reset()` - Resets the `current` state back to the `initial` state.
- * - `cta.reset( CTAState )` - Synchronizes the `current` state with the `initial` state.
- * - `cta.reset( ( CTAHistory<CTAState> ) => CTAState | undefined )` - Synchronizes the `current` state with the `initial` state.
- * `undefined` prevents triggering action
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.reset();
+ * const ctaHistory: CTAHistory<CTAState> = cta.reset( CTAState );
+ * const ctaHistory: CTAHistory<CTAState> = cta.reset( ( CTAHistory<CTAState> ) => CTAState | undefined );
+ * ```
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-reset cta.reset docs}
  *
  * `cta.updateInitial` - Lets you update specific properties of `initial` state while preserving other values.
  *
  * {@link UseCTAReturnTypeDispatchCTA.updateInitial} Signature:
- * - `cta.updateInitial( Partial<CTAState> )`
- * - `cta.updateInitial( ( CTAHistory<CTAState> ) => Partial<CTAState> | undefined )` - `undefined` prevents triggering action
- * - `cta.updateInitial( key: keyof CTAState, value: CTAState[keyof CTAState] )`
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.updateInitial( Partial<CTAState> )
+ * const ctaHistory: CTAHistory<CTAState> = cta.updateInitial( ( CTAHistory<CTAState> ) => Partial<CTAState> | undefined )
+ * const ctaHistory: CTAHistory<CTAState> = cta.updateInitial( key: keyof CTAState, value: CTAState[keyof CTAState] )
+ * ```
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitial cta.updateInitial docs}
  *
  * `cta.replaceInitial` - Replaces all `initial` property values with new property values.
  *
  * {@link UseCTAReturnTypeDispatchCTA.replaceInitial} Signature:
- * - `cta.replaceInitial( CTAState )`
- * - `cta.replaceInitial( ( CTAHistory<CTAState> ) => CTAState | undefined )` - `undefined` prevents triggering action
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.replaceInitial( CTAState )
+ * const ctaHistory: CTAHistory<CTAState> = cta.replaceInitial( ( CTAHistory<CTAState> ) => CTAState | undefined )
+ * ```
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-replaceInitial cta.replaceInitial docs}
  *
  * `cta.YourCustomAction` - `YourCustomAction` is a placeholder for the name of a custom action you defined in `useCTAParameter.actions`
  *
  * {@link UseCTAReturnTypeDispatchCTA}.YourCustomAction Signature:
- * - `cta.YourCustomAction( ...args )`
+ *
+ * ```ts
+ * const ctaHistory: CTAHistory<CTAState> = cta.YourCustomAction( ...args );
+ * ```
+ *
+ * See {@link https://rafde.github.io/#use-cta-return-value-1-dispatch-cta-custom-action cta.YourCustomAction docs}
  */
 export function createCTA<
 	Initial extends CTAState,

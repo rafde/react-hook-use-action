@@ -11,7 +11,7 @@ export default function NavSidebar() {
 		<NavOverlyHiddenCheck />
 		<NavHiddenCheck />
 		<aside
-			className={'absolute inset-0 z-0 flex flex-col overflow-hidden opacity-0 transition-[opacity,z-index] duration-300'
+			className={'absolute inset-0 z-0 flex flex-col overflow-hidden opacity-0 transition-[opacity,z-index] duration-300 border-r border-white'
 			+ ' peer-checked/overlay:z-20 peer-checked/overlay:opacity-100 peer-checked/overlay:bg-slate-500/50'
 			+ ' peer-checked/overlay:*:translate-x-0'
 			+ ' sm:sticky sm:w-0 sm:max-w-[--navbar-max-width] sm:transition-[width] sm:z-20 sm:opacity-100 sm:bg-transparent'

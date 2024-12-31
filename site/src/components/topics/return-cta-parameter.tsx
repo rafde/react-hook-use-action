@@ -12,7 +12,15 @@ export default function ReturnCTAParameterTopic() {
 	return <>
 		<Sect {...returnCtaParameterConfig}>
 			<CodeBlock copyButton={true}>
-				{'import { returnCTAParameter, } from \'react-hook-use-cta\';'}
+				{`
+import { returnCTAParameter, } from 'react-hook-use-cta';
+
+export const ctaParams = returnCTAParameter({
+	initial: {
+		search: '',
+	},
+});
+				`}
 			</CodeBlock>
 			<Content>
 				<p>

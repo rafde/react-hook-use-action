@@ -1,6 +1,9 @@
 import { introductionConfig, } from '../nav-sidebar/config';
 
 import { useCTAReturnValues0HistoryConfig, } from '../nav-sidebar/config/use-cta-config';
+import {
+	useCTAParameterActionsOverridableConfig,
+} from '../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import Content from '../ui/content';
@@ -73,7 +76,14 @@ export default function IntroductionTopic() {
 					</ul>
 				</li>
 				<li>
-					Built-in action types
+					{' '}
+					<Anchor
+						href={useCTAParameterActionsOverridableConfig.href}
+						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title} section`}>
+						Overridable built-in action
+					</Anchor>
+					{' '}
+					types
 					<ul className="list-inside list-[circle] pl-6">
 						<li>
 							<Code>update</Code>

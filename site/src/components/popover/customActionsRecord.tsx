@@ -1,17 +1,8 @@
-import { MessageSquareCode, } from 'lucide-react';
 import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
-import CodeBlock from '../ui/codeBlock';
-import { Popover, PopoverContent, PopoverTrigger, } from '../ui/popover';
+import PopoverTypes from './index';
 
 export default function PopoverCustomActionsRecord( props: SourceCodeRecordProps, ) {
-	return <Popover>
-		<PopoverTrigger asChild>
-			<button aria-label="Popover trigger button for custom actions record">
-				<MessageSquareCode />
-			</button>
-		</PopoverTrigger>
-		<PopoverContent className="w-screen max-w-[920px]">
-			<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}</CodeBlock>
-		</PopoverContent>
-	</Popover>;
+	return <PopoverTypes className="max-w-[920px]" aria-label="custom actions record">
+		{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}
+	</PopoverTypes>;
 }

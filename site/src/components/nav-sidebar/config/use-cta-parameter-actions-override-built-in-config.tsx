@@ -31,42 +31,62 @@ export const useCTAParameterActionsOverridableParameterCTAHistoryConfig: NavItem
 	</>,
 	title: 'Overridable actions Parameter: CTAHistory',
 };
-export const useCTAParameterActionsOverridableParameterPayloadConfig: NavItem = {
+
+export const useCTAParameterActionsOverridableParameterActionsUpdateConfig: NavItem = {
 	desc: <>
-		Overridable
-		{' '}
-		<Code>actions</Code>
-		{' '}
 		Parameter:
 		{' '}
-		<Code>payload</Code>
+		<Code>actions?.update</Code>
 	</>,
-	href: 'use-cta-parameter-actions-overridable-parameter-cta-payload',
-	navTitle: <>
+	href: 'use-cta-parameter-actions-update',
+	navTitle: <Code>actions?.update</Code>,
+	title: 'Parameter: actions?.update',
+};
+
+export const useCTAParameterActionsOverridableParameterActionsReplaceConfig: NavItem = {
+	desc: <>
 		Parameter:
 		{' '}
-		<Code>payload</Code>
+		<Code>actions?.replace</Code>
 	</>,
-	title: 'Overridable actions Parameter: payload',
+	href: 'use-cta-parameter-actions-replace',
+	navTitle: <Code>actions?.replace</Code>,
+	title: 'Parameter: actions?.replace',
 };
-export const useCTAParameterActionsOverridableReturnConfig: NavItem = {
+
+export const useCTAParameterActionsOverridableParameterActionsResetConfig: NavItem = {
 	desc: <>
-		Overridable
+		Parameter:
 		{' '}
-		<Code>actions</Code>
-		{' '}
-		<Code>return</Code>
-		{' '}
-		value
+		<Code>actions?.reset</Code>
 	</>,
-	href: 'use-cta-parameter-actions-overridable-return-value',
-	navTitle: <>
-		<Code>return</Code>
-		{' '}
-		value
-	</>,
-	title: 'Overridable actions return value',
+	href: 'use-cta-parameter-actions-reset',
+	navTitle: <Code>actions?.reset</Code>,
+	title: 'Parameter: actions?.reset',
 };
+
+export const useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig: NavItem = {
+	desc: <>
+		Parameter:
+		{' '}
+		<Code>actions?.updateInitial</Code>
+	</>,
+	href: 'use-cta-parameter-actions-updateInitial',
+	navTitle: <Code>actions?.updateInitial</Code>,
+	title: 'Parameter: actions?.updateInitial',
+};
+
+export const useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig: NavItem = {
+	desc: <>
+		Parameter:
+		{' '}
+		<Code>actions?.replaceInitial</Code>
+	</>,
+	href: 'use-cta-parameter-actions-replaceInitial',
+	navTitle: <Code>actions?.replaceInitial</Code>,
+	title: 'Parameter: actions?.replaceInitial',
+};
+
 export const useCTAParameterActionsOverridableConfig: NavItem = {
 	desc: <>
 		Overridable
@@ -77,8 +97,11 @@ export const useCTAParameterActionsOverridableConfig: NavItem = {
 	subNav: [
 		useCTAParameterActionsOverridableExampleConfig,
 		useCTAParameterActionsOverridableParameterCTAHistoryConfig,
-		useCTAParameterActionsOverridableParameterPayloadConfig,
-		useCTAParameterActionsOverridableReturnConfig,
+		useCTAParameterActionsOverridableParameterActionsUpdateConfig,
+		useCTAParameterActionsOverridableParameterActionsReplaceConfig,
+		useCTAParameterActionsOverridableParameterActionsResetConfig,
+		useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig,
+		useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig,
 	],
 	title: 'Overridable actions',
 };

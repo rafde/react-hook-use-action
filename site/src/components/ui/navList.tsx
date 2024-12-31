@@ -1,6 +1,8 @@
 import { useMemo, } from 'react';
+import { cn, } from '../../lib/utils';
 import { NavItem, navList, } from '../nav-sidebar/config';
 import { FolderOpen, FolderClosed, } from 'lucide-react';
+import NavTopicInView from './navTopicInView';
 
 type NavLiProps = NavItem & {
 	linkWrapperClassName?: string
@@ -17,12 +19,13 @@ function NavLi( props: NavLiProps, ) {
 	} = props;
 
 	return <li className="group/nav-li z-20">
-		<div className={`peer/folder navLink flex border-l bg-black py-2 pl-2 ${linkWrapperClassName} `}>
-			<a href={`#${href}`} aria-label={`Go to ${title} section`} className="mr-auto overflow-hidden text-wrap break-words">
+		<div className={cn( 'peer/folder relative flex border-l bg-black py-2 pl-2 peer-checked/viewing-topic:bg-slate-700', linkWrapperClassName, )}>
+			<NavTopicInView href={href} />
+			<a href={`#${href}`} aria-label={`Go to ${title} section`} className="mr-auto grow overflow-hidden text-wrap break-words hover:underline">
 				{navTitle}
 			</a>
-			{subNav && <label className="relative ml-2">
-				<input type="checkbox" className="peer/toggler toggleFolder absolute inset-0 z-10 opacity-0" defaultChecked={true} aria-label={`Toggle sub-menu ${title}`} />
+			{subNav && <label className="relative ml-2 cursor-pointer pr-4">
+				<input type="checkbox" className="peer/toggler absolute inset-0 z-10 opacity-0" defaultChecked={true} aria-label={`Toggle sub-menu ${title}`} />
 				<FolderClosed className="block peer-checked/toggler:hidden" />
 				<FolderOpen className="hidden peer-checked/toggler:block" />
 			</label>}
@@ -54,7 +57,7 @@ function createNavListLinks( nav?: NavItem[], linkWrapperClassName?: string, ) {
 const navListLinks = navList.map( navLink => <NavLi key={navLink.href} {...navLink} linkWrapperClassName="sticky top-0 z-20" />, );
 
 export default function NavList() {
-	return <ul className="grow overflow-y-auto pl-1 pr-4">
+	return <ul className="grow overflow-y-auto pl-1">
 		{navListLinks}
 	</ul>;
 }

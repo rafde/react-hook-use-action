@@ -10,6 +10,9 @@ import {
 import {
 	useCTAParameterActionsOverridableConfig,
 } from '../../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
+import {
+	useCTAReturnValues1DispatchCTACustomActionConfig,
+} from '../../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../../../../popover/ctaHistory';
 import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
 import Anchor from '../../../../ui/anchor';
@@ -19,15 +22,29 @@ import Content from '../../../../ui/content';
 import ExampleDetails from '../../../../ui/exampleDetails';
 import Sect from '../../../../ui/sect';
 
+const actionsClassName = 'inline-grid gap-2 w-[calc(100%-2rem)] grid-cols-1 sm:grid-cols-2 items-start';
+
 export default function UseCTAParameterActionsCustomTopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...useCTAParameterActionsCustomConfig}>
+			<Content>
+				<i>Optional</i>
+				<p>
+					Calls from
+					{' '}
+					<Anchor aria-label="Link to dispatch.cta.YourCustomAction" href={useCTAReturnValues1DispatchCTACustomActionConfig.href}>
+						<Code>dispatch.cta.YourCustomAction</Code>
+					</Anchor>
+				</p>
+			</Content>
 			<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}</CodeBlock>
 			<Content>
+				<i>Optional</i>
 				<p>
 					Custom actions are a powerful way to extend the functionality of your state management system.
-					This gives you the flexibility to:
+					You can define as many as you need.
 				</p>
+				<p>This gives you the flexibility to:</p>
 				<ul className="list-inside list-[square]">
 					<li>Create domain-specific actions.</li>
 					<li>Encapsulate complex state updates.</li>
@@ -37,12 +54,6 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 				<p>
 					They are defined as a record of functions, where the key is the action name and the value is the
 					function that accepts any number of parameters.
-				</p>
-				<p>
-					Parameters are
-					{' '}
-					<i>optional</i>
-					.
 				</p>
 			</Content>
 		</Sect>
@@ -95,6 +106,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 
 		<Sect {...useCTAParameterActionsParameterCustomParametersArgsConfig}>
 			<Content>
+				<b>Optional</b>
 				<p>
 					Custom actions can have any number of
 					{' '}
@@ -125,7 +137,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					Custom actions can return several different types of values, depending on action type you want it to behave
 					like.
 				</p>
-				<ul className="list-inside list-[square] space-y-2">
+				<ul className="list-inside list-[square] space-y-2 pl-0">
 					<li>
 						<Code>undefined</Code>
 						: Action will not be triggered. Return when you want to conditionally trigger an action.
@@ -139,14 +151,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						action. It will use using overridden update action.
 					</li>
 					<li>
-						<article className="inline-flex">
+						<article className={actionsClassName}>
 							<Code>
-								{`CustomCTAHistory.updateAction(
-  Partial<CTAState>,
-  { useDefault?: boolean } | undefined,
-)`}
+								{` CustomCTAHistory.updateAction(
+   Partial<CTAState>, 
+   { useDefault?: boolean } | undefined, 
+ )`}
 							</Code>
-							<div className="pl-2">
+							<div>
 								<p>
 									: Behaves like an
 									{' '}
@@ -163,14 +175,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						</article>
 					</li>
 					<li>
-						<article className="inline-flex">
+						<article className={actionsClassName}>
 							<Code>
-								{`CustomCTAHistory.replaceAction(
-  CTAState,
-  { useDefault?: boolean } | undefined,
-)`}
+								{` CustomCTAHistory.replaceAction(
+   CTAState, 
+   { useDefault?: boolean } | undefined, 
+ )`}
 							</Code>
-							<div className="pl-2">
+							<div>
 								<p>
 									: Behaves like an
 									{' '}
@@ -187,14 +199,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						</article>
 					</li>
 					<li>
-						<article className="inline-flex">
+						<article className={actionsClassName}>
 							<Code>
-								{`CustomCTAHistory.resetAction(
-  CTAState | undefined,
-  { useDefault?: boolean } | undefined,
-)`}
+								{` CustomCTAHistory.resetAction(
+   CTAState | undefined, 
+   { useDefault?: boolean } | undefined, 
+ )`}
 							</Code>
-							<div className="pl-2">
+							<div>
 								<p>
 									: Behaves like an
 									{' '}
@@ -211,15 +223,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						</article>
 					</li>
 					<li>
-						<article className="inline-flex">
+						<article className={actionsClassName}>
 							<Code>
-								{`CustomCTAHistory.updateInitialAction(
-  Partial<CTAState> | undefined,
-  { useDefault?: boolean } | undefined,
-)
-`}
+								{` CustomCTAHistory.updateInitialAction(
+   Partial<CTAState> | undefined,
+   { useDefault?: boolean } | undefined,
+ )`}
 							</Code>
-							<div className="pl-2">
+							<div>
 								<p>
 									: Behaves like an
 									{' '}
@@ -236,14 +247,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 						</article>
 					</li>
 					<li>
-						<article className="inline-flex">
+						<article className={actionsClassName}>
 							<Code>
-								{`CustomCTAHistory.replaceInitialAction(
-  CTAState | undefined,
-  { useDefault?: boolean } | undefined,
-)`}
+								{` CustomCTAHistory.replaceInitialAction(
+   CTAState | undefined,
+   { useDefault?: boolean } | undefined,
+ )`}
 							</Code>
-							<div className="pl-2">
+							<div>
 								<p>
 									: Behaves like an
 									{' '}

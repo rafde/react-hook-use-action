@@ -16,13 +16,14 @@ export default function CodeBlock( props: CodeBlockProp, ) {
 		copyButton = false,
 		className = '',
 	} = props;
+	const code = children;
 	return <div className={`relative ${className}`}>
-		{copyButton && <CodeBlockCopyButton code={children} />}
+		{copyButton && <CodeBlockCopyButton code={code} />}
 		<SyntaxHighlighter
 			language={lang}
 			style={vscDarkPlus}
 		>
-			{children}
+			{code}
 		</SyntaxHighlighter>
 	</div>;
 }
