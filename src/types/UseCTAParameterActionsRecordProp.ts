@@ -48,11 +48,26 @@ import type { CTAState, } from './CTAState';
 export type UseCTAParameterActionsRecordProp<
 	Payload extends CTAState,
 > = {
-	update?: ( ctaHistory: CTAHistory<Payload>, payload: Partial<Payload> ) => Partial<Payload> | undefined
-	replace?: ( ctaHistory: CTAHistory<Payload>, payload: Payload ) => Payload | undefined
-	reset?: ( ctaHistory: CTAHistory<Payload>, payload?: Payload ) => Payload | undefined
-	updateInitial?: ( ctaHistory: CTAHistory<Payload>, payload: Partial<Payload> ) => Partial<Payload> | undefined
-	replaceInitial?: ( ctaHistory: CTAHistory<Payload>, payload: Payload ) => Payload | undefined
+	update?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Partial<Payload>
+	) => Partial<Payload> | undefined
+	replace?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Payload
+	) => Payload | undefined
+	reset?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload?: Payload
+	) => Payload | undefined
+	updateInitial?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Partial<Payload>
+	) => Partial<Payload> | undefined
+	replaceInitial?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Payload
+	) => Payload | undefined
 }
 	&
 {

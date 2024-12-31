@@ -16,7 +16,7 @@ import {
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
-import PopoverUseCTAParameterActionsOptionalRecordProp from '../popover/UseCTAParameterActionsOptionalRecordProp';
+import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import PopoverUseCTAParameterOnInit from '../popover/UseCTAParameterOnInit';
 import Anchor from '../ui/anchor';
@@ -30,7 +30,19 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...createCTAContextConfig}>
 			<CodeBlock copyButton={true} className="mr-4">
-				{'import { createCTAContext, } from \'react-hook-use-cta\';'}
+				{`
+import { createCTAContext, } from react-hook-use-cta;
+
+const context = createCTAContext({
+	initial: {
+		search: '',
+	}
+});
+
+export const Provider = context.Provider;
+export const useCTAHistoryContext = context.useCTAHistoryContext;
+export const useCTADispatchContext = context.useCTADispatchContext;
+				`}
 			</CodeBlock>
 			<Content>
 				<p>
@@ -38,25 +50,25 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 					{' '}
 					<Code>function</Code>
 					{' '}
-					returns a React Context to use with
-					{' '}
-					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
-						<Code>useCTA</Code>
-					</Anchor>
-					{' '}
-					for managing
+					that returns a Provider,
 					{' '}
 					<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={useCTAReturnValues0HistoryConfig.title}>
 						<Code>state history</Code>
 					</Anchor>
-					{' '}
+					{', '}
 					and
 					{' '}
 					<Anchor href={useCTAReturnValues1DispatchConfig.href} aria-label={useCTAReturnValues1DispatchConfig.title}>
 						<Code>dispatch</Code>
 					</Anchor>
 					{' '}
-					in the components in the tree.
+					from React Context to use with
+					{' '}
+					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
+						<Code>useCTA</Code>
+					</Anchor>
+					{' '}
+					in a components in the tree.
 				</p>
 				<p>
 					This handles the boilerplate of creating a React Context and Provider.
@@ -98,7 +110,7 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 							<Code>actions</Code>
 						</Anchor>
 						{' '}
-						<PopoverUseCTAParameterActionsOptionalRecordProp sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
 						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
@@ -111,6 +123,9 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 			</Content>
 		</Sect>
 		<Sect {...createCTAContextReturnValueConfig}>
+			<CodeBlock copyButton={false}>
+				{props.sourceCodeRecord[ 'types/CreateCTAContextReturn.ts' ]}
+			</CodeBlock>
 			<Content>
 				<p>
 					Returns an
@@ -121,26 +136,8 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 				</p>
 				<ul className="list-inside list-[square]">
 					<li>
-						<Code>useCTAHistoryContext</Code>
-						: returns
-						{' '}
-						<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={useCTAReturnValues0HistoryConfig.title}>
-							<Code>state history</Code>
-						</Anchor>
-						{' '}
-						<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
-					<li>
-						<Code>useCTADispatchContext</Code>
-						: returns
-						{' '}
-						<Anchor href={useCTAReturnValues1DispatchConfig.href} aria-label={useCTAReturnValues1DispatchConfig.title}>
-							<Code>dispatch</Code>
-						</Anchor>
-					</li>
-					<li>
 						<Code>CTAProvider</Code>
-						: a React Context Provider component to wrap the components in the tree.
+						: a Provider component to wrap the components in the tree.
 						<p>
 							It accepts the following
 							{' '}
@@ -148,7 +145,11 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 							{' '}
 							props in case you want override the props provided in
 							{' '}
-							<Anchor href={createCTAContextParametersConfig.href} aria-label={createCTAContextParametersConfig.title}>{createCTAContextParametersConfig.desc}</Anchor>
+							<Anchor
+								href={createCTAContextParametersConfig.href}
+								aria-label={createCTAContextParametersConfig.title}>
+								{createCTAContextParametersConfig.desc}
+							</Anchor>
 							.
 						</p>
 						<ul className="list-inside list-[circle] pl-6">
@@ -174,6 +175,24 @@ export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
 								<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
 							</li>
 						</ul>
+					</li>
+					<li>
+						<Code>useCTAHistoryContext</Code>
+						: returns
+						{' '}
+						<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={useCTAReturnValues0HistoryConfig.title}>
+							<Code>state history</Code>
+						</Anchor>
+						{' '}
+						<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
+					</li>
+					<li>
+						<Code>useCTADispatchContext</Code>
+						: returns
+						{' '}
+						<Anchor href={useCTAReturnValues1DispatchConfig.href} aria-label={useCTAReturnValues1DispatchConfig.title}>
+							<Code>dispatch</Code>
+						</Anchor>
 					</li>
 				</ul>
 			</Content>

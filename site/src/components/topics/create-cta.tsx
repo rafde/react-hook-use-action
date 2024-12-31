@@ -12,7 +12,7 @@ import {
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
-import PopoverUseCTAParameterActionsOptionalRecordProp from '../popover/UseCTAParameterActionsOptionalRecordProp';
+import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
@@ -25,7 +25,18 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...createCtaConfig}>
 			<CodeBlock copyButton={true} className="mr-4">
-				{'import { createCTA, } from \'react-hook-use-cta\';'}
+				{`
+import { createCTA, } from 'react-hook-use-cta';
+
+const ctaValue = createCTA({
+	initial: {
+		search: '',
+	}
+});
+
+export history = ctaValue[0];
+export dispatch = ctaValue[1];
+				`}
 			</CodeBlock>
 			<Content>
 				<p>
@@ -55,7 +66,6 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 			</Content>
 		</Sect>
 		<Sect {...createCTAExampleConfig}>
-
 			<ExampleDetails
 				summary="Click to view createCTA example"
 				src="https://codesandbox.io/embed/yjktpt?view=editor+%2B+preview&module=%2Fsrc%2Fstore.ts"
@@ -87,7 +97,7 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 							<Code>actions</Code>
 						</Anchor>
 						{' '}
-						<PopoverUseCTAParameterActionsOptionalRecordProp sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
 						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
@@ -118,7 +128,6 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 					<li><Code>dispatch</Code></li>
 				</ol>
 				<p>
-					But,
 					{' '}
 					<Code>dispatch</Code>
 					{' '}
@@ -134,6 +143,12 @@ export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 					as well.
 				</p>
 			</Content>
+			<CodeBlock>
+				{`
+// Example
+const updateWithPayload: CTAHistory<CTAState> = dispatch.cta.update( Partial<CTAState> );
+			`.trim()}
+			</CodeBlock>
 		</Sect>
 	</>;
 }

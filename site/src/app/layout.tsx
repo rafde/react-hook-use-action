@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout( props: PropsWithChildren, ) {
 	return <html lang="en" className="flex size-full flex-col bg-black">
-		<body className={`${inter.className} relative flex grow overflow-x-hidden bg-black text-white`}>
+		<body
+			className={`${inter.className} relative flex grow overflow-x-hidden bg-black text-white`}
+		>
 			<NavSidebar />
 			<main className="relative z-10 flex grow flex-col overflow-x-hidden">
 				<NavToggleButton />

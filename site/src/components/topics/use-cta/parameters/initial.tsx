@@ -17,7 +17,7 @@ export default function UseCTAParameterInitialTopic( props: SourceCodeRecordProp
 				{' '}
 				state structure. This serves as the base state and can be reset to later.
 			</p>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ]}</CodeBlock>
+			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ].trim()}</CodeBlock>
 			<p>
 				Property values can be anything that
 				{' '}

@@ -6,9 +6,6 @@ import {
 
 } from '../../../nav-sidebar/config/use-cta-config';
 import {
-	useCTAParameterActionsOverridableParameterCTAHistoryConfig,
-} from '../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
-import {
 	useCTAReturnValues1DispatchConfig,
 	useCTAReturnValuesDispatchHistoryConfig,
 } from '../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
@@ -42,18 +39,27 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAHistory.ts' ]}</CodeBlock>
 			<Content>
 				<p>
-					The first value is a
+					If a call-to-action is successful, it will return a
 					{' '}
 					<Code>CTAHistory</Code>
 					{' '}
-					type that is the same as
+					.
 					{' '}
-					<a
-						aria-label={`Link to ${useCTAParameterActionsOverridableParameterCTAHistoryConfig.title}`}
-						href={`#${useCTAParameterActionsOverridableParameterCTAHistoryConfig.href}`}
-						className="underline">
-						{useCTAParameterActionsOverridableParameterCTAHistoryConfig.desc}
-					</a>
+				</p>
+				<p>
+					If an action returns
+					{' '}
+					<Code>undefined</Code>
+					{' '}
+					or the payload does not produce a state change, this value's reference will
+					{' '}
+					<b>not</b>
+					{' '}
+					change since re-render was
+					{' '}
+					<b>not</b>
+					{' '}
+					triggered.
 				</p>
 			</Content>
 		</Sect>

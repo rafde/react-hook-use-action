@@ -1,4 +1,8 @@
-export default function Anchor( props: React.AnchorHTMLAttributes<HTMLAnchorElement>, ) {
+type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+	'aria-label': string
+};
+
+export default function Anchor( props: AnchorProps, ) {
 	const {
 		className = '',
 		href,

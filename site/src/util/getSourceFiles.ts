@@ -21,9 +21,9 @@ const sourceFileList = [
 	'types/CTAHistory.ts',
 	'types/UseCTAParameterOnInit.ts',
 	'types/UseCTAParameterCompare.ts',
-	'types/UseCTAParameterActionsOptionalRecordProp.ts',
+	'types/UseCTAParameterActionsRecordProp.ts',
 	{
-		filePath: 'types/UseCTAParameterActionsOptionalRecordProp.ts',
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
 		key: 'UseCTAParameterActionsOverridable',
 		segments: [
 			{
@@ -32,12 +32,62 @@ const sourceFileList = [
 			},
 			{
 				start: 47,
-				end: 56,
+				end: 71,
 			},
 		],
 	},
 	{
-		filePath: 'types/UseCTAParameterActionsOptionalRecordProp.ts',
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropUpdate',
+		segments: [
+			{
+				start: 50,
+				end: 54,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropReplace',
+		segments: [
+			{
+				start: 54,
+				end: 58,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropReset',
+		segments: [
+			{
+				start: 58,
+				end: 62,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropUpdateInitial',
+		segments: [
+			{
+				start: 62,
+				end: 66,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropReplaceInitial',
+		segments: [
+			{
+				start: 66,
+				end: 70,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
 		key: 'UseCTAParameterActionsCustomRecord',
 		segments: [
 			{
@@ -48,18 +98,29 @@ const sourceFileList = [
 				end: 50,
 			},
 			{
+				start: 73,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
+		key: 'UseCTAParameterActionsRecordPropCustom',
+		segments: [
+			{
 				start: 58,
+				end: 61,
 			},
 		],
 	},
 	{
 		filePath: 'types/UseCTAReturnTypeDispatch.ts',
 		segments: [{
-			start: 210,
+			start: 83,
 		},],
 	},
 	'types/CustomCTAHistory.ts',
 	'types/UseCTAReturnType.ts',
+	'types/CreateCTAContextReturn.ts',
 ] as const;
 
 type SourceFilePath<T,> = T extends { key: string } ? T['key'] : ( T extends { filePath: string } ? T['filePath'] : T );
@@ -82,7 +143,7 @@ function getSourceFile( sourceFilePath: SourceFileList, ) {
 						.join( '\n', );
 				}
 			}
-			resolve( sourceRange.replace( /\n?\/\*\*[\s\S]*?\*\//g, '', ).trim(), );
+			resolve( sourceRange.replace( /\n?\/\*\*[\s\S]*?\*\//g, '', ).trimRight(), );
 		}, );
 	}, );
 }

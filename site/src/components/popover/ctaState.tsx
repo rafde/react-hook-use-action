@@ -1,17 +1,8 @@
-import { MessageSquareCode, } from 'lucide-react';
 import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
-import CodeBlock from '../ui/codeBlock';
-import { Popover, PopoverContent, PopoverTrigger, } from '../ui/popover';
+import PopoverTypes from './index';
 
 export default function PopoverCTAState( props: SourceCodeRecordProps, ) {
-	return <Popover>
-		<PopoverTrigger asChild>
-			<button aria-label="Popover trigger for CTA State">
-				<MessageSquareCode />
-			</button>
-		</PopoverTrigger>
-		<PopoverContent className="w-screen max-w-[490px]">
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ]}</CodeBlock>
-		</PopoverContent>
-	</Popover>;
+	return <PopoverTypes className="max-w-[490px]" aria-label="CTA State">
+		{props.sourceCodeRecord[ 'types/CTAState.ts' ].trim()}
+	</PopoverTypes>;
 }

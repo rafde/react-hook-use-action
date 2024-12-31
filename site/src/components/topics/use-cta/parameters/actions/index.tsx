@@ -6,6 +6,7 @@ import { useCTAReturnValues1DispatchConfig, } from '../../../../nav-sidebar/conf
 import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
 import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
+import CodeBlock from '../../../../ui/codeBlock';
 import Content from '../../../../ui/content';
 import Sect from '../../../../ui/sect';
 import UseCTAParameterActionsCustomTopic from './UseCTAParameterActionsCustom';
@@ -19,6 +20,9 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 					<i>Optional</i>
 					{' '}
 					<Code>object</Code>
+				</p>
+				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterActionsRecordProp.ts' ]}</CodeBlock>
+				<p>
 					{' '}
 					with the following capabilities:
 				</p>

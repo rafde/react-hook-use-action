@@ -19,17 +19,20 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterCompare.ts' ]}</CodeBlock>
 				<p>
 					<Code>previousValue</Code>
+					{': '}
+					<Code>current</Code>
 					{' '}
-					and
-					{' '}
+					state property value.
+				</p>
+				<p>
 					<Code>nextValue</Code>
-					{' '}
-					are the previous and next values a state property.
+					{': '}
+					value sent from calling an action.
 				</p>
 				<p>
 					<Code>extra.key</Code>
 					{' '}
-					is the key which is being compared.
+					related to the state property being compared.
 				</p>
 				<p>
 					<Code>extra.cmp</Code>

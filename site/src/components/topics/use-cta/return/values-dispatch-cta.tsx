@@ -1,6 +1,13 @@
 import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
 import { useCTAParameterActionsCustomConfig, } from '../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
 import {
+	useCTAParameterActionsOverridableParameterActionsReplaceConfig,
+	useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig,
+	useCTAParameterActionsOverridableParameterActionsResetConfig,
+	useCTAParameterActionsOverridableParameterActionsUpdateConfig,
+	useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig,
+} from '../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
+import {
 	useCTAReturnValues1DispatchCTACustomActionConfig,
 	useCTAReturnValues1DispatchCTAReplaceConfig,
 	useCTAReturnValues1DispatchCTAReplaceInitialConfig,
@@ -9,6 +16,14 @@ import {
 	useCTAReturnValues1DispatchCTAUpdateInitialConfig,
 } from '../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCustomActionsRecord from '../../../popover/customActionsRecord';
+import PopoverUseCTAParameterActionsPropReplace from '../../../popover/PopoverUseCTAParameterActionsPropReplace';
+import PopoverUseCTAParameterActionsPropReplaceInitial
+	from '../../../popover/PopoverUseCTAParameterActionsPropReplacenitial';
+import PopoverUseCTAParameterActionsPropReset from '../../../popover/PopoverUseCTAParameterActionsPropReset';
+import PopoverUseCTAParameterActionsPropUpdate from '../../../popover/PopoverUseCTAParameterActionsPropUpdate';
+import PopoverUseCTAParameterActionsPropUpdateInitial
+	from '../../../popover/PopoverUseCTAParameterActionsPropUpdateInitial';
+import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
@@ -17,6 +32,18 @@ import Sect from '../../../ui/sect';
 export function UseCTAReturnValuesDispatchCTATopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...useCTAReturnValues1DispatchCTAUpdateConfig}>
+			<Content>
+				<p>
+					Calls
+					{' '}
+					<Anchor
+						aria-label="Link to actions.update"
+						href={useCTAParameterActionsOverridableParameterActionsUpdateConfig.href}>
+						<Code>actions.update</Code>
+					</Anchor>
+					<PopoverUseCTAParameterActionsPropUpdate {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 dispatch.cta.update( keyof CTAState, CTAState[keyof CTAState] );
@@ -44,18 +71,22 @@ dispatch( {
 				`}
 					</CodeBlock>
 				</details>
-
-				<p>
-					Lets you modify specific properties of your
-					{' '}
-					<Code>current</Code>
-					{' '}
-					state while preserving other values.
-				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchCTAReplaceConfig}>
+			<Content>
+				<p>
+					Calls
+					{' '}
+					<Anchor
+						aria-label="Link to actions.replace"
+						href={useCTAParameterActionsOverridableParameterActionsReplaceConfig.href}>
+						<Code>actions.replace</Code>
+					</Anchor>
+					<PopoverUseCTAParameterActionsPropReplace {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 dispatch.cta.replace( CTAState );
@@ -81,18 +112,22 @@ dispatch( {
 				`}
 					</CodeBlock>
 				</details>
-
-				<p>
-					Replaces all
-					{' '}
-					<Code>current</Code>
-					{' '}
-					property values with new property values.
-				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchCTAResetConfig}>
+			<Content>
+				<p>
+					Calls
+					{' '}
+					<Anchor
+						aria-label="Link to actions.reset"
+						href={useCTAParameterActionsOverridableParameterActionsResetConfig.href}>
+						<Code>actions.reset</Code>
+					</Anchor>
+					<PopoverUseCTAParameterActionsPropReset {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 // Reset the state to the initial state
@@ -106,7 +141,6 @@ dispatch.cta.reset( CTAState );
 dispatch.cta.reset( ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined );
 		`}
 			</CodeBlock>
-
 			<Content>
 				<details>
 					<summary>Alternate dispatch.cta.reset</summary>
@@ -133,31 +167,22 @@ dispatch( {
 				`}
 					</CodeBlock>
 				</details>
-
-				<p>
-					Resets the
-					{' '}
-					<Code>current</Code>
-					{' '}
-					state back to the
-					{' '}
-					<Code>initial</Code>
-					{' '}
-					state or to synchronize
-					the
-					{' '}
-					<Code>current</Code>
-					{' '}
-					state and the
-					{' '}
-					<Code>initial</Code>
-					{' '}
-					state.
-				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchCTAUpdateInitialConfig}>
+			<Content>
+				<p>
+					Calls
+					{' '}
+					<Anchor
+						aria-label="Link to actions.updateInitial"
+						href={useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig.href}>
+						<Code>actions.updateInitial</Code>
+					</Anchor>
+					<PopoverUseCTAParameterActionsPropUpdateInitial {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 dispatch.cta.updateInitial( Partial<CTAState> );
@@ -184,18 +209,22 @@ dispatch( {
 				`}
 					</CodeBlock>
 				</details>
-
-				<p>
-					Lets you modify specific properties of your
-					{' '}
-					<Code>initial</Code>
-					{' '}
-					state while preserving other values.
-				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchCTAReplaceInitialConfig}>
+			<Content>
+				<p>
+					Calls
+					{' '}
+					<Anchor
+						aria-label="Link to actions.replaceInitial"
+						href={useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig.href}>
+						<Code>actions.replaceInitial</Code>
+					</Anchor>
+					<PopoverUseCTAParameterActionsPropReplaceInitial {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 dispatch.cta.replaceInitial( CTAState );
@@ -204,7 +233,6 @@ dispatch.cta.replaceInitial( ( ctaHistory: CTAHistory<CTAState> ) => CTAState | 
 				`}
 			</CodeBlock>
 			<Content>
-
 				<details>
 					<summary>Alternate dispatch.cta.replaceInitial</summary>
 
@@ -222,18 +250,24 @@ dispatch( {
 						`}
 					</CodeBlock>
 				</details>
-
-				<p>
-					Used to replace all
-					{' '}
-					<Code>initial</Code>
-					{' '}
-					state property values with new property values.
-				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchCTACustomActionConfig}>
+			<Content>
+				<p>
+					Calls to
+					{' '}
+					<Anchor
+						aria-label="Link to Custom Actions"
+						href={useCTAParameterActionsCustomConfig.href}>
+						Custom
+						{' '}
+						<Code>actions</Code>
+					</Anchor>
+					<PopoverCustomActionsRecord {...props} />
+				</p>
+			</Content>
 			<CodeBlock lang="ts">
 				{`
 dispatch.cta.YourCustomActionWithoutArgs();
@@ -276,8 +310,6 @@ dispatch( {
 					>
 						{useCTAParameterActionsCustomConfig.desc}
 					</a>
-					{' '}
-					<PopoverCustomActionsRecord {...props} />
 				</p>
 			</Content>
 		</Sect>

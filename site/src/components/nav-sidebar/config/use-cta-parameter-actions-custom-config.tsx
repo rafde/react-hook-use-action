@@ -31,11 +31,12 @@ export const useCTAParameterActionsParameterCustomCTAHistoryConfig: NavItem = {
 	</>,
 	title: 'Custom action Parameter: CustomCTAHistory',
 };
+
 export const useCTAParameterActionsParameterCustomParametersArgsConfig: NavItem = {
 	desc: <>
 		Custom
 		{' '}
-		<Code>action</Code>
+		<Code>actions</Code>
 		{' '}
 		Parameters:
 		{' '}
@@ -53,7 +54,7 @@ export const useCTAParameterActionsCustomReturnConfig: NavItem = {
 	desc: <>
 		Custom
 		{' '}
-		<Code>action</Code>
+		<Code>actions</Code>
 		{' '}
 		<Code>return</Code>
 		{' '}

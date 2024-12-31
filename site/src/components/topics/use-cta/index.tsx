@@ -15,7 +15,24 @@ export default function UseCTATopic( props: SourceCodeRecordProps, ) {
 	return <>
 		<Sect {...useCTAConfig}>
 			<CodeBlock copyButton={true}>
-				{'import { useCTA, } from \'react-hook-use-cta\';'}
+				{`
+import { useCTA, } from 'react-hook-use-cta';
+
+export function FC() {
+	const [
+		history,
+		dispatch,
+	] = useCTA({
+		initial: {
+			search: '',
+		},
+	});
+	
+	return <>
+		{history.current.search}
+	<>;
+}
+				`.trim()}
 			</CodeBlock>
 		</Sect>
 		<Sect {...useCTABasicExampleConfig}>
