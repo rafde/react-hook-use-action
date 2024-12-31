@@ -84,16 +84,16 @@
   "scripts": {
     "build": "rimraf dist && parcel build --log-level verbose --no-cache",
     "lint": "eslint --cache --fix src/ __tests__/",
-    "postversion": "npm run post:version:jsr && npm run build && git add -A dist & git commit -m 'dist $(npm pkg get version | sed 's/\"//g')}' && git push --follow-tags",
     "prepare": "husky",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "tsc": "tsc",
-    "post:version:jsr": "node util/versioning.cjs && git add jsr.json && git commit -m '$(npm pkg get version | sed 's/\"//g')}' && git push",
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
-    "version:prerelease": "npm version prerelease --preid=pre"
+    "version:prerelease": "npm version prerelease --preid=pre",
+    "version": "node util/versioning.cjs && git add jsr.json",
+    "postversion": "git push && npm run build && git add -A dist & git commit -m '$(npm pkg get version) dist' && git push --follow-tags"
   },
   "sideEffects": false,
   "source": "src/index.ts",
