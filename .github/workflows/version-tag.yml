@@ -7,27 +7,18 @@ on:
       release:
         description: 'The type of release: major, minor, or patch'
         required: true
-        type: choice
         options:
           -
           - patch
           - prerelease
           - minor
           - major
-          -
 
   workflow_call:
     inputs:
         release:
             description: 'The type of release: major, minor, or patch'
             required: true
-            type: choice
-            options:
-            -
-            - patch
-            - prerelease
-            - minor
-            - major
 
 jobs:
   publish:
