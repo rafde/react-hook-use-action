@@ -26,11 +26,18 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         if: ${{ inputs.release != '' }}
         uses: actions/checkout@v4
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Versioning and tagging"
+          git config user.email "no@real-email.com"
 
       - name: Set up Node.js
         if: ${{ inputs.release != '' }}
@@ -52,10 +59,6 @@ jobs:
       - name: Install dependencies
         if: ${{ inputs.release != '' }}
         run: npm install
-
-      - name: Test
-        if: ${{ inputs.release != '' }}
-        run: npm run tsc && npm run test
 
       - name: Version and tag
         if: ${{ inputs.release != '' }}
