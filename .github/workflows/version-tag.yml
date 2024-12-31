@@ -24,7 +24,7 @@ on:
             type: string
 
 jobs:
-  publish:
+  version-and-tag:
     runs-on: ubuntu-latest
     permissions:
       contents: write
