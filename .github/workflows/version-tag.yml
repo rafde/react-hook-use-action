@@ -28,11 +28,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if release is set
-        if: ${{ inputs.release == '' }}
-        run: |
-        echo "You must provide a release type: prerelease, major, minor, or patch"
-
       - name: Checkout repository
         if: ${{ inputs.release != '' }}
         uses: actions/checkout@v4
