@@ -88,12 +88,12 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "tsc": "tsc",
+    "version": "node util/versioning.cjs && git add jsr.json && npm run build && git add -A dist",
+    "postversion": "git push && git push --follow-tags",
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
-    "version:prerelease": "npm version prerelease --preid=pre",
-    "version": "node util/versioning.cjs && git add jsr.json",
-    "postversion": "git push && npm run build && git add -A dist & git commit -m '$(npm pkg get version) dist' && git push --follow-tags"
+    "version:prerelease": "npm version prerelease --preid=pre"
   },
   "sideEffects": false,
   "source": "src/index.ts",
