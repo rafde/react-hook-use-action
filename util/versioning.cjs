@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import process from 'node:process';
-import fs from 'node:fs';
+const process = require( 'node:process', );
+const fs = require( 'node:fs', );
 
-import { inc, } from 'semver';
-import pkg from '../package.json' assert { type: 'json', };
-import jsr from '../jsr.json' assert { type: 'json', };
+const { inc, } = require( 'semver', );
+const pkg = require( '../package.json', );
+const jsr = require( '../jsr.json', );
 
 const { release, } = process.env;
 

@@ -24,11 +24,14 @@ module.exports = {
 				node: true,
 			},
 			files: [
-				'.eslintrc.{js,cjs}',
-				'__tests__/.eslintrc.{js,cjs}',
+				'**/**.cjs',
 			],
 			parserOptions: {
-				sourceType: 'script',
+				sourceType: 'commonjs',
+			},
+			rules: {
+				'@typescript-eslint/no-require-imports': 'off',
+				strict: 'off',
 			},
 		},
 	],
