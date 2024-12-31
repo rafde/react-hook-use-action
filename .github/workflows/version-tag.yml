@@ -1,0 +1,79 @@
+name: Version and tag
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'The type of release: major, minor, or patch'
+        required: true
+        type: choice
+        options:
+          -
+          - patch
+          - prerelease
+          - minor
+          - major
+          -
+
+  workflow_call:
+    inputs:
+        release:
+            description: 'The type of release: major, minor, or patch'
+            required: true
+            type: choice
+            options:
+            -
+            - patch
+            - prerelease
+            - minor
+            - major
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if release is set
+        if: ${{ github.event.inputs.release == '' }}
+        run: |
+        echo "You must provide a release type: prerelease, major, minor, or patch"
+
+      - name: Checkout repository
+        if: ${{ github.event.inputs.release != '' }}
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        if: ${{ github.event.inputs.release != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: npm
+
+      - name: Restore cache
+        if: ${{ github.event.inputs.release != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+          key: ${{ runner.os }}-versioning-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+              ${{ runner.os }}-versioning-
+
+      - name: Install dependencies
+        if: ${{ github.event.inputs.release != '' }}
+        run: npm install
+
+      - name: Test
+        if: ${{ github.event.inputs.release != '' }}
+        run: npm run tsc && npm run test
+
+      - name: Version and tag
+        if: ${{ github.event.inputs.release != '' }}
+        run: |
+          release=${{ github.event.inputs.release }} node util/versioning.mjs
+          npm run build
+          git add -A dist package.json jsr.json
+          git tag -a "v$(node -p "require('./package.json').version")" -m "Release v$(node -p "require('./package.json').version")"
+          git push origin
+          git push origin --tags
