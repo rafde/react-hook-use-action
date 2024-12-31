@@ -81,10 +81,12 @@
     "type": "git",
     "url": "git+https://github.com/rafde/react-hook-use-cta.git"
   },
+
   "scripts": {
+
     "build": "rimraf dist && parcel build --log-level verbose --no-cache",
     "lint": "eslint --cache --fix src/ __tests__/",
-    "postversion": "git push && git push --follow-tags",
+    "postversion": "node util/versioning.cjs && git add jsr.json && git commit -m 'chore: update jsr version' && git push && git push --follow-tags",
     "prepare": "husky",
     "preversion": "npm test",
     "test": "jest",
@@ -94,9 +96,6 @@
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
-    "version:premajor": "npm version premajor --preid=pre",
-    "version:preminor": "npm version preminor --preid=pre",
-    "version:prepatch": "npm version prepatch --preid=pre",
     "version:prerelease": "npm version prerelease --preid=pre"
   },
   "sideEffects": false,

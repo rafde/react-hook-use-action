@@ -60,9 +60,4 @@ jobs:
       - name: Version and tag
         if: ${{ inputs.release != '' }}
         run: |
-          release=${{ inputs.release }} node util/versioning.cjs
-          npm run build
-          git add -A dist package.json jsr.json
-          git tag -a "v$(node -p "require('./package.json').version")" -m "Release v$(node -p "require('./package.json').version")"
-          git push origin
-          git push origin --tags
+          npm run version:${{ inputs.release }}
