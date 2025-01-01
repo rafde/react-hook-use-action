@@ -34,8 +34,7 @@
     "parcel": "2.13.3",
     "react": "19.0.0",
     "rimraf": "6.0.1",
-    "typescript": "5.7.2",
-    "semver": "7.6.3"
+    "typescript": "5.7.2"
   },
   "exports": {
     "import": "./dist/esm/index.mjs",
