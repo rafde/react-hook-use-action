@@ -31,6 +31,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-publish-
 
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Publish to jsr
         run: npx jsr publish
 
