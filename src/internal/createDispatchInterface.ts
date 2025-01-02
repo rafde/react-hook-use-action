@@ -17,8 +17,6 @@ export function createDispatchInterface<
 	Actions,
 	ReturnValue = void,
 >( dispatch: DispatchCTA<Initial, Actions, ReturnValue>, actions?: Actions, ): UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue> {
-	const dispatchWrapper = ( value: Parameters<typeof dispatch>[0], ) => dispatch( value, );
-
 	const cta: DispatchCTADefaultRecord<Initial, ReturnValue> = {
 		replace: payload => dispatch( {
 			payload,
@@ -60,29 +58,30 @@ export function createDispatchInterface<
 		},
 	};
 
-	const props = {
-		cta,
-	};
-	if ( actions == null || typeof actions !== 'object' ) {
-		return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
-	}
+	const dispatchWrapper = Object.assign(
+		( value => dispatch( value, ) ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>,
+		{
+			cta,
+		},
+	);
 
-	const customActions = {} as Record<
-		Exclude<keyof Exclude<Actions, undefined>, keyof DefaultActionsRecord<Initial>>,
-		( ...args: unknown[] ) => ReturnValue
-	>;
+	if ( actions && typeof actions === 'object' ) {
+		const customActions = {} as Record<
+			Exclude<keyof Exclude<Actions, undefined>, keyof DefaultActionsRecord<Initial>>,
+			( ...args: unknown[] ) => ReturnValue
+		>;
 
-	for ( const type in actions ) {
-		if ( !( type in cta ) && typeof actions[ type ] === 'function' ) {
-			customActions[ type as unknown as keyof typeof customActions ] = ( payload, ...args ) => dispatch( {
-				payload,
-				type,
-				args,
-			} as Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], );
+		for ( const type in actions ) {
+			if ( !( type in cta ) && typeof actions[ type ] === 'function' ) {
+				customActions[ type as unknown as keyof typeof customActions ] = ( payload, ...args ) => dispatch( {
+					payload,
+					type,
+					args,
+				} as Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'], );
+			}
 		}
+		Object.assign( dispatchWrapper.cta, customActions, );
 	}
 
-	Object.assign( props.cta, customActions, );
-
-	return Object.assign( dispatchWrapper, props, ) as UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
+	return dispatchWrapper;
 }
