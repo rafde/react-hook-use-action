@@ -4,6 +4,7 @@ import { fileURLToPath, } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat, } from '@eslint/eslintrc';
 import tailwind from 'eslint-plugin-tailwindcss';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 import rootEslintConfig from '../eslint.config.mjs';
 
@@ -21,6 +22,12 @@ export default [
 	...compat.extends(
 		'plugin:@next/next/recommended',
 	),
+	{
+		files: [
+			'src/**/*.{ts,tsx}',
+		],
+		...jsxA11y.flatConfigs.recommended,
+	},
 	{
 		languageOptions: {
 			globals: globals.browser,
