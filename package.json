@@ -46,7 +46,6 @@
     "src"
   ],
   "homepage": "https://rafde.github.io/react-hook-use-cta",
-  "isLibrary": true,
   "keywords": [
     "hooks",
     "hook",
@@ -68,7 +67,7 @@
   "module": "dist/esm/index.mjs",
   "name": "react-hook-use-cta",
   "peerDependencies": {
-    "@types/react": ">= 16.8.0 || >= 17.0.0 || >= 18.0.0  || >= 19.0.0",
+    "@types/react": ">= 16.8.0 || >= 17.0.0 || >= 18.0.0 || >= 19.0.0",
     "react": ">= 16.8.0 || >= 17.0.0 || >= 18.0.0  || >= 19.0.0"
   },
   "peerDependenciesMeta": {
