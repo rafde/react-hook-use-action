@@ -35,6 +35,7 @@ export default function NavSidebar() {
 						href="https://github.com/rafde/react-hook-use-cta"
 						target="_blank"
 						className="size-6 overflow-hidden"
+						rel="noreferrer"
 						aria-label="Link to open new window react-hook-use-cta GitHub repository"
 					>
 						<GithubIcon />

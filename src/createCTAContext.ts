@@ -2,6 +2,7 @@ import {
 	createContext,
 	useContext,
 	createElement,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 	type Context,
 } from 'react';
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
@@ -139,12 +140,7 @@ export function createCTAContext<
 	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
-		CTAProvider( props, ) {
-			const {
-				initial = contextParams.initial,
-				onInit = contextParams.onInit,
-				compare = contextParams.compare,
-			} = props;
+		CTAProvider( { initial = contextParams.initial, onInit = contextParams.onInit, compare = contextParams.compare, children, }, ) {
 			const [
 				value,
 				dispatch,
@@ -155,13 +151,17 @@ export function createCTAContext<
 				compare,
 			}, );
 
-			return createElement( CTAContextHistory.Provider, {
-				value,
-				children: createElement( CTAContextDispatch.Provider, {
-					value: dispatch as unknown as UseCTAReturnType<Initial, ActionsRecord>[1],
-					children: props.children,
-				}, ),
-			}, );
+			return createElement(
+				CTAContextHistory.Provider,
+				{ value, },
+				createElement(
+					CTAContextDispatch.Provider,
+					{
+						value: dispatch as unknown as UseCTAReturnType<Initial, ActionsRecord>[1],
+					},
+					children,
+				),
+			);
 		},
 		useCTAHistoryContext() {
 			return useContext( CTAContextHistory, );

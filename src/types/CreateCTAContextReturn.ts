@@ -2,7 +2,7 @@ import type {
 	FC,
 	PropsWithChildren,
 	// @ts-expect-error -- Used in JSDoc comment
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	ReactNode,
 } from 'react';
 import type { CTAHistory, } from './CTAHistory';

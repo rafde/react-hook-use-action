@@ -51,7 +51,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					{' '}
 					<Code>undefined</Code>
 					{' '}
-					or the payload does not produce a state change, this value's reference will
+					or the payload does not produce a state change, this value&apos;s reference will
 					{' '}
 					<b>not</b>
 					{' '}
@@ -110,7 +110,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					{' '}
 					<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
 					,
-					in case you need to read it from somewhere that doesn't need as a dependency.
+					in case you need to read it from somewhere that doesn&apos;t need as a dependency.
 				</p>
 			</Content>
 		</Sect>
