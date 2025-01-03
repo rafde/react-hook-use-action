@@ -38,7 +38,7 @@ type DispatchCustomCTARecordValues<
 	Initial extends CTAState,
 	ActionValue,
 	ReturnValue = void,
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 > = ActionValue extends ( ( ctaParam: CustomCTAHistory<Initial>, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
 	Args extends []
 		// Represents CTA without arguments.

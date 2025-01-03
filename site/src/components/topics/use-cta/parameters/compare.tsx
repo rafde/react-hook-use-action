@@ -42,7 +42,9 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 					<a
 						href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal"
 						target="_blank"
-						className="underline">
+						className="underline"
+						rel="noreferrer"
+					>
 						strictDeepEqual
 					</a>
 					{' '}
@@ -51,7 +53,9 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 					<a
 						href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals"
 						target="_blank"
-						className="underline">
+						className="underline"
+						rel="noreferrer"
+					>
 						fast-equals
 					</a>
 				</p>
