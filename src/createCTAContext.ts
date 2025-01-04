@@ -22,6 +22,8 @@ import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
 
+import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
+
 import { useCTA, } from './useCTA';
 
 /**
@@ -36,6 +38,9 @@ import { useCTA, } from './useCTA';
  *
  * @param {UseCTAParameter} contextParams - {@link UseCTAParameter}.
  *
+ * @param {CTAState} contextParams.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
+ *
  * @param {UseCTAParameterOnInit} [contextParams.onInit] - Optional {@link UseCTAParameterOnInit}
  * - `function` for handling `initial` parameter on component mount.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
@@ -43,6 +48,10 @@ import { useCTA, } from './useCTA';
  * @param {UseCTAParameterCompare} [contextParams.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
+ *
+ * @param {UseCTAParameterAfterActionChange} [contextParams.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
+ * - `function` than only runs after an action has changed the hook state history.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
  * @param {UseCTAParameterActionsRecordProp} [contextParams.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
@@ -140,7 +149,13 @@ export function createCTAContext<
 	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
-		CTAProvider( { initial = contextParams.initial, onInit = contextParams.onInit, compare = contextParams.compare, children, }, ) {
+		CTAProvider( {
+			initial = contextParams.initial,
+			onInit = contextParams.onInit,
+			compare = contextParams.compare,
+			afterActionChange = contextParams.afterActionChange,
+			children,
+		}, ) {
 			const [
 				value,
 				dispatch,
@@ -149,6 +164,7 @@ export function createCTAContext<
 				onInit,
 				actions: contextParams.actions,
 				compare,
+				afterActionChange,
 			}, );
 
 			return createElement(
