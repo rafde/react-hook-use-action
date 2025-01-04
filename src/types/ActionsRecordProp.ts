@@ -13,5 +13,5 @@ type CustomActionsRecord<
 >;
 export type ActionsRecordProp<
 	Initial extends CTAState,
-	Actions extends Partial<UseCTAParameterActionsOptionalDefaultRecord<Initial>>,
-> = Partial<UseCTAParameterActionsOptionalDefaultRecord<Initial>> & CustomActionsRecord<Initial, Actions>;
+	Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial>,
+> = UseCTAParameterActionsOptionalDefaultRecord<Initial> & CustomActionsRecord<Initial, Actions>;
