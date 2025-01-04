@@ -15,6 +15,8 @@ import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatch';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
@@ -33,15 +35,19 @@ import usePublicCTA from './internal/usePublicCTA';
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
  * @param {UseCTAParameterOnInit} [useCTAParameter.onInit] - Optional {@link UseCTAParameterOnInit}
- * - `function` for handling `initial` parameter on component mount.
+ * - `function` that runs once on component mount to handle `initial` parameter state before your component starts using it.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
  *
  * @param {UseCTAParameterCompare} [useCTAParameter.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
+ * @param {UseCTAParameterAfterActionChange} [useCTAParameter.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * - `function` than only runs after an action has changed the hook state history.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
+ *
  * @param {UseCTAParameterActionsRecordProp} [useCTAParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
- * - `object` to define custom and/or overridden actions for state management.
+ * - `object` type to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
  *
  * @returns {[CTAHistory, UseCTAReturnTypeDispatch]}  An `array` containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch} elements:

@@ -10,6 +10,19 @@ import type { CTAState, } from './CTAState';
 import type { UseCTAParameter, } from './UseCTAParameter';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
+// @ts-expect-error -- Used in JSDoc comment
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { CreateCTAProps, } from './CreateCTAProps';
+// @ts-expect-error -- Used in JSDoc comment
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { UseCTAParameterOnInit, } from './UseCTAParameterOnInit';
+// @ts-expect-error -- Used in JSDoc comment
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { UseCTAParameterCompare, } from './UseCTAParameterCompare';
+// @ts-expect-error -- Used in JSDoc comment
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { UseCTAParameterAfterActionChange, } from './UseCTAParameterAfterActionChange';
+
 /**
  * Type definition for the return value of the {@link createCTAContext} `function`.
  *
@@ -38,11 +51,20 @@ export type CreateCTAContextReturn<
 	 *
 	 * @param {ReactNode} props.children - {@link ReactNode}.
 	 *
-	 * @param {CTAState} [props.initial] - optional override for createCTAContext contextParams.initial
+	 * @param {CTAState} [props.initial] - Optional initial {@link CTAState} structure for overriding createCTAContext contextParams.initial {@link CTAHistory}.
+	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
 	 *
-	 * @param {UseCTAParameterOnInit<Initial>} [props.onInit] - optional override for createCTAContext contextParams.onInit
+	 * @param {UseCTAParameterOnInit} [props.onInit] - Optional {@link UseCTAParameterOnInit} for overriding createCTAContext contextParams.onInit
+	 * - `function` that runs once on component mount to handle `initial` parameter state before your component starts using it.
+	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
 	 *
-	 * @param {UseCTAParameterCompare<Initial>} [props.compare] - optional createCTAContext contextParams.compare
+	 * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare} for overriding createCTAContext contextParams.compare
+	 * - `function` for custom equality logic by comparing only specific properties.
+	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
+	 *
+	 * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange} for overriding contextParams.afterActionChange
+	 * - `function` than only runs after an action has changed the hook state history.
+	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
 	 *
 	 * @returns {ReactElement} The `CTAProvider` component.
 	 */
@@ -51,7 +73,7 @@ export type CreateCTAContextReturn<
 			Partial<
 				Pick<
 					UseCTAParameter<Initial, Actions>,
-					'initial' | 'onInit' | 'compare'
+					'initial' | 'onInit' | 'compare' | 'afterActionChange'
 				>
 			>
 		>

@@ -1,4 +1,4 @@
-import { useMemo, useReducer, } from 'react';
+import { useCallback, useMemo, useReducer, } from 'react';
 import { compareCallback, } from './compareCallback';
 
 import ctaReducer, { CTAReducerState, } from './ctaReducer';
@@ -43,19 +43,8 @@ export default function usePrivateCTA<
 		[
 		],
 	);
-	return useReducer(
-		function reducerCallback(
-			ctaReducerState: CTAReducerState<Initial>,
-			nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'],
-		) {
-			return ctaReducer( {
-				ctaReducerState,
-				actions,
-				nextCTAProps,
-				compare,
-			}, );
-		},
-		{
+	const init = useMemo(
+		() => ( {
 			changes: null,
 			// Set changesMap in init to avoid re-instantiating a new Map everytime this is called
 			changesMap: undefined as unknown as CTAReducerState<Initial>['changesMap'],
@@ -63,10 +52,36 @@ export default function usePrivateCTA<
 			initial: params.initial,
 			previous: null,
 			previousInitial: null,
-		},
-		function _onInit( privateCTAState: CTAReducerState<Initial>, ) {
-			return _init<Initial, Actions>( privateCTAState, params.onInit, );
-		},
+		} ),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[
+		],
+	);
+	const reducerCallback = useCallback(
+		(
+			ctaReducerState: CTAReducerState<Initial>,
+			nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'],
+		) => ctaReducer( {
+			actions,
+			compare,
+			ctaReducerState,
+			nextCTAProps,
+			afterActionChange: params.afterActionChange,
+		}, ),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[],
+	);
+
+	const onInit = useCallback(
+		( privateCTAState: CTAReducerState<Initial>, ) => _init<Initial, Actions>( privateCTAState, params.onInit, ),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[],
+	);
+
+	return useReducer(
+		reducerCallback,
+		init,
+		onInit,
 	);
 }
 
