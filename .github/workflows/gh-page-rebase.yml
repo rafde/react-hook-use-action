@@ -21,4 +21,4 @@ jobs:
           git checkout gh-pages
           git pull
           git rebase main
-          git push
+          git push origin gh-pages
