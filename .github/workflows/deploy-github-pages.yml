@@ -2,7 +2,7 @@
 #
 # To get started with Next.js see: https://nextjs.org/docs/getting-started
 #
-name: Deploy Next.js site to Pages
+name: Deploy Github Pages
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -12,7 +12,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -29,6 +29,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: rebase main to gh-pages
+        run: |
+          git checkout gh-pages
+          git pull
+          git rebase main
+          git push origin gh-pages
 
       - name: Setup Node
         uses: actions/setup-node@v4

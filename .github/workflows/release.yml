@@ -28,4 +28,4 @@ jobs:
       npm: true
 
   github-pages:
-    uses: ./.github/workflows/nextjs.yml
+    uses: ./.github/workflows/deploy-github-pages.yml
