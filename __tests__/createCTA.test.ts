@@ -1,6 +1,6 @@
 import { createCTA, } from '../src';
 
-describe( 'ctaCallback', () => {
+describe( 'createCTA', () => {
 	const initial = {
 		count: 0,
 		text: 'initial',
