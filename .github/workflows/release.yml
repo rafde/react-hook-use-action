@@ -30,29 +30,12 @@ jobs:
     with:
       release: ${{ inputs.release }}
 
-  publish:
-    secrets: inherit
-    permissions:
-      contents: read
-      id-token: write # The OIDC ID token is used for authentication with JSR.
-    if: ${{ inputs.release == 'NONE' }}
-    needs: version-and-tag
-    uses: ./.github/workflows/publish-package.yml
-    with:
-      jsr: ${{ inputs.JSR }}
-      npm: ${{ inputs.NPM }}
-
-  publish-github-pages:
-    if: ${{ inputs.release == 'NONE' }}
-    needs: publish
-    uses: ./.github/workflows/deploy-github-pages.yml
-
   version-publish:
+    if: ${{ inputs.release != 'NONE' }}
     secrets: inherit
     permissions:
       contents: read
       id-token: write # The OIDC ID token is used for authentication with JSR.
-    if: ${{ inputs.release != 'NONE' }}
     needs: version-and-tag
     uses: ./.github/workflows/publish-package.yml
     with:
@@ -62,4 +45,20 @@ jobs:
   version-publish-github-pages:
     if: ${{ inputs.release != 'NONE' }}
     needs: version-publish
+    uses: ./.github/workflows/deploy-github-pages.yml
+
+  publish:
+    if: ${{ inputs.release == 'NONE' }}
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write # The OIDC ID token is used for authentication with JSR.
+    uses: ./.github/workflows/publish-package.yml
+    with:
+      jsr: ${{ inputs.JSR }}
+      npm: ${{ inputs.NPM }}
+
+  publish-github-pages:
+    if: ${{ inputs.release == 'NONE' }}
+    needs: publish
     uses: ./.github/workflows/deploy-github-pages.yml
