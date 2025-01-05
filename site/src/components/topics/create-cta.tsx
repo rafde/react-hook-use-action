@@ -5,7 +5,7 @@ import {
 	createCTAParametersConfig, createCTAReturnValuesConfig,
 } from '../nav-sidebar/config/create-cta-config';
 import {
-	useCTAConfig, useCTAParameterActionsConfig, useCTAParameterCompareConfig,
+	useCTAConfig, useCTAParameterActionsConfig, useCTAParameterAfterActionChangeConfig, useCTAParameterCompareConfig,
 	useCTAParameterInitialConfig,
 	useCTAReturnValues0HistoryConfig,
 } from '../nav-sidebar/config/use-cta-config';
@@ -13,6 +13,7 @@ import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-ct
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
 import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
+import PopoverUseCTAParameterAfterActionChange from '../popover/UseCTAParameterAfterActionChange';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
@@ -93,18 +94,25 @@ export dispatch = ctaValue[1];
 						<PopoverCTAState sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
-						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-							<Code>actions</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
-					<li>
 						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
 							<Code>compare</Code>
 						</Anchor>
 						{' '}
 						<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
+					</li>
+					<li>
+						<Anchor href={useCTAParameterAfterActionChangeConfig.href} aria-label={useCTAParameterAfterActionChangeConfig.title}>
+							<Code>afterActionChange</Code>
+						</Anchor>
+						{' '}
+						<PopoverUseCTAParameterAfterActionChange sourceCodeRecord={props.sourceCodeRecord} />
+					</li>
+					<li>
+						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
+							<Code>actions</Code>
+						</Anchor>
+						{' '}
+						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 				</ul>
 			</Content>

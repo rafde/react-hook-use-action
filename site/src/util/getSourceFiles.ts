@@ -21,6 +21,7 @@ const sourceFileList = [
 	'types/CTAHistory.ts',
 	'types/UseCTAParameterOnInit.ts',
 	'types/UseCTAParameterCompare.ts',
+	'types/UseCTAParameterAfterActionChange.ts',
 	'types/UseCTAParameterActionsRecordProp.ts',
 	{
 		filePath: 'types/UseCTAParameterActionsRecordProp.ts',

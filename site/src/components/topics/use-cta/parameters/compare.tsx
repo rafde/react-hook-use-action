@@ -16,49 +16,58 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 					{' '}
 					callback:
 				</p>
-				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterCompare.ts' ]}</CodeBlock>
-				<p>
-					<Code>previousValue</Code>
-					{': '}
-					<Code>current</Code>
-					{' '}
-					state property value.
-				</p>
-				<p>
-					<Code>nextValue</Code>
-					{': '}
-					value sent from calling an action.
-				</p>
-				<p>
-					<Code>extra.key</Code>
-					{' '}
-					related to the state property being compared.
-				</p>
-				<p>
-					<Code>extra.cmp</Code>
-					{' '}
-					gives you access to
-					{' '}
-					<a
-						href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal"
-						target="_blank"
-						className="underline"
-						rel="noreferrer"
-					>
-						strictDeepEqual
-					</a>
-					{' '}
-					from
-					{' '}
-					<a
-						href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals"
-						target="_blank"
-						className="underline"
-						rel="noreferrer"
-					>
-						fast-equals
-					</a>
-				</p>
+				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterAfterActionChange.ts' ]}</CodeBlock>
+				<ol className="list-inside list-decimal">
+					<li>
+						<Code>previousValue</Code>
+						{': '}
+						<Code>current</Code>
+						{' '}
+						state property value.
+					</li>
+					<li>
+						<Code>nextValue</Code>
+						{': '}
+						value sent from calling an action.
+					</li>
+					<li>
+						<Code>extra</Code>
+						{': '}
+						object containing
+						<ul className="list-inside list-[square] pl-5">
+							<li>
+								<Code>extra.key</Code>
+								{': '}
+								related to the state property being compared.
+							</li>
+							<li>
+								<Code>extra.cmp</Code>
+								{': '}
+								gives you access to
+								{' '}
+								<a
+									href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal"
+									target="_blank"
+									className="underline"
+									rel="noreferrer"
+								>
+									strictDeepEqual
+								</a>
+								{' '}
+								from
+								{' '}
+								<a
+									href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals"
+									target="_blank"
+									className="underline"
+									rel="noreferrer"
+								>
+									fast-equals
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ol>
 
 				<p>
 					It should return:

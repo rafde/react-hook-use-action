@@ -1,9 +1,11 @@
 import { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './UseCTAParameterActionsOptionalDefaultRecord';
+import type {
+	UseCTAParameterActionsOptionalDefaultRecord,
+} from './UseCTAParameterActionsOptionalDefaultRecord';
 
 /**
- * A `function` than only runs after an action has changed the hook state history.
+ * A `function` that only runs after an action has changed the hook state history.
  * Does not run if the action has not changed the hook state history.
  * Useful for performing side effects after an action has changed the hook state history, such as logging, analytics, setting local storage, etc.
  * Can run `async` or `sync` code.
@@ -15,4 +17,8 @@ import type { UseCTAParameterActionsOptionalDefaultRecord, } from './UseCTAParam
  */
 export type UseCTAParameterAfterActionChange<
 	State extends CTAState,
-> = ( ctaHistory: CTAHistory<State>, actionType: keyof UseCTAParameterActionsOptionalDefaultRecord<State>, customActionName?: string | number ) => Promise<void> | void;
+> = (
+	ctaHistory: CTAHistory<State>,
+	actionType: keyof UseCTAParameterActionsOptionalDefaultRecord<State>,
+	customActionName?: string | number
+) => Promise<void> | void;

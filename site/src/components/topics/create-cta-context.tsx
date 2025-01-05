@@ -7,7 +7,7 @@ import {
 } from '../nav-sidebar/config/create-cta-context-config';
 import {
 	useCTAConfig,
-	useCTAParameterActionsConfig,
+	useCTAParameterActionsConfig, useCTAParameterAfterActionChangeConfig,
 	useCTAParameterCompareConfig,
 	useCTAParameterInitialConfig,
 	useCTAParameterOnInitConfig,
@@ -17,6 +17,7 @@ import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-ct
 import PopoverCTAHistory from '../popover/ctaHistory';
 import PopoverCTAState from '../popover/ctaState';
 import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
+import PopoverUseCTAParameterAfterActionChange from '../popover/UseCTAParameterAfterActionChange';
 import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import PopoverUseCTAParameterOnInit from '../popover/UseCTAParameterOnInit';
 import Anchor from '../ui/anchor';
@@ -106,18 +107,20 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 						<PopoverUseCTAParameterOnInit sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 					<li>
+						<Anchor
+							href={useCTAParameterAfterActionChangeConfig.href}
+							aria-label={useCTAParameterAfterActionChangeConfig.title}>
+							<Code>afterActionChange</Code>
+						</Anchor>
+						{' '}
+						<PopoverUseCTAParameterAfterActionChange sourceCodeRecord={props.sourceCodeRecord} />
+					</li>
+					<li>
 						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
 							<Code>actions</Code>
 						</Anchor>
 						{' '}
 						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
-					<li>
-						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
-							<Code>compare</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
 					</li>
 				</ul>
 			</Content>
@@ -173,6 +176,15 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 								</Anchor>
 								{' '}
 								<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
+							</li>
+							<li>
+								<Anchor
+									href={useCTAParameterAfterActionChangeConfig.href}
+									aria-label={useCTAParameterAfterActionChangeConfig.title}>
+									<Code>afterActionChange</Code>
+								</Anchor>
+								{' '}
+								<PopoverUseCTAParameterAfterActionChange sourceCodeRecord={props.sourceCodeRecord} />
 							</li>
 						</ul>
 					</li>

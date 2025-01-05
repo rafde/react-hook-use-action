@@ -6,6 +6,7 @@ import CodeBlock from '../../ui/codeBlock';
 import ExampleDetails from '../../ui/exampleDetails';
 import Sect from '../../ui/sect';
 import UseCTAParameterActionsTopic from './parameters/actions';
+import { UseCTAParameterAfterActionChangeTopic, } from './parameters/after-action-change';
 import UseCTAParameterOnInitTopic from './parameters/on-init';
 import UseCTAParameterInitialTopic from './parameters/initial';
 import UseCTAParameterCompareTopic from './parameters/compare';
@@ -52,6 +53,7 @@ export function FC() {
 		<UseCTAParameterInitialTopic {...props} />
 		<UseCTAParameterOnInitTopic {...props} />
 		<UseCTAParameterCompareTopic {...props} />
+		<UseCTAParameterAfterActionChangeTopic {...props} />
 		<UseCTAParameterActionsTopic {...props} />
 		<UseCTAReturnValuesTopic {...props} />
 	</>;
