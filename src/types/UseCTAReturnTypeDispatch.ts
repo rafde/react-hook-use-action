@@ -178,6 +178,12 @@ export type UseCTAReturnTypeDispatchCTA<
 		) : never
 };
 
+/**
+ * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
+ * @template {CTAState} State - CTAState type.
+ * @template Actions - CTA actions type.
+ * @template ReturnValue - Return value type.
+ */
 export type UseCTAReturnTypeDispatch<
 	State extends CTAState,
 	Actions,
