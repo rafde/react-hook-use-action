@@ -3,7 +3,7 @@
 [![NPM License](https://img.shields.io/npm/l/react-hook-use-cta)](/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/react-hook-use-cta)](https://www.npmjs.com/package/react-hook-use-cta)
 [![JSR Version](https://img.shields.io/jsr/v/%40rafde/react-hook-use-cta)](https://jsr.io/@rafde/react-hook-use-cta)
-![Test](https://github.com/rafde/react-hook-use-cta/actions/workflows/badges.yml/badge.svg)
+![Test](https://github.com/rafde/react-hook-use-cta/actions/workflows/test.yml/badge.svg)
 ![Lines](./site/public/badges/coverage-lines.svg)
 
 Read full document for `react-hook-use-cta` on [documentation website](https://rafde.github.io/react-hook-use-cta)
