@@ -22,10 +22,12 @@ jobs:
       release: ${{ inputs.release }}
 
   publish:
+    needs: version-and-tag
     uses: ./.github/workflows/publish-package.yml
     with:
       jsr: true
       npm: true
 
   github-pages:
+    needs: publish
     uses: ./.github/workflows/deploy-github-pages.yml
