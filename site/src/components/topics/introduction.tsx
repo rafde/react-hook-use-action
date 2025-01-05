@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { introductionConfig, } from '../nav-sidebar/config';
 
 import { useCTAReturnValues0HistoryConfig, } from '../nav-sidebar/config/use-cta-config';
@@ -15,7 +16,13 @@ export default function IntroductionTopic() {
 			<p>
 				A React hook for managing complex state with custom actions, history tracking, and type safety.
 			</p>
-
+			<p className="flex flex-wrap items-center justify-center gap-2">
+				<a href="https://github.com/rafde/react-hook-use-cta/blob/main/LICENSE" target="_blank" rel="noreferrer"><Image alt="NPM License" src="https://img.shields.io/npm/l/react-hook-use-cta" width="75" height="20" /></a>
+				<a href="https://www.npmjs.com/package/react-hook-use-cta" target="_blank" rel="noreferrer"><Image alt="NPM Version" src="https://img.shields.io/npm/v/react-hook-use-cta" width="75" height="20" /></a>
+				<a href="https://jsr.io/@rafde/react-hook-use-cta" target="_blank" rel="noreferrer"><Image alt="JSR Version" src="https://img.shields.io/jsr/v/%40rafde/react-hook-use-cta" width="65" height="20" /></a>
+				<Image alt="Test" src="https://github.com/rafde/react-hook-use-cta/actions/workflows/badges.yml/badge.svg" width="115" height="20" />
+				<Image alt="Lines" src="/badges/coverage-lines.svg" width="105" height="20" />
+			</p>
 			<b>Features</b>
 
 			<ul className="list-inside list-[square]">

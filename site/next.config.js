@@ -15,6 +15,13 @@ const nextConfig = {
 	transpilePackages: [
 		'lucide-react',
 	],
+	images: {
+		domains: [
+			'github.com',
+			'img.shields.io',
+		],
+		dangerouslyAllowSVG: true,
+	},
 };
 
 if ( process.env.NODE_ENV === 'production' ) {
