@@ -1,0 +1,42 @@
+name: Badges
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+   generate-badges:
+     runs-on: ubuntu-latest
+     steps:
+         - name: Checkout
+           uses: actions/checkout@v4
+
+         - name: Setup Node
+           uses: actions/setup-node@v4
+           with:
+             node-version: "lts/*"
+             cache: npm
+
+         - name: Restore cache
+           uses: actions/cache@v4
+           with:
+             path: |
+               ~/.npm
+             key: ${{ runner.os }}-versioning-${{ hashFiles('**/package-lock.json') }}
+             restore-keys: |
+               ${{ runner.os }}-versioning-
+
+         - name: Install dependencies
+           run: npm install
+
+         - name: Test coverage
+           run: |
+             npm run test:coverage
+
+         - name: Generating coverage badges
+           uses: jpb06/coverage-badges-action@latest
+           with:
+             branches: main
+             badges-icon: jest
+             output-folder: ./site/public/badges
