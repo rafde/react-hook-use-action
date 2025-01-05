@@ -63,10 +63,11 @@ export default function usePrivateCTA<
 			nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'],
 		) => ctaReducer( {
 			actions,
+			afterActionChange: params.afterActionChange,
 			compare,
 			ctaReducerState,
 			nextCTAProps,
-			afterActionChange: params.afterActionChange,
+			transform: params.transform,
 		}, ),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],

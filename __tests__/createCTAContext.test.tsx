@@ -18,6 +18,33 @@ describe( 'createCTAContext', () => {
 		useCTADispatchContext,
 	} = ctaContext;
 
+	test( 'should create a context', () => {
+		const ctaContext = createCTAContext( {
+			initial: initialChanges,
+			actions: {
+				custom() {
+					return {
+						there: 'custom',
+						you: 'custom',
+					};
+				},
+			},
+			afterActionChange() {
+				// here for verifying that it accepts parameter
+			},
+			compare() {
+				return true;
+			},
+			onInit( initial, ) {
+				return initial;
+			},
+			transform( payload, ) {
+				return payload;
+			},
+		}, );
+		expect( ctaContext, ).toBeDefined();
+	}, );
+
 	test( 'should update when view is wrapped in a Provided', () => {
 		const View = () => {
 			const ctaStateContext = useCTAHistoryContext();

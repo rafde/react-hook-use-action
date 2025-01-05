@@ -162,9 +162,11 @@ export function createCTA<
 		function _ctaCallback( nextCTAProps: Parameters<typeof ctaReducer<Initial, ActionsRecord>>[0]['nextCTAProps'], ) {
 			const newCtaReducerState = ctaReducer<Initial, ActionsRecord>( {
 				actions,
+				afterActionChange: ctaParameter.afterActionChange,
 				compare,
 				ctaReducerState,
 				nextCTAProps,
+				transform: ctaParameter.transform,
 			}, );
 
 			if ( newCtaReducerState !== ctaReducerState ) {

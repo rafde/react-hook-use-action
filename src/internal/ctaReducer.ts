@@ -3,6 +3,7 @@ import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
+import { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
@@ -278,15 +279,16 @@ type PredefinedActions = keyof typeof predefinedActionsConst;
 function typeResult<
 	Initial extends CTAState,
 	Type extends PredefinedActions,
-	Next = Type extends 'update' ? Partial<Initial> : Initial,
+	Next = Type extends 'update' | 'updateInitial' ? Partial<Initial> : Initial,
 >(
 	param: {
-		ctaReducerState: CTAReducerState<Initial>
-		type: Type
-		next: Next
-		compare: CompareCallbackReturnType
-		afterActionChange: UseCTAParameterAfterActionChange<Initial>
 		action?: unknown
+		afterActionChange: UseCTAParameterAfterActionChange<Initial>
+		compare: CompareCallbackReturnType
+		ctaReducerState: CTAReducerState<Initial>
+		next: Next
+		transform: UseCTAParameterTransform<Initial>
+		type: Type
 	},
 ) {
 	const {
@@ -301,7 +303,21 @@ function typeResult<
 	const {
 		type,
 		compare,
+		action,
 	} = param;
+
+	const transformedNext = param.transform(
+		next,
+		{
+			changes: ctaReducerState.changes,
+			current: ctaReducerState.current,
+			initial: ctaReducerState.initial,
+			previous: ctaReducerState.previous,
+			previousInitial: ctaReducerState.previousInitial,
+			actionType: type,
+			customAction: action as string | number,
+		},
+	);
 
 	let result;
 
@@ -309,39 +325,40 @@ function typeResult<
 		case 'replace':
 			result = _replaceCurrent(
 				ctaReducerState,
-				next as Initial,
+				transformedNext as Initial,
 				compare,
 			);
 			break;
 		case 'replaceInitial':
 			result = _replaceInitial(
 				ctaReducerState,
-				next as Initial,
+				transformedNext as Initial,
 				compare,
 			);
 			break;
 		case 'reset':
 			result = _resetState(
 				ctaReducerState,
-				next as Initial,
+				transformedNext as Initial,
 				compare,
 			);
 			break;
 		case 'updateInitial':
 			result = _updateInitial(
 				ctaReducerState,
-				next,
+				transformedNext,
 				compare,
 			);
 			break;
 		default:
 			result = _updateCurrent(
 				ctaReducerState,
-				next,
+				transformedNext,
 				compare,
 			);
 			break;
 	}
+
 	if ( result !== ctaReducerState ) {
 		Promise.resolve().then( () => param.afterActionChange(
 			{
@@ -352,9 +369,10 @@ function typeResult<
 				previousInitial: result.previousInitial,
 			},
 			type,
-			param.action as string | number,
+			action as string | number,
 		), );
 	}
+
 	return result;
 }
 
@@ -431,16 +449,18 @@ function getCustomCTAHistoryCache<Initial extends CTAState, Actions,>( actions?:
 
 const _args: unknown[] = [];
 function _noop() {}
+const _noopTransform = <Initial extends CTAState,>( nextState: Initial, ) => nextState;
 
 export default function ctaReducer<
 	Initial extends CTAState,
 	Actions,
 >( params: {
-	ctaReducerState: CTAReducerState<Initial>
 	actions?: UseCTAParameter<Initial, Actions>['actions']
-	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
-	compare: CompareCallbackReturnType
 	afterActionChange?: UseCTAParameterAfterActionChange<Initial>
+	compare: CompareCallbackReturnType
+	ctaReducerState: CTAReducerState<Initial>
+	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
+	transform?: UseCTAParameterTransform<Initial>
 }, ): CTAReducerState<Initial> {
 	const {
 		args = _args,
@@ -452,6 +472,7 @@ export default function ctaReducer<
 		actions,
 		compare,
 		afterActionChange = _noop,
+		transform = _noopTransform as UseCTAParameterTransform<Initial>,
 	} = params;
 	const {
 		current,
@@ -475,6 +496,7 @@ export default function ctaReducer<
 				ctaReducerState,
 				next: payload( ctaState, ),
 				type: action as PredefinedActions,
+				transform,
 			}, );
 		}
 
@@ -485,6 +507,7 @@ export default function ctaReducer<
 				ctaReducerState,
 				next: initial,
 				type: 'reset',
+				transform,
 			}, );
 		}
 
@@ -494,6 +517,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next: payload,
 			type: action as PredefinedActions,
+			transform,
 		}, );
 	}
 
@@ -530,6 +554,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next,
 			type: action as PredefinedActions,
+			transform,
 		}, );
 	}
 
@@ -560,6 +585,7 @@ export default function ctaReducer<
 			ctaReducerState,
 			next,
 			type,
+			transform,
 		}, );
 	}
 
@@ -570,5 +596,6 @@ export default function ctaReducer<
 		ctaReducerState,
 		next: customPredefinedCTA( ctaState, next, ),
 		type,
+		transform,
 	}, );
 }

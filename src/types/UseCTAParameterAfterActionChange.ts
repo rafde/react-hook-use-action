@@ -1,4 +1,4 @@
-import { CTAHistory, } from './CTAHistory';
+import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
 import type {
 	UseCTAParameterActionsOptionalDefaultRecord,

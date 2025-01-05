@@ -10,8 +10,21 @@ describe( 'createCTA', () => {
 
 	test( 'should initialize with correct default state', () => {
 		const [state,] = createCTA( {
-			initial,
 			actions: {},
+			afterActionChange() {
+				// here for verifying that it accepts parameter
+			},
+			compare() {
+				return true;
+			},
+			initial,
+			// @ts-expect-error ensuring that this parameter is not accepted
+			onInit() {
+
+			},
+			transform( payload, ) {
+				return payload;
+			},
 		}, );
 
 		expect( state, ).toEqual( {

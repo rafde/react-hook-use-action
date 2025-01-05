@@ -73,7 +73,7 @@ export type CreateCTAContextReturn<
 			Partial<
 				Pick<
 					UseCTAParameter<Initial, Actions>,
-					'initial' | 'onInit' | 'compare' | 'afterActionChange'
+					'initial' | 'onInit' | 'compare' | 'afterActionChange' | 'transform'
 				>
 			>
 		>

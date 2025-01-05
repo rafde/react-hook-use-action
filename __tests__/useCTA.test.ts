@@ -3,6 +3,25 @@ import { useCTA, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'useCTA', () => {
+	test( 'should return useCTA values', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			async afterActionChange() {
+				// here for verifying that it accepts parameter
+			},
+			compare() {
+				return true;
+			},
+			onInit( initial, ) {
+				return initial;
+			},
+			transform( payload, ) {
+				return payload;
+			},
+		}, ), );
+		expect( result.current, ).toBeDefined();
+	}, );
+
 	describe( 'check for edge cases', () => {
 		test( 'should not create a new dispatch when an action is called', () => {
 			const { result, } = renderHook( () => useCTA( {

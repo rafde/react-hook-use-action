@@ -3,7 +3,7 @@ import { useCTA, } from '../src';
 import { UseCTAParameterAfterActionChange, } from '../src/types/UseCTAParameterAfterActionChange';
 import { initial, } from './setup/simple';
 
-describe( 'afterActionChange', () => {
+describe( 'useCTA parameter: afterActionChange', () => {
 	const afterActionChangeFn: UseCTAParameterAfterActionChange<typeof initial> = async() => {
 		// console.log( 'history:', history, );
 	};

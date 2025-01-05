@@ -21,7 +21,7 @@ import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 
 import { useCTA, } from './useCTA';
@@ -155,16 +155,18 @@ export function createCTAContext<
 			compare = contextParams.compare,
 			afterActionChange = contextParams.afterActionChange,
 			children,
+			transform = contextParams.transform,
 		}, ) {
 			const [
 				value,
 				dispatch,
 			] = useCTA( {
+				actions: contextParams.actions,
+				afterActionChange,
+				compare,
 				initial,
 				onInit,
-				actions: contextParams.actions,
-				compare,
-				afterActionChange,
+				transform,
 			}, );
 
 			return createElement(
@@ -179,9 +181,6 @@ export function createCTAContext<
 				),
 			);
 		},
-		useCTAHistoryContext() {
-			return useContext( CTAContextHistory, );
-		},
 		useCTADispatchContext() {
 			const ctaDispatchContext = useContext( CTAContextDispatch, );
 			if ( ctaDispatchContext == null ) {
@@ -190,6 +189,9 @@ export function createCTAContext<
 			}
 
 			return ctaDispatchContext satisfies UseCTAReturnType<Initial, ActionsRecord>[1];
+		},
+		useCTAHistoryContext() {
+			return useContext( CTAContextHistory, );
 		},
 	};
 }
