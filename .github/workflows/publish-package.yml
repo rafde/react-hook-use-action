@@ -56,12 +56,13 @@ jobs:
         if: ${{ inputs.jsr  || inputs.npm  }}
         run: npm ci
 
-      - name: Publish to jsr
-        if: ${{ inputs.jsr }}
-        run: npx jsr publish
-
       - name: Publish to npm
         if: ${{ inputs.npm  }}
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Publish to jsr
+        if: ${{ inputs.jsr }}
+        run: npx jsr publish
+
