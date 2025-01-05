@@ -7,7 +7,7 @@ on:
       release:
         description: 'The type of release: major, minor, or patch'
         options:
-          -
+          - NONE
           - patch
           - prerelease
           - minor
@@ -15,19 +15,53 @@ on:
         required: true
         type: choice
 
+      JSR:
+        description: 'Publish to JSR'
+        type: boolean
+        default: true
+
+      NPM:
+        description: 'Publish to NPM'
+        type: boolean
+        default: true
+
 jobs:
   version-and-tag:
+    if: ${{ inputs.release != 'NONE' }}
     uses: ./.github/workflows/version-tag.yml
     with:
       release: ${{ inputs.release }}
 
   publish:
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write # The OIDC ID token is used for authentication with JSR.
+    if: ${{ inputs.release == 'NONE' }}
     needs: version-and-tag
     uses: ./.github/workflows/publish-package.yml
     with:
-      jsr: true
-      npm: true
+      jsr: ${{ inputs.JSR }}
+      npm: ${{ inputs.NPM }}
 
-  github-pages:
+  publish-github-pages:
+    if: ${{ inputs.release == 'NONE' }}
     needs: publish
+    uses: ./.github/workflows/deploy-github-pages.yml
+
+  version-publish:
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write # The OIDC ID token is used for authentication with JSR.
+    if: ${{ inputs.release != 'NONE' }}
+    needs: version-and-tag
+    uses: ./.github/workflows/publish-package.yml
+    with:
+      jsr: ${{ inputs.JSR }}
+      npm: ${{ inputs.NPM }}
+
+  version-publish-github-pages:
+    if: ${{ inputs.release != 'NONE' }}
+    needs: version-publish
     uses: ./.github/workflows/deploy-github-pages.yml
