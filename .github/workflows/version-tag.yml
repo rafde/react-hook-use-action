@@ -7,7 +7,7 @@ on:
       release:
         description: 'The type of release: major, minor, or patch'
         options:
-          -
+          - NONE
           - patch
           - prerelease
           - minor
@@ -19,7 +19,7 @@ on:
     inputs:
         release:
             description: 'The type of release: major, minor, or patch'
-            default: ''
+            default: NONE
             required: true
             type: string
 
@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        if: ${{ inputs.release != '' }}
+        if: ${{ inputs.release != 'NONE' }}
         uses: actions/checkout@v4
 
       - name: setup git config
@@ -40,14 +40,14 @@ jobs:
           git config user.email "no@real-email.com"
 
       - name: Set up Node.js
-        if: ${{ inputs.release != '' }}
+        if: ${{ inputs.release != 'NONE' }}
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
           cache: npm
 
       - name: Restore cache
-        if: ${{ inputs.release != '' }}
+        if: ${{ inputs.release != 'NONE' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -57,10 +57,10 @@ jobs:
               ${{ runner.os }}-versioning-
 
       - name: Install dependencies
-        if: ${{ inputs.release != '' }}
+        if: ${{ inputs.release != 'NONE' }}
         run: npm install
 
       - name: Version and tag
-        if: ${{ inputs.release != '' }}
+        if: ${{ inputs.release != 'NONE' }}
         run: |
           npm run version:${{ inputs.release }}

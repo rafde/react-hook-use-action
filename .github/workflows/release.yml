@@ -14,12 +14,10 @@ on:
           - major
         required: true
         type: choice
-
       JSR:
         description: 'Publish to JSR'
         type: boolean
         default: true
-
       NPM:
         description: 'Publish to NPM'
         type: boolean
