@@ -8,8 +8,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  workflow_call:
-
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: write
@@ -31,11 +29,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: gh-pages
 
       - name: rebase main to gh-pages
         run: |
-          git checkout gh-pages
-          git pull
           git rebase main
           git push origin gh-pages
 
