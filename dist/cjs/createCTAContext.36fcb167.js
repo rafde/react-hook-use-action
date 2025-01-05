@@ -1,4 +1,4 @@
-var $d6e548939060e3ae$exports = require("./useCTA.d633fc16.js");
+var $d6e548939060e3ae$exports = require("./useCTA.13c5d356.js");
 var $9znZ4$react = require("react");
 
 
@@ -19,21 +19,19 @@ function $1045ff876afe552c$export$a85baad6d8324b85(contextParams) {
     });
     const CTAContextDispatch = (0, $9znZ4$react.createContext)(null);
     return {
-        CTAProvider (props) {
-            const { initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare } = props;
+        CTAProvider ({ initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare, afterActionChange: afterActionChange = contextParams.afterActionChange, children: children }) {
             const [value, dispatch] = (0, $d6e548939060e3ae$exports.useCTA)({
                 initial: initial,
                 onInit: onInit,
                 actions: contextParams.actions,
-                compare: compare
+                compare: compare,
+                afterActionChange: afterActionChange
             });
             return (0, $9znZ4$react.createElement)(CTAContextHistory.Provider, {
-                value: value,
-                children: (0, $9znZ4$react.createElement)(CTAContextDispatch.Provider, {
-                    value: dispatch,
-                    children: props.children
-                })
-            });
+                value: value
+            }, (0, $9znZ4$react.createElement)(CTAContextDispatch.Provider, {
+                value: dispatch
+            }, children));
         },
         useCTAHistoryContext () {
             return (0, $9znZ4$react.useContext)(CTAContextHistory);
@@ -50,4 +48,4 @@ function $1045ff876afe552c$export$a85baad6d8324b85(contextParams) {
 }
 
 
-//# sourceMappingURL=createCTAContext.bc6cf694.js.map
+//# sourceMappingURL=createCTAContext.36fcb167.js.map

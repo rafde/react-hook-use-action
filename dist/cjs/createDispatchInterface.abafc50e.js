@@ -1,5 +1,10 @@
-function $ddb1abc523767a90$export$af9ac7063a513c32(dispatch, actions) {
-    const dispatchWrapper = (value)=>dispatch(value);
+
+function $parcel$export(e, n, v, s) {
+  Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
+}
+
+$parcel$export(module.exports, "createDispatchInterface", () => $0b6f0bd6e9d4ab4e$export$af9ac7063a513c32);
+function $0b6f0bd6e9d4ab4e$export$af9ac7063a513c32(dispatch, actions) {
     const cta = {
         replace: (payload)=>dispatch({
                 payload: payload,
@@ -38,20 +43,20 @@ function $ddb1abc523767a90$export$af9ac7063a513c32(dispatch, actions) {
             });
         }
     };
-    const props = {
+    const dispatchWrapper = Object.assign((value)=>dispatch(value), {
         cta: cta
-    };
-    if (actions == null || typeof actions !== 'object') return Object.assign(dispatchWrapper, props);
-    const customActions = {};
-    for(const type in actions)if (!(type in cta) && typeof actions[type] === 'function') customActions[type] = (payload, ...args)=>dispatch({
-            payload: payload,
-            type: type,
-            args: args
-        });
-    Object.assign(props.cta, customActions);
-    return Object.assign(dispatchWrapper, props);
+    });
+    if (actions && typeof actions === 'object') {
+        const customActions = {};
+        for(const type in actions)if (!(type in cta) && typeof actions[type] === 'function') customActions[type] = (payload, ...args)=>dispatch({
+                payload: payload,
+                type: type,
+                args: args
+            });
+        Object.assign(dispatchWrapper.cta, customActions);
+    }
+    return dispatchWrapper;
 }
 
 
-export {$ddb1abc523767a90$export$af9ac7063a513c32 as createDispatchInterface};
-//# sourceMappingURL=createDispatchInterface.133c2c44.js.map
+//# sourceMappingURL=createDispatchInterface.abafc50e.js.map

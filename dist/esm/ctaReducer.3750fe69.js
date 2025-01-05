@@ -1,13 +1,7 @@
-var $39ac042edb60bbed$exports = require("./ActionTypes.7551496f.js");
+import {ActionType as $289ef3ec91325d9e$export$e4a712fff93fb00f, createReplaceActionType as $289ef3ec91325d9e$export$5af3483b9b67ce66, createReplaceInitialActionType as $289ef3ec91325d9e$export$3ff81d2d0cf2ee3, createResetActionType as $289ef3ec91325d9e$export$4bebcb0ea4f6657e, createUpdateActionType as $289ef3ec91325d9e$export$aa336a942b9a3093, createUpdateInitialActionType as $289ef3ec91325d9e$export$8b901517d6e09295} from "./ActionTypes.4612c60e.js";
 
 
-function $parcel$export(e, n, v, s) {
-  Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
-}
-
-$parcel$export(module.exports, "default", () => $d1a0eb9e2dbe8803$export$2e2bcd8739ae039);
-
-function $d1a0eb9e2dbe8803$var$_replace(prop) {
+function $f0f97a638af05ef2$var$_replace(prop) {
     const { a: a, b: b, compare: compare, payload: payload, useBValue: useBValue } = prop;
     const changesMap = new Map();
     let hasChange = false;
@@ -21,9 +15,9 @@ function $d1a0eb9e2dbe8803$var$_replace(prop) {
     if (!hasChange) return;
     return changesMap;
 }
-function $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, payload, compare) {
+function $f0f97a638af05ef2$var$_replaceCurrent(ctaReducerState, payload, compare) {
     const { initial: initial, current: current } = ctaReducerState;
-    const changesMap = $d1a0eb9e2dbe8803$var$_replace({
+    const changesMap = $f0f97a638af05ef2$var$_replace({
         a: current,
         b: initial,
         compare: compare,
@@ -38,9 +32,9 @@ function $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, payload, compare
         previous: ctaReducerState.current
     };
 }
-function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare) {
+function $f0f97a638af05ef2$var$_replaceInitial(ctaReducerState, payload, compare) {
     const { initial: initial, current: current } = ctaReducerState;
-    const changesMap = $d1a0eb9e2dbe8803$var$_replace({
+    const changesMap = $f0f97a638af05ef2$var$_replace({
         a: initial,
         b: current,
         compare: compare,
@@ -56,7 +50,7 @@ function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare
         initial: payload
     };
 }
-function $d1a0eb9e2dbe8803$var$_update(prop) {
+function $f0f97a638af05ef2$var$_update(prop) {
     const { a: a, b: b, compare: compare, payload: payload, useCompareValue: useCompareValue, changesMap: changesMap } = prop;
     let hasChange = false;
     const next = {};
@@ -72,9 +66,9 @@ function $d1a0eb9e2dbe8803$var$_update(prop) {
     if (!hasChange) return;
     return next;
 }
-function $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, payload, compare) {
+function $f0f97a638af05ef2$var$_updateInitial(ctaReducerState, payload, compare) {
     const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
-    const next = $d1a0eb9e2dbe8803$var$_update({
+    const next = $f0f97a638af05ef2$var$_update({
         a: initial,
         b: current,
         changesMap: changesMap,
@@ -93,9 +87,9 @@ function $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, payload, compare)
         previousInitial: initial
     };
 }
-function $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, payload, compare) {
+function $f0f97a638af05ef2$var$_updateCurrent(ctaReducerState, payload, compare) {
     const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
-    const next = $d1a0eb9e2dbe8803$var$_update({
+    const next = $f0f97a638af05ef2$var$_update({
         a: current,
         b: initial,
         changesMap: changesMap,
@@ -113,7 +107,7 @@ function $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, payload, compare)
         previous: current
     };
 }
-function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare) {
+function $f0f97a638af05ef2$var$_resetState(ctaReducerState, next, compare) {
     const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
     let isNextSameAsInitial = true;
     let isNextSameAsCurrent = true;
@@ -134,32 +128,46 @@ function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare) {
         previousInitial: isNextSameAsInitial ? null : initial
     };
 }
-const $d1a0eb9e2dbe8803$var$predefinedActionsConst = {
+const $f0f97a638af05ef2$var$predefinedActionsConst = {
     replace: 'replace',
     replaceInitial: 'replaceInitial',
     reset: 'reset',
     update: 'update',
     updateInitial: 'updateInitial'
 };
-function $d1a0eb9e2dbe8803$var$typeResult(param) {
+function $f0f97a638af05ef2$var$typeResult(param) {
     const { next: next, ctaReducerState: ctaReducerState } = param;
-    if (next == null || Array.isArray(next) || next instanceof (0, $39ac042edb60bbed$exports.ActionType)) return ctaReducerState;
+    if (next == null || Array.isArray(next) || next instanceof (0, $289ef3ec91325d9e$export$e4a712fff93fb00f)) return ctaReducerState;
     const { type: type, compare: compare } = param;
+    let result;
     switch(type){
         case 'replace':
-            return $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, next, compare);
+            result = $f0f97a638af05ef2$var$_replaceCurrent(ctaReducerState, next, compare);
+            break;
         case 'replaceInitial':
-            return $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, next, compare);
+            result = $f0f97a638af05ef2$var$_replaceInitial(ctaReducerState, next, compare);
+            break;
         case 'reset':
-            return $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare);
+            result = $f0f97a638af05ef2$var$_resetState(ctaReducerState, next, compare);
+            break;
         case 'updateInitial':
-            return $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, next, compare);
+            result = $f0f97a638af05ef2$var$_updateInitial(ctaReducerState, next, compare);
+            break;
         default:
-            return $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, next, compare);
+            result = $f0f97a638af05ef2$var$_updateCurrent(ctaReducerState, next, compare);
+            break;
     }
+    if (result !== ctaReducerState) Promise.resolve().then(()=>param.afterActionChange({
+            changes: result.changes,
+            current: result.current,
+            initial: result.initial,
+            previous: result.previous,
+            previousInitial: result.previousInitial
+        }, type, param.action));
+    return result;
 }
-function $d1a0eb9e2dbe8803$var$getActionType(ctaReturnType) {
-    if (ctaReturnType instanceof (0, $39ac042edb60bbed$exports.ActionType)) {
+function $f0f97a638af05ef2$var$getActionType(ctaReturnType) {
+    if (ctaReturnType instanceof (0, $289ef3ec91325d9e$export$e4a712fff93fb00f)) {
         const { type: type, payload: payload, actionTypeOptions: actionTypeOptions } = ctaReturnType;
         const useDefault = Boolean(actionTypeOptions?.useDefault);
         if (Array.isArray(payload)) return;
@@ -182,24 +190,25 @@ function $d1a0eb9e2dbe8803$var$getActionType(ctaReturnType) {
         useDefault: false
     };
 }
-const $d1a0eb9e2dbe8803$var$customCTAHistoryCache = new WeakMap();
-function $d1a0eb9e2dbe8803$var$getCustomCTAHistoryCache(actions) {
+const $f0f97a638af05ef2$var$customCTAHistoryCache = new WeakMap();
+function $f0f97a638af05ef2$var$getCustomCTAHistoryCache(actions) {
     if (!actions) return;
-    if ($d1a0eb9e2dbe8803$var$customCTAHistoryCache.has(actions)) return $d1a0eb9e2dbe8803$var$customCTAHistoryCache.get(actions);
+    if ($f0f97a638af05ef2$var$customCTAHistoryCache.has(actions)) return $f0f97a638af05ef2$var$customCTAHistoryCache.get(actions);
     const customCTAHistoryActions = {
-        replaceAction: (0, $39ac042edb60bbed$exports.createReplaceActionType)(actions),
-        replaceInitialAction: (0, $39ac042edb60bbed$exports.createReplaceInitialActionType)(actions),
-        resetAction: (0, $39ac042edb60bbed$exports.createResetActionType)(actions),
-        updateAction: (0, $39ac042edb60bbed$exports.createUpdateActionType)(actions),
-        updateInitialAction: (0, $39ac042edb60bbed$exports.createUpdateInitialActionType)(actions)
+        replaceAction: (0, $289ef3ec91325d9e$export$5af3483b9b67ce66)(actions),
+        replaceInitialAction: (0, $289ef3ec91325d9e$export$3ff81d2d0cf2ee3)(actions),
+        resetAction: (0, $289ef3ec91325d9e$export$4bebcb0ea4f6657e)(actions),
+        updateAction: (0, $289ef3ec91325d9e$export$aa336a942b9a3093)(actions),
+        updateInitialAction: (0, $289ef3ec91325d9e$export$8b901517d6e09295)(actions)
     };
-    $d1a0eb9e2dbe8803$var$customCTAHistoryCache.set(actions, customCTAHistoryActions);
+    $f0f97a638af05ef2$var$customCTAHistoryCache.set(actions, customCTAHistoryActions);
     return customCTAHistoryActions;
 }
-const $d1a0eb9e2dbe8803$var$_args = [];
-function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
-    const { args: args = $d1a0eb9e2dbe8803$var$_args, type: ctaType, payload: payload } = params.nextCTAProps;
-    const { ctaReducerState: ctaReducerState, actions: actions, compare: compare } = params;
+const $f0f97a638af05ef2$var$_args = [];
+function $f0f97a638af05ef2$var$_noop() {}
+function $f0f97a638af05ef2$export$2e2bcd8739ae039(params) {
+    const { args: args = $f0f97a638af05ef2$var$_args, type: action, payload: payload } = params.nextCTAProps;
+    const { ctaReducerState: ctaReducerState, actions: actions, compare: compare, afterActionChange: afterActionChange = $f0f97a638af05ef2$var$_noop } = params;
     const { current: current, initial: initial } = ctaReducerState;
     const ctaState = {
         changes: ctaReducerState.changes,
@@ -209,61 +218,70 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
         previousInitial: ctaReducerState.previousInitial
     };
     const isActionsObject = actions && typeof actions == 'object' && !Array.isArray(actions);
-    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst && (!isActionsObject || !(ctaType in actions))) {
-        if (payload instanceof Function) return $d1a0eb9e2dbe8803$var$typeResult({
+    if (action in $f0f97a638af05ef2$var$predefinedActionsConst && (!isActionsObject || !(action in actions))) {
+        if (payload instanceof Function) return $f0f97a638af05ef2$var$typeResult({
+            afterActionChange: afterActionChange,
+            compare: compare,
             ctaReducerState: ctaReducerState,
             next: payload(ctaState),
-            type: ctaType,
-            compare: compare
+            type: action
         });
-        if (ctaType === 'reset' && typeof payload === 'undefined') return $d1a0eb9e2dbe8803$var$typeResult({
+        if (action === 'reset' && typeof payload === 'undefined') return $f0f97a638af05ef2$var$typeResult({
+            afterActionChange: afterActionChange,
+            compare: compare,
             ctaReducerState: ctaReducerState,
             next: initial,
-            type: 'reset',
-            compare: compare
+            type: 'reset'
         });
-        return $d1a0eb9e2dbe8803$var$typeResult({
+        return $f0f97a638af05ef2$var$typeResult({
+            afterActionChange: afterActionChange,
+            compare: compare,
             ctaReducerState: ctaReducerState,
             next: payload,
-            type: ctaType,
-            compare: compare
+            type: action
         });
     }
-    const cta = isActionsObject && actions[ctaType];
+    const cta = isActionsObject && actions[action];
     if (typeof cta !== 'function') return ctaReducerState;
     let nextPayload = payload;
-    if (ctaType in $d1a0eb9e2dbe8803$var$predefinedActionsConst) {
+    if (action in $f0f97a638af05ef2$var$predefinedActionsConst) {
         if (payload instanceof Function) {
             const nextCTAPayloadResult = payload(ctaState);
             if (typeof nextCTAPayloadResult === 'undefined') return ctaReducerState;
             nextPayload = nextCTAPayloadResult;
         }
         const next = cta(ctaState, nextPayload, ...args);
-        return $d1a0eb9e2dbe8803$var$typeResult({
+        return $f0f97a638af05ef2$var$typeResult({
+            afterActionChange: afterActionChange,
+            compare: compare,
             ctaReducerState: ctaReducerState,
             next: next,
-            type: ctaType,
-            compare: compare
+            type: action
         });
     }
-    const nextState = cta(Object.assign(ctaState, $d1a0eb9e2dbe8803$var$getCustomCTAHistoryCache(actions)), nextPayload, ...args);
-    const actionType = $d1a0eb9e2dbe8803$var$getActionType(nextState);
+    const nextState = cta(Object.assign(ctaState, $f0f97a638af05ef2$var$getCustomCTAHistoryCache(actions)), nextPayload, ...args);
+    const actionType = $f0f97a638af05ef2$var$getActionType(nextState);
     if (!actionType) return ctaReducerState;
     const { type: type, next: next } = actionType;
     const customPredefinedCTA = isActionsObject && actions[type];
-    if (actionType.useDefault || typeof customPredefinedCTA !== 'function') return $d1a0eb9e2dbe8803$var$typeResult({
+    if (actionType.useDefault || typeof customPredefinedCTA !== 'function') return $f0f97a638af05ef2$var$typeResult({
+        action: action,
+        afterActionChange: afterActionChange,
+        compare: compare,
         ctaReducerState: ctaReducerState,
         next: next,
-        type: type,
-        compare: compare
+        type: type
     });
-    return $d1a0eb9e2dbe8803$var$typeResult({
+    return $f0f97a638af05ef2$var$typeResult({
+        action: action,
+        afterActionChange: afterActionChange,
+        compare: compare,
         ctaReducerState: ctaReducerState,
         next: customPredefinedCTA(ctaState, next),
-        type: type,
-        compare: compare
+        type: type
     });
 }
 
 
-//# sourceMappingURL=ctaReducer.3be44398.js.map
+export {$f0f97a638af05ef2$export$2e2bcd8739ae039 as default};
+//# sourceMappingURL=ctaReducer.3750fe69.js.map

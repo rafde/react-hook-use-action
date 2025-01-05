@@ -1,4 +1,4 @@
-import {useCTA as $5faadda8f7072751$export$68a5bb76170d2250} from "./useCTA.c7c83220.js";
+import {useCTA as $5faadda8f7072751$export$68a5bb76170d2250} from "./useCTA.1671ac91.js";
 import {createContext as $dFrC2$createContext, createElement as $dFrC2$createElement, useContext as $dFrC2$useContext} from "react";
 
 
@@ -13,21 +13,19 @@ function $0520831b50975271$export$a85baad6d8324b85(contextParams) {
     });
     const CTAContextDispatch = (0, $dFrC2$createContext)(null);
     return {
-        CTAProvider (props) {
-            const { initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare } = props;
+        CTAProvider ({ initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare, afterActionChange: afterActionChange = contextParams.afterActionChange, children: children }) {
             const [value, dispatch] = (0, $5faadda8f7072751$export$68a5bb76170d2250)({
                 initial: initial,
                 onInit: onInit,
                 actions: contextParams.actions,
-                compare: compare
+                compare: compare,
+                afterActionChange: afterActionChange
             });
             return (0, $dFrC2$createElement)(CTAContextHistory.Provider, {
-                value: value,
-                children: (0, $dFrC2$createElement)(CTAContextDispatch.Provider, {
-                    value: dispatch,
-                    children: props.children
-                })
-            });
+                value: value
+            }, (0, $dFrC2$createElement)(CTAContextDispatch.Provider, {
+                value: dispatch
+            }, children));
         },
         useCTAHistoryContext () {
             return (0, $dFrC2$useContext)(CTAContextHistory);
@@ -45,4 +43,4 @@ function $0520831b50975271$export$a85baad6d8324b85(contextParams) {
 
 
 export {$0520831b50975271$export$a85baad6d8324b85 as createCTAContext};
-//# sourceMappingURL=createCTAContext.10bac040.js.map
+//# sourceMappingURL=createCTAContext.994dade3.js.map
