@@ -12,7 +12,7 @@ class CompareTest {
 	}
 }
 
-describe( 'useCTA compare parameter', () => {
+describe( 'useCTA parameter: compare', () => {
 	const initial = {
 		test1: new CompareTest( 'test', ),
 		test2: 2,
