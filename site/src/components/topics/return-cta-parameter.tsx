@@ -23,7 +23,7 @@ export const ctaParams = returnCTAParameter({
 				`}
 			</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					A
 					{' '}
 					<Code>function</Code>
@@ -35,8 +35,8 @@ export const ctaParams = returnCTAParameter({
 					</Anchor>
 					{' '}
 					parameter.
-				</p>
-				<p>
+				</div>
+				<div>
 					Useful if you want to create the parameter outside of
 					{' '}
 					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
@@ -52,7 +52,7 @@ export const ctaParams = returnCTAParameter({
 					</Anchor>
 					{' '}
 					for type safety.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 	</>;

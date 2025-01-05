@@ -46,7 +46,7 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 				`}
 			</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					A
 					{' '}
 					<Code>function</Code>
@@ -70,7 +70,7 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 					</Anchor>
 					{' '}
 					in a components in the tree.
-				</p>
+				</div>
 				<p>
 					This handles the boilerplate of creating a React Context and Provider.
 				</p>
@@ -85,12 +85,12 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 		</Sect>
 		<Sect {...createCTAContextParametersConfig}>
 			<Content>
-				<p>
+				<div>
 					Shares all the same parameters as
 					{' '}
 					<Code>useCTA</Code>
 					:
-				</p>
+				</div>
 				<ul className="list-inside list-[square]">
 					<li>
 						<Anchor href={useCTAParameterInitialConfig.href} aria-label={useCTAParameterInitialConfig.title}>
@@ -130,13 +130,13 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 				{props.sourceCodeRecord[ 'types/CreateCTAContextReturn.ts' ]}
 			</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					Returns an
 					{' '}
 					<Code>object</Code>
 					{' '}
 					with the following properties:
-				</p>
+				</div>
 				<ul className="list-inside list-[square]">
 					<li>
 						<Code>CTAProvider</Code>

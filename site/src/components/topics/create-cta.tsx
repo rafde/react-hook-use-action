@@ -40,7 +40,7 @@ export dispatch = ctaValue[1];
 				`}
 			</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					A
 					{' '}
 					<Code>function</Code>
@@ -52,7 +52,7 @@ export dispatch = ctaValue[1];
 					</Anchor>
 					{' '}
 					but outside of a React component.
-				</p>
+				</div>
 				<p>
 					Useful if you want to handle
 					{' '}
@@ -75,7 +75,7 @@ export dispatch = ctaValue[1];
 		</Sect>
 		<Sect {...createCTAParametersConfig}>
 			<Content>
-				<p>
+				<div>
 					With the
 					{' '}
 					<b>exception</b>
@@ -84,7 +84,7 @@ export dispatch = ctaValue[1];
 					{' '}
 					<Code>useCTA</Code>
 					:
-				</p>
+				</div>
 				<ul className="list-inside list-[square]">
 					<li>
 						<Anchor href={useCTAParameterInitialConfig.href} aria-label={useCTAParameterInitialConfig.title}>
@@ -119,12 +119,12 @@ export dispatch = ctaValue[1];
 		</Sect>
 		<Sect {...createCTAReturnValuesConfig}>
 			<Content>
-				<p>
+				<div>
 					Returns the same values as
 					{' '}
 					<Code>useCTA</Code>
 					:
-				</p>
+				</div>
 				<ol className="list-inside list-decimal">
 					<li>
 						<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label="Link to history">
@@ -135,7 +135,7 @@ export dispatch = ctaValue[1];
 					</li>
 					<li><Code>dispatch</Code></li>
 				</ol>
-				<p>
+				<div>
 					{' '}
 					<Code>dispatch</Code>
 					{' '}
@@ -149,7 +149,7 @@ export dispatch = ctaValue[1];
 					<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
 					{' '}
 					as well.
-				</p>
+				</div>
 			</Content>
 			<CodeBlock>
 				{`

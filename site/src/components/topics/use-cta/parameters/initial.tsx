@@ -10,13 +10,13 @@ export default function UseCTAParameterInitialTopic( props: SourceCodeRecordProp
 	return <Sect {...useCTAParameterInitialConfig}>
 		<Content>
 			<b>Required</b>
-			<p>
+			<div>
 				Representing the
 				{' '}
 				<Code>initial</Code>
 				{' '}
 				state structure. This serves as the base state and can be reset to later.
-			</p>
+			</div>
 			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ].trim()}</CodeBlock>
 			<p>
 				Property values can be anything that

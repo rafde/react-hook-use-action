@@ -29,13 +29,13 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 		<Sect {...useCTAParameterActionsCustomConfig}>
 			<Content>
 				<i>Optional</i>
-				<p>
+				<div>
 					Calls from
 					{' '}
 					<Anchor aria-label="Link to dispatch.cta.YourCustomAction" href={useCTAReturnValues1DispatchCTACustomActionConfig.href}>
 						<Code>dispatch.cta.YourCustomAction</Code>
 					</Anchor>
-				</p>
+				</div>
 			</Content>
 			<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}</CodeBlock>
 			<Content>
@@ -77,7 +77,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 		<Sect {...useCTAParameterActionsParameterCustomCTAHistoryConfig}>
 			<CodeBlock>{props.sourceCodeRecord[ 'types/CustomCTAHistory.ts' ]}</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					The first parameter of the function is read-only
 					{' '}
 					<Code>CustomCTAHistory</Code>
@@ -87,11 +87,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<Code>CTAHistory</Code>
 					{' '}
 					<PopoverCTAHistory {...props} />
-				</p>
+				</div>
 				<p>
 					and gives you access to all the built-in action behaviors.
 				</p>
-				<p>
+				<div>
 					By default, custom actions behave as an
 					{' '}
 					<Code>update</Code>
@@ -100,14 +100,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					{' '}
 					<Code>CustomCTAHistory</Code>
 					.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAParameterActionsParameterCustomParametersArgsConfig}>
 			<Content>
 				<b>Optional</b>
-				<p>
+				<div>
 					Custom actions can have any number of
 					{' '}
 					<Code>args</Code>
@@ -117,14 +117,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<Code>CustomCTAHistory</Code>
 					{' '}
 					parameter.
-				</p>
-				<p>
+				</div>
+				<div>
 					These
 					{' '}
 					<Code>args</Code>
 					{' '}
 					can be of any type you can specify to ensure type safety,
-				</p>
+				</div>
 				<p>
 					and they will be passed to the action function when it is called.
 				</p>
@@ -158,20 +158,20 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
    { useDefault?: boolean } | undefined, 
  )`}
 							</Code>
-							<div>
-								<p>
+							<section>
+								<div>
 									: Behaves like an
 									{' '}
 									<Code>update</Code>
 									{' '}
 									action.
-								</p>
-								<p>
+								</div>
+								<div>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
 									will bypass the overridden update action behavior
-								</p>
-							</div>
+								</div>
+							</section>
 						</article>
 					</li>
 					<li>
@@ -182,20 +182,20 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
    { useDefault?: boolean } | undefined, 
  )`}
 							</Code>
-							<div>
-								<p>
+							<section>
+								<div>
 									: Behaves like an
 									{' '}
 									<Code>replace</Code>
 									{' '}
 									action.
-								</p>
-								<p>
+								</div>
+								<div>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
 									will bypass the overridden replace action behavior
-								</p>
-							</div>
+								</div>
+							</section>
 						</article>
 					</li>
 					<li>
@@ -206,20 +206,20 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
    { useDefault?: boolean } | undefined, 
  )`}
 							</Code>
-							<div>
-								<p>
+							<section>
+								<div>
 									: Behaves like an
 									{' '}
 									<Code>reset</Code>
 									{' '}
 									action.
-								</p>
-								<p>
+								</div>
+								<div>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
 									will bypass the overridden reset action behavior
-								</p>
-							</div>
+								</div>
+							</section>
 						</article>
 					</li>
 					<li>
@@ -230,20 +230,20 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
    { useDefault?: boolean } | undefined,
  )`}
 							</Code>
-							<div>
-								<p>
+							<section>
+								<div>
 									: Behaves like an
 									{' '}
 									<Code>updateInitial</Code>
 									{' '}
 									action.
-								</p>
-								<p>
+								</div>
+								<div>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
 									will bypass the overridden updateInitial action behavior
-								</p>
-							</div>
+								</div>
+							</section>
 						</article>
 					</li>
 					<li>
@@ -254,24 +254,24 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
    { useDefault?: boolean } | undefined,
  )`}
 							</Code>
-							<div>
-								<p>
+							<section>
+								<div>
 									: Behaves like an
 									{' '}
 									<Code>replaceInitial</Code>
 									{' '}
 									action.
-								</p>
-								<p>
+								</div>
+								<div>
 									<Code>{'{ useDefault: true }'}</Code>
 									{' '}
 									will bypass the overridden replaceInitial action behavior
-								</p>
-							</div>
+								</div>
+							</section>
 						</article>
 					</li>
 				</ul>
-				<p>
+				<div>
 					<b>Note</b>
 					: If you have
 					{' '}
@@ -282,14 +282,14 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<PopoverUseCTAParameterActionsOverridableRecord {...props} />
 					{' '}
 					actions, the custom action will use the overridden action.
-				</p>
-				<p>
+				</div>
+				<div>
 					Sending
 					{' '}
 					<Code>{'{ useDefault: true }'}</Code>
 					{' '}
 					will bypass the overridden action and behave using default action.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 	</>;

@@ -33,7 +33,7 @@ export function UseCTAReturnValuesDispatchCTATopic( props: SourceCodeRecordProps
 	return <>
 		<Sect {...useCTAReturnValues1DispatchCTAUpdateConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls
 					{' '}
 					<Anchor
@@ -42,7 +42,7 @@ export function UseCTAReturnValuesDispatchCTATopic( props: SourceCodeRecordProps
 						<Code>actions.update</Code>
 					</Anchor>
 					<PopoverUseCTAParameterActionsPropUpdate {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -76,7 +76,7 @@ dispatch( {
 
 		<Sect {...useCTAReturnValues1DispatchCTAReplaceConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls
 					{' '}
 					<Anchor
@@ -85,7 +85,7 @@ dispatch( {
 						<Code>actions.replace</Code>
 					</Anchor>
 					<PopoverUseCTAParameterActionsPropReplace {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -117,7 +117,7 @@ dispatch( {
 
 		<Sect {...useCTAReturnValues1DispatchCTAResetConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls
 					{' '}
 					<Anchor
@@ -126,7 +126,7 @@ dispatch( {
 						<Code>actions.reset</Code>
 					</Anchor>
 					<PopoverUseCTAParameterActionsPropReset {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -172,7 +172,7 @@ dispatch( {
 
 		<Sect {...useCTAReturnValues1DispatchCTAUpdateInitialConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls
 					{' '}
 					<Anchor
@@ -181,7 +181,7 @@ dispatch( {
 						<Code>actions.updateInitial</Code>
 					</Anchor>
 					<PopoverUseCTAParameterActionsPropUpdateInitial {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -214,7 +214,7 @@ dispatch( {
 
 		<Sect {...useCTAReturnValues1DispatchCTAReplaceInitialConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls
 					{' '}
 					<Anchor
@@ -223,7 +223,7 @@ dispatch( {
 						<Code>actions.replaceInitial</Code>
 					</Anchor>
 					<PopoverUseCTAParameterActionsPropReplaceInitial {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -255,7 +255,7 @@ dispatch( {
 
 		<Sect {...useCTAReturnValues1DispatchCTACustomActionConfig}>
 			<Content>
-				<p>
+				<div>
 					Calls to
 					{' '}
 					<Anchor
@@ -266,7 +266,7 @@ dispatch( {
 						<Code>actions</Code>
 					</Anchor>
 					<PopoverCustomActionsRecord {...props} />
-				</p>
+				</div>
 			</Content>
 			<CodeBlock lang="ts">
 				{`
@@ -298,7 +298,7 @@ dispatch( {
 					</CodeBlock>
 				</details>
 
-				<p>
+				<div>
 					<Code>YourCustomAction</Code>
 					{' '}
 					is a placeholder for the name of a custom action you defined in
@@ -310,7 +310,7 @@ dispatch( {
 					>
 						{useCTAParameterActionsCustomConfig.desc}
 					</a>
-				</p>
+				</div>
 			</Content>
 		</Sect>
 	</>;

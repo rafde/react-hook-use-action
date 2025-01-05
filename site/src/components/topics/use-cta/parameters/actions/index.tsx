@@ -16,11 +16,11 @@ export default function UseCTAParameterActionsTopic( props: SourceCodeRecordProp
 	return <>
 		<Sect {...useCTAParameterActionsConfig}>
 			<Content>
-				<p>
+				<div>
 					<i>Optional</i>
 					{' '}
 					<Code>object</Code>
-				</p>
+				</div>
 				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterActionsRecordProp.ts' ]}</CodeBlock>
 				<p>
 					{' '}

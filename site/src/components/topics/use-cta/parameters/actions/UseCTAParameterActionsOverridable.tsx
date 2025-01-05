@@ -84,7 +84,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>current</Code>
 						{' '}
 						state object before it was last updated.
-						<p>
+						<div>
 							Starts of as
 							{' '}
 							<Code>null</Code>
@@ -94,7 +94,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 							<Code>current</Code>
 							{' '}
 							state is updated.
-						</p>
+						</div>
 					</li>
 
 					<li>
@@ -109,7 +109,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>initial</Code>
 						{' '}
 						state.
-						<p>
+						<div>
 							Is
 							{' '}
 							<Code>null</Code>
@@ -123,7 +123,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 							<Code>current</Code>
 							{' '}
 							state.
-						</p>
+						</div>
 						<p>
 							Useful for tracking changes to state properties and to send only the changes to an API.
 						</p>
@@ -142,7 +142,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>initial</Code>
 						{' '}
 						state object before it was last updated.
-						<p>
+						<div>
 							Starts of as
 							{' '}
 							<Code>null</Code>
@@ -152,7 +152,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 							<Code>initial</Code>
 							{' '}
 							state is updated.
-						</p>
+						</div>
 					</li>
 
 				</ul>
@@ -161,16 +161,16 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 
 		<Sect {...useCTAParameterActionsOverridableParameterActionsUpdateConfig}>
 			<Content>
-				<p><i>Optional</i></p>
-				<p>
+				<i>Optional</i>
+				<div>
 					Called by
 					{' '}
 					<Anchor aria-label="Link to dispatch.cta.update" href={useCTAReturnValues1DispatchCTAUpdateConfig.href}>
 						<Code>dispatch.cta.update</Code>
 					</Anchor>
-				</p>
+				</div>
 				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropUpdate}</CodeBlock>
-				<p>
+				<div>
 					<Code>payload</Code>
 					{' '}
 					updates specific
@@ -178,7 +178,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					<Code>CTAHistory.current</Code>
 					{' '}
 					state properties while preserving other values.
-				</p>
+				</div>
 				<p>
 					Overriding lets you return:
 				</p>
@@ -207,7 +207,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					</Anchor>
 				</p>
 				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReplace}</CodeBlock>
-				<p>
+				<div>
 					<Code>payload</Code>
 					{' '}
 					replaces all
@@ -215,7 +215,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					<Code>CTAHistory.current</Code>
 					{' '}
 					property values with new property values.
-				</p>
+				</div>
 				<p>
 					Overriding lets you return:
 				</p>
@@ -236,21 +236,21 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 		<Sect {...useCTAParameterActionsOverridableParameterActionsResetConfig}>
 			<Content>
 				<p><i>Optional</i></p>
-				<p>
+				<div>
 					Called by
 					{' '}
 					<Anchor aria-label="Link to dispatch.cta.reset" href={useCTAReturnValues1DispatchCTAResetConfig.href}>
 						<Code>dispatch.cta.reset</Code>
 					</Anchor>
-				</p>
+				</div>
 				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReset}</CodeBlock>
-				<p>
+				<div>
 					Reset can do the following based on what
 					{' '}
 					<Code>payload</Code>
 					{' '}
 					it receives.
-				</p>
+				</div>
 				<ul className="list-inside list-[square]">
 					<li>
 						<Code>undefined</Code>
@@ -312,7 +312,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					</Anchor>
 				</p>
 				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropUpdateInitial}</CodeBlock>
-				<p>
+				<div>
 					<Code>payload</Code>
 					{' '}
 					updates specific
@@ -320,7 +320,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					<Code>CTAHistory.initial</Code>
 					{' '}
 					state properties while preserving other values.
-				</p>
+				</div>
 				<p>
 					Overriding lets you return:
 				</p>
@@ -341,7 +341,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 		<Sect {...useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig}>
 			<Content>
 				<p><i>Optional</i></p>
-				<p>
+				<div>
 					Called by
 					{' '}
 					<Anchor
@@ -349,9 +349,9 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						href={useCTAReturnValues1DispatchCTAReplaceInitialConfig.href}>
 						<Code>dispatch.cta.replaceInitial</Code>
 					</Anchor>
-				</p>
+				</div>
 				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReplaceInitial}</CodeBlock>
-				<p>
+				<div>
 					<Code>payload</Code>
 					{' '}
 					replaces all
@@ -359,7 +359,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 					<Code>CTAHistory.initial</Code>
 					{' '}
 					property values with new property values.
-				</p>
+				</div>
 				<p>
 					Overriding lets you return:
 				</p>

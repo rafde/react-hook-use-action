@@ -22,7 +22,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 		<Sect {...useCTAReturnValuesConfig}>
 			<CodeBlock copyButton={false}>{props.sourceCodeRecord[ 'types/UseCTAReturnType.ts' ]}</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					<Code>useCTA</Code>
 					{' '}
 					returns a type-safe
@@ -31,22 +31,22 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					{' '}
 					with two elements for managing complex state operations
 					while maintaining access to state history and change tracking.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues0HistoryConfig}>
 			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAHistory.ts' ]}</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					If a call-to-action is successful, it will return a
 					{' '}
 					<Code>CTAHistory</Code>
 					{' '}
 					.
 					{' '}
-				</p>
-				<p>
+				</div>
+				<div>
 					If an action returns
 					{' '}
 					<Code>undefined</Code>
@@ -60,14 +60,14 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					<b>not</b>
 					{' '}
 					triggered.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchConfig}>
 			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAReturnTypeDispatch.ts' ]}</CodeBlock>
 			<Content>
-				<p>
+				<div>
 					Gives you access to the
 					{' '}
 					<Code>dispatch</Code>
@@ -81,13 +81,13 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					<PopoverCTAHistory {...props} />
 					{' '}
 					changes through actions.
-				</p>
-				<p>
+				</div>
+				<div>
 					Re-render will not occur if the state does not change or if the callback returns
 					{' '}
 					<Code>undefined</Code>
 					.
-				</p>
+				</div>
 				<p>
 					The following built-in actions are available:
 				</p>
@@ -98,7 +98,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 
 		<Sect {...useCTAReturnValuesDispatchHistoryConfig}>
 			<Content>
-				<p>
+				<div>
 					A read-only reference to the
 					{' '}
 					<a
@@ -111,7 +111,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
 					,
 					in case you need to read it from somewhere that doesn&apos;t need as a dependency.
-				</p>
+				</div>
 			</Content>
 		</Sect>
 	</>;

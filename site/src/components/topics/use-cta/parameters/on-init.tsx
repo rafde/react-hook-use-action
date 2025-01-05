@@ -23,7 +23,7 @@ export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps
 					callback:
 				</p>
 				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterOnInit.ts' ]}</CodeBlock>
-				<p>
+				<div>
 					where
 					{' '}
 					<Code>Initial</Code>
@@ -36,7 +36,7 @@ export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps
 					{' '}
 					<PopoverCTAState {...props} />
 					state structure.
-				</p>
+				</div>
 				<p>Has the following key features:</p>
 				<ul className="list-inside list-[square]">
 					<li>Runs once on component mount</li>
