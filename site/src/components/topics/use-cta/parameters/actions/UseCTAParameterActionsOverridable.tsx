@@ -1,4 +1,5 @@
 import { SourceCodeRecordProps, } from '../../../../../types/source-code-record-props';
+import { useCTAParameterTransformConfig, } from '../../../../nav-sidebar/config/use-cta-config';
 
 import {
 	useCTAParameterActionsOverridableConfig,
@@ -29,6 +30,8 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 		<Sect {...useCTAParameterActionsOverridableConfig}>
 			<Content>
 				<i>Optional</i>
+				<p>Alternative to overriding built-in actions.</p>
+				<Anchor aria-label="Link to useCTA Parameter transform" href={useCTAParameterTransformConfig.href}>{useCTAParameterTransformConfig.desc}</Anchor>
 			</Content>
 			<CodeBlock copyButton={false}>{props.sourceCodeRecord.UseCTAParameterActionsOverridable}</CodeBlock>
 			<Content>

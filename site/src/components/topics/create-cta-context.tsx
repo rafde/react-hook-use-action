@@ -39,7 +39,7 @@ const context = createCTAContext({
 export const Provider = context.Provider;
 export const useCTAHistoryContext = context.useCTAHistoryContext;
 export const useCTADispatchContext = context.useCTADispatchContext;
-				`}
+				`.trim()}
 			</CodeBlock>
 			<Content>
 				<div>

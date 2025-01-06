@@ -51,7 +51,7 @@ dispatch.cta.update( keyof CTAState, CTAState[keyof CTAState] );
 dispatch.cta.update( Partial<CTAState> );
 
 dispatch.cta.update( ( ctaHistory: CTAHistory<CTAState> ) => Partial<CTAState> | undefined );
-		`}
+		`.trim()}
 			</CodeBlock>
 			<Content>
 				<details>
@@ -68,7 +68,7 @@ dispatch( {
 	type: 'update',
 	payload: ( ctaHistory: CTAHistory<CTAState> ) => Partial<CTAState> | undefined
 } );
-				`}
+				`.trim()}
 					</CodeBlock>
 				</details>
 			</Content>
@@ -92,7 +92,7 @@ dispatch( {
 dispatch.cta.replace( CTAState );
 
 dispatch.cta.replace( ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined );
-		`}
+		`.trim()}
 			</CodeBlock>
 			<Content>
 				<details>
@@ -109,7 +109,7 @@ dispatch( {
 	type: 'replace',
 	payload: ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined
 } );
-				`}
+				`.trim()}
 					</CodeBlock>
 				</details>
 			</Content>
@@ -139,7 +139,7 @@ dispatch.cta.reset( CTAState );
 // sets the current state and initial state to what is returned from the callback
 // if the callback returns undefined, the state will not change
 dispatch.cta.reset( ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined );
-		`}
+		`.trim()}
 			</CodeBlock>
 			<Content>
 				<details>
@@ -163,8 +163,7 @@ dispatch( {
 dispatch( {
 	type: 'reset',
 	payload: ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined
-} );
-				`}
+} );`.trim()}
 					</CodeBlock>
 				</details>
 			</Content>
@@ -188,7 +187,7 @@ dispatch( {
 dispatch.cta.updateInitial( Partial<CTAState> );
 
 dispatch.cta.updateInitial( ( ctaHistory: CTAHistory<CTAState> ) => Partial<CTAState> | undefined );
-		`}
+		`.trim()}
 			</CodeBlock>
 			<Content>
 
@@ -206,7 +205,7 @@ dispatch( {
 	type: 'updateInitial',
 	payload: ( ctaHistory: CTAHistory<CTAState> ) => Partial<CTAState> | undefined
 } );
-				`}
+				`.trim()}
 					</CodeBlock>
 				</details>
 			</Content>
@@ -230,7 +229,7 @@ dispatch( {
 dispatch.cta.replaceInitial( CTAState );
 
 dispatch.cta.replaceInitial( ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined );
-				`}
+				`.trim()}
 			</CodeBlock>
 			<Content>
 				<details>
@@ -247,7 +246,7 @@ dispatch( {
 	type: 'replaceInitial',
 	payload: ( ctaHistory: CTAHistory<CTAState> ) => CTAState | undefined
 } );
-						`}
+						`.trim()}
 					</CodeBlock>
 				</details>
 			</Content>
@@ -276,7 +275,7 @@ dispatch.cta.YourCustomActionWithArgs(
 	Payload,
 	...any[] | undefined
  );
-	`}
+	`.trim()}
 			</CodeBlock>
 
 			<Content>
@@ -294,7 +293,7 @@ dispatch( {
 	payload: Payload,
 	args: any[] | undefined,
 } );
-				`}
+				`.trim()}
 					</CodeBlock>
 				</details>
 

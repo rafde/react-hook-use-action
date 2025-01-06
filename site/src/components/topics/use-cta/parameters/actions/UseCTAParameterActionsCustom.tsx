@@ -64,8 +64,8 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					Click to view
 					{' '}
 					<Code>useCTA</Code>
-					{' '}
-					<Code>custom actions</Code>
+					{' custom '}
+					<Code>actions</Code>
 					{' '}
 					example
 				</>}
@@ -153,7 +153,7 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>
 						<article className={actionsClassName}>
 							<Code>
-								{` CustomCTAHistory.updateAction(
+								{`CustomCTAHistory.updateAction(
    Partial<CTAState>, 
    { useDefault?: boolean } | undefined, 
  )`}
@@ -177,10 +177,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>
 						<article className={actionsClassName}>
 							<Code>
-								{` CustomCTAHistory.replaceAction(
+								{`
+CustomCTAHistory.replaceAction(
    CTAState, 
    { useDefault?: boolean } | undefined, 
- )`}
+ )`.trim()}
 							</Code>
 							<section>
 								<div>
@@ -201,10 +202,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>
 						<article className={actionsClassName}>
 							<Code>
-								{` CustomCTAHistory.resetAction(
+								{`
+CustomCTAHistory.resetAction(
    CTAState | undefined, 
    { useDefault?: boolean } | undefined, 
- )`}
+ )`.trim()}
 							</Code>
 							<section>
 								<div>
@@ -225,10 +227,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>
 						<article className={actionsClassName}>
 							<Code>
-								{` CustomCTAHistory.updateInitialAction(
+								{`
+CustomCTAHistory.updateInitialAction(
    Partial<CTAState> | undefined,
    { useDefault?: boolean } | undefined,
- )`}
+ )`.trim()}
 							</Code>
 							<section>
 								<div>
@@ -249,10 +252,12 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>
 						<article className={actionsClassName}>
 							<Code>
-								{` CustomCTAHistory.replaceInitialAction(
+								{
+									`CustomCTAHistory.replaceInitialAction(
    CTAState | undefined,
    { useDefault?: boolean } | undefined,
- )`}
+ )`.trim()
+								}
 							</Code>
 							<section>
 								<div>

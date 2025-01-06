@@ -36,7 +36,7 @@ const ctaValue = createCTA({
 
 export history = ctaValue[0];
 export dispatch = ctaValue[1];
-				`}
+				`.trim()}
 			</CodeBlock>
 			<Content>
 				<div>
