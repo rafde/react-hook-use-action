@@ -1,5 +1,5 @@
 var $56455aab2d865ec7$exports = require("./compareCallback.3bdf13a2.js");
-var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.dcb4fdcd.js");
+var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.0be33229.js");
 var $k1nAk$react = require("react");
 
 
@@ -40,10 +40,11 @@ function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
     []);
     const reducerCallback = (0, $k1nAk$react.useCallback)((ctaReducerState, nextCTAProps)=>(0, $d1a0eb9e2dbe8803$exports.default)({
             actions: actions,
+            afterActionChange: params.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             nextCTAProps: nextCTAProps,
-            afterActionChange: params.afterActionChange
+            transform: params.transform
         }), // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
     const onInit = (0, $k1nAk$react.useCallback)((privateCTAState)=>$062383fffa733698$var$_init(privateCTAState, params.onInit), // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,4 +53,4 @@ function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
 }
 
 
-//# sourceMappingURL=usePrivateCTA.3985132e.js.map
+//# sourceMappingURL=usePrivateCTA.550540e9.js.map

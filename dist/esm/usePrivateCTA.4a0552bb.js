@@ -1,5 +1,5 @@
 import {compareCallback as $ae55f4861d2c7e56$export$29227ec4dc2b4d64} from "./compareCallback.6be7201d.js";
-import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.3750fe69.js";
+import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.8e0078fa.js";
 import {useMemo as $9y7Gj$useMemo, useCallback as $9y7Gj$useCallback, useReducer as $9y7Gj$useReducer} from "react";
 
 
@@ -34,10 +34,11 @@ function $2c88330f69c778dc$export$2e2bcd8739ae039(params, actions) {
     []);
     const reducerCallback = (0, $9y7Gj$useCallback)((ctaReducerState, nextCTAProps)=>(0, $f0f97a638af05ef2$export$2e2bcd8739ae039)({
             actions: actions,
+            afterActionChange: params.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             nextCTAProps: nextCTAProps,
-            afterActionChange: params.afterActionChange
+            transform: params.transform
         }), // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
     const onInit = (0, $9y7Gj$useCallback)((privateCTAState)=>$2c88330f69c778dc$var$_init(privateCTAState, params.onInit), // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,4 +48,4 @@ function $2c88330f69c778dc$export$2e2bcd8739ae039(params, actions) {
 
 
 export {$2c88330f69c778dc$export$2e2bcd8739ae039 as default};
-//# sourceMappingURL=usePrivateCTA.42245cc6.js.map
+//# sourceMappingURL=usePrivateCTA.4a0552bb.js.map

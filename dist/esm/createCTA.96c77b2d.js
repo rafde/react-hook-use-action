@@ -1,6 +1,6 @@
 import {compareCallback as $ae55f4861d2c7e56$export$29227ec4dc2b4d64} from "./compareCallback.6be7201d.js";
 import {createDispatchInterface as $ddb1abc523767a90$export$af9ac7063a513c32} from "./createDispatchInterface.df358646.js";
-import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.3750fe69.js";
+import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.8e0078fa.js";
 
 
 
@@ -25,9 +25,11 @@ function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
     const ctaCallback = (0, $ddb1abc523767a90$export$af9ac7063a513c32)(function _ctaCallback(nextCTAProps) {
         const newCtaReducerState = (0, $f0f97a638af05ef2$export$2e2bcd8739ae039)({
             actions: actions,
+            afterActionChange: ctaParameter.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
-            nextCTAProps: nextCTAProps
+            nextCTAProps: nextCTAProps,
+            transform: ctaParameter.transform
         });
         if (newCtaReducerState !== ctaReducerState) {
             ctaReducerState = newCtaReducerState;
@@ -51,4 +53,4 @@ function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
 
 
 export {$777e399f220f5c9c$export$e7a3b152d8f3410e as createCTA};
-//# sourceMappingURL=createCTA.ff17d4f3.js.map
+//# sourceMappingURL=createCTA.96c77b2d.js.map

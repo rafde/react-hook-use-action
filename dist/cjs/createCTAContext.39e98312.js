@@ -1,4 +1,4 @@
-var $d6e548939060e3ae$exports = require("./useCTA.13c5d356.js");
+var $d6e548939060e3ae$exports = require("./useCTA.e23d9e9c.js");
 var $9znZ4$react = require("react");
 
 
@@ -19,22 +19,20 @@ function $1045ff876afe552c$export$a85baad6d8324b85(contextParams) {
     });
     const CTAContextDispatch = (0, $9znZ4$react.createContext)(null);
     return {
-        CTAProvider ({ initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare, afterActionChange: afterActionChange = contextParams.afterActionChange, children: children }) {
+        CTAProvider ({ initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare, afterActionChange: afterActionChange = contextParams.afterActionChange, children: children, transform: transform = contextParams.transform }) {
             const [value, dispatch] = (0, $d6e548939060e3ae$exports.useCTA)({
+                actions: contextParams.actions,
+                afterActionChange: afterActionChange,
+                compare: compare,
                 initial: initial,
                 onInit: onInit,
-                actions: contextParams.actions,
-                compare: compare,
-                afterActionChange: afterActionChange
+                transform: transform
             });
             return (0, $9znZ4$react.createElement)(CTAContextHistory.Provider, {
                 value: value
             }, (0, $9znZ4$react.createElement)(CTAContextDispatch.Provider, {
                 value: dispatch
             }, children));
-        },
-        useCTAHistoryContext () {
-            return (0, $9znZ4$react.useContext)(CTAContextHistory);
         },
         useCTADispatchContext () {
             const ctaDispatchContext = (0, $9znZ4$react.useContext)(CTAContextDispatch);
@@ -43,9 +41,12 @@ function $1045ff876afe552c$export$a85baad6d8324b85(contextParams) {
                 return ctaDispatchContext;
             }
             return ctaDispatchContext;
+        },
+        useCTAHistoryContext () {
+            return (0, $9znZ4$react.useContext)(CTAContextHistory);
         }
     };
 }
 
 
-//# sourceMappingURL=createCTAContext.36fcb167.js.map
+//# sourceMappingURL=createCTAContext.39e98312.js.map

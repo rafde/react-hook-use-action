@@ -1,6 +1,6 @@
 var $56455aab2d865ec7$exports = require("./compareCallback.3bdf13a2.js");
 var $0b6f0bd6e9d4ab4e$exports = require("./createDispatchInterface.abafc50e.js");
-var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.dcb4fdcd.js");
+var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.0be33229.js");
 
 
 function $parcel$export(e, n, v, s) {
@@ -31,9 +31,11 @@ function $5560bc74725e3224$export$e7a3b152d8f3410e(ctaParameter) {
     const ctaCallback = (0, $0b6f0bd6e9d4ab4e$exports.createDispatchInterface)(function _ctaCallback(nextCTAProps) {
         const newCtaReducerState = (0, $d1a0eb9e2dbe8803$exports.default)({
             actions: actions,
+            afterActionChange: ctaParameter.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
-            nextCTAProps: nextCTAProps
+            nextCTAProps: nextCTAProps,
+            transform: ctaParameter.transform
         });
         if (newCtaReducerState !== ctaReducerState) {
             ctaReducerState = newCtaReducerState;
@@ -56,4 +58,4 @@ function $5560bc74725e3224$export$e7a3b152d8f3410e(ctaParameter) {
 }
 
 
-//# sourceMappingURL=createCTA.23e32206.js.map
+//# sourceMappingURL=createCTA.6b876f7c.js.map
