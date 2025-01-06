@@ -20,7 +20,7 @@ export const ctaParams = returnCTAParameter({
 		search: '',
 	},
 });
-				`}
+				`.trim()}
 			</CodeBlock>
 			<Content>
 				<div>

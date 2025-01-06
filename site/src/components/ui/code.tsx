@@ -13,28 +13,32 @@ type CodeProps = {
 	lang?: string
 } & Omit<SyntaxHighlighterProps, 'language' | 'PreTag' | 'CodeTag'>;
 
-function CodeTag( props: PropsWithChildren<{ className: string
-	style: CSSProperties }>, ) {
+function CodeTag( props: PropsWithChildren<{
+	className: string
+	style: CSSProperties
+}>, ) {
 	const {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		style,
+		..._props
 	} = props;
 	return <code {...{
-		...props,
-		style: {
-			...style,
-			fontSize: 'inherit',
-			lineHeight: 'inherit',
-			whiteSpace: 'pre-wrap',
-			overflowWrap: 'break-word',
-		},
+		..._props,
+		className: `${props.className} whitespace-pre-wrap text-[#9cdcfe] [font-size:inherit] [line-height:inherit] hyphens-none overflow-hidden bg-[#1e1e1e] p-1 rounded-sm break-words`,
 	}} />;
+}
+function PreTag( props: PropsWithChildren<{
+	className: string
+	style: CSSProperties
+}>, ) {
+	return <>{props.children}</>;
 }
 
 export default function Code( props: CodeProps, ) {
 	const {
 		lang = 'typescript',
 	} = props;
-	return <SyntaxHighlighter style={vscDarkPlus} customStyle={customStyleDefault} PreTag="span" CodeTag={CodeTag} language={lang}>
+	return <SyntaxHighlighter style={vscDarkPlus} customStyle={customStyleDefault} PreTag={PreTag} CodeTag={CodeTag} language={lang}>
 		{props.children}
 	</SyntaxHighlighter>;
 }
