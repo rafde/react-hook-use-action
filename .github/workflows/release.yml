@@ -42,11 +42,6 @@ jobs:
       jsr: ${{ inputs.JSR }}
       npm: ${{ inputs.NPM }}
 
-  version-publish-github-pages:
-    if: ${{ inputs.release != 'NONE' }}
-    needs: version-publish
-    uses: ./.github/workflows/deploy-github-pages.yml
-
   publish:
     if: ${{ inputs.release == 'NONE' }}
     secrets: inherit
@@ -57,8 +52,3 @@ jobs:
     with:
       jsr: ${{ inputs.JSR }}
       npm: ${{ inputs.NPM }}
-
-  publish-github-pages:
-    if: ${{ inputs.release == 'NONE' }}
-    needs: publish
-    uses: ./.github/workflows/deploy-github-pages.yml
