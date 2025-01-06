@@ -7,7 +7,7 @@ import {
 import {
 	useCTAParameterActionsCustomConfig,
 } from '../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
-import PopoverUseCTAParameterActionsRecordProp from '../../../popover/PopoverUseCTAParameterActionsRecordProp';
+import PopoverUseCTAParameterActionsOverridableRecord from '../../../popover/UseCTAParameterActionsOverridableRecord';
 import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
@@ -39,30 +39,34 @@ export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordPr
 						.
 					</li>
 					<li>
-						<Code>ctaHistory</Code>
+						<Code>actionType</Code>
 						{': '}
-						Built-in
+						The name of the built-in
 						{' '}
 						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-							<Code>actions</Code>
+							<Code>action</Code>
 						</Anchor>
 						{' '}
-						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverUseCTAParameterActionsOverridableRecord sourceCodeRecord={props.sourceCodeRecord} />
 						{' '}
-						keys.
+						it will behave like.
 					</li>
 					<li>
 						<Code>customActionName</Code>
 						{': '}
-						If any
+						The name of the
 						{' '}
 						<Anchor
 							aria-label={useCTAParameterActionsCustomConfig.title}
 							href={useCTAParameterActionsCustomConfig.href}>
-							custom actions
+							custom action
 						</Anchor>
 						{' '}
-						were defined, the key will get passed to this parameter.
+						that called it.
+						{' '}
+						<Code>undefined</Code>
+						{' '}
+						if no custom action was called.
 					</li>
 				</ol>
 

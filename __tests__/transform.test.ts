@@ -13,6 +13,10 @@ describe( 'useCTA parameter: transform', () => {
 			customAction,
 		} = transformCTAHistory;
 
+		if ( test2 === 'STOP' ) {
+			return;
+		}
+
 		if ( typeof test2 === 'string' && test2.length > 10 && actionType.endsWith( 'Initial', ) ) {
 			( {
 				test2,
@@ -84,5 +88,20 @@ describe( 'useCTA parameter: transform', () => {
 			...initial,
 			test2: 'custom',
 		}, );
+	}, );
+
+	test( 'should not transform test2 = "STOP"', async() => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			transform,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.update( {
+				test2: 'STOP',
+				test1: 33333,
+			}, );
+		}, );
+
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 	}, );
 }, );

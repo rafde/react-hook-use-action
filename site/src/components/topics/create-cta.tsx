@@ -2,25 +2,24 @@ import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
 import {
 	createCtaConfig,
 	createCTAExampleConfig,
-	createCTAParametersConfig, createCTAReturnValuesConfig,
+	createCTAParametersConfig,
+	createCTAReturnValuesConfig,
 } from '../nav-sidebar/config/create-cta-config';
 import {
-	useCTAConfig, useCTAParameterActionsConfig, useCTAParameterAfterActionChangeConfig, useCTAParameterCompareConfig,
-	useCTAParameterInitialConfig,
+	useCTAConfig,
+	useCTAParameterActionsConfig,
 	useCTAReturnValues0HistoryConfig,
 } from '../nav-sidebar/config/use-cta-config';
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
-import PopoverCTAState from '../popover/ctaState';
 import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
-import PopoverUseCTAParameterAfterActionChange from '../popover/UseCTAParameterAfterActionChange';
-import PopoverUseCTAParameterCompare from '../popover/UseCTAParameterCompare';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
 import Content from '../ui/content';
 import ExampleDetails from '../ui/exampleDetails';
 import Sect from '../ui/sect';
+import UseCTAParameterCommonLi from './use-cta/parameters/common-li';
 
 export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
 	return <>
@@ -86,27 +85,7 @@ export dispatch = ctaValue[1];
 					:
 				</div>
 				<ul className="list-inside list-[square]">
-					<li>
-						<Anchor href={useCTAParameterInitialConfig.href} aria-label={useCTAParameterInitialConfig.title}>
-							<Code>initial</Code>
-						</Anchor>
-						{' '}
-						<PopoverCTAState sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
-					<li>
-						<Anchor href={useCTAParameterCompareConfig.href} aria-label={useCTAParameterCompareConfig.title}>
-							<Code>compare</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterCompare sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
-					<li>
-						<Anchor href={useCTAParameterAfterActionChangeConfig.href} aria-label={useCTAParameterAfterActionChangeConfig.title}>
-							<Code>afterActionChange</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterAfterActionChange sourceCodeRecord={props.sourceCodeRecord} />
-					</li>
+					<UseCTAParameterCommonLi sourceCodeRecord={props.sourceCodeRecord} />
 					<li>
 						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
 							<Code>actions</Code>

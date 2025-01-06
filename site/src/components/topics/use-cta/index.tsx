@@ -10,6 +10,7 @@ import { UseCTAParameterAfterActionChangeTopic, } from './parameters/after-actio
 import UseCTAParameterOnInitTopic from './parameters/on-init';
 import UseCTAParameterInitialTopic from './parameters/initial';
 import UseCTAParameterCompareTopic from './parameters/compare';
+import { UseCTAParameterTransformTopic, } from './parameters/transform';
 import UseCTAReturnValuesTopic from './return/values';
 
 export default function UseCTATopic( props: SourceCodeRecordProps, ) {
@@ -53,6 +54,7 @@ export function FC() {
 		<UseCTAParameterInitialTopic {...props} />
 		<UseCTAParameterOnInitTopic {...props} />
 		<UseCTAParameterCompareTopic {...props} />
+		<UseCTAParameterTransformTopic {...props} />
 		<UseCTAParameterAfterActionChangeTopic {...props} />
 		<UseCTAParameterActionsTopic {...props} />
 		<UseCTAReturnValuesTopic {...props} />
