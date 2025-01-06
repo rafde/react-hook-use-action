@@ -74,6 +74,11 @@ export const useCTAParameterAfterActionChangeExampleConfig: NavItem = {
 		{' '}
 		Example
 	</>,
+	navTitle: <>
+		<Code>afterActionChange</Code>
+		{' '}
+		Example
+	</>,
 	href: 'use-cta-parameter-after-action-change-example',
 	title: 'Parameter: afterActionChange Example',
 };
@@ -89,6 +94,36 @@ export const useCTAParameterAfterActionChangeConfig: NavItem = {
 	],
 	title: 'Parameter: afterActionChange',
 };
+
+export const useCTAParameterTransformExampleConfig: NavItem = {
+	desc: <>
+		Parameter:
+		{' '}
+		<Code>transform</Code>
+		{' '}
+		Example
+	</>,
+	navTitle: <>
+		<Code>transform</Code>
+		{' '}
+		Example
+	</>,
+	href: 'use-cta-parameter-transform-example',
+	title: 'Parameter: transform Example',
+};
+export const useCTAParameterTransformConfig: NavItem = {
+	desc: <>
+		Parameter:
+		{' '}
+		<Code>transform</Code>
+	</>,
+	href: 'use-cta-parameter-transform',
+	subNav: [
+		useCTAParameterTransformExampleConfig,
+	],
+	title: 'Parameter: transform',
+};
+
 export const useCTAReturnValues0HistoryConfig: NavItem = {
 	desc: <>
 		<Code>useCTA return</Code>
@@ -147,6 +182,7 @@ export const useCTAConfig: NavItem = {
 		useCTAParameterInitialConfig,
 		useCTAParameterOnInitConfig,
 		useCTAParameterCompareConfig,
+		useCTAParameterTransformConfig,
 		useCTAParameterAfterActionChangeConfig,
 		useCTAParameterActionsConfig,
 		useCTAReturnValuesConfig,

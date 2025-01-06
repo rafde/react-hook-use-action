@@ -319,6 +319,10 @@ function typeResult<
 		},
 	);
 
+	if ( transformedNext == null ) {
+		return ctaReducerState;
+	}
+
 	let result;
 
 	switch ( type ) {
