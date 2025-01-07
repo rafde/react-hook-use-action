@@ -1,9 +1,8 @@
 import { SourceCodeRecordProps, } from '../../../types/source-code-record-props';
 
 import { useCTABasicExampleConfig, useCTAConfig, } from '../../nav-sidebar/config/use-cta-config';
-import Code from '../../ui/code';
 import CodeBlock from '../../ui/codeBlock';
-import ExampleDetails from '../../ui/exampleDetails';
+import Embed from '../../ui/embed';
 import Sect from '../../ui/sect';
 import UseCTAParameterActionsTopic from './parameters/actions';
 import { UseCTAParameterAfterActionChangeTopic, } from './parameters/after-action-change';
@@ -38,16 +37,9 @@ export function FC() {
 			</CodeBlock>
 		</Sect>
 		<Sect {...useCTABasicExampleConfig}>
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					basic example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA basic example"
-				src="https://codesandbox.io/embed/zr8wv8?view=editor+%2B+preview&module=%2Fsrc%2FUseCTABasic.tsx"
+				src="https://stackblitz.com/edit/use-cta-basic-tdgkwq3j?ctl=1&embed=1&file=src%2FUseCTABasic.tsx&theme=dark"
 			/>
 		</Sect>
 

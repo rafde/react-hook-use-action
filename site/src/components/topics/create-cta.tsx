@@ -17,7 +17,7 @@ import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
 import Content from '../ui/content';
-import ExampleDetails from '../ui/exampleDetails';
+import Embed from '../ui/embed';
 import Sect from '../ui/sect';
 import UseCTAParameterCommonLi from './use-cta/parameters/common-li';
 
@@ -66,9 +66,9 @@ export dispatch = ctaValue[1];
 			</Content>
 		</Sect>
 		<Sect {...createCTAExampleConfig}>
-			<ExampleDetails
+			<Embed
 				summary="Click to view createCTA example"
-				src="https://codesandbox.io/embed/yjktpt?view=editor+%2B+preview&module=%2Fsrc%2Fstore.ts"
+				src="https://stackblitz.com/edit/use-cta-create-cta-gtdgkwq3j-kyc7wvdw-boma7-qtkzkkmr?embed=1&file=src%2Fstore.ts"
 				title="createCTA example"
 			/>
 		</Sect>

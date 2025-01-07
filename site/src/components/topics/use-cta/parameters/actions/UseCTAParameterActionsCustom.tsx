@@ -19,7 +19,7 @@ import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
 import CodeBlock from '../../../../ui/codeBlock';
 import Content from '../../../../ui/content';
-import ExampleDetails from '../../../../ui/exampleDetails';
+import Embed from '../../../../ui/embed';
 import Sect from '../../../../ui/sect';
 
 const actionsClassName = 'inline-grid gap-2 w-[calc(100%-2rem)] grid-cols-1 sm:grid-cols-2 items-start';
@@ -59,18 +59,9 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 		</Sect>
 
 		<Sect {...useCtaParameterActionsCustomExampleConfig}>
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' custom '}
-					<Code>actions</Code>
-					{' '}
-					example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA custom actions example"
-				src="https://codesandbox.io/embed/c4wz5p?view=editor+%2B+preview&module=%2Fsrc%2FUseCTACustomActionsExample.tsx"
+				src="https://stackblitz.com/edit/use-cta-custom-actions-gtdgkwq3j-kyc7wvdw-boma7t5x?ctl=1&embed=1&file=src%2FUseCTACustomActions.tsx"
 			/>
 		</Sect>
 

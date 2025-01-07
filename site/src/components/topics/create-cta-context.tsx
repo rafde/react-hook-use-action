@@ -19,7 +19,7 @@ import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
 import Content from '../ui/content';
-import ExampleDetails from '../ui/exampleDetails';
+import Embed from '../ui/embed';
 import Sect from '../ui/sect';
 import UseCTAParameterCommonLi from './use-cta/parameters/common-li';
 
@@ -73,9 +73,8 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 			</Content>
 		</Sect>
 		<Sect {...createCTAContextExampleConfig}>
-			<ExampleDetails
-				summary="Click to view createCTAContext example"
-				src="https://codesandbox.io/embed/xghcdz?view=editor+%2B+preview&module=%2Fsrc%2Fcontext.ts"
+			<Embed
+				src="https://stackblitz.com/edit/use-cta-create-cta-context-gtdgkwq3j-kyc7wvdw-boma7-qtk?ctl=1&embed=1&file=src%2Fcontext.ts"
 				title="createCTAContext example"
 			/>
 		</Sect>
