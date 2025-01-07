@@ -45,7 +45,7 @@ describe( 'useCTA parameter: transform', () => {
 		act( () => {
 			result.current[ 1 ].cta.updateInitial( payload, );
 		}, );
-
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
 	}, );
 
@@ -61,7 +61,7 @@ describe( 'useCTA parameter: transform', () => {
 		act( () => {
 			result.current[ 1 ].cta.update( payload, );
 		}, );
-
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			...payload,
@@ -83,7 +83,7 @@ describe( 'useCTA parameter: transform', () => {
 		act( () => {
 			result.current[ 1 ].cta.custom();
 		}, );
-
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
 			...initial,
 			test2: 'custom',
@@ -101,7 +101,7 @@ describe( 'useCTA parameter: transform', () => {
 				test1: 33333,
 			}, );
 		}, );
-
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
 		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
 	}, );
 }, );
