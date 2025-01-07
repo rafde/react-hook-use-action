@@ -150,6 +150,8 @@ export function createCTA<
 	};
 	let ctaReducerState: CTAReducerState<Initial> = {
 		...history,
+		actionType: '' as 'update',
+		customAction: undefined,
 		changesMap: new Map(),
 	};
 	const compare = compareCallback( ctaParameter.compare, );
@@ -162,7 +164,6 @@ export function createCTA<
 		function _ctaCallback( nextCTAProps: Parameters<typeof ctaReducer<Initial, ActionsRecord>>[0]['nextCTAProps'], ) {
 			const newCtaReducerState = ctaReducer<Initial, ActionsRecord>( {
 				actions,
-				afterActionChange: ctaParameter.afterActionChange,
 				compare,
 				ctaReducerState,
 				nextCTAProps,
@@ -178,6 +179,7 @@ export function createCTA<
 					previous: ctaReducerState.previous,
 					previousInitial: ctaReducerState.previousInitial,
 				};
+				ctaParameter?.afterActionChange?.( history, ctaReducerState.actionType, ctaReducerState.customAction, );
 			}
 
 			ctaCallback.history = history;

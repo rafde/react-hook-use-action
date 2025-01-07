@@ -43,8 +43,10 @@ export default function usePrivateCTA<
 		[
 		],
 	);
-	const init = useMemo(
+	const init = useMemo<CTAReducerState<Initial>>(
 		() => ( {
+			actionType: '' as CTAReducerState<Initial>['actionType'],
+			customAction: undefined,
 			changes: null,
 			// Set changesMap in init to avoid re-instantiating a new Map everytime this is called
 			changesMap: undefined as unknown as CTAReducerState<Initial>['changesMap'],
@@ -63,7 +65,6 @@ export default function usePrivateCTA<
 			nextCTAProps: Parameters<typeof ctaReducer<Initial, Actions>>[0]['nextCTAProps'],
 		) => ctaReducer( {
 			actions,
-			afterActionChange: params.afterActionChange,
 			compare,
 			ctaReducerState,
 			nextCTAProps,

@@ -1,4 +1,5 @@
-import { useMemo, } from 'react';
+import { useEffect, useMemo, } from 'react';
+import { CTAReducerState, } from './internal/ctaReducer';
 
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAState, } from './types/CTAState';
@@ -15,6 +16,7 @@ import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatch';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 
@@ -150,8 +152,48 @@ export function useCTA<
 		[],
 	);
 	const stateDispatcher = usePrivateCTA<Initial, ActionsRecord>( useCTAParameter, actions, );
-	return usePublicCTA( {
+	const [
+		ctaReducerState,
+	] = stateDispatcher;
+	const afterActionChange = useMemo(
+		() => {
+			const isFunction = typeof useCTAParameter.afterActionChange === 'function';
+			let oldState = ctaReducerState;
+			return function( ctaReducerState: CTAReducerState<Initial>, ) {
+				if ( !isFunction || ctaReducerState === oldState ) {
+					return;
+				}
+				oldState = ctaReducerState;
+				Promise.resolve().then( () => useCTAParameter?.afterActionChange?.(
+					{
+						changes: ctaReducerState.changes,
+						current: ctaReducerState.current,
+						initial: ctaReducerState.initial,
+						previous: ctaReducerState.previous,
+						previousInitial: ctaReducerState.previousInitial,
+					},
+					ctaReducerState.actionType,
+					ctaReducerState.customAction,
+				), );
+			};
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[],
+	);
+	const res = usePublicCTA( {
 		actions,
 		stateDispatcher,
 	}, );
+
+	useEffect(
+		() => {
+			afterActionChange( ctaReducerState, );
+		},
+		[
+			ctaReducerState,
+			afterActionChange,
+		],
+	);
+
+	return res;
 }
