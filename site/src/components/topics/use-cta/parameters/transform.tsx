@@ -161,7 +161,7 @@ export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
 					example
 				</>}
 				title="react-hook-use-cta useCTA parameter transform example"
-				src=""
+				src="https://codesandbox.io/embed/874y5s?view=editor+%2B+preview&module=%2Fsrc%2FUseCTAfterActionChangeExample.tsx"
 			/>
 		</Sect>
 	</>;
