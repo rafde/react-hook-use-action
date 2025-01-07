@@ -67,7 +67,6 @@ export dispatch = ctaValue[1];
 		</Sect>
 		<Sect {...createCTAExampleConfig}>
 			<Embed
-				summary="Click to view createCTA example"
 				src="https://stackblitz.com/edit/use-cta-create-cta-gtdgkwq3j-kyc7wvdw-boma7-qtkzkkmr?embed=1&file=src%2Fstore.ts"
 				title="createCTA example"
 			/>
