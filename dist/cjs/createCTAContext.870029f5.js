@@ -1,20 +1,26 @@
-import {useCTA as $5faadda8f7072751$export$68a5bb76170d2250} from "./useCTA.3be40a11.js";
-import {createContext as $dFrC2$createContext, createElement as $dFrC2$createElement, useContext as $dFrC2$useContext} from "react";
+var $d6e548939060e3ae$exports = require("./useCTA.3e76f5be.js");
+var $9znZ4$react = require("react");
 
 
+function $parcel$export(e, n, v, s) {
+  Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
+}
 
-function $0520831b50975271$export$a85baad6d8324b85(contextParams) {
-    const CTAContextHistory = (0, $dFrC2$createContext)({
+$parcel$export(module.exports, "createCTAContext", () => $1045ff876afe552c$export$a85baad6d8324b85);
+
+
+function $1045ff876afe552c$export$a85baad6d8324b85(contextParams) {
+    const CTAContextHistory = (0, $9znZ4$react.createContext)({
         changes: null,
         current: contextParams.initial,
         initial: contextParams.initial,
         previous: null,
         previousInitial: null
     });
-    const CTAContextDispatch = (0, $dFrC2$createContext)(null);
+    const CTAContextDispatch = (0, $9znZ4$react.createContext)(null);
     return {
         CTAProvider ({ initial: initial = contextParams.initial, onInit: onInit = contextParams.onInit, compare: compare = contextParams.compare, afterActionChange: afterActionChange = contextParams.afterActionChange, children: children, transform: transform = contextParams.transform }) {
-            const [value, dispatch] = (0, $5faadda8f7072751$export$68a5bb76170d2250)({
+            const [value, dispatch] = (0, $d6e548939060e3ae$exports.useCTA)({
                 actions: contextParams.actions,
                 afterActionChange: afterActionChange,
                 compare: compare,
@@ -22,14 +28,14 @@ function $0520831b50975271$export$a85baad6d8324b85(contextParams) {
                 onInit: onInit,
                 transform: transform
             });
-            return (0, $dFrC2$createElement)(CTAContextHistory.Provider, {
+            return (0, $9znZ4$react.createElement)(CTAContextHistory.Provider, {
                 value: value
-            }, (0, $dFrC2$createElement)(CTAContextDispatch.Provider, {
+            }, (0, $9znZ4$react.createElement)(CTAContextDispatch.Provider, {
                 value: dispatch
             }, children));
         },
         useCTADispatchContext () {
-            const ctaDispatchContext = (0, $dFrC2$useContext)(CTAContextDispatch);
+            const ctaDispatchContext = (0, $9znZ4$react.useContext)(CTAContextDispatch);
             if (ctaDispatchContext == null) {
                 console.error('useCTADispatchContext was called outside it\'s Provider');
                 return ctaDispatchContext;
@@ -37,11 +43,10 @@ function $0520831b50975271$export$a85baad6d8324b85(contextParams) {
             return ctaDispatchContext;
         },
         useCTAHistoryContext () {
-            return (0, $dFrC2$useContext)(CTAContextHistory);
+            return (0, $9znZ4$react.useContext)(CTAContextHistory);
         }
     };
 }
 
 
-export {$0520831b50975271$export$a85baad6d8324b85 as createCTAContext};
-//# sourceMappingURL=createCTAContext.94ece604.js.map
+//# sourceMappingURL=createCTAContext.870029f5.js.map

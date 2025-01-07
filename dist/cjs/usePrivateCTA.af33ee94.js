@@ -1,5 +1,5 @@
 var $56455aab2d865ec7$exports = require("./compareCallback.3bdf13a2.js");
-var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.0be33229.js");
+var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.385b3839.js");
 var $k1nAk$react = require("react");
 
 
@@ -29,6 +29,8 @@ function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
     const compare = (0, $k1nAk$react.useMemo)(()=>(0, $56455aab2d865ec7$exports.compareCallback)(params.compare), // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
     const init = (0, $k1nAk$react.useMemo)(()=>({
+            actionType: '',
+            customAction: undefined,
             changes: null,
             // Set changesMap in init to avoid re-instantiating a new Map everytime this is called
             changesMap: undefined,
@@ -40,7 +42,6 @@ function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
     []);
     const reducerCallback = (0, $k1nAk$react.useCallback)((ctaReducerState, nextCTAProps)=>(0, $d1a0eb9e2dbe8803$exports.default)({
             actions: actions,
-            afterActionChange: params.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             nextCTAProps: nextCTAProps,
@@ -53,4 +54,4 @@ function $062383fffa733698$export$2e2bcd8739ae039(params, actions) {
 }
 
 
-//# sourceMappingURL=usePrivateCTA.550540e9.js.map
+//# sourceMappingURL=usePrivateCTA.af33ee94.js.map

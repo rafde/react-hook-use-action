@@ -6,41 +6,6 @@ import { FC, PropsWithChildren } from "react";
  * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial Parameter: initial}
  */
 export type CTAState = Record<string | number, unknown>;
-type DefaultActionsRecord<Payload extends CTAState> = Required<UseCTAParameterActionsOptionalDefaultRecord<Payload>>;
-/**
- * Options for configuring action type behavior
- * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
- */
-type ActionTypeOptions = {
-    useDefault?: boolean;
-};
-type ActionTypeConstructParam<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> = {
-    actionTypeOptions?: ActionTypeOptions;
-    hasAugmentedAction: boolean;
-    payload: Parameters<DefaultActionsRecord<Payload>[Type]>[1];
-    type: Type;
-};
-declare class ActionType<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> {
-    readonly type: ActionTypeConstructParam<Payload, Type>['type'];
-    readonly payload: Readonly<ActionTypeConstructParam<Payload, Type>['payload']>;
-    readonly actionTypeOptions: ActionTypeOptions;
-    constructor(param: ActionTypeConstructParam<Payload, Type>);
-}
-declare class UpdateInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'updateInitial'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'updateInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ResetActionType<Payload extends CTAState> extends ActionType<Payload, 'reset'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'reset'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class UpdateActionType<Payload extends CTAState> extends ActionType<Payload, 'update'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'update'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ReplaceActionType<Payload extends CTAState> extends ActionType<Payload, 'replace'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replace'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ReplaceInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'replaceInitial'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replaceInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
 /**
  * An `object` representing the history of hook state changes.
  *
@@ -70,7 +35,6 @@ type CustomCTAHistory<Payload extends CTAState> = CTAHistory<Payload> & Immutabl
     updateAction: (payload: Partial<Payload>, actionTypeOptions?: ActionTypeOptions) => UpdateActionType<Payload>;
     updateInitialAction: (payload: Partial<Payload>, actionTypeOptions?: ActionTypeOptions) => UpdateInitialActionType<Payload>;
 }>;
-type CustomCTAReturnType<Initial extends CTAState> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | UpdateInitialActionType<Initial> | Partial<Initial>;
 /**
  * `object` type for defining custom and/or overridden state management actions. It gives you access to the following capabilities:
  * - Gives you a clean, type-safe way to encapsulate your state logic while keeping your component code focused on presentation.
@@ -122,8 +86,42 @@ type UseCTAParameterActionsRecordProp<Payload extends CTAState> = {
     [p: string | number]: (() => Partial<Payload>) | ((ctaState: CustomCTAHistory<Payload>, ...args: never[]) => CustomCTAReturnType<Payload>) | undefined;
 };
 type UseCTAParameterActionsOptionalDefaultRecord<Payload extends CTAState> = Pick<UseCTAParameterActionsRecordProp<Payload>, 'update' | 'replace' | 'reset' | 'updateInitial' | 'replaceInitial'>;
-type CustomActionsRecord<Initial extends CTAState, Actions> = Pick<Actions, Exclude<keyof Actions, keyof UseCTAParameterActionsOptionalDefaultRecord<Initial>>>;
-type ActionsRecordProp<Initial extends CTAState, Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial>> = UseCTAParameterActionsOptionalDefaultRecord<Initial> & CustomActionsRecord<Initial, Actions>;
+type DefaultActionsRecord<Payload extends CTAState> = Required<UseCTAParameterActionsOptionalDefaultRecord<Payload>>;
+/**
+ * Options for configuring action type behavior
+ * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
+ */
+type ActionTypeOptions = {
+    useDefault?: boolean;
+};
+type ActionTypeConstructParam<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> = {
+    actionTypeOptions?: ActionTypeOptions;
+    hasAugmentedAction: boolean;
+    payload: Parameters<DefaultActionsRecord<Payload>[Type]>[1];
+    type: Type;
+};
+declare class ActionType<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> {
+    readonly type: ActionTypeConstructParam<Payload, Type>['type'];
+    readonly payload: Readonly<ActionTypeConstructParam<Payload, Type>['payload']>;
+    readonly actionTypeOptions: ActionTypeOptions;
+    constructor(param: ActionTypeConstructParam<Payload, Type>);
+}
+declare class UpdateInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'updateInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'updateInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ResetActionType<Payload extends CTAState> extends ActionType<Payload, 'reset'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'reset'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class UpdateActionType<Payload extends CTAState> extends ActionType<Payload, 'update'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'update'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ReplaceActionType<Payload extends CTAState> extends ActionType<Payload, 'replace'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replace'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ReplaceInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'replaceInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replaceInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+type CustomCTAReturnType<Initial extends CTAState> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | UpdateInitialActionType<Initial> | Partial<Initial>;
 /**
  * A `function` that only runs after an action has changed the hook state history.
  * Does not run if the action has not changed the hook state history.
@@ -330,6 +328,8 @@ export type UseCTAReturnTypeDispatch<State extends CTAState, Actions, ReturnValu
      */
     cta: OmitEmptyRecord<UseCTAReturnTypeDispatchCTA<State, Actions, ReturnValue>>;
 }>;
+type CustomActionsRecord<Initial extends CTAState, Actions> = Pick<Actions, Exclude<keyof Actions, keyof UseCTAParameterActionsOptionalDefaultRecord<Initial>>>;
+type ActionsRecordProp<Initial extends CTAState, Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial>> = UseCTAParameterActionsOptionalDefaultRecord<Initial> & CustomActionsRecord<Initial, Actions>;
 /**
  * The return type of the useCTA hook.
  * @typedef {Array} UseCTAReturnType

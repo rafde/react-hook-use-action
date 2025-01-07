@@ -1,11 +1,17 @@
-import {compareCallback as $ae55f4861d2c7e56$export$29227ec4dc2b4d64} from "./compareCallback.6be7201d.js";
-import {createDispatchInterface as $ddb1abc523767a90$export$af9ac7063a513c32} from "./createDispatchInterface.df358646.js";
-import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.8e0078fa.js";
+var $56455aab2d865ec7$exports = require("./compareCallback.3bdf13a2.js");
+var $0b6f0bd6e9d4ab4e$exports = require("./createDispatchInterface.abafc50e.js");
+var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.385b3839.js");
+
+
+function $parcel$export(e, n, v, s) {
+  Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
+}
+
+$parcel$export(module.exports, "createCTA", () => $5560bc74725e3224$export$e7a3b152d8f3410e);
 
 
 
-
-function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
+function $5560bc74725e3224$export$e7a3b152d8f3410e(ctaParameter) {
     const { initial: initial } = ctaParameter;
     const actions = typeof ctaParameter.actions === 'undefined' ? undefined : {
         ...ctaParameter.actions
@@ -19,13 +25,14 @@ function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
     };
     let ctaReducerState = {
         ...history,
+        actionType: '',
+        customAction: undefined,
         changesMap: new Map()
     };
-    const compare = (0, $ae55f4861d2c7e56$export$29227ec4dc2b4d64)(ctaParameter.compare);
-    const ctaCallback = (0, $ddb1abc523767a90$export$af9ac7063a513c32)(function _ctaCallback(nextCTAProps) {
-        const newCtaReducerState = (0, $f0f97a638af05ef2$export$2e2bcd8739ae039)({
+    const compare = (0, $56455aab2d865ec7$exports.compareCallback)(ctaParameter.compare);
+    const ctaCallback = (0, $0b6f0bd6e9d4ab4e$exports.createDispatchInterface)(function _ctaCallback(nextCTAProps) {
+        const newCtaReducerState = (0, $d1a0eb9e2dbe8803$exports.default)({
             actions: actions,
-            afterActionChange: ctaParameter.afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             nextCTAProps: nextCTAProps,
@@ -40,6 +47,7 @@ function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
                 previous: ctaReducerState.previous,
                 previousInitial: ctaReducerState.previousInitial
             };
+            ctaParameter?.afterActionChange?.(history, ctaReducerState.actionType, ctaReducerState.customAction);
         }
         ctaCallback.history = history;
         return history;
@@ -52,5 +60,4 @@ function $777e399f220f5c9c$export$e7a3b152d8f3410e(ctaParameter) {
 }
 
 
-export {$777e399f220f5c9c$export$e7a3b152d8f3410e as createCTA};
-//# sourceMappingURL=createCTA.96c77b2d.js.map
+//# sourceMappingURL=createCTA.0d83e912.js.map

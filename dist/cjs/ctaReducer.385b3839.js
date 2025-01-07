@@ -7,6 +7,13 @@ function $parcel$export(e, n, v, s) {
 
 $parcel$export(module.exports, "default", () => $d1a0eb9e2dbe8803$export$2e2bcd8739ae039);
 
+const $d1a0eb9e2dbe8803$var$predefinedActionsConst = {
+    replace: 'replace',
+    replaceInitial: 'replaceInitial',
+    reset: 'reset',
+    update: 'update',
+    updateInitial: 'updateInitial'
+};
 function $d1a0eb9e2dbe8803$var$_replace(prop) {
     const { a: a, b: b, compare: compare, payload: payload, useBValue: useBValue } = prop;
     const changesMap = new Map();
@@ -21,7 +28,7 @@ function $d1a0eb9e2dbe8803$var$_replace(prop) {
     if (!hasChange) return;
     return changesMap;
 }
-function $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, payload, compare) {
+function $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, payload, compare, actionType, customAction) {
     const { initial: initial, current: current } = ctaReducerState;
     const changesMap = $d1a0eb9e2dbe8803$var$_replace({
         a: current,
@@ -32,13 +39,15 @@ function $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, payload, compare
     if (!changesMap) return ctaReducerState;
     return {
         ...ctaReducerState,
+        actionType: actionType,
+        customAction: customAction,
         changesMap: changesMap,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         current: payload,
         previous: ctaReducerState.current
     };
 }
-function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare) {
+function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare, actionType, customAction) {
     const { initial: initial, current: current } = ctaReducerState;
     const changesMap = $d1a0eb9e2dbe8803$var$_replace({
         a: initial,
@@ -50,6 +59,8 @@ function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare
     if (!changesMap) return ctaReducerState;
     return {
         ...ctaReducerState,
+        actionType: actionType,
+        customAction: customAction,
         changesMap: changesMap,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         previousInitial: initial,
@@ -57,9 +68,10 @@ function $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, payload, compare
     };
 }
 function $d1a0eb9e2dbe8803$var$_update(prop) {
-    const { a: a, b: b, compare: compare, payload: payload, useCompareValue: useCompareValue, changesMap: changesMap } = prop;
+    const { a: a, b: b, compare: compare, payload: payload, useCompareValue: useCompareValue } = prop;
     let hasChange = false;
     const next = {};
+    const changesMap = new Map(prop.changesMap);
     for(const key in payload){
         const value = payload[key];
         if (compare(a[key], value, key)) continue;
@@ -70,21 +82,27 @@ function $d1a0eb9e2dbe8803$var$_update(prop) {
         else changesMap.set(key, useCompareValue ? b[key] : value);
     }
     if (!hasChange) return;
-    return next;
+    return {
+        next: next,
+        changesMap: changesMap
+    };
 }
-function $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, payload, compare) {
-    const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
-    const next = $d1a0eb9e2dbe8803$var$_update({
+function $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, payload, compare, actionType, customAction) {
+    const { current: current, initial: initial } = ctaReducerState;
+    const nextUpdate = $d1a0eb9e2dbe8803$var$_update({
         a: initial,
         b: current,
-        changesMap: changesMap,
+        changesMap: ctaReducerState.changesMap,
         compare: compare,
         payload: payload,
         useCompareValue: true
     });
-    if (!next) return ctaReducerState;
+    if (!nextUpdate) return ctaReducerState;
+    const { next: next, changesMap: changesMap } = nextUpdate;
     return {
         ...ctaReducerState,
+        actionType: actionType,
+        customAction: customAction,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         initial: {
             ...initial,
@@ -93,18 +111,21 @@ function $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, payload, compare)
         previousInitial: initial
     };
 }
-function $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, payload, compare) {
-    const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
-    const next = $d1a0eb9e2dbe8803$var$_update({
+function $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, payload, compare, actionType, customAction) {
+    const { current: current, initial: initial } = ctaReducerState;
+    const nextUpdate = $d1a0eb9e2dbe8803$var$_update({
         a: current,
         b: initial,
-        changesMap: changesMap,
+        changesMap: ctaReducerState.changesMap,
         compare: compare,
         payload: payload
     });
-    if (!next) return ctaReducerState;
+    if (!nextUpdate) return ctaReducerState;
+    const { next: next, changesMap: changesMap } = nextUpdate;
     return {
         ...ctaReducerState,
+        actionType: actionType,
+        customAction: customAction,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         current: {
             ...current,
@@ -113,8 +134,8 @@ function $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, payload, compare)
         previous: current
     };
 }
-function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare) {
-    const { changesMap: changesMap, current: current, initial: initial } = ctaReducerState;
+function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare, actionType, customAction) {
+    const { current: current, initial: initial } = ctaReducerState;
     let isNextSameAsInitial = true;
     let isNextSameAsCurrent = true;
     for(const key in next){
@@ -124,9 +145,11 @@ function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare) {
         if (!isNextSameAsInitial && !isNextSameAsCurrent) break;
     }
     if (isNextSameAsInitial && isNextSameAsCurrent) return ctaReducerState;
-    changesMap.clear();
     return {
         ...ctaReducerState,
+        actionType: actionType,
+        customAction: customAction,
+        changesMap: new Map(),
         changes: null,
         initial: next,
         current: next,
@@ -134,13 +157,6 @@ function $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, next, compare) {
         previousInitial: isNextSameAsInitial ? null : initial
     };
 }
-const $d1a0eb9e2dbe8803$var$predefinedActionsConst = {
-    replace: 'replace',
-    replaceInitial: 'replaceInitial',
-    reset: 'reset',
-    update: 'update',
-    updateInitial: 'updateInitial'
-};
 function $d1a0eb9e2dbe8803$var$typeResult(param) {
     const { next: next, ctaReducerState: ctaReducerState } = param;
     if (next == null || Array.isArray(next) || next instanceof (0, $39ac042edb60bbed$exports.ActionType)) return ctaReducerState;
@@ -158,28 +174,21 @@ function $d1a0eb9e2dbe8803$var$typeResult(param) {
     let result;
     switch(type){
         case 'replace':
-            result = $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, transformedNext, compare);
+            result = $d1a0eb9e2dbe8803$var$_replaceCurrent(ctaReducerState, transformedNext, compare, type, action);
             break;
         case 'replaceInitial':
-            result = $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, transformedNext, compare);
+            result = $d1a0eb9e2dbe8803$var$_replaceInitial(ctaReducerState, transformedNext, compare, type, action);
             break;
         case 'reset':
-            result = $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, transformedNext, compare);
+            result = $d1a0eb9e2dbe8803$var$_resetState(ctaReducerState, transformedNext, compare, type, action);
             break;
         case 'updateInitial':
-            result = $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, transformedNext, compare);
+            result = $d1a0eb9e2dbe8803$var$_updateInitial(ctaReducerState, transformedNext, compare, type, action);
             break;
         default:
-            result = $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, transformedNext, compare);
+            result = $d1a0eb9e2dbe8803$var$_updateCurrent(ctaReducerState, transformedNext, compare, type, action);
             break;
     }
-    if (result !== ctaReducerState) Promise.resolve().then(()=>param.afterActionChange({
-            changes: result.changes,
-            current: result.current,
-            initial: result.initial,
-            previous: result.previous,
-            previousInitial: result.previousInitial
-        }, type, action));
     return result;
 }
 function $d1a0eb9e2dbe8803$var$getActionType(ctaReturnType) {
@@ -221,11 +230,10 @@ function $d1a0eb9e2dbe8803$var$getCustomCTAHistoryCache(actions) {
     return customCTAHistoryActions;
 }
 const $d1a0eb9e2dbe8803$var$_args = [];
-function $d1a0eb9e2dbe8803$var$_noop() {}
 const $d1a0eb9e2dbe8803$var$_noopTransform = (nextState)=>nextState;
 function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     const { args: args = $d1a0eb9e2dbe8803$var$_args, type: action, payload: payload } = params.nextCTAProps;
-    const { ctaReducerState: ctaReducerState, actions: actions, compare: compare, afterActionChange: afterActionChange = $d1a0eb9e2dbe8803$var$_noop, transform: transform = $d1a0eb9e2dbe8803$var$_noopTransform } = params;
+    const { ctaReducerState: ctaReducerState, actions: actions, compare: compare, transform: transform = $d1a0eb9e2dbe8803$var$_noopTransform } = params;
     const { current: current, initial: initial } = ctaReducerState;
     const ctaState = {
         changes: ctaReducerState.changes,
@@ -237,7 +245,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     const isActionsObject = actions && typeof actions == 'object' && !Array.isArray(actions);
     if (action in $d1a0eb9e2dbe8803$var$predefinedActionsConst && (!isActionsObject || !(action in actions))) {
         if (payload instanceof Function) return $d1a0eb9e2dbe8803$var$typeResult({
-            afterActionChange: afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             next: payload(ctaState),
@@ -245,7 +252,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
             transform: transform
         });
         if (action === 'reset' && typeof payload === 'undefined') return $d1a0eb9e2dbe8803$var$typeResult({
-            afterActionChange: afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             next: initial,
@@ -253,7 +259,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
             transform: transform
         });
         return $d1a0eb9e2dbe8803$var$typeResult({
-            afterActionChange: afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             next: payload,
@@ -272,7 +277,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
         }
         const next = cta(ctaState, nextPayload, ...args);
         return $d1a0eb9e2dbe8803$var$typeResult({
-            afterActionChange: afterActionChange,
             compare: compare,
             ctaReducerState: ctaReducerState,
             next: next,
@@ -287,7 +291,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     const customPredefinedCTA = isActionsObject && actions[type];
     if (actionType.useDefault || typeof customPredefinedCTA !== 'function') return $d1a0eb9e2dbe8803$var$typeResult({
         action: action,
-        afterActionChange: afterActionChange,
         compare: compare,
         ctaReducerState: ctaReducerState,
         next: next,
@@ -296,7 +299,6 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
     });
     return $d1a0eb9e2dbe8803$var$typeResult({
         action: action,
-        afterActionChange: afterActionChange,
         compare: compare,
         ctaReducerState: ctaReducerState,
         next: customPredefinedCTA(ctaState, next),
@@ -306,4 +308,4 @@ function $d1a0eb9e2dbe8803$export$2e2bcd8739ae039(params) {
 }
 
 
-//# sourceMappingURL=ctaReducer.0be33229.js.map
+//# sourceMappingURL=ctaReducer.385b3839.js.map
