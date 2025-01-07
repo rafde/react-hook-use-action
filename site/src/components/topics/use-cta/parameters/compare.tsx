@@ -4,7 +4,7 @@ import { useCTAParameterCompareConfig, useCTAParameterCompareExampleConfig, } fr
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
-import ExampleDetails from '../../../ui/exampleDetails';
+import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
 
 export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProps, ) {
@@ -95,18 +95,9 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 			</Content>
 		</Sect>
 		<Sect {...useCTAParameterCompareExampleConfig} Header="h5">
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					<Code>compare</Code>
-					{' '}
-					parameter example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA compare parameter example"
-				src="https://codesandbox.io/embed/zyqnnj?view=editor+%2B+preview&module=%2Fsrc%2FUseCTACompareExample.tsx"
+				src="https://stackblitz.com/edit/use-cta-compare-tdgkwq3j-kyc7wvdw?ctl=1&embed=1&file=src%2FUseCTACompare.tsx"
 			/>
 		</Sect>
 	</>;

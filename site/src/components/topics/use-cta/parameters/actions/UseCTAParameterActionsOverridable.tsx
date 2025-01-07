@@ -22,7 +22,7 @@ import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
 import CodeBlock from '../../../../ui/codeBlock';
 import Content from '../../../../ui/content';
-import ExampleDetails from '../../../../ui/exampleDetails';
+import Embed from '../../../../ui/embed';
 import Sect from '../../../../ui/sect';
 
 export default function UseCTAParameterActionsOverridableTopic( props: SourceCodeRecordProps, ) {
@@ -48,20 +48,9 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 		</Sect>
 
 		<Sect {...useCTAParameterActionsOverridableExampleConfig}>
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					overridable
-					{' '}
-					<Code>actions</Code>
-					{' '}
-					parameter example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA overridable actions parameter example"
-				src="https://codesandbox.io/embed/n8648p?view=editor+%2B+preview&module=%2Fsrc%2FOverrideActions.tsx"
+				src="https://stackblitz.com/edit/use-cta-override-actions-tdgkwq3j-jmgwenlh-hwagiq3y?ctl=1&embed=1&file=src%2FOverrideActions.tsx"
 			/>
 		</Sect>
 

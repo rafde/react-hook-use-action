@@ -12,7 +12,7 @@ import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
-import ExampleDetails from '../../../ui/exampleDetails';
+import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
 
 export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordProps, ) {
@@ -90,18 +90,9 @@ export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordPr
 			</Content>
 		</Sect>
 		<Sect {...useCTAParameterAfterActionChangeExampleConfig} Header="h5">
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					<Code>afterActionChange</Code>
-					{' '}
-					parameter example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA afterActionChange parameter example"
-				src="https://codesandbox.io/embed/9gdndt?view=editor+%2B+preview&module=%2Fsrc%2FUseCTAfterActionChangeExample.tsx&expanddevtools=1"
+				src="https://stackblitz.com/edit/use-cta-after-action-change-gtdgkwq3j-kyc7wvdw-dadadnur?ctl=1&embed=1&file=src%2FUseCTAAfterActionChange.tsx"
 			/>
 		</Sect>
 	</>;

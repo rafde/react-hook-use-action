@@ -10,7 +10,7 @@ import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
-import ExampleDetails from '../../../ui/exampleDetails';
+import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
 
 export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps, ) {
@@ -76,18 +76,9 @@ export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps
 			</Content>
 		</Sect>
 		<Sect {...useCTAParameterOnInitExampleConfig} Header="h5">
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					<Code>onInit</Code>
-					{' '}
-					parameter example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA onInit parameter example"
-				src="https://codesandbox.io/embed/92872r?view=editor+%2B+preview&module=%2Fsrc%2FOnInitExample.tsx"
+				src="https://stackblitz.com/edit/use-cta-on-init-tdgkwq3j-jmgwenlh?ctl=1&embed=1&file=src%2FOnInitExample.tsx"
 			/>
 		</Sect>
 	</>;

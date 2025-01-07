@@ -12,7 +12,7 @@ import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
-import ExampleDetails from '../../../ui/exampleDetails';
+import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
 
 export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
@@ -148,20 +148,9 @@ export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
 			</Content>
 		</Sect>
 		<Sect {...useCTAParameterTransformExampleConfig} Header="h5">
-			<ExampleDetails
-				summary={<>
-					Click to view
-					{' '}
-					<Code>useCTA</Code>
-					{' '}
-					parameter
-					{' '}
-					<Code>transform</Code>
-					{' '}
-					example
-				</>}
+			<Embed
 				title="react-hook-use-cta useCTA parameter transform example"
-				src="https://codesandbox.io/embed/874y5s?view=editor+%2B+preview&module=%2Fsrc%2FUseCTAfterActionChangeExample.tsx"
+				src="https://stackblitz.com/edit/use-cta-transform-tdgkwq3j-kyc7wvdw-udamtqvj?ctl=1&embed=1&file=src%2FUseCTATransform.tsx"
 			/>
 		</Sect>
 	</>;
