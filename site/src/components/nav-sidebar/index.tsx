@@ -1,9 +1,7 @@
-import GithubIcon from '../ui/githubIcon';
 import NavHiddenCheck from '../ui/navHiddenCheck';
 import NavList from '../ui/navList';
 import NavOverlayCloseButton from '../ui/navOverlayCloseButton';
 
-import pkg from '../../../../package.json';
 import NavOverlyHiddenCheck from '../ui/navOverlayHiddenCheck';
 
 export default function NavSidebar() {
@@ -18,29 +16,13 @@ export default function NavSidebar() {
 			+ ' sm:peer-checked/side:*:translate-x-0 sm:peer-checked/side:w-full'}
 		>
 			<nav
-				className="flex w-full max-w-[--navbar-max-width] grow -translate-x-full flex-col space-y-2 overflow-hidden bg-black pb-2 transition-transform"
+				className="flex w-full max-w-[--navbar-max-width] grow -translate-x-full flex-col space-y-2 overflow-hidden bg-black pb-3 transition-transform"
 			>
 				<header className="flex p-1">
 					<h1 className="grow text-wrap text-2xl font-bold">react-hook-use-cta</h1>
 					<NavOverlayCloseButton />
 				</header>
 				<NavList />
-				<footer className="flex justify-between p-2">
-					<p>
-						Version
-						{' '}
-						{pkg.version}
-					</p>
-					<a
-						href="https://github.com/rafde/react-hook-use-cta"
-						target="_blank"
-						className="size-6 overflow-hidden"
-						rel="noreferrer"
-						aria-label="Link to open new window react-hook-use-cta GitHub repository"
-					>
-						<GithubIcon />
-					</a>
-				</footer>
 			</nav>
 		</aside>
 	</>;
