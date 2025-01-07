@@ -27,7 +27,6 @@ export default function ExampleDetails( props: ExampleDetailsProps, ) {
 			openRef.current = true;
 		}
 	}, [isOpen,], );
-
 	const onKeyDown = useCallback( ( event: KeyboardEvent, ) => {
 		if ( event.key === 'Enter' || event.key === ' ' ) {
 			onClick();
@@ -36,7 +35,7 @@ export default function ExampleDetails( props: ExampleDetailsProps, ) {
 
 	return (
 		<details
-			className="pb-2"
+			className="min-h-[500px] overflow-hidden pb-2"
 			open={isOpen}
 		>
 			<summary
@@ -52,7 +51,8 @@ export default function ExampleDetails( props: ExampleDetailsProps, ) {
 					<CodeIcon size="1rem" />
 				</div>
 			</summary>
-			{openRef.current && <iframe
+			{openRef.current
+			&& <iframe
 				src={src}
 				className="h-[500px] w-full overflow-hidden rounded-s border-0"
 				title={title}

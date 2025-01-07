@@ -101,7 +101,7 @@ export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordPr
 					parameter example
 				</>}
 				title="react-hook-use-cta useCTA afterActionChange parameter example"
-				src=""
+				src="https://codesandbox.io/embed/9gdndt?view=editor+%2B+preview&module=%2Fsrc%2FUseCTAfterActionChangeExample.tsx&expanddevtools=1"
 			/>
 		</Sect>
 	</>;
