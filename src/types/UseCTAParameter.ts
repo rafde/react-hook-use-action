@@ -10,17 +10,11 @@ import { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
 export type UseCTAParameter<
 	Initial extends CTAState,
 	Actions,
-> = Actions extends undefined ? (
-	UseCTAParameterDefaults<Initial> & {
-		actions?: undefined
-	}
-) : (
-	UseCTAParameterDefaults<Initial> & {
+> = UseCTAParameterDefaults<Initial> & {
 	/**
 	 *  Optional {@link UseCTAParameterActionsRecordProp}
 	 * - `object` to define custom and/or overridden actions for state management.
 	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
 	 */
-		actions: Actions
-	}
-);
+	actions?: Actions
+};

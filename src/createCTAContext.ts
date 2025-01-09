@@ -23,6 +23,8 @@ import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
 
 import { useCTA, } from './useCTA';
 
@@ -52,6 +54,11 @@ import { useCTA, } from './useCTA';
  * @param {UseCTAParameterAfterActionChange} [contextParams.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
+ *
+ * @param {UseCTAParameterTransform} [contextParams.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
  * @param {UseCTAParameterActionsRecordProp} [contextParams.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
@@ -137,7 +144,7 @@ import { useCTA, } from './useCTA';
 export function createCTAContext<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions,
+	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >( contextParams: UseCTAParameter<Initial, Actions>, ): CreateCTAContextReturn<Initial, ActionsRecord> {
 	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
 		changes: null,

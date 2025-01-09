@@ -12,6 +12,8 @@ import type {
 } from './types/UseCTAReturnTypeDispatch';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
 
 import { compareCallback, } from './internal/compareCallback';
 import { createDispatchInterface, } from './internal/createDispatchInterface';
@@ -37,6 +39,11 @@ import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
  * @param {UseCTAParameterAfterActionChange} [ctaParameter.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
+ *
+ * @param {UseCTAParameterTransform} [ctaParameter.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
  * @param {UseCTAParameterActionsRecordProp} [ctaParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
@@ -126,7 +133,7 @@ import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
 export function createCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions,
+	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	ctaParameter: CreateCTAProps<Initial, ActionsRecord>,
 ): [
@@ -186,9 +193,8 @@ export function createCTA<
 			return history;
 		},
 		actions,
+		history,
 	);
-
-	ctaCallback.history = history;
 
 	return [
 		history,

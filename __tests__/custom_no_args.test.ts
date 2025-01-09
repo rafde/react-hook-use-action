@@ -19,10 +19,12 @@ const customCTAParam = returnCTAParameter( {
 }, );
 
 const customAndUpdateCTAParam = returnCTAParameter( {
-	...customCTAParam,
+	initial,
 	actions: {
-		...customCTAParam.actions,
 		...updateCTAParam.actions,
+		customNoArgs() {
+			return changes;
+		},
 	},
 }, );
 

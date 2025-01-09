@@ -44,8 +44,8 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
  */
 export function returnCTAParameter<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial>,
-	ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions,
+	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >( params: UseCTAParameter<Initial, ActionsRecord>, ): UseCTAParameter<Initial, ActionsRecord> {
 	return params;
 }
