@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, } from 'react';
-import useTopicView from '../../hooks/useTopicView';
+import useCTATopicView from '../../hooks/useCTATopicView';
 
 type TopicInViewProps = {
 	href: string
@@ -11,7 +11,7 @@ export default function TopicInView( props: TopicInViewProps, ) {
 		href,
 	} = props;
 	const elRef = useRef<HTMLDivElement>( null, );
-	const topicObserver = useTopicView( state => state.getTopicObserver(), );
+	const topicObserver = useCTATopicView( ( { gets, }, ) => gets.topicObserver(), );
 
 	useEffect( () => {
 		if ( elRef.current == null || !topicObserver ) {
