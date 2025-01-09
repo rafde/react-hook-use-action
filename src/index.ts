@@ -6,6 +6,8 @@ export { createCTAContext, } from './createCTAContext';
 
 export { createCTA, } from './createCTA';
 
+export { createCTASelector, } from './createCTASelector';
+
 export type { CTAState, } from './types/CTAState';
 
 export type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
