@@ -23,7 +23,12 @@ export default function usePublicCTA<
 	] = params.stateDispatcher;
 
 	const dispatch = useMemo(
-		() => createDispatchInterface<Initial, Actions>( ctaDispatch, actions, ),
+		() => createDispatchInterface<Initial, Actions>(
+			( ...args ) => {
+				ctaDispatch( ...args, );
+			},
+			actions,
+		),
 		[
 			ctaDispatch,
 			actions,

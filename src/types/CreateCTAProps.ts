@@ -9,12 +9,6 @@ type CreateCTAPropsDefaults<Initial extends CTAState,> = Pick<
 export type CreateCTAProps<
 	Initial extends CTAState,
 	Actions,
-> = Actions extends undefined ? (
-	CreateCTAPropsDefaults<Initial> & {
-		actions?: undefined
-	}
-) : (
-	CreateCTAPropsDefaults<Initial> & {
-		actions: Actions
-	}
-);
+> = CreateCTAPropsDefaults<Initial> & {
+	actions?: Actions
+};

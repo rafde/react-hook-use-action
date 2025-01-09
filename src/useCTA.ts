@@ -19,6 +19,8 @@ import type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchCTA, } from './t
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
 
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
@@ -47,6 +49,11 @@ import usePublicCTA from './internal/usePublicCTA';
  * @param {UseCTAParameterAfterActionChange} [useCTAParameter.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
+ *
+ * @param {UseCTAParameterTransform} [useCTAParameter.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
  * @param {UseCTAParameterActionsRecordProp} [useCTAParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` type to define custom and/or overridden actions for state management.
@@ -134,7 +141,7 @@ import usePublicCTA from './internal/usePublicCTA';
 export function useCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions,
+	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	useCTAParameter: UseCTAParameter<Initial, ActionsRecord>,
 ): UseCTAReturnType<Initial, ActionsRecord> {
