@@ -1,5 +1,6 @@
 import { useMemo, } from 'react';
 
+import createCTAHistory from './createCTAHistory';
 import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
@@ -37,13 +38,7 @@ export default function usePublicCTA<
 
 	return useMemo(
 		() => {
-			const history: CTAHistory<Initial> = {
-				changes: ctaState.changes,
-				current: ctaState.current,
-				initial: ctaState.initial,
-				previous: ctaState.previous,
-				previousInitial: ctaState.previousInitial,
-			};
+			const history: CTAHistory<Initial> = createCTAHistory( ctaState, );
 			dispatch.history = history;
 
 			return [

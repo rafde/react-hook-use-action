@@ -1,3 +1,4 @@
+import createCTAHistory from './internal/createCTAHistory';
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
@@ -12,6 +13,8 @@ import type {
 } from './types/UseCTAReturnTypeDispatch';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
 
@@ -148,13 +151,7 @@ export function createCTA<
 		: {
 			...ctaParameter.actions,
 		};
-	let history: CTAHistory<Initial> = {
-		changes: null,
-		current: initial,
-		initial,
-		previous: null,
-		previousInitial: null,
-	};
+	let history: CTAHistory<Initial> = createCTAHistory( { current: initial, }, );
 	let ctaReducerState: CTAReducerState<Initial> = {
 		...history,
 		actionType: '' as 'update',
@@ -179,13 +176,7 @@ export function createCTA<
 
 			if ( newCtaReducerState !== ctaReducerState ) {
 				ctaReducerState = newCtaReducerState;
-				history = {
-					changes: ctaReducerState.changes,
-					current: ctaReducerState.current,
-					initial: ctaReducerState.initial,
-					previous: ctaReducerState.previous,
-					previousInitial: ctaReducerState.previousInitial,
-				};
+				history = createCTAHistory( newCtaReducerState, );
 				ctaParameter?.afterActionChange?.( history, ctaReducerState.actionType, ctaReducerState.customAction, );
 			}
 

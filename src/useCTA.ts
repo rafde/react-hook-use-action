@@ -1,6 +1,10 @@
 import { useEffect, useMemo, } from 'react';
-import { CTAReducerState, } from './internal/ctaReducer';
 
+import createCTAHistory from './internal/createCTAHistory';
+import usePrivateCTA from './internal/usePrivateCTA';
+import usePublicCTA from './internal/usePublicCTA';
+
+import type { CTAReducerState, } from './internal/ctaReducer';
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
@@ -21,9 +25,6 @@ import type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchCTA, } from './t
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
-
-import usePrivateCTA from './internal/usePrivateCTA';
-import usePublicCTA from './internal/usePublicCTA';
 
 /**
  * A React hook for managing complex state with custom actions, history tracking, and type safety.
@@ -172,13 +173,7 @@ export function useCTA<
 				}
 				oldState = ctaReducerState;
 				Promise.resolve().then( () => useCTAParameter?.afterActionChange?.(
-					{
-						changes: ctaReducerState.changes,
-						current: ctaReducerState.current,
-						initial: ctaReducerState.initial,
-						previous: ctaReducerState.previous,
-						previousInitial: ctaReducerState.previousInitial,
-					},
+					createCTAHistory( ctaReducerState, ),
 					ctaReducerState.actionType,
 					ctaReducerState.customAction,
 				), );
