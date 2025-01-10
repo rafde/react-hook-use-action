@@ -1,4 +1,8 @@
 import createCTAHistory from './internal/createCTAHistory';
+import compareCallback from './internal/compareCallback';
+import createDispatchInterface from './internal/createDispatchInterface';
+import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
+
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
@@ -17,10 +21,6 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
-
-import { compareCallback, } from './internal/compareCallback';
-import createDispatchInterface from './internal/createDispatchInterface';
-import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
 
 /**
  * A `function` that provides a way to execute like {@link useCTA} but outside a React component.
