@@ -5,6 +5,7 @@ import {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 	type Context,
 } from 'react';
+import createCTAHistory from './internal/createCTAHistory';
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTAContextReturn, } from './types/CreateCTAContextReturn';
 import type { CTAState, } from './types/CTAState';
@@ -146,13 +147,9 @@ export function createCTAContext<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >( contextParams: UseCTAParameter<Initial, Actions>, ): CreateCTAContextReturn<Initial, ActionsRecord> {
-	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>( {
-		changes: null,
-		current: contextParams.initial,
-		initial: contextParams.initial,
-		previous: null,
-		previousInitial: null,
-	}, );
+	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>(
+		createCTAHistory( { current: contextParams.initial, }, ),
+	);
 	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
 
 	return {
