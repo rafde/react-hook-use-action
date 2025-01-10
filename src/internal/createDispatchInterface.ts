@@ -13,7 +13,7 @@ type UpdateCTAProps<
 	Initial extends CTAState,
 > = Extract<Parameters<DispatchCTA<Initial, undefined>>[0], { type: 'update' | 'updateInitial' }>;
 
-export function createDispatchInterface<
+export default function createDispatchInterface<
 	Initial extends CTAState,
 	Actions,
 	ReturnValue = void,
