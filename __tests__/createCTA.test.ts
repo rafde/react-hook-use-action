@@ -53,10 +53,12 @@ describe( 'createCTA', () => {
 		const count = 1;
 		const newState = dispatch.cta.update( { count, }, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( {
 			...initial,
 			count,
 		}, );
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
 		expect( newState.previousInitial, ).toBeNull( );
@@ -68,10 +70,12 @@ describe( 'createCTA', () => {
 		const count = 1;
 		const newState = dispatch.cta.update( 'count', count, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( {
 			...initial,
 			count,
 		}, );
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
 		expect( newState.previousInitial, ).toBeNull( );
@@ -83,6 +87,7 @@ describe( 'createCTA', () => {
 		const val = 'count';
 		const newState = dispatch.cta.update( 2, val, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( {
 			...initial,
 			2: val,
@@ -99,6 +104,7 @@ describe( 'createCTA', () => {
 		dispatch.cta.update( { count, }, );
 		const resetState = dispatch.cta.reset();
 
+		expect( resetState, ).toStrictEqual( dispatch.history, );
 		expect( resetState.current, ).toStrictEqual( initial, );
 		expect( resetState.previous, ).toStrictEqual( {
 			...initial,
@@ -110,8 +116,7 @@ describe( 'createCTA', () => {
 	}, );
 
 	test( 'should handle custom actions', () => {
-		const count = 1;
-		const [, dispatch,] = createCTA( {
+		const [history, dispatch,] = createCTA( {
 			initial,
 			actions: {
 				increment( ctaParam, ) {
@@ -124,14 +129,17 @@ describe( 'createCTA', () => {
 		}, );
 		const newState = dispatch.cta.increment();
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( {
 			...initial,
-			count,
+			count: history.current.count + 1,
 		}, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
 		expect( newState.previousInitial, ).toBeNull( );
-		expect( newState.changes, ).toStrictEqual( { count, }, );
+		expect( newState.changes, ).toStrictEqual( {
+			count: history.current.count + 1,
+		}, );
 	}, );
 
 	test( 'should handle custom update action', () => {
@@ -151,6 +159,7 @@ describe( 'createCTA', () => {
 
 		const newState = dispatch.cta.update( { text, }, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( {
 			...initial,
 			text,
@@ -171,6 +180,7 @@ describe( 'createCTA', () => {
 
 		const newState = dispatch.cta.updateInitial( { count, }, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( initial, );
 		expect( newState.previous, ).toBeNull( );
 		expect( newState.initial, ).toStrictEqual( {
@@ -192,6 +202,7 @@ describe( 'createCTA', () => {
 		};
 		const newState = dispatch.cta.replaceInitial( newInitial, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( initial, );
 		expect( newState.previous, ).toBeNull( );
 		expect( newState.initial, ).toEqual( newInitial, );
@@ -210,6 +221,7 @@ describe( 'createCTA', () => {
 		};
 		const newState = dispatch.cta.replace( newInitial, );
 
+		expect( newState, ).toStrictEqual( dispatch.history, );
 		expect( newState.current, ).toStrictEqual( newInitial, );
 		expect( newState.previous, ).toStrictEqual( initial, );
 		expect( newState.initial, ).toStrictEqual( initial, );
@@ -217,14 +229,25 @@ describe( 'createCTA', () => {
 		expect( newState.changes, ).toStrictEqual( newInitial, );
 	}, );
 
-	test( 'should handle custom compare function', () => {
-		const customCompare = ( a: unknown, b: unknown, ) => JSON.stringify( a, ) === JSON.stringify( b, );
+	test( 'should handle optional parameters', () => {
+		const payload = { count: 3, };
+		const compare = jest.fn( ( a: unknown, b: unknown, ) => JSON.stringify( a, ) === JSON.stringify( b, ), );
+		const afterActionChange = jest.fn( () => {
+			// ensure this is called after the action has changed data
+		}, );
+		const transform = jest.fn( payload => payload, );
 		const [, dispatch,] = createCTA( {
 			initial,
-			compare: customCompare,
+			compare,
+			afterActionChange,
+			transform,
 		}, );
 
-		const newState = dispatch.cta.update( { count: 0, }, );
-		expect( newState.changes, ).toBeNull( );
+		const newState = dispatch.cta.update( payload, );
+		expect( newState, ).toStrictEqual( dispatch.history, );
+		expect( newState.changes, ).toStrictEqual( payload, );
+		expect( compare, ).toHaveBeenCalled();
+		expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
 	}, );
 }, );
