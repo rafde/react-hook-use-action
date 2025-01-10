@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useReducer, } from 'react';
-import { compareCallback, } from './compareCallback';
+import compareCallback from './compareCallback';
 
-import ctaReducer, { CTAReducerState, } from './ctaReducer';
+import ctaReducer, { type CTAReducerState, } from './ctaReducer';
 
 import type { CTAState, } from '../types/CTAState';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
