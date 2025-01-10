@@ -1,8 +1,5 @@
 import { useSyncExternalStore, } from 'react';
-import compareCallback from './internal/compareCallback';
-import createDispatchInterface from './internal/createDispatchInterface';
-import createCTAHistory from './internal/createCTAHistory';
-import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
+import createCTABase from './internal/createCTABase';
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTASelectorProps, } from './types/CreateCTASelectorProps';
 import type { CTAHistory, } from './types/CTAHistory';
@@ -87,54 +84,20 @@ export function createCTASelector<
 		} ) => GR
 	) = () => ( {} as GR ),
 ) {
-	const {
-		initial,
-	} = ctaParameter;
-	const actions = typeof ctaParameter.actions === 'undefined'
-		? undefined
-		: {
-			...ctaParameter.actions,
-		};
-	let history: CTAHistory<Initial> = createCTAHistory( { current: initial, }, );
-	let ctaReducerState: CTAReducerState<Initial> = {
-		...history,
-		actionType: '' as 'update',
-		customAction: undefined,
-		changesMap: new Map(),
-	};
-	const compare = compareCallback( ctaParameter.compare, );
-	const dispatch = createDispatchInterface<
-		Initial,
-		ActionsRecord
-	>(
-		function ctaSelectorState( nextCTAProps, ) {
-			const next = ctaReducer<Initial, ActionsRecord>( {
-				actions,
-				compare,
-				ctaReducerState,
-				nextCTAProps,
-				transform: ctaParameter.transform,
-			}, );
-
-			if ( next === ctaReducerState ) {
-				return;
-			}
-
-			ctaReducerState = next;
-			history = createCTAHistory( next, );
-			dispatch.history = history;
-
+	const ctaReducerResults = createCTABase<Initial, ActionsRecord, void>( {
+		...ctaParameter,
+		onStateChange: ( newHistory, ) => {
+			history = newHistory;
 			snapshot = {
-				...history,
+				...newHistory,
 				dispatch,
 				gets,
 			};
 			listeners.forEach( listener => listener( snapshot, ), );
-			ctaParameter.afterActionChange?.( history, ctaReducerState.actionType, ctaReducerState.customAction, );
 		},
-		actions,
-		history,
-	);
+	}, );
+	let { history, } = ctaReducerResults;
+	const { dispatch, } = ctaReducerResults;
 	function getHistory() {
 		return history;
 	}

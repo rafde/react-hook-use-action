@@ -1,7 +1,4 @@
-import createCTAHistory from './internal/createCTAHistory';
-import compareCallback from './internal/compareCallback';
-import createDispatchInterface from './internal/createDispatchInterface';
-import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
+import createCTABase from './internal/createCTABase';
 
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAHistory, } from './types/CTAHistory';
@@ -143,52 +140,10 @@ export function createCTA<
 		CTAHistory<Initial>,
 		UseCTAReturnTypeDispatch<Initial, ActionsRecord, CTAHistory<Initial>>,
 	] {
-	const {
-		initial,
-	} = ctaParameter;
-	const actions = typeof ctaParameter.actions === 'undefined'
-		? undefined
-		: {
-			...ctaParameter.actions,
-		};
-	let history: CTAHistory<Initial> = createCTAHistory( { current: initial, }, );
-	let ctaReducerState: CTAReducerState<Initial> = {
-		...history,
-		actionType: '' as 'update',
-		customAction: undefined,
-		changesMap: new Map(),
-	};
-	const compare = compareCallback( ctaParameter.compare, );
-
-	const ctaCallback = createDispatchInterface<
-		Initial,
-		ActionsRecord,
-		CTAHistory<Initial>
-	>(
-		function _ctaCallback( nextCTAProps: Parameters<typeof ctaReducer<Initial, ActionsRecord>>[0]['nextCTAProps'], ) {
-			const newCtaReducerState = ctaReducer<Initial, ActionsRecord>( {
-				actions,
-				compare,
-				ctaReducerState,
-				nextCTAProps,
-				transform: ctaParameter.transform,
-			}, );
-
-			if ( newCtaReducerState !== ctaReducerState ) {
-				ctaReducerState = newCtaReducerState;
-				history = createCTAHistory( newCtaReducerState, );
-				ctaParameter?.afterActionChange?.( history, ctaReducerState.actionType, ctaReducerState.customAction, );
-			}
-
-			ctaCallback.history = history;
-			return history;
-		},
-		actions,
-		history,
-	);
+	const { history, dispatch, } = createCTABase<Initial, ActionsRecord>( ctaParameter, );
 
 	return [
 		history,
-		ctaCallback,
+		dispatch,
 	];
 }
