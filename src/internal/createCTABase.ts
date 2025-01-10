@@ -24,7 +24,7 @@ export default function createCTABase<
 ) {
 	const {
 		initial,
-		onStateChange = () => history,
+		onStateChange = history => history,
 	} = params;
 	const actions = typeof params.actions === 'undefined'
 		? undefined
