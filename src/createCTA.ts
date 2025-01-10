@@ -19,7 +19,7 @@ import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
 
 import { compareCallback, } from './internal/compareCallback';
-import { createDispatchInterface, } from './internal/createDispatchInterface';
+import createDispatchInterface from './internal/createDispatchInterface';
 import ctaReducer, { type CTAReducerState, } from './internal/ctaReducer';
 
 /**

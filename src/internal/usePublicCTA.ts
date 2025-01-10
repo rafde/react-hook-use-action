@@ -1,11 +1,12 @@
 import { useMemo, } from 'react';
 
 import createCTAHistory from './createCTAHistory';
+import createDispatchInterface from './createDispatchInterface';
+
 import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
-import { createDispatchInterface, } from './createDispatchInterface';
 import type { UsePrivateCTAReturnType, } from './usePrivateCTA';
 
 export default function usePublicCTA<
