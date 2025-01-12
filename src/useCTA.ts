@@ -145,7 +145,7 @@ export function useCTA<
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	useCTAParameter: UseCTAParameter<Initial, ActionsRecord>,
-): UseCTAReturnType<Initial, ActionsRecord> {
+): UseCTAReturnType<Initial, ActionsRecord, void> {
 	const actions = useMemo(
 		() => {
 			if ( useCTAParameter.actions && typeof useCTAParameter.actions === 'object' ) {

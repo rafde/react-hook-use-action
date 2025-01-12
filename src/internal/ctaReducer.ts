@@ -2,7 +2,7 @@ import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
-import { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
+import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
@@ -485,11 +485,12 @@ const _noopTransform = <Initial extends CTAState,>( nextState: Initial, ) => nex
 export default function ctaReducer<
 	Initial extends CTAState,
 	Actions,
+	ReturnType,
 >( params: {
 	actions?: UseCTAParameter<Initial, Actions>['actions']
 	compare: CompareCallbackReturnType
 	ctaReducerState: CTAReducerState<Initial>
-	nextCTAProps: Parameters<DispatchCTA<Initial, Actions>>[0]
+	nextCTAProps: Parameters<DispatchCTA<Initial, Actions, ReturnType>>[0]
 	transform?: UseCTAParameterTransform<Initial>
 }, ): CTAReducerState<Initial> {
 	const {

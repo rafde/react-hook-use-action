@@ -11,7 +11,7 @@ import type { CTAHistory, } from '../types/CTAHistory';
 export default function createCTABase<
 	Initial extends CTAState,
 	Actions,
-	ReturnType = CTAHistory<Initial>,
+	ReturnType,
 >(
 	params: {
 		initial: Initial
@@ -42,7 +42,7 @@ export default function createCTABase<
 
 	const dispatch = createDispatchInterface<Initial, Actions, ReturnType>(
 		function ctaBaseCallback( nextCTAProps, ) {
-			const next = ctaReducer<Initial, Actions>( {
+			const next = ctaReducer<Initial, Actions, ReturnType>( {
 				actions,
 				compare,
 				ctaReducerState,
@@ -61,8 +61,8 @@ export default function createCTABase<
 
 			return onStateChange?.( history, ctaReducerState, ) as ReturnType;
 		},
-		actions,
 		history,
+		actions,
 	);
 
 	return {

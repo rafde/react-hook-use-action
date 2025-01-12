@@ -147,10 +147,11 @@ export function createCTAContext<
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >( contextParams: UseCTAParameter<Initial, Actions>, ): CreateCTAContextReturn<Initial, ActionsRecord> {
-	const CTAContextHistory = createContext<UseCTAReturnType<Initial, Actions>[0]>(
+	type ReturnType = UseCTAReturnType<Initial, ActionsRecord, void>;
+	const CTAContextHistory = createContext<ReturnType[0]>(
 		createCTAHistory( { current: contextParams.initial, }, ),
 	);
-	const CTAContextDispatch = createContext<UseCTAReturnType<Initial, ActionsRecord>[1] | null>( null, );
+	const CTAContextDispatch = createContext<ReturnType[1] | null>( null, );
 
 	return {
 		CTAProvider( {
@@ -179,7 +180,7 @@ export function createCTAContext<
 				createElement(
 					CTAContextDispatch.Provider,
 					{
-						value: dispatch as unknown as UseCTAReturnType<Initial, ActionsRecord>[1],
+						value: dispatch as unknown as ReturnType[1],
 					},
 					children,
 				),
@@ -192,7 +193,7 @@ export function createCTAContext<
 				return ctaDispatchContext satisfies null;
 			}
 
-			return ctaDispatchContext satisfies UseCTAReturnType<Initial, ActionsRecord>[1];
+			return ctaDispatchContext satisfies ReturnType[1];
 		},
 		useCTAHistoryContext() {
 			return useContext( CTAContextHistory, );
