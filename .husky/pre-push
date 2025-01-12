@@ -1,5 +1,8 @@
-echo "Running typescript";
-npm run tsc
 echo "Running tests";
 npm run test
+echo "Running typescript";
+npm run tsc
+echo "Running site typescript";
+cd site
+npm run tsc
 echo "Husky pre-push done";
