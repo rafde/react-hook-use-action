@@ -22,11 +22,11 @@ export const createCTAParametersConfig: NavItem = {
 	desc: <>
 		<Code>createCTA</Code>
 		{' '}
-		Parameters
+		Parameter
 	</>,
-	href: 'create-cta-parameters',
-	navTitle: 'Parameters',
-	title: 'Parameters',
+	href: 'create-cta-parameter',
+	navTitle: 'Parameter',
+	title: 'Parameter',
 };
 
 export const createCTAReturnValuesConfig: NavItem = {

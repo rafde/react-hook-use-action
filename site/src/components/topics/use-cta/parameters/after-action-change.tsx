@@ -1,79 +1,36 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import BuiltInLink from '../../../links/built-in';
+import CustomActionLink from '../../../links/custom-action';
+import StateHistoryLink from '../../../links/state-history';
 import {
-	useCTAParameterActionsConfig,
+	useCTAAfterActionChangeParametersConfig,
+	useCTAfterActionChangeReturnConfig,
 	useCTAParameterAfterActionChangeConfig,
-	useCTAParameterAfterActionChangeExampleConfig, useCTAReturnValues0HistoryConfig,
+	useCTAParameterAfterActionChangeExampleConfig,
 } from '../../../nav-sidebar/config/use-cta-config';
-import {
-	useCTAParameterActionsCustomConfig,
-} from '../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
-import PopoverUseCTAParameterActionsOverridableRecord from '../../../popover/UseCTAParameterActionsOverridableRecord';
-import Anchor from '../../../ui/anchor';
+import RelatedLiCreateCTA from '../../../related-li/create-cta-li';
+import RelatedLiCreateCTASelector from '../../../related-li/create-cta-selector-li';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
+import RelatedLiUseCTACommon from '../../../related-li/common-cta-li';
 
-export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordProps, ) {
+export function UseCTAParameterAfterActionChangeTopic() {
 	return <>
 		<Sect {...useCTAParameterAfterActionChangeConfig}>
 			<Content>
 				<p>
 					<i>Optional</i>
 					{' '}
-					callback:
+					callback that is a related parameter for:
 				</p>
-				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterAfterActionChange.ts' ]}</CodeBlock>
-				<ol className="list-inside list-decimal">
-					<li>
-						<Code>ctaHistory</Code>
-						{': '}
-						New
-						{' '}
-						<Anchor
-							href={useCTAReturnValues0HistoryConfig.href}
-							aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title} section`}>
-							state history
-						</Anchor>
-						.
-					</li>
-					<li>
-						<Code>actionType</Code>
-						{': '}
-						The name of the built-in
-						{' '}
-						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-							<Code>action</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterActionsOverridableRecord sourceCodeRecord={props.sourceCodeRecord} />
-						{' '}
-						it will behave like.
-					</li>
-					<li>
-						<Code>customActionName</Code>
-						{': '}
-						The name of the
-						{' '}
-						<Anchor
-							aria-label={useCTAParameterActionsCustomConfig.title}
-							href={useCTAParameterActionsCustomConfig.href}>
-							custom action
-						</Anchor>
-						{' '}
-						that called it.
-						{' '}
-						<Code>undefined</Code>
-						{' '}
-						if no custom action was called.
-					</li>
-				</ol>
-
-				<p>
-					There&#39;s no return value.
-				</p>
-
+				<ul className="list-inside list-[square]">
+					<RelatedLiCreateCTA />
+					<RelatedLiCreateCTASelector />
+					<RelatedLiUseCTACommon />
+				</ul>
+				<CodeBlockSource src="types/UseCTAParameterAfterActionChange.ts" />
 				<b>Features:</b>
 				<ul className="list-inside list-[square]">
 					<li>Internally, this gets called asynchronously.</li>
@@ -94,6 +51,49 @@ export function UseCTAParameterAfterActionChangeTopic( props: SourceCodeRecordPr
 				title="react-hook-use-cta useCTA afterActionChange parameter example"
 				src="https://stackblitz.com/edit/use-cta-after-action-change-gtdgkwq3j-kyc7wvdw-dadadnur?ctl=1&embed=1&file=src%2FUseCTAAfterActionChange.tsx"
 			/>
+		</Sect>
+		<Sect {...useCTAAfterActionChangeParametersConfig}>
+			<Content>
+				<ol className="list-inside list-decimal">
+					<li>
+						<Code>ctaHistory</Code>
+						{': '}
+						New
+						{' '}
+						<StateHistoryLink />
+						.
+					</li>
+					<li>
+						<Code>actionType</Code>
+						{': '}
+						The name of the
+						{' '}
+						<BuiltInLink />
+						{' '}
+						it will behave like.
+					</li>
+					<li>
+						<Code>customActionName</Code>
+						{': '}
+						The name of the
+						{' '}
+						<CustomActionLink />
+						{' '}
+						that called it.
+						{' '}
+						<Code>undefined</Code>
+						{' '}
+						if no custom action was called.
+					</li>
+				</ol>
+			</Content>
+		</Sect>
+		<Sect {...useCTAfterActionChangeReturnConfig}>
+			<Content>
+				<p>
+					There&#39;s no return value.
+				</p>
+			</Content>
 		</Sect>
 	</>;
 }

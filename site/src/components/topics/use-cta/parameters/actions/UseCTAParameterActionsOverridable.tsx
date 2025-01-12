@@ -1,4 +1,3 @@
-import { SourceCodeRecordProps, } from '../../../../../types/source-code-record-props';
 import { useCTAParameterTransformConfig, } from '../../../../nav-sidebar/config/use-cta-config';
 
 import {
@@ -20,20 +19,27 @@ import {
 } from '../../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
-import CodeBlock from '../../../../ui/codeBlock';
+import CodeBlockSource from '../../../../ui/codeBlock/Source';
 import Content from '../../../../ui/content';
 import Embed from '../../../../ui/embed';
 import Sect from '../../../../ui/sect';
+import ReplaceActionDescription from './replace-action-description';
+import ReplaceInitialActionDescription from './replace-initial-action-description';
+import UpdateActionDescription from './update-action-description';
+import UpdateInitialActionDescription from './update-initial-action-description';
 
-export default function UseCTAParameterActionsOverridableTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAParameterActionsOverridableTopic() {
 	return <>
 		<Sect {...useCTAParameterActionsOverridableConfig}>
 			<Content>
 				<i>Optional</i>
-				<p>Alternative to overriding built-in actions.</p>
-				<Anchor aria-label="Link to useCTA Parameter transform" href={useCTAParameterTransformConfig.href}>{useCTAParameterTransformConfig.desc}</Anchor>
+				<p>
+					Related to
+					{' '}
+					<Anchor aria-label="Link to useCTA Parameter transform" href={useCTAParameterTransformConfig.href}>{useCTAParameterTransformConfig.desc}</Anchor>
+				</p>
 			</Content>
-			<CodeBlock copyButton={false}>{props.sourceCodeRecord.UseCTAParameterActionsOverridable}</CodeBlock>
+			<CodeBlockSource src="UseCTAParameterActionsOverridable" />
 			<Content>
 				<p>
 					All built-in call-to-actions (CTA) can have their behaviors extended or modified.
@@ -55,7 +61,7 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 		</Sect>
 
 		<Sect {...useCTAParameterActionsOverridableParameterCTAHistoryConfig}>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAHistory.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/CTAHistory.ts" />
 			<Content>
 				<p>
 					The first parameter every overridable action receives.
@@ -161,16 +167,14 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>dispatch.cta.update</Code>
 					</Anchor>
 				</div>
-				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropUpdate}</CodeBlock>
-				<div>
+				<CodeBlockSource src="UseCTAParameterActionsRecordPropUpdate" isTrim={false} />
+				<p>
 					<Code>payload</Code>
 					{' '}
-					updates specific
+					will
 					{' '}
-					<Code>CTAHistory.current</Code>
-					{' '}
-					state properties while preserving other values.
-				</div>
+					<UpdateActionDescription />
+				</p>
 				<p>
 					Overriding lets you return:
 				</p>
@@ -198,15 +202,13 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>dispatch.cta.replace</Code>
 					</Anchor>
 				</p>
-				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReplace}</CodeBlock>
+				<CodeBlockSource src="UseCTAParameterActionsRecordPropReplace" isTrim={false} />
 				<div>
 					<Code>payload</Code>
 					{' '}
-					replaces all
+					will
 					{' '}
-					<Code>CTAHistory.current</Code>
-					{' '}
-					property values with new property values.
+					<ReplaceActionDescription />
 				</div>
 				<p>
 					Overriding lets you return:
@@ -235,28 +237,45 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>dispatch.cta.reset</Code>
 					</Anchor>
 				</div>
-				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReset}</CodeBlock>
-				<div>
-					Reset can do the following based on what
+				<CodeBlockSource src="UseCTAParameterActionsRecordPropReset" isTrim={false} />
+				<p>
+					Normally when
 					{' '}
+					<Code>dispatch.cta.reset()</Code>
+					{' '}
+					is called, it resets the
+					{' '}
+					<Code>CTAHistory.current</Code>
+					{' '}
+					state back to the
+					{' '}
+					<Code>CTAHistory.initial</Code>
+					{' '}
+					state. But overriding the action allows you to handle the reset in a different way.
+				</p>
+				<p>
 					<Code>payload</Code>
 					{' '}
-					it receives.
-				</div>
+					can be the following:
+				</p>
 				<ul className="list-inside list-[square]">
 					<li>
 						<Code>undefined</Code>
 						:
 						{' '}
-						resets the
+						Handle how you want
 						{' '}
 						<Code>CTAHistory.current</Code>
 						{' '}
-						state back to the
+						and
 						{' '}
 						<Code>CTAHistory.initial</Code>
 						{' '}
-						state.
+						to be set when no
+						{' '}
+						<Code>payload</Code>
+						{' '}
+						is sent.
 					</li>
 					<li>
 						<Code>payload</Code>
@@ -303,15 +322,12 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>dispatch.cta.updateInitial</Code>
 					</Anchor>
 				</p>
-				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropUpdateInitial}</CodeBlock>
+				<CodeBlockSource src="UseCTAParameterActionsRecordPropUpdateInitial" isTrim={false} />
 				<div>
 					<Code>payload</Code>
 					{' '}
-					updates specific
-					{' '}
-					<Code>CTAHistory.initial</Code>
-					{' '}
-					state properties while preserving other values.
+					will
+					<UpdateInitialActionDescription />
 				</div>
 				<p>
 					Overriding lets you return:
@@ -342,15 +358,12 @@ export default function UseCTAParameterActionsOverridableTopic( props: SourceCod
 						<Code>dispatch.cta.replaceInitial</Code>
 					</Anchor>
 				</div>
-				<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsRecordPropReplaceInitial}</CodeBlock>
+				<CodeBlockSource src="UseCTAParameterActionsRecordPropReplaceInitial" isTrim={false} />
 				<div>
 					<Code>payload</Code>
 					{' '}
-					replaces all
-					{' '}
-					<Code>CTAHistory.initial</Code>
-					{' '}
-					property values with new property values.
+					will
+					<ReplaceInitialActionDescription />
 				</div>
 				<p>
 					Overriding lets you return:

@@ -1,4 +1,5 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+import CreateFuncLink from '../links/create-func';
+import CTAHistoryLink from '../links/cta-history';
 import {
 	createCTAContextConfig,
 	createCTAContextExampleConfig,
@@ -7,26 +8,25 @@ import {
 } from '../nav-sidebar/config/create-cta-context-config';
 import {
 	useCTAConfig,
-	useCTAParameterActionsConfig,
-	useCTAParameterOnInitConfig,
 	useCTAReturnValues0HistoryConfig,
 } from '../nav-sidebar/config/use-cta-config';
 import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCTAHistory from '../popover/ctaHistory';
-import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
-import PopoverUseCTAParameterOnInit from '../popover/UseCTAParameterOnInit';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
+import CodeBlockSource from '../ui/codeBlock/Source';
 import Content from '../ui/content';
 import Embed from '../ui/embed';
 import Sect from '../ui/sect';
-import UseCTAParameterCommonLi from './use-cta/parameters/common-li';
+import UseCTAParameterActionsLi from './use-cta/parameters/list-item/actions-li';
+import UseCTAParameterCommonLi from './use-cta/parameters/list-item/common-li';
+import UseCTAParameterOnInitLi from './use-cta/parameters/list-item/on-init-li';
 
-export default function CreateCTAContextTopic( props: SourceCodeRecordProps, ) {
+export default function CreateCTAContextTopic() {
 	return <>
 		<Sect {...createCTAContextConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{`
 import { createCTAContext, } from react-hook-use-cta;
 
@@ -42,16 +42,15 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 				`.trim()}
 			</CodeBlock>
 			<Content>
-				<div>
-					A
-					{' '}
+				<p>
+					This handles the boilerplate of creating a React Context and Provider.
+				</p>
+				<p>
 					<Code>function</Code>
 					{' '}
 					that returns a Provider,
 					{' '}
-					<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={useCTAReturnValues0HistoryConfig.title}>
-						<Code>state history</Code>
-					</Anchor>
+					<CTAHistoryLink />
 					{', '}
 					and
 					{' '}
@@ -59,16 +58,21 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 						<Code>dispatch</Code>
 					</Anchor>
 					{' '}
-					from React Context to use with
+					from React Context.
+					{' '}
+					Provider will internally setup
 					{' '}
 					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
 						<Code>useCTA</Code>
 					</Anchor>
 					{' '}
-					in a components in the tree.
-				</div>
-				<p>
-					This handles the boilerplate of creating a React Context and Provider.
+					to be used through
+					{' '}
+					<Code>useCTAHistoryContext</Code>
+					{' '}
+					and
+					<Code>useCTADispatchContext</Code>
+					.
 				</p>
 			</Content>
 		</Sect>
@@ -80,35 +84,35 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 		</Sect>
 		<Sect {...createCTAContextParametersConfig}>
 			<Content>
-				<div>
-					Shares all the same parameters as
+				<p>
+					<Code>createCTAContext</Code>
 					{' '}
-					<Code>useCTA</Code>
-					:
-				</div>
-				<ul className="list-inside list-[square]">
-					<UseCTAParameterCommonLi {...props} />
+					accepts two parameters:
+				</p>
+				<ol className="list-inside list-decimal">
 					<li>
-						<Anchor href={useCTAParameterOnInitConfig.href} aria-label={useCTAParameterOnInitConfig.title}>
-							<Code>onInit</Code>
-						</Anchor>
+						<Code>object</Code>
 						{' '}
-						<PopoverUseCTAParameterOnInit sourceCodeRecord={props.sourceCodeRecord} />
+						that provides the following properties as
+						{' '}
+						<Code>useCTA</Code>
+						{' '}
+						Parameter:
+						{' '}
+						<ul className="list-inside list-[square] pl-6">
+							<UseCTAParameterCommonLi />
+							<UseCTAParameterOnInitLi />
+							<UseCTAParameterActionsLi />
+						</ul>
 					</li>
 					<li>
-						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-							<Code>actions</Code>
-						</Anchor>
-						{' '}
-						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
+						<CreateFuncLink />
 					</li>
-				</ul>
+				</ol>
 			</Content>
 		</Sect>
 		<Sect {...createCTAContextReturnValueConfig}>
-			<CodeBlock copyButton={false}>
-				{props.sourceCodeRecord[ 'types/CreateCTAContextReturn.ts' ]}
-			</CodeBlock>
+			<CodeBlockSource src="types/CreateCTAContextReturn.ts" />
 			<Content>
 				<div>
 					Returns an
@@ -120,7 +124,7 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 				<ul className="list-inside list-[square]">
 					<li>
 						<Code>CTAProvider</Code>
-						: a Provider component to wrap the components in the tree.
+						: Wrap your components with this to provide context for all components inside.
 						<p>
 							It accepts the following
 							{' '}
@@ -136,14 +140,8 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 							.
 						</p>
 						<ul className="list-inside list-[circle] pl-6">
-							<UseCTAParameterCommonLi {...props} />
-							<li>
-								<Anchor href={useCTAParameterOnInitConfig.href} aria-label={useCTAParameterOnInitConfig.title}>
-									<Code>onInit</Code>
-								</Anchor>
-								{' '}
-								<PopoverUseCTAParameterOnInit sourceCodeRecord={props.sourceCodeRecord} />
-							</li>
+							<UseCTAParameterCommonLi />
+							<UseCTAParameterOnInitLi />
 						</ul>
 					</li>
 					<li>
@@ -154,7 +152,7 @@ export const useCTADispatchContext = context.useCTADispatchContext;
 							<Code>state history</Code>
 						</Anchor>
 						{' '}
-						<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
+						<PopoverCTAHistory />
 					</li>
 					<li>
 						<Code>useCTADispatchContext</Code>

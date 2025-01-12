@@ -1,14 +1,14 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
 import {
 	exportTypesConfig,
 	exportTypesCTAStateConfig,
 	exportTypesUseCTAParameterCompareConfig, exportTypesUseCTAReturnTypeConfig, exportTypesUseCTAReturnTypeDispatchConfig,
 } from '../nav-sidebar/config/export-types';
 import CodeBlock from '../ui/codeBlock';
+import CodeBlockSource from '../ui/codeBlock/Source';
 import Content from '../ui/content';
 import Sect from '../ui/sect';
 
-export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
+export default function ExportTypesTopic() {
 	return <>
 		<Sect {...exportTypesConfig}>
 			<Content>
@@ -17,50 +17,46 @@ export default function ExportTypesTopic( props: SourceCodeRecordProps, ) {
 		</Sect>
 
 		<Sect {...exportTypesCTAStateConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{'import type { CTAState, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 			<Content>
 				<p>Typescript:</p>
 			</Content>
-
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ].trim()}</CodeBlock>
+			<CodeBlockSource src="types/CTAState.ts" />
 		</Sect>
 
 		<Sect {...exportTypesUseCTAParameterCompareConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{'import type { UseCTAParameterCompare, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
 			<Content>
 				<p>Typescript:</p>
 			</Content>
-
-			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterCompare.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/UseCTAParameterCompare.ts" />
 		</Sect>
 
 		<Sect {...exportTypesUseCTAReturnTypeConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{'import type { UseCTAReturnType, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
 			<Content>
 				<p>Typescript:</p>
 			</Content>
-
-			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAReturnType.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/UseCTAReturnType.ts" />
 		</Sect>
 
 		<Sect {...exportTypesUseCTAReturnTypeDispatchConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{'import type { UseCTAReturnTypeDispatch, } from \'react-hook-use-cta\';'}
 			</CodeBlock>
 
 			<Content>
 				<p>Typescript:</p>
 			</Content>
-
-			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAReturnTypeDispatch.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/UseCTAReturnTypeDispatch.ts" />
 		</Sect>
 	</>;
 }

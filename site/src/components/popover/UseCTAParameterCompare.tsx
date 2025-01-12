@@ -1,8 +1,10 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+'use client';
+import useSourceCode from '../../hooks/useSourceCode';
 import PopoverTypes from './index';
 
-export default function PopoverUseCTAParameterCompare( props: SourceCodeRecordProps, ) {
+export default function PopoverUseCTAParameterCompare() {
+	const sourceCode = useSourceCode( ( { dispatch, }, ) => dispatch.func.getSourceCode( 'types/UseCTAParameterCompare.ts', ), );
 	return <PopoverTypes className="max-w-[570px]" aria-label="Use CTA Parameter: Compare">
-		{props.sourceCodeRecord[ 'types/UseCTAParameterCompare.ts' ]}
+		{sourceCode}
 	</PopoverTypes>;
 }

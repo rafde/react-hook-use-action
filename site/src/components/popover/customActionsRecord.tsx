@@ -1,8 +1,10 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+'use client';
+import useSourceCode from '../../hooks/useSourceCode';
 import PopoverTypes from './index';
 
-export default function PopoverCustomActionsRecord( props: SourceCodeRecordProps, ) {
-	return <PopoverTypes className="max-w-[920px]" aria-label="custom actions record">
-		{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}
+export default function PopoverCustomActionsRecord() {
+	const sourceCode = useSourceCode( ( { dispatch, }, ) => dispatch.func.getSourceCode( 'UseCTAParameterActionsCustomRecord', ), );
+	return <PopoverTypes className="max-w-[620px]" aria-label="custom actions record">
+		{sourceCode}
 	</PopoverTypes>;
 }
