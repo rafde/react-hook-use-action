@@ -12,7 +12,8 @@ import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 export type UseCTAReturnType<
 	Initial extends CTAState,
 	Actions,
+	ReturnValue,
 > = [
 	CTAHistory<Initial>, // hook state history
-	UseCTAReturnTypeDispatch<Initial, Actions>, // dispatcher
+	UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>, // dispatcher
 ];

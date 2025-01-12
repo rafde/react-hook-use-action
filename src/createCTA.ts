@@ -140,7 +140,7 @@ export function createCTA<
 		CTAHistory<Initial>,
 		UseCTAReturnTypeDispatch<Initial, ActionsRecord, CTAHistory<Initial>>,
 	] {
-	const { history, dispatch, } = createCTABase<Initial, ActionsRecord>( ctaParameter, );
+	const { history, dispatch, } = createCTABase<Initial, ActionsRecord, CTAHistory<Initial>>( ctaParameter, );
 
 	return [
 		history,

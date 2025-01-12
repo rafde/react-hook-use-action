@@ -2,7 +2,7 @@ import type { CTAState, } from './CTAState';
 import { UseCTAParameterAfterActionChange, } from './UseCTAParameterAfterActionChange';
 import type { UseCTAParameterCompare, } from './UseCTAParameterCompare';
 import type { UseCTAParameterOnInit, } from './UseCTAParameterOnInit';
-import { UseCTAParameterTransform, } from './UseCTAParameterTransform';
+import type { UseCTAParameterTransform, } from './UseCTAParameterTransform';
 
 /**
  * @template {CTAState} Initial - The {@link CTAState} hook state.

@@ -7,12 +7,9 @@ import type {
 } from 'react';
 import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
-import type { UseCTAParameter, } from './UseCTAParameter';
+import { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
-// @ts-expect-error -- Used in JSDoc comment
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { CreateCTAProps, } from './CreateCTAProps';
 // @ts-expect-error -- Used in JSDoc comment
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { UseCTAParameterOnInit, } from './UseCTAParameterOnInit';
@@ -66,18 +63,20 @@ export type CreateCTAContextReturn<
 	 * - `function` than only runs after an action has changed the hook state history.
 	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
 	 *
+	 * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+	 * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+	 * the result of a custom action or overridden default action.
+	 * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+	 *
 	 * @returns {ReactElement} The `CTAProvider` component.
 	 */
 	CTAProvider: FC<
 		PropsWithChildren<
 			Partial<
-				Pick<
-					UseCTAParameter<Initial, Actions>,
-					'initial' | 'onInit' | 'compare' | 'afterActionChange' | 'transform'
-				>
+				UseCTAParameterDefaults<Initial>
 			>
 		>
 	>
 	useCTAHistoryContext: () => CTAHistory<Initial>
-	useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions> | null
+	useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions, void> | null
 };

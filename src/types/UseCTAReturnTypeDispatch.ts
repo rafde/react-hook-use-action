@@ -9,7 +9,7 @@ import type { OmitEmptyRecord, } from './OmitEmptyRecord';
 
 export type DispatchCTADefaultRecord<
 	Initial extends CTAState,
-	ReturnValue = void,
+	ReturnValue,
 > = UseCTAReturnTypeDispatch<Initial, undefined, ReturnValue>['cta'];
 
 type CustomCTARecord<
@@ -37,8 +37,7 @@ type CustomCTARecord<
 type DispatchCustomCTARecordValues<
 	Initial extends CTAState,
 	ActionValue,
-	ReturnValue = void,
-
+	ReturnValue,
 > = ActionValue extends ( ( ctaParam: CustomCTAHistory<Initial>, ...args: infer Args ) => CustomCTAReturnType<Initial> ) ? (
 	Args extends []
 		// Represents CTA without arguments.
@@ -49,7 +48,7 @@ type DispatchCustomCTARecordValues<
 export type DispatchCustomCTARecord<
 	Initial extends CTAState,
 	Actions,
-	ReturnValue = void,
+	ReturnValue,
 	CustomActions = CustomCTARecord<Initial, Actions>,
 > = CustomActions extends Record<string | number | symbol, never> ?
 	CustomActions : {
@@ -63,7 +62,8 @@ export type DispatchCustomCTARecord<
 type CustomDispatchValueRecord<
 	Initial extends CTAState,
 	Actions,
-	CustomActions = DispatchCustomCTARecord<Initial, Actions>,
+	ReturnValue,
+	CustomActions = DispatchCustomCTARecord<Initial, Actions, ReturnValue>,
 > = CustomActions extends Record<string | number | symbol, never> ?
 	CustomActions : {
 		[Action in keyof CustomActions]: (
@@ -78,13 +78,14 @@ type CustomDispatchValueRecord<
 export type CustomDispatchValueRecordValues<
 	Initial extends CTAState,
 	Actions,
-	CustomActions = CustomDispatchValueRecord<Initial, Actions>,
+	ReturnValue,
+	CustomActions = CustomDispatchValueRecord<Initial, Actions, ReturnValue>,
 > = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
 
 export type DispatchCTA<
 	Payload extends CTAState,
 	Actions,
-	ReturnValue = void,
+	ReturnValue,
 > = ( // dispatch
 	value: Exclude<
 		{
@@ -110,7 +111,7 @@ export type DispatchCTA<
 
 		// Custom action with multiple args
 		// {type: 'Your Action without args', payload: 'your payload', args:['more args']}
-		| CustomDispatchValueRecordValues<Payload, Actions>,
+		| CustomDispatchValueRecordValues<Payload, Actions, ReturnValue>,
 		never
 	>
 ) => ReturnValue;
@@ -118,7 +119,7 @@ export type DispatchCTA<
 export type UseCTAReturnTypeDispatchCTA<
 	Payload extends CTAState,
 	Actions,
-	ReturnValue = void,
+	ReturnValue,
 > = {
 	/**
 	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-update dispatch.cta.update}
@@ -187,7 +188,7 @@ export type UseCTAReturnTypeDispatchCTA<
 export type UseCTAReturnTypeDispatch<
 	State extends CTAState,
 	Actions,
-	ReturnValue = void,
+	ReturnValue,
 > = Immutable<
 	DispatchCTA<State, Actions, ReturnValue> & {
 	/**

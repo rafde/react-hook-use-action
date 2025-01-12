@@ -15,7 +15,7 @@ export default function usePublicCTA<
 >( params: {
 	actions?: UseCTAParameter<Initial, Actions>['actions']
 	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>
-}, ): UseCTAReturnType<Initial, Actions> {
+}, ): UseCTAReturnType<Initial, Actions, void> {
 	const {
 		actions,
 	} = params;
@@ -25,15 +25,15 @@ export default function usePublicCTA<
 	] = params.stateDispatcher;
 
 	const dispatch = useMemo(
-		() => createDispatchInterface<Initial, Actions>(
+		() => createDispatchInterface<Initial, Actions, void>(
 			( ...args ) => {
 				ctaDispatch( ...args, );
 			},
+			ctaState,
 			actions,
 		),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[
-			ctaDispatch,
-			actions,
 		],
 	);
 

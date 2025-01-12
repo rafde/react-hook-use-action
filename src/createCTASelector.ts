@@ -6,7 +6,7 @@ import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
-import { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFun';
+import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
@@ -101,11 +101,11 @@ export function createCTASelector<
 		dispatch: typeof dispatch
 		func: typeof func
 	} ) => SelectorReturn;
-	// const initialSnapshot = {
-	// 	...history,
-	// 	dispatch,
-	// 	gets,
-	// };
+	const initialSnapshot = {
+		...history,
+		dispatch,
+		func,
+	};
 	let snapshot = {
 		...history,
 		dispatch,
@@ -123,7 +123,7 @@ export function createCTASelector<
 		return useSyncExternalStore(
 			subscribe,
 			() => selector( snapshot, ),
-			// () => selector( initialSnapshot, ),
+			() => selector( initialSnapshot, ),
 		);
 	}
 	return Object.assign(
