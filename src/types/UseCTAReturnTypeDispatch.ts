@@ -6,11 +6,7 @@ import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueActionPayloadArgsProps';
 import type { Immutable, } from './Immutable';
 import type { OmitEmptyRecord, } from './OmitEmptyRecord';
-
-export type DispatchCTADefaultRecord<
-	Initial extends CTAState,
-	ReturnValue,
-> = UseCTAReturnTypeDispatch<Initial, undefined, ReturnValue>['cta'];
+import type { UseCTAParameterFuncRecord, } from './UseCTAParameterFunc';
 
 type CustomCTARecord<
 	Initial extends CTAState,
@@ -82,7 +78,7 @@ export type CustomDispatchValueRecordValues<
 	CustomActions = CustomDispatchValueRecord<Initial, Actions, ReturnValue>,
 > = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
 
-export type DispatchCTA<
+export type Dispatch<
 	Payload extends CTAState,
 	Actions,
 	ReturnValue,
@@ -185,20 +181,36 @@ export type UseCTAReturnTypeDispatchCTA<
  * @template Actions - CTA actions type.
  * @template ReturnValue - Return value type.
  */
-export type UseCTAReturnTypeDispatch<
+export type UseCTADispatch<
 	State extends CTAState,
 	Actions,
 	ReturnValue,
 > = Immutable<
-	DispatchCTA<State, Actions, ReturnValue> & {
+	Dispatch<State, Actions, ReturnValue> & {
 	/**
 	 * {@link CTAHistory} reference
 	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-0-history useCTA return value [0]: history}
 	 */
 		history: CTAHistory<State>
 		/**
-		 * Reference for call-to-action dispatch functions.
-		 */
+	 * Reference for call-to-action dispatch functions.
+	 */
 		cta: OmitEmptyRecord<UseCTAReturnTypeDispatchCTA<State, Actions, ReturnValue>>
+	}
+>;
+/**
+ * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
+ * @template {CTAState} State - CTAState type.
+ * @template Actions - CTA actions type.
+ * @template ReturnValue - Return value type.
+ */
+export type UseCTAReturnTypeDispatch<
+	State extends CTAState,
+	Actions,
+	FR extends UseCTAParameterFuncRecord,
+	ReturnValue,
+> = Immutable<
+	UseCTADispatch<State, Actions, ReturnValue> & {
+		func: FR
 	}
 >;

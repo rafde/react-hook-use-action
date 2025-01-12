@@ -138,5 +138,19 @@ describe( 'useCTA', () => {
 			expect( result.current[ 0 ].current, ).toEqual( initial, );
 			expect( result.current[ 0 ].changes, ).toBeNull( );
 		}, );
+
+		test( 'should accept createFunc', () => {
+			const { result, } = renderHook( () => useCTA(
+				{
+					initial,
+				},
+				dispatch => ( {
+					getHistory() {
+						return dispatch.history.current.test1 * 3;
+					},
+				} ),
+			), );
+			expect( result.current[ 0 ].current.test1 * 3, ).toEqual( result.current[ 1 ].func.getHistory(), );
+		}, );
 	}, );
 }, );

@@ -1,8 +1,9 @@
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CTAState, } from '../types/CTAState';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
+import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
 import type {
-	DispatchCTA,
+	Dispatch,
 	UseCTAReturnTypeDispatch,
 } from '../types/UseCTAReturnTypeDispatch';
 
@@ -11,14 +12,16 @@ import ctaReducer from './ctaReducer';
 export default function createDispatchInterface<
 	Initial extends CTAState,
 	Actions,
+	FR extends UseCTAParameterFuncRecord,
 	ReturnValue,
 >(
-	dispatch: DispatchCTA<Initial, Actions, ReturnValue>,
+	dispatch: Dispatch<Initial, Actions, ReturnValue>,
 	history: CTAHistory<Initial>,
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, ReturnValue>,
 	actions?: Actions,
-): UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue> {
+): UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue> {
 	type DispatchParameter = Parameters<typeof dispatch>[0];
-	type Dispatch = UseCTAReturnTypeDispatch<Initial, Actions, ReturnValue>;
+	type Dispatch = UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>;
 	const cta = {
 		replace: payload => dispatch( {
 			payload,
@@ -86,5 +89,7 @@ export default function createDispatchInterface<
 		Object.assign( dispatchWrapper.cta, customActions, );
 	}
 
-	return dispatchWrapper;
+	return Object.assign( dispatchWrapper, {
+		func: createFunc( dispatchWrapper, ),
+	}, );
 }

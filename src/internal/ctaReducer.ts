@@ -3,7 +3,7 @@ import type { CTAHistory, } from '../types/CTAHistory';
 import type { CustomCTAReturnType, } from '../types/CustomCTAReturnType';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
-import type { DispatchCTA, } from '../types/UseCTAReturnTypeDispatch';
+import type { Dispatch, } from '../types/UseCTAReturnTypeDispatch';
 import {
 	ActionType,
 	createUpdateInitialActionType,
@@ -490,7 +490,7 @@ export default function ctaReducer<
 	actions?: UseCTAParameter<Initial, Actions>['actions']
 	compare: CompareCallbackReturnType
 	ctaReducerState: CTAReducerState<Initial>
-	nextCTAProps: Parameters<DispatchCTA<Initial, Actions, ReturnType>>[0]
+	nextCTAProps: Parameters<Dispatch<Initial, Actions, ReturnType>>[0]
 	transform?: UseCTAParameterTransform<Initial>
 }, ): CTAReducerState<Initial> {
 	const {
