@@ -6,7 +6,7 @@ import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
-import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
+import { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFun';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
@@ -45,11 +45,11 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
  *
- * @param getters - Function that returns an object of getter methods
+ * @param createFunc - Function that returns an object of getter methods
  * - @see {@link https://rafde.github.io/react-hook-use-cta/#create-cta-selector-parameter-getters Params: getters}
- * @param getters.params - Object containing dispatch and getHistory
- * @param getters.param.dispatch - Dispatch interface for triggering actions
- * @param getters.param.getHistory - Function to retrieve current history state
+ * @param createFunc.params - Object containing dispatch and getHistory
+ * @param createFunc.param.dispatch - Dispatch interface for triggering actions
+ * @param createFunc.param.getHistory - Function to retrieve current history state
  *
  * @returns A selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
  *
@@ -73,16 +73,11 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
 export function createCTASelector<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	GR extends Record<string, ( ...args: never[] ) => unknown >,
+	FR extends UseCTAParameterFuncRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	ctaParameter: CreateCTASelectorProps<Initial, ActionsRecord>,
-	getters: (
-		( param: {
-			dispatch: UseCTAReturnTypeDispatch<Initial, ActionsRecord>
-			getHistory: () => CTAHistory<Initial>
-		} ) => GR
-	) = () => ( {} as GR ),
+	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
 ) {
 	const ctaReducerResults = createCTABase<Initial, ActionsRecord, void>( {
 		...ctaParameter,
@@ -91,7 +86,7 @@ export function createCTASelector<
 			snapshot = {
 				...newHistory,
 				dispatch,
-				gets,
+				func,
 			};
 			listeners.forEach( listener => listener( snapshot, ), );
 		},
@@ -101,13 +96,10 @@ export function createCTASelector<
 	function getHistory() {
 		return history;
 	}
-	const gets = getters( {
-		dispatch,
-		getHistory,
-	}, );
+	const func = createFunc( dispatch, );
 	type Listener<SelectorReturn = unknown,> = ( params: CTAHistory<Initial> & {
 		dispatch: typeof dispatch
-		gets: typeof gets
+		func: typeof func
 	} ) => SelectorReturn;
 	// const initialSnapshot = {
 	// 	...history,
@@ -117,7 +109,7 @@ export function createCTASelector<
 	let snapshot = {
 		...history,
 		dispatch,
-		gets,
+		func,
 	};
 	const listeners = new Set<Listener>();
 	function subscribe( listener: Listener, ) {
