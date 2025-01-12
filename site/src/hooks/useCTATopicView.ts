@@ -53,26 +53,28 @@ const useCTATopicView = createCTASelector(
 				if ( topicObserver ) {
 					return topicObserver;
 				}
-				if ( typeof window === 'undefined' ) {
-					return topicObserver;
+				if ( typeof window !== 'undefined' ) {
+					topicObserver = new IntersectionObserver(
+						( entries, ) => {
+							entries.forEach( ( entry, ) => {
+								if ( entry.isIntersecting ) {
+									dispatch.cta.addTopic( entry, );
+								}
+								else {
+									dispatch.cta.removeTopic( entry, );
+								}
+							}, );
+						},
+						{
+							threshold: 0.1,
+						},
+					);
 				}
-				topicObserver = new IntersectionObserver(
-					( entries, ) => {
-						entries.forEach( ( entry, ) => {
-							if ( entry.isIntersecting ) {
-								dispatch.cta.addTopic( entry, );
-							}
-							else {
-								dispatch.cta.removeTopic( entry, );
-							}
-						}, );
-					},
-					{
-						threshold: 0.1,
-					},
-				);
 
 				return topicObserver;
+			},
+			getSeven() {
+				return 7;
 			},
 		};
 	},

@@ -11,7 +11,7 @@ export default function TopicInView( props: TopicInViewProps, ) {
 		href,
 	} = props;
 	const elRef = useRef<HTMLDivElement>( null, );
-	const topicObserver = useCTATopicView( ( { func, }, ) => func.topicObserver(), );
+	const topicObserver = useCTATopicView( ( { dispatch, }, ) => dispatch.func.topicObserver(), );
 
 	useEffect( () => {
 		if ( elRef.current == null || !topicObserver ) {

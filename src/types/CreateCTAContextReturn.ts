@@ -7,7 +7,8 @@ import type {
 } from 'react';
 import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
-import { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
+import type { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
+import type { UseCTAParameterFuncRecord, } from './UseCTAParameterFunc';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 // @ts-expect-error -- Used in JSDoc comment
@@ -37,6 +38,7 @@ import type { UseCTAParameterAfterActionChange, } from './UseCTAParameterAfterAc
 export type CreateCTAContextReturn<
 	Initial extends CTAState,
 	Actions,
+	FR extends UseCTAParameterFuncRecord,
 > = {
 	/**
 	 * Type definition for the `CreateCTAContextReturn.CTAProvider` component.
@@ -78,5 +80,5 @@ export type CreateCTAContextReturn<
 		>
 	>
 	useCTAHistoryContext: () => CTAHistory<Initial>
-	useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions, void> | null
+	useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions, FR, void> | null
 };

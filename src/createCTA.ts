@@ -6,6 +6,7 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
+import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
 
 import type {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,27 +28,30 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  * @template {CTAState} Initial - The `initial` state type.
  * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
  *
- * @param {CreateCTAProps} ctaParameter - {@link CreateCTAProps} parameter.
+ * @param {CreateCTAProps} props - {@link CreateCTAProps} parameter.
  *
- * @param {CTAState} ctaParameter.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterCompare} [ctaParameter.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [ctaParameter.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterTransform} [ctaParameter.transform] - Optional {@link UseCTAParameterTransform}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
  * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
  * the result of a custom action or overridden default action.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
- * @param {UseCTAParameterActionsRecordProp} [ctaParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Function that returns an object Record of `function`s
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
  *
  * @returns {[CTAHistory, UseCTAReturnTypeDispatch]}  An `array` containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch} elements:
  *
@@ -133,14 +137,16 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
 export function createCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	FR extends UseCTAParameterFuncRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	ctaParameter: CreateCTAProps<Initial, ActionsRecord>,
+	props: CreateCTAProps<Initial, ActionsRecord>,
+	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, CTAHistory<Initial>> = () => ( {} as FR ),
 ): [
 		CTAHistory<Initial>,
-		UseCTAReturnTypeDispatch<Initial, ActionsRecord, CTAHistory<Initial>>,
+		UseCTAReturnTypeDispatch<Initial, ActionsRecord, FR, CTAHistory<Initial>>,
 	] {
-	const { history, dispatch, } = createCTABase<Initial, ActionsRecord, CTAHistory<Initial>>( ctaParameter, );
+	const { history, dispatch, } = createCTABase<Initial, ActionsRecord, FR, CTAHistory<Initial>>( props, createFunc, );
 
 	return [
 		history,

@@ -1,6 +1,7 @@
 import { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
 import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
-import { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
+import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
+import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import compareCallback from './compareCallback';
 import createDispatchInterface from './createDispatchInterface';
 import createCTAHistory from './createCTAHistory';
@@ -11,6 +12,7 @@ import type { CTAHistory, } from '../types/CTAHistory';
 export default function createCTABase<
 	Initial extends CTAState,
 	Actions,
+	FR extends UseCTAParameterFuncRecord,
 	ReturnType,
 >(
 	params: {
@@ -21,6 +23,7 @@ export default function createCTABase<
 		afterActionChange?: UseCTAParameterAfterActionChange<Initial>
 		onStateChange?: ( history: CTAHistory<Initial>, ctaReducerState: CTAReducerState<Initial> ) => ReturnType
 	},
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, ReturnType>,
 ) {
 	const {
 		initial,
@@ -40,7 +43,7 @@ export default function createCTABase<
 	};
 	const compare = compareCallback( params.compare, );
 
-	const dispatch = createDispatchInterface<Initial, Actions, ReturnType>(
+	const dispatch = createDispatchInterface<Initial, Actions, FR, ReturnType>(
 		function ctaBaseCallback( nextCTAProps, ) {
 			const next = ctaReducer<Initial, Actions, ReturnType>( {
 				actions,
@@ -62,6 +65,7 @@ export default function createCTABase<
 			return onStateChange?.( history, ctaReducerState, ) as ReturnType;
 		},
 		history,
+		createFunc,
 		actions,
 	);
 

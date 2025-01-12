@@ -1,5 +1,5 @@
 import type { CTAState, } from './CTAState';
-import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
+import { UseCTADispatch, } from './UseCTAReturnTypeDispatch';
 
 export type UseCTAParameterFuncRecord = Record<string | number, ( ...args: never[] ) => unknown >;
 export type UseCTAParameterCreateFunc<
@@ -7,4 +7,4 @@ export type UseCTAParameterCreateFunc<
 	Action,
 	FR extends UseCTAParameterFuncRecord,
 	ReturnType,
-> = ( dispatch: UseCTAReturnTypeDispatch<Initial, Action, ReturnType> ) => FR;
+> = ( dispatch: UseCTADispatch<Initial, Action, ReturnType> ) => FR;

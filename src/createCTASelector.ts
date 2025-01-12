@@ -23,33 +23,33 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  * @template GR - Record of getter functions that return values
  * @template ActionsRecord - Derived type for actions, either default or provided actions
  *
- * @param {CreateCTASelectorProps} ctaParameter - Configuration object for the selector
+ * @param {CreateCTASelectorProps} props - Configuration object for the selector
  *
- * @param {CTAState} ctaParameter.initial - Initial {@link CTAState} `object` for {@link CTAHistory}.
+ * @param {CTAState} props.initial - Initial {@link CTAState} `object` for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterCompare} [ctaParameter.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - comparison `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [ctaParameter.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterTransform} [ctaParameter.transform] - Optional {@link UseCTAParameterTransform}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
  * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
  * the result of a custom action or overridden default action.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
- * @param {UseCTAParameterActionsRecordProp} [ctaParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
  *
- * @param createFunc - Function that returns an object of getter methods
- * - @see {@link https://rafde.github.io/react-hook-use-cta/#create-cta-selector-parameter-getters Params: getters}
- * @param createFunc.params - Object containing dispatch and getHistory
- * @param createFunc.param.dispatch - Dispatch interface for triggering actions
- * @param createFunc.param.getHistory - Function to retrieve current history state
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Function that returns an object Record of `function`s
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
+ *
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - Dispatch interface for triggering actions
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
  *
  * @returns A selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
  *
@@ -76,40 +76,38 @@ export function createCTASelector<
 	FR extends UseCTAParameterFuncRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	ctaParameter: CreateCTASelectorProps<Initial, ActionsRecord>,
+	props: CreateCTASelectorProps<Initial, ActionsRecord>,
 	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
 ) {
-	const ctaReducerResults = createCTABase<Initial, ActionsRecord, void>( {
-		...ctaParameter,
-		onStateChange: ( newHistory, ) => {
-			history = newHistory;
-			snapshot = {
-				...newHistory,
-				dispatch,
-				func,
-			};
-			listeners.forEach( listener => listener( snapshot, ), );
+	const ctaReducerResults = createCTABase<Initial, ActionsRecord, FR, void>(
+		{
+			...props,
+			onStateChange: ( newHistory, ) => {
+				history = newHistory;
+				snapshot = {
+					...newHistory,
+					dispatch,
+				};
+				listeners.forEach( listener => listener( snapshot, ), );
+			},
 		},
-	}, );
+		createFunc,
+	);
 	let { history, } = ctaReducerResults;
 	const { dispatch, } = ctaReducerResults;
 	function getHistory() {
 		return history;
 	}
-	const func = createFunc( dispatch, );
 	type Listener<SelectorReturn = unknown,> = ( params: CTAHistory<Initial> & {
 		dispatch: typeof dispatch
-		func: typeof func
 	} ) => SelectorReturn;
 	const initialSnapshot = {
 		...history,
 		dispatch,
-		func,
 	};
 	let snapshot = {
 		...history,
 		dispatch,
-		func,
 	};
 	const listeners = new Set<Listener>();
 	function subscribe( listener: Listener, ) {

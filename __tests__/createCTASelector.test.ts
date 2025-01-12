@@ -103,7 +103,6 @@ describe( 'createCTASelector', () => {
 			dispatch,
 			initial,
 			previousInitial,
-			func,
 		} = snapshot.current;
 
 		const payload = { count: 10, };
@@ -123,7 +122,6 @@ describe( 'createCTASelector', () => {
 		const nextSnapshot = {
 			...nextHistory,
 			dispatch,
-			func,
 		};
 		expect( snapshot.current, ).toStrictEqual( nextSnapshot, );
 		expect( dispatch.history, ).toStrictEqual( nextHistory, );
@@ -202,7 +200,7 @@ describe( 'createCTASelector', () => {
 			result.current.increment();
 		}, );
 
-		const { result: result1, } = renderHook( () => useTestSelector( ( { func, }, ) => func.doubleCount(), ), );
+		const { result: result1, } = renderHook( () => useTestSelector( ( { dispatch, }, ) => dispatch.func.doubleCount(), ), );
 		expect( result1.current, ).toBe( 2, );
 	}, );
 

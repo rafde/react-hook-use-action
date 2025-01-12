@@ -10,6 +10,7 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
+import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
 import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -34,31 +35,34 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  *
  * @template {UseCTAParameterActionsRecordProp<Initial> | undefined} Actions
  *
- * @param {UseCTAParameter} useCTAParameter - Parameter for the useCTA.
+ * @param {UseCTAParameter} props - Parameter for the useCTA.
  *
- * @param {CTAState} useCTAParameter.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterOnInit} [useCTAParameter.onInit] - Optional {@link UseCTAParameterOnInit}
+ * @param {UseCTAParameterOnInit} [props.onInit] - Optional {@link UseCTAParameterOnInit}
  * - `function` that runs once on component mount to handle `initial` parameter state before your component starts using it.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
  *
- * @param {UseCTAParameterCompare} [useCTAParameter.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [useCTAParameter.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterTransform} [useCTAParameter.transform] - Optional {@link UseCTAParameterTransform}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
  * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
  * the result of a custom action or overridden default action.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
  *
- * @param {UseCTAParameterActionsRecordProp} [useCTAParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` type to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Function that returns an object Record of `function`s
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
  *
  * @returns {[CTAHistory, UseCTAReturnTypeDispatch]}  An `array` containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch} elements:
  *
@@ -142,37 +146,39 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
 export function useCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	FR extends UseCTAParameterFuncRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	useCTAParameter: UseCTAParameter<Initial, ActionsRecord>,
-): UseCTAReturnType<Initial, ActionsRecord, void> {
+	props: UseCTAParameter<Initial, ActionsRecord>,
+	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
+): UseCTAReturnType<Initial, ActionsRecord, FR, void> {
 	const actions = useMemo(
 		() => {
-			if ( useCTAParameter.actions && typeof useCTAParameter.actions === 'object' ) {
+			if ( props.actions && typeof props.actions === 'object' ) {
 				return {
-					...useCTAParameter.actions,
+					...props.actions,
 				};
 			}
 
-			return useCTAParameter.actions;
+			return props.actions;
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	);
-	const stateDispatcher = usePrivateCTA<Initial, ActionsRecord>( useCTAParameter, actions, );
+	const stateDispatcher = usePrivateCTA<Initial, ActionsRecord>( props, actions, );
 	const [
 		ctaReducerState,
 	] = stateDispatcher;
 	const afterActionChange = useMemo(
 		() => {
-			const isFunction = typeof useCTAParameter.afterActionChange === 'function';
+			const isFunction = typeof props.afterActionChange === 'function';
 			let oldState = ctaReducerState;
 			return function( ctaReducerState: CTAReducerState<Initial>, ) {
 				if ( !isFunction || ctaReducerState === oldState ) {
 					return;
 				}
 				oldState = ctaReducerState;
-				Promise.resolve().then( () => useCTAParameter?.afterActionChange?.(
+				Promise.resolve().then( () => props?.afterActionChange?.(
 					createCTAHistory( ctaReducerState, ),
 					ctaReducerState.actionType,
 					ctaReducerState.customAction,
@@ -185,6 +191,7 @@ export function useCTA<
 	const res = usePublicCTA( {
 		actions,
 		stateDispatcher,
+		createFunc,
 	}, );
 
 	useEffect(
