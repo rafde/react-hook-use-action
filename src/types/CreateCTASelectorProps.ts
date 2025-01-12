@@ -1,12 +1,10 @@
 import type { CTAState, } from './CTAState';
-import { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
+import type { UseCTAParameter, } from './UseCTAParameter';
 
 export type CreateCTASelectorProps<
 	Initial extends CTAState,
 	Actions,
-> = {
-	actions?: Actions
-} & Pick<
-	UseCTAParameterDefaults<Initial>,
-	'initial' | 'compare' | 'afterActionChange' | 'transform'
+> = Pick<
+	UseCTAParameter<Initial, Actions>,
+	'initial' | 'compare' | 'afterActionChange' | 'transform' | 'actions'
 >;
