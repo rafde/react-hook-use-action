@@ -46,7 +46,7 @@ const useCTATopicView = createCTASelector(
 			},
 		},
 	},
-	( { dispatch, }, ) => {
+	( dispatch, ) => {
 		let topicObserver: IntersectionObserver | null = null;
 		return {
 			topicObserver() {
