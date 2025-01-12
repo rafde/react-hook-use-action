@@ -1,6 +1,5 @@
 import { act, renderHook, } from '@testing-library/react';
 import { createCTASelector, } from '../src';
-import { CTAHistory, } from '../src/types/CTAHistory';
 import { CustomCTAHistory, } from '../src/types/CustomCTAHistory';
 
 describe( 'createCTASelector', () => {
@@ -15,11 +14,8 @@ describe( 'createCTASelector', () => {
 		increment: jest.fn( ( { current, }: CustomCTAHistory<typeof initial>, ) => ( { count: current.count + 1, } ), ),
 	};
 	const getters = jest.fn(
-		( { getHistory, }: {
-			dispatch: () => () => void
-			getHistory: () => CTAHistory<typeof initial>
-		}, ) => ( {
-			doubleCount: () => getHistory().current.count * 2,
+		dispatch => ( {
+			doubleCount: () => dispatch.history.current.count * 2,
 		} ),
 	);
 	let useTestSelector = createCTASelector(
@@ -33,7 +29,6 @@ describe( 'createCTASelector', () => {
 			compare,
 			transform,
 		},
-		// @ts-expect-error -- testing that it's called
 		getters,
 	);
 
@@ -46,7 +41,6 @@ describe( 'createCTASelector', () => {
 				compare,
 				transform,
 			},
-			// @ts-expect-error -- testing that it's called
 			getters,
 		);
 	}, );
@@ -109,7 +103,7 @@ describe( 'createCTASelector', () => {
 			dispatch,
 			initial,
 			previousInitial,
-			gets,
+			func,
 		} = snapshot.current;
 
 		const payload = { count: 10, };
@@ -129,7 +123,7 @@ describe( 'createCTASelector', () => {
 		const nextSnapshot = {
 			...nextHistory,
 			dispatch,
-			gets,
+			func,
 		};
 		expect( snapshot.current, ).toStrictEqual( nextSnapshot, );
 		expect( dispatch.history, ).toStrictEqual( nextHistory, );
@@ -208,7 +202,7 @@ describe( 'createCTASelector', () => {
 			result.current.increment();
 		}, );
 
-		const { result: result1, } = renderHook( () => useTestSelector( ( { gets, }, ) => gets.doubleCount(), ), );
+		const { result: result1, } = renderHook( () => useTestSelector( ( { func, }, ) => func.doubleCount(), ), );
 		expect( result1.current, ).toBe( 2, );
 	}, );
 
