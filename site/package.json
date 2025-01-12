@@ -60,7 +60,8 @@
 	"sideEffects": false,
 	"scripts": {
 		"dev": "next dev",
-		"lint": "next lint"
+		"lint": "next lint",
+		"tsc": "tsc"
 	},
 	"version": "1.0.0"
 }
