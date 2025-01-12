@@ -7,7 +7,7 @@ import type {
 } from 'react';
 import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
-import type { UseCTAParameterDefaults, } from './UseCTAParameterDefaults';
+import type { UseCTAParameter, } from './UseCTAParameter';
 import type { UseCTAParameterFuncRecord, } from './UseCTAParameterFunc';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
@@ -75,10 +75,13 @@ export type CreateCTAContextReturn<
 	CTAProvider: FC<
 		PropsWithChildren<
 			Partial<
-				UseCTAParameterDefaults<Initial>
+				Pick<
+					UseCTAParameter<Initial, Actions>,
+					'afterActionChange' | 'compare' | 'initial' | 'onInit' | 'transform'
+				>
 			>
 		>
 	>
-	useCTAHistoryContext: () => CTAHistory<Initial>
 	useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions, FR, void> | null
+	useCTAHistoryContext: () => CTAHistory<Initial>
 };
