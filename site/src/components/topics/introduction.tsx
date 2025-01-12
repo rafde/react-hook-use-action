@@ -1,11 +1,12 @@
 import Image from 'next/image';
+import BuiltInLink from '../links/built-in';
+import CustomActionLink from '../links/custom-action';
+import StateHistoryLink from '../links/state-history';
 import { introductionConfig, } from '../nav-sidebar/config';
-
-import { useCTAReturnValues0HistoryConfig, } from '../nav-sidebar/config/use-cta-config';
-import {
-	useCTAParameterActionsOverridableConfig,
-} from '../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
+import { createCtaSelectorConfig, } from '../nav-sidebar/config/create-cta-selector-config';
+import { useCTAConfig, } from '../nav-sidebar/config/use-cta-config';
 import Anchor from '../ui/anchor';
+
 import Code from '../ui/code';
 import Content from '../ui/content';
 import GithubIcon from '../ui/githubIcon';
@@ -14,9 +15,6 @@ import Sect from '../ui/sect';
 export default function IntroductionTopic() {
 	return <Sect {...introductionConfig} Header="h2">
 		<Content>
-			<p>
-				A React hook for managing complex state with custom actions, history tracking, and type safety.
-			</p>
 			<p className="flex flex-wrap items-center justify-center gap-2">
 				<a
 					href="https://github.com/rafde/react-hook-use-cta"
@@ -27,30 +25,75 @@ export default function IntroductionTopic() {
 				>
 					<GithubIcon />
 				</a>
-				<a href="https://github.com/rafde/react-hook-use-cta/blob/main/LICENSE" target="_blank" rel="noreferrer">
+				<a
+					href="https://github.com/rafde/react-hook-use-cta/blob/main/LICENSE"
+					target="_blank"
+					rel="noreferrer"
+					aria-label="react-hook-use-cta license link">
 					<Image
 						alt="NPM License"
 						src="https://img.shields.io/npm/l/react-hook-use-cta"
 						width="75"
 						height="20" />
 				</a>
-				<a href="https://www.npmjs.com/package/react-hook-use-cta" target="_blank" rel="noreferrer"><Image alt="NPM Version" src="https://img.shields.io/npm/v/react-hook-use-cta" width="75" height="20" /></a>
-				<a href="https://jsr.io/@rafde/react-hook-use-cta" target="_blank" rel="noreferrer"><Image alt="JSR Version" src="https://img.shields.io/jsr/v/%40rafde/react-hook-use-cta" width="65" height="20" /></a>
-				<Image alt="Test" src="https://github.com/rafde/react-hook-use-cta/actions/workflows/test.yml/badge.svg" width="115" height="20" />
+				<a
+					href="https://www.npmjs.com/package/react-hook-use-cta"
+					target="_blank"
+					rel="noreferrer"
+					aria-label="NPM react-hook-use-cta link">
+					<Image
+						alt="NPM Version"
+						src="https://img.shields.io/npm/v/react-hook-use-cta"
+						width="75"
+						height="20" />
+				</a>
+				<a
+					href="https://jsr.io/@rafde/react-hook-use-cta"
+					target="_blank"
+					rel="noreferrer"
+					aria-label="JSR react-hook-use-cta link">
+					<Image
+						alt="JSR Version"
+						src="https://img.shields.io/jsr/v/%40rafde/react-hook-use-cta"
+						width="65"
+						height="20" />
+				</a>
+				<Image
+					alt="Test"
+					src="https://github.com/rafde/react-hook-use-cta/actions/workflows/test.yml/badge.svg"
+					width="115"
+					height="20" />
 			</p>
-			<b>Features</b>
 
+			<p>
+				A React hook for managing complex state with custom actions, history tracking, and type safety.
+			</p>
+			<p>
+				Useful for making simple partial state updates, seeing how your state changes over time, and more.
+			</p>
+			<p>
+				<Anchor aria-label="Link to useCTA" href={useCTAConfig.href}>{useCTAConfig.desc}</Anchor>
+				can help with component level state management.
+			</p>
+			<p>
+				While
+				{' '}
+				<Anchor
+					aria-label="Link to createCTASelector"
+					href={createCtaSelectorConfig.href}>
+					{createCtaSelectorConfig.desc}
+				</Anchor>
+				can help with global state management.
+			</p>
+
+			<b>Features</b>
 			<ul className="list-inside list-[square]">
 				<li>Type-safe state management</li>
 				<li>Initial state management</li>
 				<li>
 					Built-in
 					{' '}
-					<Anchor
-						href={useCTAReturnValues0HistoryConfig.href}
-						aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title} section`}>
-						state history
-					</Anchor>
+					<StateHistoryLink />
 					{' '}
 					tracking.
 					<ul className="list-inside list-[circle] pl-4">
@@ -98,12 +141,9 @@ export default function IntroductionTopic() {
 					</ul>
 				</li>
 				<li>
+					Overridable
 					{' '}
-					<Anchor
-						href={useCTAParameterActionsOverridableConfig.href}
-						aria-label={`Link to ${useCTAParameterActionsOverridableConfig.title} section`}>
-						Overridable built-in action
-					</Anchor>
+					<BuiltInLink />
 					{' '}
 					types
 					<ul className="list-inside list-[circle] pl-6">
@@ -162,9 +202,14 @@ export default function IntroductionTopic() {
 					</ul>
 				</li>
 				<li>
-					Flexible and customizable actions for state management
+					Flexible
+					{' '}
+					<CustomActionLink />
+					{'s '}
+					for specialized handling of state management.
 				</li>
 			</ul>
+
 		</Content>
 	</Sect>;
 }

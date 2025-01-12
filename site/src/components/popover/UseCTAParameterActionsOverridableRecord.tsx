@@ -1,8 +1,10 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+'use client';
+import useSourceCode from '../../hooks/useSourceCode';
 import PopoverTypes from './index';
 
-export default function PopoverUseCTAParameterActionsOverridableRecord( props: SourceCodeRecordProps, ) {
-	return <PopoverTypes className="max-w-[430px]" aria-label="default actions record">
-		{props.sourceCodeRecord.UseCTAParameterActionsOverridable}
+export default function PopoverUseCTAParameterActionsOverridableRecord() {
+	const sourceCode = useSourceCode( ( { dispatch, }, ) => dispatch.func.getSourceCode( 'UseCTAParameterActionsOverridable', ), );
+	return <PopoverTypes className="max-w-[455px]" aria-label="default actions record">
+		{sourceCode}
 	</PopoverTypes>;
 }

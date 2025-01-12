@@ -89,7 +89,7 @@ export const useCTAParameterActionsOverridableParameterActionsReplaceInitialConf
 
 export const useCTAParameterActionsOverridableConfig: NavItem = {
 	desc: <>
-		Overridable
+		Overridable built-in
 		{' '}
 		<Code>actions</Code>
 	</>,
@@ -103,5 +103,5 @@ export const useCTAParameterActionsOverridableConfig: NavItem = {
 		useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig,
 		useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig,
 	],
-	title: 'Overridable actions',
+	title: 'Overridable built-in actions',
 };

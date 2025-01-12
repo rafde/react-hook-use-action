@@ -1,8 +1,10 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+'use client';
+import useSourceCode from '../../hooks/useSourceCode';
 import PopoverTypes from './index';
 
-export default function PopoverUseCTAParameterTransform( props: SourceCodeRecordProps, ) {
-	return <PopoverTypes className="max-w-[630px]" aria-label="Use CTA Parameter: after action change">
-		{props.sourceCodeRecord[ 'types/UseCTAParameterTransform.ts' ]}
+export default function PopoverUseCTAParameterTransform() {
+	const sourceCode = useSourceCode( ( { dispatch, }, ) => dispatch.func.getSourceCode( 'types/UseCTAParameterTransform.ts', ), );
+	return <PopoverTypes className="max-w-[740px]" aria-label="Use CTA Parameter: after action change">
+		{sourceCode}
 	</PopoverTypes>;
 }

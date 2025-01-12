@@ -1,5 +1,6 @@
 import { createCtaConfig, } from '../nav-sidebar/config/create-cta-config';
 import { createCTAContextConfig, } from '../nav-sidebar/config/create-cta-context-config';
+import { createCtaSelectorConfig, } from '../nav-sidebar/config/create-cta-selector-config';
 import { returnCtaParameterConfig, } from '../nav-sidebar/config/return-cta-parameter-config';
 import { useCTAConfig, } from '../nav-sidebar/config/use-cta-config';
 import Anchor from '../ui/anchor';
@@ -28,27 +29,31 @@ export const ctaParams = returnCTAParameter({
 					{' '}
 					<Code>function</Code>
 					{' '}
-					that returns the
+					that returns type-safe
 					{' '}
 					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
 						<Code>useCTA</Code>
 					</Anchor>
 					{' '}
-					parameter.
+					props.
 				</div>
 				<div>
 					Useful if you want to create the parameter outside of
 					{' '}
 					<Anchor href={useCTAConfig.href} aria-label={useCTAConfig.title}>
-						<Code>useCTA</Code>
+						{useCTAConfig.desc}
+					</Anchor>
+					{', '}
+					<Anchor href={createCtaSelectorConfig.href} aria-label={createCtaSelectorConfig.title}>
+						{createCtaSelectorConfig.desc}
 					</Anchor>
 					{', '}
 					<Anchor href={createCtaConfig.href} aria-label={createCtaConfig.title}>
-						<Code>createCTA</Code>
+						{createCtaConfig.desc}
 					</Anchor>
 					{', or '}
 					<Anchor href={createCTAContextConfig.href} aria-label={createCTAContextConfig.title}>
-						<Code>createCTAContext</Code>
+						{createCTAContextConfig.desc}
 					</Anchor>
 					{' '}
 					for type safety.

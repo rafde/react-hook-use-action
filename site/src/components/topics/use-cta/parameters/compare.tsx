@@ -1,34 +1,44 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import FastEqualsLink from '../../../links/fast-equals';
+import StrictDeepEqualLink from '../../../links/strict-deep-equal';
 
 import { useCTAParameterCompareConfig, useCTAParameterCompareExampleConfig, } from '../../../nav-sidebar/config/use-cta-config';
+import RelatedLiCreateCTA from '../../../related-li/create-cta-li';
+import RelatedLiCreateCTASelector from '../../../related-li/create-cta-selector-li';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
+import RelatedLiUseCTACommon from '../../../related-li/common-cta-li';
 
-export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAParameterCompareTopic() {
 	return <>
 		<Sect {...useCTAParameterCompareConfig}>
 			<Content>
 				<p>
 					<i>Optional</i>
 					{' '}
-					callback:
+					callback that is a related parameter for:
 				</p>
-				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterAfterActionChange.ts' ]}</CodeBlock>
+				<ul className="list-inside list-[square]">
+					<RelatedLiCreateCTA />
+					<RelatedLiCreateCTASelector />
+					<RelatedLiUseCTACommon />
+				</ul>
+				<CodeBlockSource src="types/UseCTAParameterCompare.ts" />
 				<ol className="list-inside list-decimal">
 					<li>
 						<Code>previousValue</Code>
 						{': '}
-						<Code>current</Code>
+						A state property value from
 						{' '}
-						state property value.
+						<Code>current</Code>
+						.
 					</li>
 					<li>
 						<Code>nextValue</Code>
 						{': '}
-						value sent from calling an action.
+						new value sent from calling an action.
 					</li>
 					<li>
 						<Code>extra</Code>
@@ -38,32 +48,18 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 							<li>
 								<Code>extra.key</Code>
 								{': '}
-								related to the state property being compared.
+								state property being compared.
 							</li>
 							<li>
 								<Code>extra.cmp</Code>
 								{': '}
 								gives you access to
 								{' '}
-								<a
-									href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal"
-									target="_blank"
-									className="underline"
-									rel="noreferrer"
-								>
-									strictDeepEqual
-								</a>
+								<StrictDeepEqualLink />
 								{' '}
 								from
 								{' '}
-								<a
-									href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals"
-									target="_blank"
-									className="underline"
-									rel="noreferrer"
-								>
-									fast-equals
-								</a>
+								<FastEqualsLink />
 							</li>
 						</ul>
 					</li>
@@ -88,7 +84,7 @@ export default function UseCTAParameterCompareTopic( props: SourceCodeRecordProp
 
 				<p>This is particularly useful when:</p>
 				<ul className="list-inside list-[square]">
-					<li>You need custom equality logic.</li>
+					<li>You need custom equality logic for specific state properties.</li>
 					<li>You want to optimize re-renders by comparing only specific properties.</li>
 					<li>Working with complex nested objects that need special comparison handling.</li>
 				</ul>

@@ -1,112 +1,62 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import BuiltInLink from '../../../links/built-in';
+import CTAHistoryLink from '../../../links/cta-history';
+import CustomActionLink from '../../../links/custom-action';
 import {
 	useCTAParameterActionsConfig,
 	useCTAParameterTransformConfig,
-	useCTAParameterTransformExampleConfig,
+	useCTAParameterTransformExampleConfig, useCTATransformParameterConfig, useCTATransformReturnConfig,
 } from '../../../nav-sidebar/config/use-cta-config';
-import {
-	useCTAParameterActionsCustomConfig,
-} from '../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
-import PopoverUseCTAParameterActionsOverridableRecord from '../../../popover/UseCTAParameterActionsOverridableRecord';
+import RelatedLiCreateCTA from '../../../related-li/create-cta-li';
+import RelatedLiCreateCTASelector from '../../../related-li/create-cta-selector-li';
 import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
+import RelatedLiUseCTACommon from '../../../related-li/common-cta-li';
 
-export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
+export function UseCTAParameterTransformTopic() {
 	return <>
 		<Sect {...useCTAParameterTransformConfig}>
 			<Content>
 				<p>
 					<i>Optional</i>
 					{' '}
-					callback:
+					callback that is a related parameter for:
 				</p>
-				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterTransform.ts' ]}</CodeBlock>
-				<ol className="list-inside list-decimal">
-					<li>
-						<Code>nextState</Code>
-						{': '}
-						This value depends what type of built-in call-to-action it is behaving like.
-					</li>
-					<li>
-						<Code>transformCTAHistory</Code>
-						{': '}
-						<Code>{'CTAHistory<CTAState>'}</Code>
-						{' '}
-						with two extra keys:
-						<ul className="list-inside list-[square] pl-5">
-							<li>
-								<Code>actionType</Code>
-								{': '}
-								The name of the built-in
-								{' '}
-								<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-									<Code>action</Code>
-								</Anchor>
-								{' '}
-								<PopoverUseCTAParameterActionsOverridableRecord sourceCodeRecord={props.sourceCodeRecord} />
-								type it will behave like.
-							</li>
-							<li>
-								<Code>customAction</Code>
-								{': '}
-								The name of the
-								{' '}
-								<Anchor
-									aria-label={useCTAParameterActionsCustomConfig.title}
-									href={useCTAParameterActionsCustomConfig.href}>
-									custom action
-								</Anchor>
-								{' '}
-								that called it.
-								{' '}
-								<Code>undefined</Code>
-								{' '}
-								if there is no custom call-to-action
-							</li>
-						</ul>
-					</li>
-				</ol>
 
-				<p>
-					Return value can be:
-				</p>
 				<ul className="list-inside list-[square]">
-					<li><Code>CTAState</Code></li>
-					<li><Code>{'Partial<CTAState>'}</Code></li>
-					<li>
-						<Code>undefined</Code>
-						{': '}
-						action will not be triggered.
-					</li>
+					<RelatedLiCreateCTA />
+					<RelatedLiCreateCTASelector />
+					<RelatedLiUseCTACommon />
 				</ul>
-				<div>
-					depending on the
+				<CodeBlockSource src="types/UseCTAParameterTransform.ts" />
+				<p>
+					This callback is an alternative to
 					{' '}
-					<Code>transformCTAHistory.actionType</Code>
-					{' '}
-					<PopoverUseCTAParameterActionsOverridableRecord sourceCodeRecord={props.sourceCodeRecord} />
-					{' '}
-					value.
-				</div>
-
-				<p>This callback reads all actions and is useful when:</p>
+					<Anchor aria-label={useCTAParameterActionsConfig.title} href={useCTAParameterActionsConfig.href}>
+						{useCTAParameterActionsConfig.desc}
+					</Anchor>
+					{'. '}
+					It can read the result of all actions and is useful when:
+				</p>
 				<ul className="list-inside list-[square]">
 					<li>
-						transforming all call-to-action
+						transforming all action
 						{' '}
 						<Code>CTAState</Code>
+						{' '}
+						results from a single point.
 					</li>
 					<li>
-						you don&apos;t want to override every built-in action to do the same
+						you don&apos;t want to override every built-in action to do the same changes to
 						{' '}
 						<Code>CTAState</Code>
-						{' '}
-						transformation.
+						.
 					</li>
+					<li>adding custom validation.</li>
+					<li>adding side effects.</li>
 				</ul>
 
 				<p>The order this works is as follows</p>
@@ -117,11 +67,6 @@ export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
 						<Code>actions</Code>
 						{' '}
 						is defined, call it. Otherwise, continue.
-					</li>
-					<li>
-						<Code>transform</Code>
-						{' '}
-						is called.
 					</li>
 					<li>
 						If
@@ -152,6 +97,79 @@ export function UseCTAParameterTransformTopic( props: SourceCodeRecordProps, ) {
 				title="react-hook-use-cta useCTA parameter transform example"
 				src="https://stackblitz.com/edit/use-cta-transform-tdgkwq3j-kyc7wvdw-udamtqvj?ctl=1&embed=1&file=src%2FUseCTATransform.tsx"
 			/>
+		</Sect>
+		<Sect {...useCTATransformParameterConfig}>
+			<Content>
+				<ol className="list-inside list-decimal">
+					<li>
+						<Code>nextState</Code>
+						{': '}
+						<Code>CTAState</Code>
+						{' '}
+						or
+						<Code>{'Partial<CTAState>'}</Code>
+						{'. '}
+						It depends the
+						{' '}
+						<Code>actionType</Code>
+						{' '}
+						it is behaving like.
+					</li>
+					<li>
+						<Code>transformCTAHistory</Code>
+						{': '}
+						<CTAHistoryLink />
+						{' '}
+						with two extra keys:
+						<ul className="list-inside list-[square] pl-5">
+							<li>
+								<Code>actionType</Code>
+								{': '}
+								The name of the
+								{' '}
+								<BuiltInLink />
+								{' '}
+								type it will behave like.
+							</li>
+							<li>
+								<Code>customAction</Code>
+								{': '}
+								The name of the
+								{' '}
+								<CustomActionLink />
+								{' '}
+								that called it. Otherwise,
+								{' '}
+								<Code>undefined</Code>
+								.
+							</li>
+						</ul>
+					</li>
+				</ol>
+			</Content>
+		</Sect>
+		<Sect {...useCTATransformReturnConfig}>
+			<Content>
+				<p>
+					Return value can be:
+				</p>
+				<ul className="list-inside list-[square]">
+					<li><Code>CTAState</Code></li>
+					<li><Code>{'Partial<CTAState>'}</Code></li>
+					<li>
+						<Code>undefined</Code>
+						{': '}
+						action will not be triggered.
+					</li>
+				</ul>
+				<p>
+					depending on the
+					{' '}
+					<Code>transformCTAHistory.actionType</Code>
+					{' '}
+					value.
+				</p>
+			</Content>
 		</Sect>
 	</>;
 }

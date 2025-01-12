@@ -1,28 +1,29 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import InitialLink from '../../../links/initial';
 
 import {
-	useCTAParameterInitialConfig,
 	useCTAParameterOnInitConfig,
 	useCTAParameterOnInitExampleConfig,
 } from '../../../nav-sidebar/config/use-cta-config';
-import PopoverCTAState from '../../../popover/ctaState';
-import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Embed from '../../../ui/embed';
 import Sect from '../../../ui/sect';
+import RelatedLiUseCTACommon from '../../../related-li/common-cta-li';
 
-export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAParameterOnInitTopic() {
 	return <>
 		<Sect {...useCTAParameterOnInitConfig}>
 			<Content>
 				<p>
 					<i>Optional</i>
 					{' '}
-					callback:
+					callback that is a related parameter for:
 				</p>
-				<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAParameterOnInit.ts' ]}</CodeBlock>
+				<ul className="list-inside list-[square]">
+					<RelatedLiUseCTACommon />
+				</ul>
+				<CodeBlockSource src="types/UseCTAParameterOnInit.ts" />
 				<div>
 					where
 					{' '}
@@ -30,30 +31,12 @@ export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps
 					{' '}
 					is the
 					{' '}
-					<Anchor href={useCTAParameterInitialConfig.href} aria-label={`Link to ${useCTAParameterInitialConfig.title} section`}>
-						<Code>initial</Code>
-					</Anchor>
-					{' '}
-					<PopoverCTAState {...props} />
+					<InitialLink />
 					state structure.
 				</div>
 				<p>Has the following key features:</p>
 				<ul className="list-inside list-[square]">
 					<li>Runs once on component mount</li>
-					<li>
-						Receives the
-						{' '}
-						<Code>initial</Code>
-						{' '}
-						state as a parameter
-					</li>
-					<li>
-						Can return a new state object to override
-						{' '}
-						<Code>initial</Code>
-						{' '}
-						values
-					</li>
 					<li>
 						Perfect for setting up derived state or
 						{' '}
@@ -62,11 +45,7 @@ export default function UseCTAParameterOnInitTopic( props: SourceCodeRecordProps
 						data from props
 					</li>
 					<li>
-						This makes
-						{' '}
-						<Code>onInit</Code>
-						{' '}
-						particularly useful when you need to perform calculations or transformations on your
+						Useful when you need to perform calculations or transformations on your
 						{' '}
 						<Code>initial</Code>
 						{' '}

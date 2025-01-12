@@ -1,4 +1,8 @@
-import { SourceCodeRecordProps, } from '../../types/source-code-record-props';
+import CreateFuncLink from '../links/create-func';
+import CTAHistoryLink from '../links/cta-history';
+import DispatchLink from '../links/dispatch';
+import StateHistoryLink from '../links/state-history';
+import UseCTAReturnTypeLink from '../links/use-cta-return-type';
 import {
 	createCtaConfig,
 	createCTAExampleConfig,
@@ -7,24 +11,20 @@ import {
 } from '../nav-sidebar/config/create-cta-config';
 import {
 	useCTAConfig,
-	useCTAParameterActionsConfig,
-	useCTAReturnValues0HistoryConfig,
 } from '../nav-sidebar/config/use-cta-config';
-import { useCTAReturnValues1DispatchConfig, } from '../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
-import PopoverCTAHistory from '../popover/ctaHistory';
-import PopoverUseCTAParameterActionsRecordProp from '../popover/PopoverUseCTAParameterActionsRecordProp';
 import Anchor from '../ui/anchor';
 import Code from '../ui/code';
 import CodeBlock from '../ui/codeBlock';
 import Content from '../ui/content';
 import Embed from '../ui/embed';
 import Sect from '../ui/sect';
-import UseCTAParameterCommonLi from './use-cta/parameters/common-li';
+import UseCTAParameterActionsLi from './use-cta/parameters/list-item/actions-li';
+import UseCTAParameterCommonLi from './use-cta/parameters/list-item/common-li';
 
-export default function CreateCTATopic( props: SourceCodeRecordProps, ) {
+export default function CreateCTATopic() {
 	return <>
 		<Sect {...createCtaConfig}>
-			<CodeBlock copyButton={true} className="mr-4">
+			<CodeBlock copyButton={true}>
 				{`
 import { createCTA, } from 'react-hook-use-cta';
 
@@ -55,11 +55,11 @@ export dispatch = ctaValue[1];
 				<p>
 					Useful if you want to handle
 					{' '}
-					<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label="state history">state history</Anchor>
+					<StateHistoryLink />
 					{' '}
 					and
 					{' '}
-					<Anchor href={useCTAReturnValues1DispatchConfig.href} aria-label="dispatch">dispatch</Anchor>
+					<DispatchLink />
 					{' '}
 					using a 3rd party global state management system.
 				</p>
@@ -67,32 +67,36 @@ export dispatch = ctaValue[1];
 		</Sect>
 		<Sect {...createCTAExampleConfig}>
 			<Embed
-				src="https://stackblitz.com/edit/use-cta-create-cta-gtdgkwq3j-kyc7wvdw-boma7-qtkzkkmr?embed=1&file=src%2Fstore.ts"
+				src="https://stackblitz.com/edit/use-cta-create-cta-gtdgkwq3j-kyc7wvdw-boma7-qtkzkkmr?ctl=1&embed=1&file=src%2Fstore.ts"
 				title="createCTA example"
 			/>
 		</Sect>
 		<Sect {...createCTAParametersConfig}>
 			<Content>
-				<div>
-					With the
+				<p>
+					<Code>createCTA</Code>
 					{' '}
-					<b>exception</b>
-					{' '}
-					of onInit, shares the same parameters as
-					{' '}
-					<Code>useCTA</Code>
-					:
-				</div>
-				<ul className="list-inside list-[square]">
-					<UseCTAParameterCommonLi sourceCodeRecord={props.sourceCodeRecord} />
+					accepts two parameters:
+				</p>
+				<ol className="list-inside list-decimal">
 					<li>
-						<Anchor href={useCTAParameterActionsConfig.href} aria-label={useCTAParameterActionsConfig.title}>
-							<Code>actions</Code>
-						</Anchor>
+						<Code>object</Code>
 						{' '}
-						<PopoverUseCTAParameterActionsRecordProp sourceCodeRecord={props.sourceCodeRecord} />
+						that provides the following properties as
+						{' '}
+						<Code>useCTA</Code>
+						{' '}
+						Parameter:
+						{' '}
+						<ul className="list-inside list-[square] pl-6">
+							<UseCTAParameterCommonLi />
+							<UseCTAParameterActionsLi />
+						</ul>
 					</li>
-				</ul>
+					<li>
+						<CreateFuncLink />
+					</li>
+				</ol>
 			</Content>
 		</Sect>
 		<Sect {...createCTAReturnValuesConfig}>
@@ -101,32 +105,29 @@ export dispatch = ctaValue[1];
 					Returns the same values as
 					{' '}
 					<Code>useCTA</Code>
-					:
+					{': '}
+					<UseCTAReturnTypeLink />
 				</div>
+
 				<ol className="list-inside list-decimal">
 					<li>
-						<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label="Link to history">
-							<Code>history</Code>
-						</Anchor>
-						{' '}
-						<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
+						<CTAHistoryLink />
 					</li>
-					<li><Code>dispatch</Code></li>
+					<li>
+						<DispatchLink />
+					</li>
 				</ol>
 				<div>
-					{' '}
 					<Code>dispatch</Code>
 					{' '}
 					and
 					{' '}
 					<Code>dispatch.cta.*</Code>
 					{' '}
-					functions return
+					functions also return
 					{' '}
-					<Code>history</Code>
-					<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
-					{' '}
-					as well.
+					<CTAHistoryLink />
+					.
 				</div>
 			</Content>
 			<CodeBlock>

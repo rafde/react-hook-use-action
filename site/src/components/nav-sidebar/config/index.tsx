@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { createCtaConfig, } from './create-cta-config';
 import { createCTAContextConfig, } from './create-cta-context-config';
+import { createCtaSelectorConfig, } from './create-cta-selector-config';
 import { exportTypesConfig, } from './export-types';
 import { returnCtaParameterConfig, } from './return-cta-parameter-config';
 import { useCTAConfig, } from './use-cta-config';
@@ -49,6 +50,7 @@ export const navList: NavItem[] = [
 	introductionConfig,
 	installConfig,
 	useCTAConfig,
+	createCtaSelectorConfig,
 	createCtaConfig,
 	createCTAContextConfig,
 	returnCtaParameterConfig,

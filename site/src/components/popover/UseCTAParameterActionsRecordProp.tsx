@@ -2,9 +2,9 @@
 import useSourceCode from '../../hooks/useSourceCode';
 import PopoverTypes from './index';
 
-export default function PopoverCustomCTAHistory() {
+export default function PopoverUseCTAParameterActionsRecordProp() {
 	const sourceCode = useSourceCode( ( { current, }, ) => current.sourceCodeRecord[ 'types/CustomCTAHistory.ts' ], );
-	return <PopoverTypes className="max-w-[570px]" aria-label="Custom CTA History">
+	return <PopoverTypes className="max-w-[860px]" aria-label="actions record">
 		{sourceCode}
 	</PopoverTypes>;
 }

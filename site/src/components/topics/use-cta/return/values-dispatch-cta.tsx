@@ -1,4 +1,3 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
 import { useCTAParameterActionsCustomConfig, } from '../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
 import {
 	useCTAParameterActionsOverridableParameterActionsReplaceConfig,
@@ -16,20 +15,20 @@ import {
 	useCTAReturnValues1DispatchCTAUpdateInitialConfig,
 } from '../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
 import PopoverCustomActionsRecord from '../../../popover/customActionsRecord';
-import PopoverUseCTAParameterActionsPropReplace from '../../../popover/PopoverUseCTAParameterActionsPropReplace';
+import UseCTAParameterActionsPropReplace from '../../../popover/UseCTAParameterActionsPropReplace';
 import PopoverUseCTAParameterActionsPropReplaceInitial
-	from '../../../popover/PopoverUseCTAParameterActionsPropReplacenitial';
-import PopoverUseCTAParameterActionsPropReset from '../../../popover/PopoverUseCTAParameterActionsPropReset';
-import PopoverUseCTAParameterActionsPropUpdate from '../../../popover/PopoverUseCTAParameterActionsPropUpdate';
-import PopoverUseCTAParameterActionsPropUpdateInitial
-	from '../../../popover/PopoverUseCTAParameterActionsPropUpdateInitial';
+	from '../../../popover/UseCTAParameterActionsPropReplacenitial';
+import UseCTAParameterActionsPropReset from '../../../popover/UseCTAParameterActionsPropReset';
+import PopoverUseCTAParameterActionsPropUpdate from '../../../popover/UseCTAParameterActionsPropUpdate';
+import UseCTAParameterActionsPropUpdateInitial
+	from '../../../popover/UseCTAParameterActionsPropUpdateInitial';
 import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
 import CodeBlock from '../../../ui/codeBlock';
 import Content from '../../../ui/content';
 import Sect from '../../../ui/sect';
 
-export function UseCTAReturnValuesDispatchCTATopic( props: SourceCodeRecordProps, ) {
+export function UseCTAReturnValuesDispatchCTATopic() {
 	return <>
 		<Sect {...useCTAReturnValues1DispatchCTAUpdateConfig}>
 			<Content>
@@ -41,7 +40,7 @@ export function UseCTAReturnValuesDispatchCTATopic( props: SourceCodeRecordProps
 						href={useCTAParameterActionsOverridableParameterActionsUpdateConfig.href}>
 						<Code>actions.update</Code>
 					</Anchor>
-					<PopoverUseCTAParameterActionsPropUpdate {...props} />
+					<PopoverUseCTAParameterActionsPropUpdate />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">
@@ -84,7 +83,7 @@ dispatch( {
 						href={useCTAParameterActionsOverridableParameterActionsReplaceConfig.href}>
 						<Code>actions.replace</Code>
 					</Anchor>
-					<PopoverUseCTAParameterActionsPropReplace {...props} />
+					<UseCTAParameterActionsPropReplace />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">
@@ -125,7 +124,7 @@ dispatch( {
 						href={useCTAParameterActionsOverridableParameterActionsResetConfig.href}>
 						<Code>actions.reset</Code>
 					</Anchor>
-					<PopoverUseCTAParameterActionsPropReset {...props} />
+					<UseCTAParameterActionsPropReset />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">
@@ -179,7 +178,7 @@ dispatch( {
 						href={useCTAParameterActionsOverridableParameterActionsUpdateInitialConfig.href}>
 						<Code>actions.updateInitial</Code>
 					</Anchor>
-					<PopoverUseCTAParameterActionsPropUpdateInitial {...props} />
+					<UseCTAParameterActionsPropUpdateInitial />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">
@@ -221,7 +220,7 @@ dispatch( {
 						href={useCTAParameterActionsOverridableParameterActionsReplaceInitialConfig.href}>
 						<Code>actions.replaceInitial</Code>
 					</Anchor>
-					<PopoverUseCTAParameterActionsPropReplaceInitial {...props} />
+					<PopoverUseCTAParameterActionsPropReplaceInitial />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">
@@ -264,7 +263,7 @@ dispatch( {
 						{' '}
 						<Code>actions</Code>
 					</Anchor>
-					<PopoverCustomActionsRecord {...props} />
+					<PopoverCustomActionsRecord />
 				</div>
 			</Content>
 			<CodeBlock lang="ts">

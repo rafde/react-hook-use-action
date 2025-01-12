@@ -1,45 +1,41 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import FastEqualsLink from '../../../links/fast-equals';
 
 import { useCTAParameterInitialConfig, } from '../../../nav-sidebar/config/use-cta-config';
+import StrictDeepEqualLink from '../../../links/strict-deep-equal';
+import RelatedLiCreateCTA from '../../../related-li/create-cta-li';
+import RelatedLiCreateCTASelector from '../../../related-li/create-cta-selector-li';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Sect from '../../../ui/sect';
+import RelatedLiUseCTACommon from '../../../related-li/common-cta-li';
 
-export default function UseCTAParameterInitialTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAParameterInitialTopic() {
 	return <Sect {...useCTAParameterInitialConfig}>
 		<Content>
 			<b>Required</b>
-			<div>
+			<p>
 				Representing the
 				{' '}
 				<Code>initial</Code>
 				{' '}
-				state structure. This serves as the base state and can be reset to later.
-			</div>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAState.ts' ].trim()}</CodeBlock>
+				base state structure.
+			</p>
+			<p>This is a related parameter for:</p>
+			<ul className="list-inside list-[square]">
+				<RelatedLiCreateCTA />
+				<RelatedLiCreateCTASelector />
+				<RelatedLiUseCTACommon />
+			</ul>
+			<CodeBlockSource src="types/CTAState.ts" />
 			<p>
 				Property values can be anything that
 				{' '}
-				<a
-					href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#strictdeepequal"
-					target="_blank"
-					className="underline"
-					rel="noreferrer"
-				>
-					strictDeepEqual
-				</a>
+				<StrictDeepEqualLink />
 				{' '}
 				from
 				{' '}
-				<a
-					href="https://github.com/planttheidea/fast-equals/tree/v5.0.1?tab=readme-ov-file#fast-equals"
-					target="_blank"
-					className="underline"
-					rel="noreferrer"
-				>
-					fast-equals
-				</a>
+				<FastEqualsLink />
 				{' '}
 				supports.
 			</p>

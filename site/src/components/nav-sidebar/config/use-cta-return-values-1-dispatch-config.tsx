@@ -36,6 +36,11 @@ export const useCTAReturnValuesDispatchHistoryConfig: NavItem = {
 	href: 'use-cta-return-value-1-dispatch-history',
 	title: 'dispatch.history',
 };
+export const useCTAReturnValuesDispatchFuncConfig: NavItem = {
+	desc: <Code>dispatch.func</Code>,
+	href: 'use-cta-return-value-1-dispatch-func',
+	title: 'dispatch.func',
+};
 export const useCTAReturnValues1DispatchConfig: NavItem = {
 	desc: <>
 		<Code>useCTA return</Code>
@@ -62,6 +67,7 @@ export const useCTAReturnValues1DispatchConfig: NavItem = {
 		useCTAReturnValues1DispatchCTAReplaceInitialConfig,
 		useCTAReturnValues1DispatchCTACustomActionConfig,
 		useCTAReturnValuesDispatchHistoryConfig,
+		useCTAReturnValuesDispatchFuncConfig,
 	],
 	title: 'Return value [1]: dispatch',
 };

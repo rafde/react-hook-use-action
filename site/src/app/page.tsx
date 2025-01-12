@@ -1,5 +1,6 @@
 import CreateCTATopic from '../components/topics/create-cta';
 import CreateCTAContextTopic from '../components/topics/create-cta-context';
+import CreateCTASelectorTopic from '../components/topics/create-cta-selector';
 import ExportTypesTopic from '../components/topics/export-types';
 import InstallTopic from '../components/topics/install';
 import IntroductionTopic from '../components/topics/introduction';
@@ -16,11 +17,12 @@ export default async function Home() {
 			<IntroductionTopic />
 			<section className="z-10 flex flex-col bg-black">
 				<InstallTopic />
-				<UseCTATopic sourceCodeRecord={sourceCodeRecord} />
-				<CreateCTATopic sourceCodeRecord={sourceCodeRecord} />
-				<CreateCTAContextTopic sourceCodeRecord={sourceCodeRecord} />
+				<UseCTATopic />
+				<CreateCTASelectorTopic />
+				<CreateCTATopic />
+				<CreateCTAContextTopic />
 				<ReturnCTAParameterTopic />
-				<ExportTypesTopic sourceCodeRecord={sourceCodeRecord} />
+				<ExportTypesTopic />
 			</section>
 		</>
 	);

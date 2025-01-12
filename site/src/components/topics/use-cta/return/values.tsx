@@ -1,42 +1,54 @@
-import { SourceCodeRecordProps, } from '../../../../types/source-code-record-props';
+import StateHistoryLink from '../../../links/state-history';
 
 import {
 	useCTAReturnValues0HistoryConfig,
 	useCTAReturnValuesConfig,
-
 } from '../../../nav-sidebar/config/use-cta-config';
+import { useCTAParameterCreateFuncConfig, } from '../../../nav-sidebar/config/use-cta-parameter-create-func-config';
 import {
 	useCTAReturnValues1DispatchConfig,
+	useCTAReturnValuesDispatchFuncConfig,
 	useCTAReturnValuesDispatchHistoryConfig,
 } from '../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
-import PopoverCTAHistory from '../../../popover/ctaHistory';
 import Anchor from '../../../ui/anchor';
 import Code from '../../../ui/code';
-import CodeBlock from '../../../ui/codeBlock';
+import CodeBlockSource from '../../../ui/codeBlock/Source';
 import Content from '../../../ui/content';
 import Sect from '../../../ui/sect';
 import { UseCTAReturnValuesDispatchCTATopic, } from './values-dispatch-cta';
 
-export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAReturnValuesTopic() {
 	return <>
 		<Sect {...useCTAReturnValuesConfig}>
-			<CodeBlock copyButton={false}>{props.sourceCodeRecord[ 'types/UseCTAReturnType.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/UseCTAReturnType.ts" />
 			<Content>
-				<div>
+				<p>
 					<Code>useCTA</Code>
 					{' '}
-					returns a type-safe
+					returns a
+					{' '}
+					<Code>type</Code>
+					-safe
 					{' '}
 					<Code>array</Code>
 					{' '}
-					with two elements for managing complex state operations
-					while maintaining access to state history and change tracking.
-				</div>
+					with two elements:
+				</p>
+				<ol className="list-inside list-decimal">
+					<li>
+						<Code>{'CTAHistory<Initial>'}</Code>
+						: Maintains hook state history and change tracking.
+					</li>
+					<li>
+						<Code>dispatch</Code>
+						: Dispatch function to trigger actions.
+					</li>
+				</ol>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAReturnValues0HistoryConfig}>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CTAHistory.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/CTAHistory.ts" />
 			<Content>
 				<div>
 					If a call-to-action is successful, it will return a
@@ -65,7 +77,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 		</Sect>
 
 		<Sect {...useCTAReturnValues1DispatchConfig}>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/UseCTAReturnTypeDispatch.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/UseCTAReturnTypeDispatch.ts" />
 			<Content>
 				<div>
 					Gives you access to the
@@ -74,11 +86,7 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					{' '}
 					function which allows you to trigger
 					{' '}
-					<Anchor href={useCTAReturnValues0HistoryConfig.href} aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title}`}>
-						state history
-					</Anchor>
-					{' '}
-					<PopoverCTAHistory {...props} />
+					<StateHistoryLink />
 					{' '}
 					changes through actions.
 				</div>
@@ -89,29 +97,38 @@ export default function UseCTAReturnValuesTopic( props: SourceCodeRecordProps, )
 					.
 				</div>
 				<p>
-					The following built-in actions are available:
+					The following actions are available:
 				</p>
 			</Content>
 		</Sect>
 
-		<UseCTAReturnValuesDispatchCTATopic {...props} />
+		<UseCTAReturnValuesDispatchCTATopic />
 
 		<Sect {...useCTAReturnValuesDispatchHistoryConfig}>
 			<Content>
-				<div>
+				<p>
 					A read-only reference to the
 					{' '}
-					<a
-						aria-label={`Link to ${useCTAReturnValues0HistoryConfig.title}`}
-						href={`#${useCTAReturnValues0HistoryConfig.href}`}
-						className="underline">
-						{useCTAReturnValues0HistoryConfig.desc}
-					</a>
-					{' '}
-					<PopoverCTAHistory sourceCodeRecord={props.sourceCodeRecord} />
+					<StateHistoryLink />
 					,
 					in case you need to read it from somewhere that doesn&apos;t need as a dependency.
-				</div>
+				</p>
+			</Content>
+		</Sect>
+		<Sect {...useCTAReturnValuesDispatchFuncConfig}>
+			<CodeBlockSource src="UseCTAParameterCreateFuncReturnRecord" />
+			<Content>
+				<p>
+					An
+					{' '}
+					<Code>object</Code>
+					{' '}
+					that is the result of
+					{' '}
+					<Anchor href={useCTAParameterCreateFuncConfig.href} aria-label={useCTAParameterCreateFuncConfig.title}>
+						<Code>createFunc</Code>
+					</Anchor>
+				</p>
 			</Content>
 		</Sect>
 	</>;

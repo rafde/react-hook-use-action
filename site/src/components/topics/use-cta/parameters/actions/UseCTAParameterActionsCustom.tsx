@@ -1,4 +1,6 @@
-import { SourceCodeRecordProps, } from '../../../../../types/source-code-record-props';
+import BuiltInLink from '../../../../links/built-in';
+import CTAHistoryLink from '../../../../links/cta-history';
+import DispatchYourCustomActionLink from '../../../../links/dispatch-you-custom-action';
 
 import {
 	useCTAParameterActionsCustomConfig,
@@ -7,24 +9,20 @@ import {
 	useCTAParameterActionsParameterCustomCTAHistoryConfig,
 	useCTAParameterActionsParameterCustomParametersArgsConfig,
 } from '../../../../nav-sidebar/config/use-cta-parameter-actions-custom-config';
-import {
-	useCTAParameterActionsOverridableConfig,
-} from '../../../../nav-sidebar/config/use-cta-parameter-actions-override-built-in-config';
-import {
-	useCTAReturnValues1DispatchCTACustomActionConfig,
-} from '../../../../nav-sidebar/config/use-cta-return-values-1-dispatch-config';
-import PopoverCTAHistory from '../../../../popover/ctaHistory';
-import PopoverUseCTAParameterActionsOverridableRecord from '../../../../popover/UseCTAParameterActionsOverridableRecord';
-import Anchor from '../../../../ui/anchor';
 import Code from '../../../../ui/code';
-import CodeBlock from '../../../../ui/codeBlock';
+import CodeBlockSource from '../../../../ui/codeBlock/Source';
 import Content from '../../../../ui/content';
 import Embed from '../../../../ui/embed';
 import Sect from '../../../../ui/sect';
+import ReplaceActionDescription from './replace-action-description';
+import ReplaceInitialActionDescription from './replace-initial-action-description';
+import UpdateActionDescription from './update-action-description';
+import UpdateInitialActionDescription from './update-initial-action-description';
+import UseDefaultDescription from './use-default-description';
 
 const actionsClassName = 'inline-grid gap-2 w-[calc(100%-2rem)] grid-cols-1 sm:grid-cols-2 items-start';
 
-export default function UseCTAParameterActionsCustomTopic( props: SourceCodeRecordProps, ) {
+export default function UseCTAParameterActionsCustomTopic() {
 	return <>
 		<Sect {...useCTAParameterActionsCustomConfig}>
 			<Content>
@@ -32,14 +30,11 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 				<div>
 					Calls from
 					{' '}
-					<Anchor aria-label="Link to dispatch.cta.YourCustomAction" href={useCTAReturnValues1DispatchCTACustomActionConfig.href}>
-						<Code>dispatch.cta.YourCustomAction</Code>
-					</Anchor>
+					<DispatchYourCustomActionLink />
 				</div>
 			</Content>
-			<CodeBlock>{props.sourceCodeRecord.UseCTAParameterActionsCustomRecord}</CodeBlock>
+			<CodeBlockSource src="UseCTAParameterActionsCustomRecord" />
 			<Content>
-				<i>Optional</i>
 				<p>
 					Custom actions are a powerful way to extend the functionality of your state management system.
 					You can define as many as you need.
@@ -52,9 +47,35 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 					<li>Handle specialized business logic.</li>
 				</ul>
 				<p>
-					They are defined as a record of functions, where the key is the action name and the value is the
-					function that accepts any number of parameters.
+					They are defined as a
+					{' '}
+					<Code>Record</Code>
+					{' '}
+					of
+					{' '}
+					<Code>function</Code>
+					s, where the:
 				</p>
+				<ul className="list-inside list-[square]">
+					<li>
+						key: can be a
+						{' '}
+						<Code>string | number</Code>
+						{' '}
+						as the action name
+					</li>
+					<li>
+						value: is a
+						{' '}
+						<Code>function</Code>
+						{' '}
+						that accepts any number of
+						{' '}
+						<Code>type</Code>
+						{' '}
+						declared parameters.
+					</li>
+				</ul>
 			</Content>
 		</Sect>
 
@@ -66,58 +87,75 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 		</Sect>
 
 		<Sect {...useCTAParameterActionsParameterCustomCTAHistoryConfig}>
-			<CodeBlock>{props.sourceCodeRecord[ 'types/CustomCTAHistory.ts' ]}</CodeBlock>
+			<CodeBlockSource src="types/CustomCTAHistory.ts" />
 			<Content>
-				<div>
+				<p>
 					The first parameter of the function is read-only
 					{' '}
 					<Code>CustomCTAHistory</Code>
 					{' '}
 					which extends from
 					{' '}
-					<Code>CTAHistory</Code>
+					<CTAHistoryLink />
 					{' '}
-					<PopoverCTAHistory {...props} />
-				</div>
-				<p>
-					and gives you access to all the built-in action behaviors.
+					and gives you access to all the
+					{' '}
+					<BuiltInLink />
+					{' '}
+					behaviors.
 				</p>
-				<div>
+				<p>
 					By default, custom actions behave as an
 					{' '}
 					<Code>update</Code>
 					,
-					but you can customize them to behave like any other built-in action through
+					but you can customize them to behave like any other
+					{' '}
+					<BuiltInLink />
+					{' '}
+					through
 					{' '}
 					<Code>CustomCTAHistory</Code>
 					.
-				</div>
+				</p>
 			</Content>
 		</Sect>
 
 		<Sect {...useCTAParameterActionsParameterCustomParametersArgsConfig}>
 			<Content>
 				<b>Optional</b>
-				<div>
+				<p>
 					Custom actions can have any number of
 					{' '}
-					<Code>args</Code>
+					<Code>type</Code>
+					{' '}
+					declared
+					{' '}
+					<Code>...args</Code>
 					{' '}
 					after the
 					{' '}
 					<Code>CustomCTAHistory</Code>
 					{' '}
 					parameter.
-				</div>
-				<div>
+				</p>
+				<p>
 					These
 					{' '}
-					<Code>args</Code>
+					<Code>...args</Code>
 					{' '}
-					can be of any type you can specify to ensure type safety,
-				</div>
+					must have their
+					{' '}
+					<Code>type</Code>
+					{' '}
+					declared to ensure type safety.
+				</p>
 				<p>
-					and they will be passed to the action function when it is called.
+					<Code>...args</Code>
+					{' '}
+					will come from calling
+					{' '}
+					<DispatchYourCustomActionLink />
 				</p>
 			</Content>
 		</Sect>
@@ -131,15 +169,19 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
 				<ul className="list-inside list-[square] space-y-2 pl-0">
 					<li>
 						<Code>undefined</Code>
-						: Action will not be triggered. Return when you want to conditionally trigger an action.
+						: Action will not be triggered. Useful when you want to conditionally trigger an action.
 					</li>
 					<li>
 						<Code>{'Partial<CTAState>'}</Code>
-						: Behaves like an
+						:
+						{' '}
+						<UpdateActionDescription />
+						{' '}
+						It will use using overridden
 						{' '}
 						<Code>update</Code>
 						{' '}
-						action. It will use using overridden update action.
+						action.
 					</li>
 					<li>
 						<article className={actionsClassName}>
@@ -150,18 +192,9 @@ export default function UseCTAParameterActionsCustomTopic( props: SourceCodeReco
  )`}
 							</Code>
 							<section>
-								<div>
-									: Behaves like an
-									{' '}
-									<Code>update</Code>
-									{' '}
-									action.
-								</div>
-								<div>
-									<Code>{'{ useDefault: true }'}</Code>
-									{' '}
-									will bypass the overridden update action behavior
-								</div>
+								:
+								<UpdateActionDescription />
+								<UseDefaultDescription actionTypeName="update" />
 							</section>
 						</article>
 					</li>
@@ -175,18 +208,10 @@ CustomCTAHistory.replaceAction(
  )`.trim()}
 							</Code>
 							<section>
-								<div>
-									: Behaves like an
-									{' '}
-									<Code>replace</Code>
-									{' '}
-									action.
-								</div>
-								<div>
-									<Code>{'{ useDefault: true }'}</Code>
-									{' '}
-									will bypass the overridden replace action behavior
-								</div>
+								:
+								{' '}
+								<ReplaceActionDescription />
+								<UseDefaultDescription actionTypeName="replace" />
 							</section>
 						</article>
 					</li>
@@ -200,18 +225,12 @@ CustomCTAHistory.resetAction(
  )`.trim()}
 							</Code>
 							<section>
-								<div>
-									: Behaves like an
-									{' '}
-									<Code>reset</Code>
-									{' '}
-									action.
-								</div>
-								<div>
-									<Code>{'{ useDefault: true }'}</Code>
-									{' '}
-									will bypass the overridden reset action behavior
-								</div>
+								: Behaves like an
+								{' '}
+								<Code>reset</Code>
+								{' '}
+								action.
+								<UseDefaultDescription actionTypeName="reset" />
 							</section>
 						</article>
 					</li>
@@ -225,18 +244,10 @@ CustomCTAHistory.updateInitialAction(
  )`.trim()}
 							</Code>
 							<section>
-								<div>
-									: Behaves like an
-									{' '}
-									<Code>updateInitial</Code>
-									{' '}
-									action.
-								</div>
-								<div>
-									<Code>{'{ useDefault: true }'}</Code>
-									{' '}
-									will bypass the overridden updateInitial action behavior
-								</div>
+								:
+								{' '}
+								<UpdateInitialActionDescription />
+								<UseDefaultDescription actionTypeName="updateInitial" />
 							</section>
 						</article>
 					</li>
@@ -251,41 +262,28 @@ CustomCTAHistory.updateInitialAction(
 								}
 							</Code>
 							<section>
-								<div>
-									: Behaves like an
-									{' '}
-									<Code>replaceInitial</Code>
-									{' '}
-									action.
-								</div>
-								<div>
-									<Code>{'{ useDefault: true }'}</Code>
-									{' '}
-									will bypass the overridden replaceInitial action behavior
-								</div>
+								:
+								{' '}
+								<ReplaceInitialActionDescription />
+								<UseDefaultDescription actionTypeName="replaceInitial" />
 							</section>
 						</article>
 					</li>
 				</ul>
-				<div>
+				<p>
 					<b>Note</b>
-					: If you have
+					: If you have overridden a
 					{' '}
-					<Anchor href={useCTAParameterActionsOverridableConfig.href} aria-label="Link to overridden built-in actions">
-						overridden the built-in
-					</Anchor>
-					{' '}
-					<PopoverUseCTAParameterActionsOverridableRecord {...props} />
-					{' '}
-					actions, the custom action will use the overridden action.
-				</div>
-				<div>
+					<BuiltInLink />
+					, the custom action will use the overridden action.
+				</p>
+				<p>
 					Sending
 					{' '}
 					<Code>{'{ useDefault: true }'}</Code>
 					{' '}
-					will bypass the overridden action and behave using default action.
-				</div>
+					will bypass the overridden action and behave using built-in action behavior.
+				</p>
 			</Content>
 		</Sect>
 	</>;
