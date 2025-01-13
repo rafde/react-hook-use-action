@@ -25,6 +25,49 @@ type CTAHistory<State extends CTAState> = Readonly<{
     initial: Readonly<State>;
     previousInitial: Readonly<State> | null;
 }>;
+/**
+ * A `function` than runs once on component mount.
+ * Useful when you need to perform calculations or transformations on your {@link CTAHistory}.`initial` state before your component starts using it.
+ * @template {CTAState} Initial - The {@link CTAState} hook state.
+ * @param {CTAState} initial - The {@link CTAHistory}.`initial` state.
+ * @returns A new {@link CTAHistory}.`initial` state.
+ */
+type UseCTAParameterOnInit<Initial extends CTAState> = (initial: Initial) => Initial;
+type DefaultActionsRecord<Payload extends CTAState> = Required<UseCTAParameterActionsOptionalDefaultRecord<Payload>>;
+/**
+ * Options for configuring action type behavior
+ * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
+ */
+type ActionTypeOptions = {
+    useDefault?: boolean;
+};
+type ActionTypeConstructParam<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> = {
+    actionTypeOptions?: ActionTypeOptions;
+    hasAugmentedAction: boolean;
+    payload: Parameters<DefaultActionsRecord<Payload>[Type]>[1];
+    type: Type;
+};
+declare class ActionType<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> {
+    readonly type: ActionTypeConstructParam<Payload, Type>['type'];
+    readonly payload: Readonly<ActionTypeConstructParam<Payload, Type>['payload']>;
+    readonly actionTypeOptions: ActionTypeOptions;
+    constructor(param: ActionTypeConstructParam<Payload, Type>);
+}
+declare class UpdateInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'updateInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'updateInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ResetActionType<Payload extends CTAState> extends ActionType<Payload, 'reset'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'reset'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class UpdateActionType<Payload extends CTAState> extends ActionType<Payload, 'update'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'update'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ReplaceActionType<Payload extends CTAState> extends ActionType<Payload, 'replace'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replace'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
+declare class ReplaceInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'replaceInitial'> {
+    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replaceInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
+}
 type Immutable<T> = T extends (infer R)[] ? ReadonlyArray<Immutable<R>> : T extends Function ? T : T extends object ? {
     readonly [P in keyof T]: Immutable<T[P]>;
 } : T;
@@ -35,6 +78,7 @@ type CustomCTAHistory<Payload extends CTAState> = CTAHistory<Payload> & Immutabl
     updateAction: (payload: Partial<Payload>, actionTypeOptions?: ActionTypeOptions) => UpdateActionType<Payload>;
     updateInitialAction: (payload: Partial<Payload>, actionTypeOptions?: ActionTypeOptions) => UpdateInitialActionType<Payload>;
 }>;
+type CustomCTAReturnType<Initial extends CTAState> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | UpdateInitialActionType<Initial> | Partial<Initial>;
 /**
  * `object` type for defining custom and/or overridden state management actions. It gives you access to the following capabilities:
  * - Gives you a clean, type-safe way to encapsulate your state logic while keeping your component code focused on presentation.
@@ -86,42 +130,6 @@ type UseCTAParameterActionsRecordProp<Payload extends CTAState> = {
     [p: string | number]: (() => Partial<Payload>) | ((ctaState: CustomCTAHistory<Payload>, ...args: never[]) => CustomCTAReturnType<Payload>) | undefined;
 };
 type UseCTAParameterActionsOptionalDefaultRecord<Payload extends CTAState> = Pick<UseCTAParameterActionsRecordProp<Payload>, 'update' | 'replace' | 'reset' | 'updateInitial' | 'replaceInitial'>;
-type DefaultActionsRecord<Payload extends CTAState> = Required<UseCTAParameterActionsOptionalDefaultRecord<Payload>>;
-/**
- * Options for configuring action type behavior
- * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
- */
-type ActionTypeOptions = {
-    useDefault?: boolean;
-};
-type ActionTypeConstructParam<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> = {
-    actionTypeOptions?: ActionTypeOptions;
-    hasAugmentedAction: boolean;
-    payload: Parameters<DefaultActionsRecord<Payload>[Type]>[1];
-    type: Type;
-};
-declare class ActionType<Payload extends CTAState, Type extends keyof DefaultActionsRecord<Payload>> {
-    readonly type: ActionTypeConstructParam<Payload, Type>['type'];
-    readonly payload: Readonly<ActionTypeConstructParam<Payload, Type>['payload']>;
-    readonly actionTypeOptions: ActionTypeOptions;
-    constructor(param: ActionTypeConstructParam<Payload, Type>);
-}
-declare class UpdateInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'updateInitial'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'updateInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ResetActionType<Payload extends CTAState> extends ActionType<Payload, 'reset'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'reset'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class UpdateActionType<Payload extends CTAState> extends ActionType<Payload, 'update'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'update'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ReplaceActionType<Payload extends CTAState> extends ActionType<Payload, 'replace'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replace'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-declare class ReplaceInitialActionType<Payload extends CTAState> extends ActionType<Payload, 'replaceInitial'> {
-    constructor(param: Pick<ActionTypeConstructParam<Payload, 'replaceInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>);
-}
-type CustomCTAReturnType<Initial extends CTAState> = undefined | ReplaceActionType<Initial> | ReplaceInitialActionType<Initial> | ResetActionType<Initial> | UpdateActionType<Initial> | UpdateInitialActionType<Initial> | Partial<Initial>;
 /**
  * A `function` that only runs after an action has changed the hook state history.
  * Does not run if the action has not changed the hook state history.
@@ -153,14 +161,6 @@ export type UseCTAParameterCompare<State extends CTAState> = (previousValue: unk
     key: keyof State;
 }) => boolean;
 /**
- * A `function` than runs once on component mount.
- * Useful when you need to perform calculations or transformations on your {@link CTAHistory}.`initial` state before your component starts using it.
- * @template {CTAState} Initial - The {@link CTAState} hook state.
- * @param {CTAState} initial - The {@link CTAHistory}.`initial` state.
- * @returns A new {@link CTAHistory}.`initial` state.
- */
-type UseCTAParameterOnInit<Initial extends CTAState> = (initial: Initial) => Initial;
-/**
  * A `function` that returns a transform {@link CTAState} object before a default action evaluates the result of a custom action or overridden default action.
  * This is useful for transforming the result of a custom action or overridden default action
  * and can server as an alternative to overriding default actions.
@@ -178,9 +178,30 @@ type UseCTAParameterTransform<State extends CTAState, ActionType extends Record<
     customAction?: string | number;
 } & CTAHistory<State>) => nextState;
 /**
+ * Parameter type for {@link useCTA} or {@link createCTAContext}.
  * @template {CTAState} Initial - The {@link CTAState} hook state.
+ * @template {UseCTAParameterActionsRecordProp | undefined} Actions
+ * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter useCTA Parameter}
  */
-type UseCTAParameterDefaults<Initial extends CTAState> = {
+type UseCTAParameter<Initial extends CTAState, Actions> = {
+    /**
+     *  Optional {@link UseCTAParameterActionsRecordProp}
+     * - `object` to define custom and/or overridden actions for state management.
+     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+     */
+    actions?: Actions;
+    /**
+     * Optional {@link UseCTAParameterAfterActionChange}
+     * - `function` than only runs after an action has changed the hook state history.
+     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChanged}
+     */
+    afterActionChange?: UseCTAParameterAfterActionChange<Initial>;
+    /**
+     * Optional {@link UseCTAParameterCompare}
+     * - `function` for custom equality logic by comparing only specific properties.
+     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
+     */
+    compare?: UseCTAParameterCompare<Initial>;
     /**
      * initial {@link CTAState} structure for {@link CTAHistory}.
      * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
@@ -193,18 +214,6 @@ type UseCTAParameterDefaults<Initial extends CTAState> = {
      */
     onInit?: UseCTAParameterOnInit<Initial>;
     /**
-     * Optional {@link UseCTAParameterCompare}
-     * - `function` for custom equality logic by comparing only specific properties.
-     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
-     */
-    compare?: UseCTAParameterCompare<Initial>;
-    /**
-     * Optional {@link UseCTAParameterAfterActionChange}
-     * - `function` than only runs after an action has changed the hook state history.
-     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChanged}
-     */
-    afterActionChange?: UseCTAParameterAfterActionChange<Initial>;
-    /**
      * Optional {@link UseCTAParameterTransform}
      * - A `function` that returns a transformed {@link CTAState} object
      * before a default action evaluates the result of a custom action or overridden default action.
@@ -212,22 +221,6 @@ type UseCTAParameterDefaults<Initial extends CTAState> = {
      */
     transform?: UseCTAParameterTransform<Initial>;
 };
-/**
- * Parameter type for {@link useCTA} or {@link createCTAContext}.
- * @template {CTAState} Initial - The {@link CTAState} hook state.
- * @template {UseCTAParameterActionsRecordProp | undefined} Actions
- * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter useCTA Parameter}
- */
-type UseCTAParameter<Initial extends CTAState, Actions> = Actions extends undefined ? (UseCTAParameterDefaults<Initial> & {
-    actions?: undefined;
-}) : (UseCTAParameterDefaults<Initial> & {
-    /**
-     *  Optional {@link UseCTAParameterActionsRecordProp}
-     * - `object` to define custom and/or overridden actions for state management.
-     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
-     */
-    actions: Actions;
-});
 type ArgsProp<Args extends unknown[]> = Args extends [] ? {
     args?: undefined;
 } : ([
@@ -252,20 +245,22 @@ type DispatchValueActionPayloadArgsProps<Args extends unknown[]> = Args extends 
 type OmitEmptyRecord<T> = {
     [K in keyof T as T[K] extends Record<string | number | symbol, never> ? never : K]: T[K];
 };
+type UseCTAParameterFuncRecord = Record<string | number, (...args: never[]) => unknown>;
+type UseCTAParameterCreateFunc<Initial extends CTAState, Action, FR extends UseCTAParameterFuncRecord, ReturnType> = (dispatch: UseCTADispatch<Initial, Action, ReturnType>) => FR;
 type CustomCTARecord<Initial extends CTAState, Actions> = {
     [Action in Exclude<keyof Actions, keyof DefaultActionsRecord<Initial>> as Actions[Action] extends (...args: infer Args) => CustomCTAReturnType<Initial> ? (Args extends [] ? Action : (Args extends [...infer A] ? (A[0] extends CustomCTAHistory<Initial> ? Action : never) : never)) : never]: Actions[Action];
 };
-type DispatchCustomCTARecordValues<Initial extends CTAState, ActionValue, ReturnValue = void> = ActionValue extends ((ctaParam: CustomCTAHistory<Initial>, ...args: infer Args) => CustomCTAReturnType<Initial>) ? (Args extends [] ? (() => ReturnValue) : ((...args: Args) => ReturnValue)) : never;
-type DispatchCustomCTARecord<Initial extends CTAState, Actions, ReturnValue = void, CustomActions = CustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
+type DispatchCustomCTARecordValues<Initial extends CTAState, ActionValue, ReturnValue> = ActionValue extends ((ctaParam: CustomCTAHistory<Initial>, ...args: infer Args) => CustomCTAReturnType<Initial>) ? (Args extends [] ? (() => ReturnValue) : ((...args: Args) => ReturnValue)) : never;
+type DispatchCustomCTARecord<Initial extends CTAState, Actions, ReturnValue, CustomActions = CustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
     [Action in keyof CustomActions]: DispatchCustomCTARecordValues<Initial, CustomActions[Action], ReturnValue>;
 };
-type CustomDispatchValueRecord<Initial extends CTAState, Actions, CustomActions = DispatchCustomCTARecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
+type CustomDispatchValueRecord<Initial extends CTAState, Actions, ReturnValue, CustomActions = DispatchCustomCTARecord<Initial, Actions, ReturnValue>> = CustomActions extends Record<string | number | symbol, never> ? CustomActions : {
     [Action in keyof CustomActions]: (CustomActions[Action] extends ((...args: infer Args) => void) ? DispatchValueActionPayloadArgsProps<Args> : never) & {
         type: Action;
     };
 };
-type CustomDispatchValueRecordValues<Initial extends CTAState, Actions, CustomActions = CustomDispatchValueRecord<Initial, Actions>> = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
-type DispatchCTA<Payload extends CTAState, Actions, ReturnValue = void> = (// dispatch
+type CustomDispatchValueRecordValues<Initial extends CTAState, Actions, ReturnValue, CustomActions = CustomDispatchValueRecord<Initial, Actions, ReturnValue>> = CustomActions extends Record<string | number | symbol, never> ? never : CustomActions[keyof CustomActions];
+type Dispatch<Payload extends CTAState, Actions, ReturnValue> = (// dispatch
 value: Exclude<{
     type: 'replaceInitial' | 'replace';
     payload: Payload | ((ctaHistory: CTAHistory<Payload>) => Payload | undefined);
@@ -278,8 +273,8 @@ value: Exclude<{
     type: 'reset';
     payload?: Payload | ((ctaHistory: CTAHistory<Payload>) => Payload | undefined);
     args?: never;
-} | CustomDispatchValueRecordValues<Payload, Actions>, never>) => ReturnValue;
-type UseCTAReturnTypeDispatchCTA<Payload extends CTAState, Actions, ReturnValue = void> = {
+} | CustomDispatchValueRecordValues<Payload, Actions, ReturnValue>, never>) => ReturnValue;
+type UseCTAReturnTypeDispatchCTA<Payload extends CTAState, Actions, ReturnValue> = {
     /**
      * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-update dispatch.cta.update}
     */
@@ -317,19 +312,26 @@ type UseCTAReturnTypeDispatchCTA<Payload extends CTAState, Actions, ReturnValue 
  * @template Actions - CTA actions type.
  * @template ReturnValue - Return value type.
  */
-export type UseCTAReturnTypeDispatch<State extends CTAState, Actions, ReturnValue = void> = Immutable<DispatchCTA<State, Actions, ReturnValue> & {
+type UseCTADispatch<State extends CTAState, Actions, ReturnValue> = Immutable<Dispatch<State, Actions, ReturnValue> & {
     /**
      * {@link CTAHistory} reference
      * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-0-history useCTA return value [0]: history}
      */
     history: CTAHistory<State>;
     /**
-     * Reference for call-to-action dispatch functions.
-     */
+ * Reference for call-to-action dispatch functions.
+ */
     cta: OmitEmptyRecord<UseCTAReturnTypeDispatchCTA<State, Actions, ReturnValue>>;
 }>;
-type CustomActionsRecord<Initial extends CTAState, Actions> = Pick<Actions, Exclude<keyof Actions, keyof UseCTAParameterActionsOptionalDefaultRecord<Initial>>>;
-type ActionsRecordProp<Initial extends CTAState, Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial>> = UseCTAParameterActionsOptionalDefaultRecord<Initial> & CustomActionsRecord<Initial, Actions>;
+/**
+ * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
+ * @template {CTAState} State - CTAState type.
+ * @template Actions - CTA actions type.
+ * @template ReturnValue - Return value type.
+ */
+export type UseCTAReturnTypeDispatch<State extends CTAState, Actions, FR extends UseCTAParameterFuncRecord, ReturnValue> = Immutable<UseCTADispatch<State, Actions, ReturnValue> & {
+    func: FR;
+}>;
 /**
  * The return type of the useCTA hook.
  * @typedef {Array} UseCTAReturnType
@@ -337,10 +339,12 @@ type ActionsRecordProp<Initial extends CTAState, Actions extends UseCTAParameter
  * @property {CTAHistory} 0 - The {@link CTAHistory} object.
  * @property {UseCTAReturnTypeDispatch} 1 - The {@link UseCTAReturnTypeDispatch} object.
  */
-export type UseCTAReturnType<Initial extends CTAState, Actions> = [
+export type UseCTAReturnType<Initial extends CTAState, Actions, FR extends UseCTAParameterFuncRecord, ReturnValue> = [
     CTAHistory<Initial>,
-    UseCTAReturnTypeDispatch<Initial, Actions>
+    UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>
 ];
+type CustomActionsRecord<Initial extends CTAState, Actions> = Pick<Actions, Exclude<keyof Actions, keyof UseCTAParameterActionsOptionalDefaultRecord<Initial>>>;
+type ActionsRecordProp<Initial extends CTAState, Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial>> = UseCTAParameterActionsOptionalDefaultRecord<Initial> & CustomActionsRecord<Initial, Actions>;
 /**
  * A React hook for managing complex state with custom actions, history tracking, and type safety.
  * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta useCTA}
@@ -349,26 +353,37 @@ export type UseCTAReturnType<Initial extends CTAState, Actions> = [
  *
  * @template {UseCTAParameterActionsRecordProp<Initial> | undefined} Actions
  *
- * @param {UseCTAParameter} useCTAParameter - Parameter for the useCTA.
+ * @param {UseCTAParameter} props - Parameter for the useCTA.
  *
- * @param {CTAState} useCTAParameter.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterOnInit} [useCTAParameter.onInit] - Optional {@link UseCTAParameterOnInit}
+ * @param {UseCTAParameterOnInit} [props.onInit] - Optional {@link UseCTAParameterOnInit}
  * - `function` that runs once on component mount to handle `initial` parameter state before your component starts using it.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
  *
- * @param {UseCTAParameterCompare} [useCTAParameter.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [useCTAParameter.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterActionsRecordProp} [useCTAParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+ *
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` type to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Optional {@link UseCTAParameterCreateFunc}
+ * - A `function` callback that receives {@link UseCTAReturnTypeDispatch} and expects an object Record of `function`s to be returned.
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
+ *
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
  *
  * @returns {[CTAHistory, UseCTAReturnTypeDispatch]}  An `array` containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch} elements:
  *
@@ -449,7 +464,7 @@ export type UseCTAReturnType<Initial extends CTAState, Actions> = [
  *
  * See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-custom-action cta.YourCustomAction docs}
  */
-export function useCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions>(useCTAParameter: UseCTAParameter<Initial, ActionsRecord>): UseCTAReturnType<Initial, ActionsRecord>;
+export function useCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, FR extends UseCTAParameterFuncRecord, ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never>(props: UseCTAParameter<Initial, ActionsRecord>, createFunc?: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void>): UseCTAReturnType<Initial, ActionsRecord, FR, void>;
 /**
  * A `function` that returns a type safe {@link UseCTAParameter} `object`.
  *
@@ -458,36 +473,30 @@ export function useCTA<Initial extends CTAState, Actions extends UseCTAParameter
  * @template {CTAState} Initial - The initial state type.
  * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
  *
- * @param {UseCTAParameter} params - {@link UseCTAParameter} parameter.
+ * @param {UseCTAParameter} props - {@link UseCTAParameter} parameter.
  *
- * @param {CTAState} params.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterOnInit} [params.onInit] - Optional {@link UseCTAParameterOnInit}
+ * @param {UseCTAParameterOnInit} [props.onInit] - Optional {@link UseCTAParameterOnInit}
  * - `function` that runs once on component mount to handle `initial` parameter state before your component starts using it.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
  *
- * @param {UseCTAParameterCompare} [params.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [params.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterActionsRecordProp} [params.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` type to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
  *
  * @returns {UseCTAParameter} Type safe {@link UseCTAParameter} `object`.
  */
-export function returnCTAParameter<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial>, ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions>(params: UseCTAParameter<Initial, ActionsRecord>): UseCTAParameter<Initial, ActionsRecord>;
-type CreateCTAPropsDefaults<Initial extends CTAState> = Pick<UseCTAParameterDefaults<Initial>, 'initial' | 'compare' | 'afterActionChange' | 'transform'>;
-type CreateCTAProps<Initial extends CTAState, Actions> = Actions extends undefined ? (CreateCTAPropsDefaults<Initial> & {
-    actions?: undefined;
-}) : (CreateCTAPropsDefaults<Initial> & {
-    actions: Actions;
-});
+export function returnCTAParameter<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never>(props: UseCTAParameter<Initial, ActionsRecord>): UseCTAParameter<Initial, ActionsRecord>;
 /**
  * Type definition for the return value of the {@link createCTAContext} `function`.
  *
@@ -502,7 +511,7 @@ type CreateCTAProps<Initial extends CTAState, Actions> = Actions extends undefin
  * - A hook for returning {@link UseCTAReturnTypeDispatch} from context to make call-to-actions.
  * `null` if called outside the `CTAProvider`.
  */
-type CreateCTAContextReturn<Initial extends CTAState, Actions> = {
+type CreateCTAContextReturn<Initial extends CTAState, Actions, FR extends UseCTAParameterFuncRecord> = {
     /**
      * Type definition for the `CreateCTAContextReturn.CTAProvider` component.
      *
@@ -528,11 +537,16 @@ type CreateCTAContextReturn<Initial extends CTAState, Actions> = {
      * - `function` than only runs after an action has changed the hook state history.
      * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
      *
+     * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+     * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+     * the result of a custom action or overridden default action.
+     * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+     *
      * @returns {ReactElement} The `CTAProvider` component.
      */
-    CTAProvider: FC<PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'onInit' | 'compare' | 'afterActionChange' | 'transform'>>>>;
+    CTAProvider: FC<PropsWithChildren<Partial<Pick<UseCTAParameter<Initial, Actions>, 'afterActionChange' | 'compare' | 'initial' | 'onInit' | 'transform'>>>>;
+    useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions, FR, void> | null;
     useCTAHistoryContext: () => CTAHistory<Initial>;
-    useCTADispatchContext: () => UseCTAReturnTypeDispatch<Initial, Actions> | null;
 };
 /**
  * A `function` that returns a React Context to use with {@link useCTA}
@@ -544,26 +558,37 @@ type CreateCTAContextReturn<Initial extends CTAState, Actions> = {
  * @template {CTAState} Initial - The initial state type.
  * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
  *
- * @param {UseCTAParameter} contextParams - {@link UseCTAParameter}.
+ * @param {UseCTAParameter} props - {@link UseCTAParameter}.
  *
- * @param {CTAState} contextParams.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterOnInit} [contextParams.onInit] - Optional {@link UseCTAParameterOnInit}
+ * @param {UseCTAParameterOnInit} [props.onInit] - Optional {@link UseCTAParameterOnInit}
  * - `function` for handling `initial` parameter on component mount.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-on-init useCTA Parameter: onInit}
  *
- * @param {UseCTAParameterCompare} [contextParams.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [contextParams.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterActionsRecordProp} [contextParams.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+ *
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Optional {@link UseCTAParameterCreateFunc}
+ * - A `function` callback that receives {@link UseCTAReturnTypeDispatch} and expects an object Record of `function`s to be returned.
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
+ *
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
  *
  * @returns {CreateCTAContextReturn} A {@link CreateCTAContextReturn} object. See {@link https://rafde.github.io/react-hook-use-cta/#create-cta-context-return createCTAContext return value}.
  * Has the following properties:
@@ -642,7 +667,8 @@ type CreateCTAContextReturn<Initial extends CTAState, Actions> = {
  *
  * See {@link https://rafde.github.io/#use-cta-return-value-1-dispatch-cta-custom-action cta.YourCustomAction docs}
  */
-export function createCTAContext<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions>(contextParams: UseCTAParameter<Initial, Actions>): CreateCTAContextReturn<Initial, ActionsRecord>;
+export function createCTAContext<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, FR extends UseCTAParameterFuncRecord, ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never>(props: UseCTAParameter<Initial, Actions>, createFunc?: UseCTAParameterCreateFunc<Initial, Actions, FR, void>): CreateCTAContextReturn<Initial, ActionsRecord, FR>;
+type CreateCTAProps<Initial extends CTAState, Actions> = Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'compare' | 'afterActionChange' | 'transform' | 'actions'>;
 /**
  * A `function` that provides a way to execute like {@link useCTA} but outside a React component.
  *
@@ -651,22 +677,33 @@ export function createCTAContext<Initial extends CTAState, Actions extends UseCT
  * @template {CTAState} Initial - The `initial` state type.
  * @template {UseCTAParameterActionsRecordProp} Actions - The actions type.
  *
- * @param {CreateCTAProps} ctaParameter - {@link CreateCTAProps} parameter.
+ * @param {CreateCTAProps} props - {@link CreateCTAProps} parameter.
  *
- * @param {CTAState} ctaParameter.initial - initial {@link CTAState} structure for {@link CTAHistory}.
+ * @param {CTAState} props.initial - initial {@link CTAState} structure for {@link CTAHistory}.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
  *
- * @param {UseCTAParameterCompare} [ctaParameter.compare] - Optional {@link UseCTAParameterCompare}
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
  * - `function` for custom equality logic by comparing only specific properties.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
  *
- * @param {UseCTAParameterAfterActionChange} [ctaParameter.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] Optional {@link UseCTAParameterAfterActionChange}
  * - `function` than only runs after an action has changed the hook state history.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
  *
- * @param {UseCTAParameterActionsRecordProp} [ctaParameter.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+ *
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Optional {@link UseCTAParameterCreateFunc}
+ * - A `function` callback that receives {@link UseCTAReturnTypeDispatch} and expects an object Record of `function`s to be returned.
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
+ *
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
  *
  * @returns {[CTAHistory, UseCTAReturnTypeDispatch]}  An `array` containing {@link CTAHistory} and {@link UseCTAReturnTypeDispatch} elements:
  *
@@ -749,9 +786,74 @@ export function createCTAContext<Initial extends CTAState, Actions extends UseCT
  *
  * See {@link https://rafde.github.io/#use-cta-return-value-1-dispatch-cta-custom-action cta.YourCustomAction docs}
  */
-export function createCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, ActionsRecord = Actions extends UseCTAParameterActionsOptionalDefaultRecord<Initial> ? ActionsRecordProp<Initial, Actions> : Actions>(ctaParameter: CreateCTAProps<Initial, ActionsRecord>): [
+export function createCTA<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, FR extends UseCTAParameterFuncRecord, ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never>(props: CreateCTAProps<Initial, ActionsRecord>, createFunc?: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, CTAHistory<Initial>>): [
     CTAHistory<Initial>,
-    UseCTAReturnTypeDispatch<Initial, ActionsRecord, CTAHistory<Initial>>
+    UseCTAReturnTypeDispatch<Initial, ActionsRecord, FR, CTAHistory<Initial>>
 ];
+type CreateCTASelectorProps<Initial extends CTAState, Actions> = Pick<UseCTAParameter<Initial, Actions>, 'initial' | 'compare' | 'afterActionChange' | 'transform' | 'actions'>;
+type UseCTASelectorListener<Initial extends CTAState, Actions, FR extends UseCTAParameterFuncRecord, SelectorReturn> = (params: CTAHistory<Initial> & {
+    dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, void>;
+}) => SelectorReturn;
+type CreateCTASelectorReturn<Initial extends CTAState, Actions, FR extends UseCTAParameterFuncRecord> = (<SelectorReturn>(selector: UseCTASelectorListener<Initial, Actions, FR, SelectorReturn>) => SelectorReturn) & {
+    dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, void>;
+    getHistory: () => CTAHistory<Initial>;
+};
+/**
+ * Creates a selector hook for managing state with CTA (Call To Action) pattern
+ *
+ * @template {CTAState} Initial - The type of the initial state object extending CTAState
+ * @template {UseCTAParameterActionsRecordProp<Initial> | undefined} Actions - Optional record of action functions extending UseCTAParameterActionsRecordProp
+ * @template GR - Record of getter functions that return values
+ * @template ActionsRecord - Derived type for actions, either default or provided actions
+ *
+ * @param {CreateCTASelectorProps} props - Configuration object for the selector
+ *
+ * @param {CTAState} props.initial - Initial {@link CTAState} `object` for {@link CTAHistory}.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-initial useCTA Parameter: initial}.
+ *
+ * @param {UseCTAParameterCompare} [props.compare] - Optional {@link UseCTAParameterCompare}
+ * - comparison `function` for custom equality logic by comparing only specific properties.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-compare useCTA Parameter: compare}
+ *
+ * @param {UseCTAParameterAfterActionChange} [props.afterActionChange] - Optional {@link UseCTAParameterAfterActionChange}
+ * - `function` than only runs after an action has changed the hook state history.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-after-action-change useCTA Parameter: afterActionChange}
+ *
+ * @param {UseCTAParameterTransform} [props.transform] - Optional {@link UseCTAParameterTransform}
+ * - A `function` that returns a transformed {@link CTAState} object before a default action evaluates
+ * the result of a custom action or overridden default action.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-transform useCTA Parameter: transform}
+ *
+ * @param {UseCTAParameterActionsRecordProp} [props.actions] - Optional {@link UseCTAParameterActionsRecordProp}
+ * - `object` to define custom and/or overridden actions for state management.
+ * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
+ *
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Optional {@link UseCTAParameterCreateFunc}
+ * - A `function` callback that receives {@link UseCTAReturnTypeDispatch} and expects an object Record of `function`s to be returned.
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
+ *
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
+ * - @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
+ *
+ * @returns A {@link CreateCTASelectorReturn} selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
+ *
+ * @example
+ * const useMySelector = createCTASelector({
+ *   initial: { count: 0 },
+ *   actions: {
+ *     increment: (state) => ({ count: state.current.count + 1 })
+ *   }
+ * });
+ *
+ * useMySelector.dispatch.cta.increment();
+ *
+ * export default function MyView() {
+ *   const count = useMySelector(({current}) => current.count);
+ *   const increment = useMySelector(({dispatch}) => dispatch.cta.increment);
+ *
+  *  return <button onClick={increment}>{count}</div>;
+ * }
+ */
+export function createCTASelector<Initial extends CTAState, Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined, FR extends UseCTAParameterFuncRecord, ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never>(props: CreateCTASelectorProps<Initial, ActionsRecord>, createFunc?: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void>): CreateCTASelectorReturn<Initial, ActionsRecord, FR>;
 
 //# sourceMappingURL=types.d.ts.map
