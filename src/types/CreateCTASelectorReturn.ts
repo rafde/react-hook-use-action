@@ -8,8 +8,7 @@ export type CreateCTASelectorReturn<
 	Initial extends CTAState,
 	Actions,
 	FR extends UseCTAParameterFuncRecord,
-	ReturnType,
-> = ( <SelectorReturn,>( selector: UseCTASelectorListener<Initial, Actions, FR, ReturnType, SelectorReturn> ) => SelectorReturn ) & {
-	dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnType>
+> = ( <SelectorReturn,>( selector: UseCTASelectorListener<Initial, Actions, FR, SelectorReturn> ) => SelectorReturn ) & {
+	dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, void>
 	getHistory: () => CTAHistory<Initial>
 };
