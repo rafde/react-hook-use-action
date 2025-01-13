@@ -70,3 +70,15 @@ export const CTAProvider = context.CTAProvider;
 export const useCTAHistoryContext = context.useCTAHistoryContext;
 export const useCTADispatchContext = context.useCTADispatchContext;
 ```
+
+## createCTASelector
+
+```tsx
+import { createCTASelector, } from 'react-hook-use-cta';
+
+export const useCTASelector = createCTASelector({
+	initial: {
+		value: 0,
+	},
+});
+```
