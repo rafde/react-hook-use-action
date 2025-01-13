@@ -1,46 +1,41 @@
 import { act, renderHook, } from '@testing-library/react';
-import { createCTASelector, } from '../src';
-import { CustomCTAHistory, } from '../src/types/CustomCTAHistory';
+import { createCTASelector, returnCTAParameter, } from '../src';
 
 describe( 'createCTASelector', () => {
-	const initial = {
-		count: 0,
-		message: 'initial',
-	};
-	const afterActionChange = jest.fn( () => {}, );
-	const compare = jest.fn( ( a, b, { cmp, }, ) => cmp( a, b, ), );
-	const transform = jest.fn( payload => payload, );
-	const actions = {
-		increment: jest.fn( ( { current, }: CustomCTAHistory<typeof initial>, ) => ( { count: current.count + 1, } ), ),
-	};
+	const props = returnCTAParameter( {
+		initial: {
+			count: 0,
+			message: 'initial',
+			isTest: true,
+		},
+		actions: {
+			increment: ( { current, }, ) => ( { count: current.count + 1, } ),
+		},
+		afterActionChange: () => {},
+		compare: ( a, b, { cmp, }, ) => cmp( a, b, ),
+		transform: payload => payload,
+	}, );
+
+	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
+	const compare = jest.spyOn( props, 'compare', );
+	const transform = jest.spyOn( props, 'transform', );
+	// @ts-expect-error TS is picky about the type of this
+	const increment = jest.spyOn( props.actions, 'increment', );
+
 	const getters = jest.fn(
 		dispatch => ( {
 			doubleCount: () => dispatch.history.current.count * 2,
 		} ),
 	);
+
 	let useTestSelector = createCTASelector(
-		{
-			initial: {
-				count: 0,
-				message: 'initial',
-			},
-			actions,
-			afterActionChange,
-			compare,
-			transform,
-		},
+		props,
 		getters,
 	);
 
 	afterEach( () => {
 		useTestSelector = createCTASelector(
-			{
-				initial,
-				actions,
-				afterActionChange,
-				compare,
-				transform,
-			},
+			props,
 			getters,
 		);
 	}, );
@@ -66,6 +61,30 @@ describe( 'createCTASelector', () => {
 		};
 		expect( dispatch.history, ).toStrictEqual( initialHistory, );
 		expect( useTestSelector.getHistory(), ).toStrictEqual( initialHistory, );
+	}, );
+
+	test( 'should allow selector to return with specific object', () => {
+		const { result: snapshot, } = renderHook( () => useTestSelector( ( { current, }, ) => ( {
+			msg: current.message,
+			isT: current.isTest,
+		} ), ), );
+
+		expect( snapshot.current, ).toStrictEqual( {
+			msg: props.initial.message,
+			isT: props.initial.isTest,
+		}, );
+
+		act( () => {
+			useTestSelector.dispatch.cta.update( {
+				message: 'updated',
+				isTest: false,
+			}, );
+		}, );
+
+		expect( snapshot.current, ).toStrictEqual( {
+			msg: 'updated',
+			isT: false,
+		}, );
 	}, );
 
 	test( 'should should update externally', () => {
@@ -142,7 +161,7 @@ describe( 'createCTASelector', () => {
 		const actionType = 'update';
 		const customAction = 'increment';
 		const payload = { count: 1, };
-		expect( actions.increment, ).toHaveBeenCalledTimes( 1, );
+		expect( increment, ).toHaveBeenCalledTimes( 1, );
 
 		expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
 		expect( afterActionChange, ).toHaveBeenLastCalledWith( dispatch.history, actionType, customAction, );
@@ -190,7 +209,7 @@ describe( 'createCTASelector', () => {
 		);
 		expect( transform, ).toHaveReturnedWith( payload, );
 
-		expect( result1.current, ).toStrictEqual( initial, );
+		expect( result1.current, ).toStrictEqual( props.initial, );
 	}, );
 
 	test( 'should handle getters correctly', () => {
@@ -216,7 +235,7 @@ describe( 'createCTASelector', () => {
 		const { result: result1, } = renderHook( () => useTestSelector( ( { current, }, ) => current, ), );
 		const { result: result2, } = renderHook( () => useSelector2( ( { current, }, ) => current, ), );
 
-		expect( result1.current, ).toEqual( initial, );
+		expect( result1.current, ).toEqual( props.initial, );
 		expect( result2.current, ).toEqual( initial2, );
 	}, );
 
