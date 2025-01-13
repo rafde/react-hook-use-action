@@ -1,5 +1,6 @@
 import { useMemo, } from 'react';
-import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
+import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
+import { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
 
 import createCTAHistory from './createCTAHistory';
 import createDispatchInterface from './createDispatchInterface';
@@ -13,7 +14,7 @@ import type { UsePrivateCTAReturnType, } from './usePrivateCTA';
 export default function usePublicCTA<
 	Initial extends CTAState,
 	Actions,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 >( params: {
 	actions?: UseCTAParameter<Initial, Actions>['actions']
 	stateDispatcher: UsePrivateCTAReturnType<Initial, Actions>

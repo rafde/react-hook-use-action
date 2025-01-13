@@ -1,12 +1,13 @@
 import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
-import type { UseCTAParameterFuncRecord, } from './UseCTAParameterFunc';
+
+import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
 import { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 export type UseCTASelectorListener<
 	Initial extends CTAState,
 	Actions,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	SelectorReturn,
 > = ( params: CTAHistory<Initial> & {
 	dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, void>

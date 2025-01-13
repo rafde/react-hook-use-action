@@ -1,6 +1,7 @@
 import { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
 import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
-import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
+import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
+import { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
 import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import compareCallback from './compareCallback';
 import createDispatchInterface from './createDispatchInterface';
@@ -12,7 +13,7 @@ import type { CTAHistory, } from '../types/CTAHistory';
 export default function createCTABase<
 	Initial extends CTAState,
 	Actions,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	ReturnType,
 >(
 	params: {
