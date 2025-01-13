@@ -112,6 +112,12 @@ export type Dispatch<
 	>
 ) => ReturnValue;
 
+export type DispatchValueTypes<
+	Payload extends CTAState,
+	Actions,
+	ReturnValue,
+> = Parameters<Dispatch<Payload, Actions, ReturnValue>>[0];
+
 export type UseCTAReturnTypeDispatchCTA<
 	Payload extends CTAState,
 	Actions,
