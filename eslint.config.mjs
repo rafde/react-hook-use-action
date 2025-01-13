@@ -16,8 +16,15 @@ export default tseslint.config(
 	stylistic.configs[ 'recommended-flat' ],
 	{
 		ignores: [
-			'**/jest.config.js',
+			'**/.next/',
+			'**/out/',
+			'**/coverage/',
 			'**/dist/',
+		],
+	},
+	{
+		ignores: [
+			'**/jest.config.js',
 			'node_modules/*',
 		],
 		linterOptions: {
