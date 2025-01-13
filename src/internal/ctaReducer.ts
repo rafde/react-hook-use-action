@@ -213,6 +213,7 @@ function _updateInitial<Initial extends CTAState,>(
 		...ctaReducerState,
 		actionType,
 		customAction,
+		changesMap,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
 		initial: {
 			...initial,
@@ -253,6 +254,7 @@ function _updateCurrent<Initial extends CTAState,>(
 		...ctaReducerState,
 		actionType,
 		customAction,
+		changesMap,
 		changes: changesMap.size ? Object.fromEntries( changesMap, ) as Readonly<Partial<Initial>> : null,
 		current: {
 			...current,

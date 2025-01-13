@@ -40,6 +40,49 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 		expect( updateInitialCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
+	test( 'should `updateInitial` with consecutive changes', function() {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.updateInitial( 'test1', changes.test1, );
+		}, );
+
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			test1: changes.test1,
+		}, );
+		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( {
+			test1: initial.test1,
+		}, );
+
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'updateInitial',
+				payload: {
+					test2: changes.test2,
+				},
+			}, );
+		}, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previous, ).toBeNull( );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...payload,
+			...changes,
+		}, );
+		expect( result.current[ 0 ].previousInitial, ).toStrictEqual( {
+			...initial,
+			test1: changes.test1,
+		}, );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( {
+			test1: initial.test1,
+			test2: initial.test2,
+		}, );
+	}, );
+
 	test( 'should `updateInitial` when custom action is defined', function() {
 		const { result, } = renderHook( () => useCTA( {
 			initial,

@@ -106,6 +106,53 @@ describe( 'dispatch.cta.update( partialState | ( state => partialState | undefin
 		expect( updateCTADispatchState === result.current[ 1 ].history, ).toBe( true, );
 	}, );
 
+	test( 'should `update` "test2" then "test1"', function() {
+		const payload = {
+			test2: 'me',
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const nextState = {
+			...initial,
+			...payload,
+		};
+
+		act( () => {
+			result.current[ 1 ].cta.update( payload, );
+		}, );
+
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].previous, ).toBe( initial, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( payload, );
+
+		act( () => {
+			result.current[ 1 ]( {
+				type: 'update',
+				payload: {
+					test1: 2,
+				},
+			}, );
+		}, );
+
+		const nextState1 = {
+			...nextState,
+			test1: 2,
+		};
+
+		expect( result.current[ 0 ] === result.current[ 1 ].history, ).toBe( true, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( nextState1, );
+		expect( result.current[ 0 ].previous, ).toStrictEqual( nextState, );
+		expect( result.current[ 0 ].initial, ).toStrictEqual( initial, );
+		expect( result.current[ 0 ].previousInitial, ).toBeNull( );
+		expect( result.current[ 0 ].changes, ).toStrictEqual( {
+			...payload,
+			test1: 2,
+		}, );
+	}, );
+
 	test( 'should `update` "test2" when custom action is defined', function() {
 		const payload = {
 			test1: 2,
