@@ -46,7 +46,7 @@ jobs:
           node-version: "lts/*"
           cache: npm
 
-      - name: Restore cache
+      - name: Restore cache node_modules
         if: ${{ inputs.release != 'NONE' }}
         uses: actions/cache@v4
         with:
@@ -55,6 +55,24 @@ jobs:
           key: ${{ runner.os }}-versioning-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
               ${{ runner.os }}-versioning-
+
+      - name: Restore cache test-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.jest-cache
+          key: ${{ runner.os }}-test-${{ hashFiles('src/**/**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-test-
+
+      - name: Restore cache parcel-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.parcel-cache
+          key: ${{ runner.os }}-build-${{ hashFiles('src/**/**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
 
       - name: Install dependencies
         if: ${{ inputs.release != 'NONE' }}

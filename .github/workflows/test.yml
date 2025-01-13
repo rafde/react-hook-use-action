@@ -18,7 +18,7 @@ jobs:
              node-version: "lts/*"
              cache: npm
 
-         - name: Restore cache
+         - name: Restore cache node_modules
            uses: actions/cache@v4
            with:
              path: |
@@ -26,6 +26,15 @@ jobs:
              key: ${{ runner.os }}-versioning-${{ hashFiles('**/package-lock.json') }}
              restore-keys: |
                ${{ runner.os }}-versioning-
+
+         - name: Restore cache test-cache
+           uses: actions/cache@v4
+           with:
+             path: |
+               ${{ github.workspace }}/.jest-cache
+             key: ${{ runner.os }}-test-${{ hashFiles('src/**/**.[jt]sx') }}
+             restore-keys: |
+               ${{ runner.os }}-test-
 
          - name: Install dependencies
            run: npm install
