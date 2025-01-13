@@ -1,13 +1,17 @@
 import { useSyncExternalStore, } from 'react';
 import createCTABase from './internal/createCTABase';
+
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTASelectorProps, } from './types/CreateCTASelectorProps';
-import type { CTAHistory, } from './types/CTAHistory';
+import type { CreateCTASelectorReturn, } from './types/CreateCTASelectorReturn';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
+import type { UseCTASelectorListener, } from './types/UseCTASelectorListener';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
+import type { CTAHistory, } from './types/CTAHistory';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -45,10 +49,11 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  * - `object` to define custom and/or overridden actions for state management.
  * - See {@link https://rafde.github.io/react-hook-use-cta/#use-cta-parameter-actions useCTA Parameter: actions}
  *
- * @param {UseCTAParameterCreateFunc} [createFunc] - Function that returns an object Record of `function`s
+ * @param {UseCTAParameterCreateFunc} [createFunc] - Optional {@link UseCTAParameterCreateFunc}
+ * - A `function` callback that receives {@link UseCTAReturnTypeDispatch} and expects an object Record of `function`s to be returned.
  * - @see {@link https://rafde.github.io/react-hook-use-cta/##use-cta-parameter-create-func Params: createFunc}
  *
- * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - Dispatch interface for triggering actions
+ * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
  * - @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
  *
  * @returns A selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
@@ -78,7 +83,7 @@ export function createCTASelector<
 >(
 	props: CreateCTASelectorProps<Initial, ActionsRecord>,
 	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
-) {
+): CreateCTASelectorReturn<Initial, ActionsRecord, FR, void> {
 	const ctaReducerResults = createCTABase<Initial, ActionsRecord, FR, void>(
 		{
 			...props,
@@ -98,9 +103,7 @@ export function createCTASelector<
 	function getHistory() {
 		return history;
 	}
-	type Listener<SelectorReturn = unknown,> = ( params: CTAHistory<Initial> & {
-		dispatch: typeof dispatch
-	} ) => SelectorReturn;
+	type Listener<SelectorReturn = unknown,> = UseCTASelectorListener<Initial, ActionsRecord, FR, void, SelectorReturn>;
 	const initialSnapshot = {
 		...history,
 		dispatch,
@@ -118,6 +121,7 @@ export function createCTASelector<
 	}
 
 	function useCTASelector<SelectorReturn,>( selector: Listener<SelectorReturn>, ) {
+		// @see {@link https://github.com/facebook/react/blob/main/packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js}
 		return useSyncExternalStore(
 			subscribe,
 			() => selector( snapshot, ),
