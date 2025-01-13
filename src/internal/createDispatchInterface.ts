@@ -4,6 +4,7 @@ import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
 import type {
 	Dispatch,
+	DispatchValueTypes,
 	UseCTAReturnTypeDispatch,
 } from '../types/UseCTAReturnTypeDispatch';
 
@@ -20,51 +21,49 @@ export default function createDispatchInterface<
 	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, ReturnValue>,
 	actions?: Actions,
 ): UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue> {
-	type DispatchParameter = Parameters<typeof dispatch>[0];
-	type Dispatch = UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>;
 	const cta = {
 		replace: payload => dispatch( {
 			payload,
 			type: 'replace',
-		} as DispatchParameter, ),
+		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
 		replaceInitial: payload => dispatch( {
 			payload,
 			type: 'replaceInitial',
-		} as DispatchParameter, ),
+		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
 		reset: payload => dispatch( {
 			payload,
 			type: 'reset',
-		} as DispatchParameter, ),
+		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
 		update( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
 					type: 'update',
-				} as DispatchParameter, );
+				} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
 				type: 'update',
-			} as DispatchParameter, );
+			} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
 		},
 		updateInitial( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
 					type: 'updateInitial',
-				} as DispatchParameter, );
+				} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
 				type: 'updateInitial',
-			} as DispatchParameter, );
+			} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
 		},
-	} as Dispatch['cta'];
+	} as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>['cta'];
 
 	const dispatchWrapper = Object.assign(
-		dispatch as Dispatch,
+		dispatch as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>,
 		{
 			cta,
 			history,
