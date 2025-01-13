@@ -10,7 +10,7 @@
   },
   "description": "A React hook for managing complex state with custom actions, history tracking, and type safety.",
   "devDependencies": {
-    "@eslint/compat": "1.2.4",
+    "@eslint/compat": "1.2.5",
     "@eslint/eslintrc": "3.2.0",
     "@eslint/js": "9.17.0",
     "@parcel/bundler-library": "2.13.3",
