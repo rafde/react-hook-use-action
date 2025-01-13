@@ -13,6 +13,7 @@
     "jsxImportSource": "react",
     "lib": [
       "ESNext",
+      "DOM",
     ],
     "module": "esnext",
     "moduleResolution": "node",
@@ -23,7 +24,7 @@
     "skipLibCheck": true,
     "strict": true,
     "strictBindCallApply": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
   },
   "exclude": [
     "./node_modules",
