@@ -1,10 +1,11 @@
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CTAState, } from '../types/CTAState';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
-import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from '../types/UseCTAParameterFunc';
+import type { DispatchParameterTypes, } from '../types/DispatchParameterTypes';
+import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
+import type { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
 import type {
 	Dispatch,
-	DispatchValueTypes,
 	UseCTAReturnTypeDispatch,
 } from '../types/UseCTAReturnTypeDispatch';
 
@@ -13,7 +14,7 @@ import ctaReducer from './ctaReducer';
 export default function createDispatchInterface<
 	Initial extends CTAState,
 	Actions,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	ReturnValue,
 >(
 	dispatch: Dispatch<Initial, Actions, ReturnValue>,
@@ -25,40 +26,40 @@ export default function createDispatchInterface<
 		replace: payload => dispatch( {
 			payload,
 			type: 'replace',
-		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
+		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		replaceInitial: payload => dispatch( {
 			payload,
 			type: 'replaceInitial',
-		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
+		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		reset: payload => dispatch( {
 			payload,
 			type: 'reset',
-		} as DispatchValueTypes<Initial, Actions, ReturnValue>, ),
+		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		update( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
 					type: 'update',
-				} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
 				type: 'update',
-			} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 		updateInitial( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
 					type: 'updateInitial',
-				} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
 				type: 'updateInitial',
-			} as DispatchValueTypes<Initial, Actions, ReturnValue>, );
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 	} as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>['cta'];
 

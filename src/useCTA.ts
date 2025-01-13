@@ -10,7 +10,8 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
-import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
+import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
+import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -20,12 +21,13 @@ import type { UseCTAParameterOnInit, } from './types/UseCTAParameterOnInit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
-import type { UseCTAReturnTypeDispatch, UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatch';
+import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
+import { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
 
 /**
  * A React hook for managing complex state with custom actions, history tracking, and type safety.
@@ -149,7 +151,7 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
 export function useCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	props: UseCTAParameter<Initial, ActionsRecord>,

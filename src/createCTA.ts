@@ -6,11 +6,11 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
-import type { UseCTAParameterCreateFunc, UseCTAParameterFuncRecord, } from './types/UseCTAParameterFunc';
+import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
+import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 
 import type {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	UseCTAReturnTypeDispatchCTA,
+
 	UseCTAReturnTypeDispatch,
 } from './types/UseCTAReturnTypeDispatch';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -19,6 +19,7 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
+import { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
 
 /**
  * A `function` that provides a way to execute like {@link useCTA} but outside a React component.
@@ -140,7 +141,7 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
 export function createCTA<
 	Initial extends CTAState,
 	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	props: CreateCTAProps<Initial, ActionsRecord>,

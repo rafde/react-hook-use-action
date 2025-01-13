@@ -1,6 +1,7 @@
 import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
-import type { UseCTAParameterFuncRecord, } from './UseCTAParameterFunc';
+
+import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 /**
@@ -13,7 +14,7 @@ import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 export type UseCTAReturnType<
 	Initial extends CTAState,
 	Actions,
-	FR extends UseCTAParameterFuncRecord,
+	FR extends UseCTAParameterCreateFuncReturnRecord,
 	ReturnValue,
 > = [
 	CTAHistory<Initial>, // hook state history
