@@ -1,24 +1,18 @@
-var $56455aab2d865ec7$exports = require("./compareCallback.07cc881e.js");
-var $0b6f0bd6e9d4ab4e$exports = require("./createDispatchInterface.a0edd5d1.js");
-var $6c056cda560e414d$exports = require("./createCTAHistory.79c1dff1.js");
-var $d1a0eb9e2dbe8803$exports = require("./ctaReducer.385b3839.js");
-
-
-function $parcel$export(e, n, v, s) {
-  Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
-}
-
-$parcel$export(module.exports, "default", () => $86ac65d171f749b0$export$2e2bcd8739ae039);
+import $ae55f4861d2c7e56$export$2e2bcd8739ae039 from "./compareCallback.e79af8ad.js";
+import $ddb1abc523767a90$export$2e2bcd8739ae039 from "./createDispatchInterface.4f05f0bd.js";
+import $cde3e3dbd0d3bcac$export$2e2bcd8739ae039 from "./createCTAHistory.529bd146.js";
+import $f0f97a638af05ef2$export$2e2bcd8739ae039 from "./ctaReducer.c21ef13b.js";
 
 
 
 
-function $86ac65d171f749b0$export$2e2bcd8739ae039(params, createFunc) {
+
+function $18361302265c0809$export$2e2bcd8739ae039(params, createFunc) {
     const { initial: initial, onStateChange: onStateChange = (history)=>history } = params;
     const actions = typeof params.actions === 'undefined' ? undefined : {
         ...params.actions
     };
-    let history = (0, $6c056cda560e414d$exports.default)({
+    let history = (0, $cde3e3dbd0d3bcac$export$2e2bcd8739ae039)({
         current: initial
     });
     let ctaReducerState = {
@@ -27,9 +21,9 @@ function $86ac65d171f749b0$export$2e2bcd8739ae039(params, createFunc) {
         customAction: undefined,
         changesMap: new Map()
     };
-    const compare = (0, $56455aab2d865ec7$exports.default)(params.compare);
-    const dispatch = (0, $0b6f0bd6e9d4ab4e$exports.default)(function ctaBaseCallback(nextCTAProps) {
-        const next = (0, $d1a0eb9e2dbe8803$exports.default)({
+    const compare = (0, $ae55f4861d2c7e56$export$2e2bcd8739ae039)(params.compare);
+    const dispatch = (0, $ddb1abc523767a90$export$2e2bcd8739ae039)(function ctaBaseCallback(nextCTAProps) {
+        const next = (0, $f0f97a638af05ef2$export$2e2bcd8739ae039)({
             actions: actions,
             compare: compare,
             ctaReducerState: ctaReducerState,
@@ -38,7 +32,7 @@ function $86ac65d171f749b0$export$2e2bcd8739ae039(params, createFunc) {
         });
         if (next === ctaReducerState) return onStateChange?.(history, ctaReducerState);
         ctaReducerState = next;
-        history = (0, $6c056cda560e414d$exports.default)(next);
+        history = (0, $cde3e3dbd0d3bcac$export$2e2bcd8739ae039)(next);
         dispatch.history = history;
         params.afterActionChange?.(history, ctaReducerState.actionType, ctaReducerState.customAction);
         return onStateChange?.(history, ctaReducerState);
@@ -50,4 +44,5 @@ function $86ac65d171f749b0$export$2e2bcd8739ae039(params, createFunc) {
 }
 
 
-//# sourceMappingURL=createCTABase.d2829587.js.map
+export {$18361302265c0809$export$2e2bcd8739ae039 as default};
+//# sourceMappingURL=createCTABase.79fb264b.js.map

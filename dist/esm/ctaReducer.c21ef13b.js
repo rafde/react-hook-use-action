@@ -97,6 +97,7 @@ function $f0f97a638af05ef2$var$_updateInitial(ctaReducerState, payload, compare,
         ...ctaReducerState,
         actionType: actionType,
         customAction: customAction,
+        changesMap: changesMap,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         initial: {
             ...initial,
@@ -120,6 +121,7 @@ function $f0f97a638af05ef2$var$_updateCurrent(ctaReducerState, payload, compare,
         ...ctaReducerState,
         actionType: actionType,
         customAction: customAction,
+        changesMap: changesMap,
         changes: changesMap.size ? Object.fromEntries(changesMap) : null,
         current: {
             ...current,
@@ -303,4 +305,4 @@ function $f0f97a638af05ef2$export$2e2bcd8739ae039(params) {
 
 
 export {$f0f97a638af05ef2$export$2e2bcd8739ae039 as default};
-//# sourceMappingURL=ctaReducer.2c7c7d4d.js.map
+//# sourceMappingURL=ctaReducer.c21ef13b.js.map
