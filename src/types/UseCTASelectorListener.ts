@@ -7,8 +7,7 @@ export type UseCTASelectorListener<
 	Initial extends CTAState,
 	Actions,
 	FR extends UseCTAParameterFuncRecord,
-	ReturnType,
 	SelectorReturn,
 > = ( params: CTAHistory<Initial> & {
-	dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnType>
+	dispatch: UseCTAReturnTypeDispatch<Initial, Actions, FR, void>
 } ) => SelectorReturn;
