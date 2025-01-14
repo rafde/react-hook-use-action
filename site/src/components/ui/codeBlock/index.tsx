@@ -49,7 +49,7 @@ export default function CodeBlock( props: CodeBlockProp, ) {
 		{code}
 	</SyntaxHighlighter>;
 	if ( copyButton ) {
-		return <div className={`relative ${className}`}>
+		return <div className={`relative mr-4 ${className}`}>
 			<CodeBlockCopyButton code={code} />
 			{codeBlock}
 		</div>;
