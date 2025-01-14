@@ -4,7 +4,7 @@ import type { CTAState, } from './CTAState';
 import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
 import { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
-export type UseCTASelectorListener<
+export type CTASelector<
 	Initial extends CTAState,
 	Actions,
 	FR extends UseCTAParameterCreateFuncReturnRecord,

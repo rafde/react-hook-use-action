@@ -10,7 +10,7 @@ import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCT
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
 import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
-import type { UseCTASelectorListener, } from './types/UseCTASelectorListener';
+import type { CTASelector, } from './types/CTASelector';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
@@ -114,16 +114,16 @@ export function createCTASelector<
 		return dispatch.history;
 	}
 
-	type Listener<SelectorReturn = unknown,> = UseCTASelectorListener<Initial, ActionsRecord, FR, SelectorReturn>;
-	const listeners = new Set<Listener>();
-	function subscribe( listener: Listener, ) {
+	type Selector<SelectorReturn = unknown,> = CTASelector<Initial, ActionsRecord, FR, SelectorReturn>;
+	const listeners = new Set<Selector>();
+	function subscribe( listener: Selector, ) {
 		listeners.add( listener, );
 		return () => {
 			listeners.delete( listener, );
 		};
 	}
 
-	function useCTASelector<SelectorReturn,>( selector: Listener<SelectorReturn>, ) {
+	function useCTASelector<SelectorReturn,>( selector: Selector<SelectorReturn>, ) {
 		const resultRef = useRef<ReturnType<typeof selector>>( null as SelectorReturn, );
 		const selectorCallback = useCallback(
 			( snapshot: typeof initialSnapshot, ) => {
