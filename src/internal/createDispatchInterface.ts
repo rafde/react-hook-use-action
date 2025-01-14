@@ -64,7 +64,7 @@ export default function createDispatchInterface<
 	} as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>['cta'];
 
 	const dispatchWrapper = Object.assign(
-		dispatch as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>,
+		dispatch,
 		{
 			cta,
 			history,

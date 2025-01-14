@@ -1,5 +1,5 @@
-import { CTAHistory, } from '../types/CTAHistory';
-import { CTAState, } from '../types/CTAState';
+import type { CTAHistory, } from '../types/CTAHistory';
+import type { CTAState, } from '../types/CTAState';
 
 export default function createCTAHistory<Initial extends CTAState,>( ctaHistory: Partial<Omit<CTAHistory<Initial>, 'current'>> & { current: Initial }, ): CTAHistory<Initial> {
 	const {

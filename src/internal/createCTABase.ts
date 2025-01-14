@@ -1,14 +1,17 @@
-import { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
-import { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
-import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
-import { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
-import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import compareCallback from './compareCallback';
 import createDispatchInterface from './createDispatchInterface';
 import createCTAHistory from './createCTAHistory';
 import ctaReducer, { type CTAReducerState, } from './ctaReducer';
+
+import type { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
+import type { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
+import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
+import type { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';
+
+const _afterActionChange = () => undefined;
 
 export default function createCTABase<
 	Initial extends CTAState,
@@ -29,6 +32,7 @@ export default function createCTABase<
 	const {
 		initial,
 		onStateChange = history => history,
+		afterActionChange = _afterActionChange,
 	} = params;
 	const actions = typeof params.actions === 'undefined'
 		? undefined
@@ -55,15 +59,15 @@ export default function createCTABase<
 			}, );
 
 			if ( next === ctaReducerState ) {
-				return onStateChange?.( history, ctaReducerState, ) as ReturnType;
+				return onStateChange( history, ctaReducerState, ) as ReturnType;
 			}
 
 			ctaReducerState = next;
 			history = createCTAHistory( next, );
 			dispatch.history = history;
-			params.afterActionChange?.( history, ctaReducerState.actionType, ctaReducerState.customAction, );
+			afterActionChange( history, ctaReducerState.actionType, ctaReducerState.customAction, );
 
-			return onStateChange?.( history, ctaReducerState, ) as ReturnType;
+			return onStateChange( history, ctaReducerState, ) as ReturnType;
 		},
 		history,
 		createFunc,

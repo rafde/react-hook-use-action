@@ -1,5 +1,5 @@
-import { CTAState, } from '../types/CTAState';
-import { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
+import type { CTAState, } from '../types/CTAState';
+import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 
 /**
  * Options for configuring action type behavior

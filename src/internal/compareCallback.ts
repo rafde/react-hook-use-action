@@ -1,10 +1,10 @@
 import { strictDeepEqual, } from 'fast-equals';
 import type { CTAState, } from '../types/CTAState';
-import type { UseCTAParameter, } from '../types/UseCTAParameter';
+import type { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
 
 type StrictDeepEqualParameters = Parameters<typeof strictDeepEqual>;
 
-export default function compareCallback<Initial extends CTAState,>( compare?: UseCTAParameter<Initial, undefined>['compare'], ) {
+export default function compareCallback<Initial extends CTAState,>( compare?: UseCTAParameterCompare<Initial>, ) {
 	if ( typeof compare !== 'function' ) {
 		return function cmp( previousValue: StrictDeepEqualParameters[0], nextValue: StrictDeepEqualParameters[1], ) {
 			return strictDeepEqual( previousValue, nextValue, );
