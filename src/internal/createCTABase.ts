@@ -35,7 +35,7 @@ export default function createCTABase<
 		: {
 			...params.actions,
 		};
-	let history: CTAHistory<Initial> = createCTAHistory( { current: initial, }, );
+	let history = createCTAHistory( { current: initial, }, );
 	let ctaReducerState: CTAReducerState<Initial> = {
 		...history,
 		actionType: '' as 'update',
@@ -44,9 +44,9 @@ export default function createCTABase<
 	};
 	const compare = compareCallback( params.compare, );
 
-	const dispatch = createDispatchInterface<Initial, Actions, FR, ReturnType>(
+	const dispatch = createDispatchInterface(
 		function ctaBaseCallback( nextCTAProps, ) {
-			const next = ctaReducer<Initial, Actions, ReturnType>( {
+			const next = ctaReducer( {
 				actions,
 				compare,
 				ctaReducerState,

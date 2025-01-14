@@ -7,10 +7,9 @@ import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCT
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
 import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 
 import type {
-
 	UseCTAReturnTypeDispatch,
 } from './types/UseCTAReturnTypeDispatch';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -19,7 +18,7 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
-import { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
+import type { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
 
 /**
  * A `function` that provides a way to execute like {@link useCTA} but outside a React component.
@@ -150,7 +149,7 @@ export function createCTA<
 		CTAHistory<Initial>,
 		UseCTAReturnTypeDispatch<Initial, ActionsRecord, FR, CTAHistory<Initial>>,
 	] {
-	const { history, dispatch, } = createCTABase<Initial, ActionsRecord, FR, CTAHistory<Initial>>( props, createFunc, );
+	const { history, dispatch, } = createCTABase( props, createFunc, );
 
 	return [
 		history,
