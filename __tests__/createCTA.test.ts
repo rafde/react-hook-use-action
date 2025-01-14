@@ -1,4 +1,7 @@
-import { createCTA, } from '../src';
+import { waitFor, } from '@testing-library/react';
+import { createCTA, returnCTAParameter, } from '../src';
+import createCTAHistory from '../src/internal/createCTAHistory';
+import { CTAHistory, } from '../src/types/CTAHistory';
 
 describe( 'createCTA', () => {
 	const initial = {
@@ -8,31 +11,33 @@ describe( 'createCTA', () => {
 		2: 'number',
 	};
 
-	test( 'should initialize with correct default state', () => {
-		const [state,] = createCTA( {
-			actions: {},
-			afterActionChange() {
-				// here for verifying that it accepts parameter
-			},
-			compare() {
-				return true;
-			},
-			initial,
-			// @ts-expect-error ensuring that this parameter is not accepted
-			onInit() {
+	const props = returnCTAParameter( {
+		initial,
+		afterActionChange: () => {},
+		compare: ( a, b, { cmp, }, ) => cmp( a, b, ),
+		transform: payload => payload,
+		onInit: initial => initial,
+	}, );
 
-			},
-			transform( payload, ) {
-				return payload;
-			},
+	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
+	const compare = jest.spyOn( props, 'compare', );
+	const transform = jest.spyOn( props, 'transform', );
+	const onInit = jest.spyOn( props, 'onInit', );
+
+	test( 'should initialize with correct default state', async() => {
+		const [state,] = createCTA( {
+			...props,
+			actions: {},
 		}, );
 
-		expect( state, ).toEqual( {
-			changes: null,
-			current: initial,
-			initial,
-			previous: null,
-			previousInitial: null,
+		expect( state, ).toEqual( createCTAHistory( { current: initial, }, ), );
+
+		expect( compare, ).not.toHaveBeenCalled();
+		expect( transform, ).not.toHaveBeenCalled();
+		expect( onInit, ).not.toHaveBeenCalled();
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).not.toHaveBeenCalled();
 		}, );
 	}, );
 
@@ -48,8 +53,8 @@ describe( 'createCTA', () => {
 		expect( state, ).toEqual( dispatch.history, );
 	}, );
 
-	test( 'should handle update action', () => {
-		const [, dispatch,] = createCTA( { initial, }, );
+	test( 'should handle update action', async() => {
+		const [, dispatch,] = createCTA( props, );
 		const count = 1;
 		const newState = dispatch.cta.update( { count, }, );
 
@@ -63,6 +68,18 @@ describe( 'createCTA', () => {
 		expect( newState.initial, ).toStrictEqual( initial, );
 		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( { count, }, );
+
+		expect( compare, ).toHaveBeenCalled();
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
+		expect( onInit, ).not.toHaveBeenCalled();
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
+		}, );
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledWith( dispatch.history, 'update', undefined, );
+		}, );
 	}, );
 
 	test( 'should handle update(string, value) action', () => {
@@ -115,18 +132,19 @@ describe( 'createCTA', () => {
 		expect( resetState.changes, ).toBeNull( );
 	}, );
 
-	test( 'should handle custom actions', () => {
-		const [history, dispatch,] = createCTA( {
-			initial,
+	test( 'should handle custom actions', async() => {
+		const customProps = {
+			...props,
 			actions: {
-				increment( ctaParam, ) {
+				increment( ctaParam: CTAHistory<typeof props.initial>, ) {
 					const { current, } = ctaParam;
 					return {
 						count: current.count + 1,
 					};
 				},
 			},
-		}, );
+		};
+		const [history, dispatch,] = createCTA( customProps, );
 		const newState = dispatch.cta.increment();
 
 		expect( newState, ).toStrictEqual( dispatch.history, );
@@ -139,6 +157,18 @@ describe( 'createCTA', () => {
 		expect( newState.previousInitial, ).toBeNull( );
 		expect( newState.changes, ).toStrictEqual( {
 			count: history.current.count + 1,
+		}, );
+
+		expect( compare, ).toHaveBeenCalled();
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
+		expect( onInit, ).not.toHaveBeenCalled();
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
+		}, );
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledWith( dispatch.history, 'update', 'increment', );
 		}, );
 	}, );
 

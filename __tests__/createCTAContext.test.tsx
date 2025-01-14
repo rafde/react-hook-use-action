@@ -1,6 +1,6 @@
-import { render, screen, } from '@testing-library/react';
+import { render, screen, waitFor, } from '@testing-library/react';
 import { useEffect, } from 'react';
-import { createCTAContext, } from '../src';
+import { createCTAContext, returnCTAParameter, } from '../src';
 
 const initialChanges = {
 	there: 'you',
@@ -9,18 +9,30 @@ const initialChanges = {
 };
 
 describe( 'createCTAContext', () => {
-	const ctaContext = createCTAContext( {
+	const props = returnCTAParameter( {
 		initial: initialChanges,
+		afterActionChange: () => {},
+		compare: ( a, b, { cmp, }, ) => cmp( a, b, ),
+		transform: payload => payload,
+		onInit: initial => initial,
 	}, );
+
+	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
+	const compare = jest.spyOn( props, 'compare', );
+	const transform = jest.spyOn( props, 'transform', );
+	const onInit = jest.spyOn( props, 'onInit', );
+
+	const ctaContext = createCTAContext( props, );
+
 	const {
 		CTAProvider,
 		useCTAHistoryContext,
 		useCTADispatchContext,
 	} = ctaContext;
 
-	test( 'should create a context', () => {
+	test( 'should create a context', async() => {
 		const ctaContext = createCTAContext( {
-			initial: initialChanges,
+			...props,
 			actions: {
 				custom() {
 					return {
@@ -29,33 +41,28 @@ describe( 'createCTAContext', () => {
 					};
 				},
 			},
-			afterActionChange() {
-				// here for verifying that it accepts parameter
-			},
-			compare() {
-				return true;
-			},
-			onInit( initial, ) {
-				return initial;
-			},
-			transform( payload, ) {
-				return payload;
-			},
 		}, );
+
 		expect( ctaContext, ).toBeDefined();
+		expect( compare, ).not.toHaveBeenCalled();
+		expect( transform, ).not.toHaveBeenCalled();
+		expect( onInit, ).not.toHaveBeenCalled();
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).not.toHaveBeenCalled();
+		}, );
 	}, );
 
-	test( 'should update when view is wrapped in a Provided', () => {
+	test( 'should update when view is wrapped in a Provided', async() => {
+		let ctaDispatchContext: ReturnType<typeof useCTADispatchContext>;
 		const View = () => {
 			const ctaStateContext = useCTAHistoryContext();
-			const ctaDispatchContext = useCTADispatchContext();
+			ctaDispatchContext = useCTADispatchContext();
 			useEffect(
 				() => {
 					ctaDispatchContext?.cta.update( 'there', 'there', );
 				},
-				[
-					ctaDispatchContext,
-				],
+				[],
 			);
 			return <>
 				<div data-testid="test-there">{ctaStateContext.current.there}</div>
@@ -72,6 +79,18 @@ describe( 'createCTAContext', () => {
 		expect( screen.getByTestId( 'test-there', ).textContent, ).toBe( 'there', );
 		expect( screen.getByTestId( 'test-you', ).textContent, ).toBe( initialChanges.you, );
 		expect( screen.getByTestId( 'test-2', ).textContent, ).toBe( String( initialChanges[ 2 ], ), );
+
+		expect( compare, ).toHaveBeenCalled();
+		expect( transform, ).toHaveBeenCalledTimes( 1, );
+		expect( onInit, ).toHaveBeenCalledTimes( 1, );
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
+		}, );
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).toHaveBeenCalledWith( ctaDispatchContext?.history, 'update', undefined, );
+		}, );
 	}, );
 
 	test( 'should update when with `initial` prop', () => {

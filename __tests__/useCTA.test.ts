@@ -1,32 +1,37 @@
-import { renderHook, act, } from '@testing-library/react';
-import { useCTA, } from '../src';
+import { renderHook, act, waitFor, } from '@testing-library/react';
+import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
 
 describe( 'useCTA', () => {
-	test( 'should return useCTA values', () => {
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-			async afterActionChange() {
-				// here for verifying that it accepts parameter
-			},
-			compare() {
-				return true;
-			},
-			onInit( initial, ) {
-				return initial;
-			},
-			transform( payload, ) {
-				return payload;
-			},
-		}, ), );
+	const props = returnCTAParameter( {
+		initial,
+		afterActionChange: () => {},
+		compare: ( a, b, { cmp, }, ) => cmp( a, b, ),
+		transform: payload => payload,
+		onInit: initial => initial,
+	}, );
+
+	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
+	const compare = jest.spyOn( props, 'compare', );
+	const transform = jest.spyOn( props, 'transform', );
+	const onInit = jest.spyOn( props, 'onInit', );
+
+	test( 'should return useCTA values', async() => {
+		const { result, } = renderHook( () => useCTA( props, ), );
 		expect( result.current, ).toBeDefined();
+
+		expect( compare, ).not.toHaveBeenCalled();
+		expect( transform, ).not.toHaveBeenCalled();
+		expect( onInit, ).toHaveBeenCalledTimes( 1, );
+
+		await waitFor( async() => {
+			expect( afterActionChange, ).not.toHaveBeenCalled();
+		}, );
 	}, );
 
 	describe( 'check for edge cases', () => {
-		test( 'should not create a new dispatch when an action is called', () => {
-			const { result, } = renderHook( () => useCTA( {
-				initial,
-			}, ), );
+		test( 'should not create a new dispatch when an action is called', async() => {
+			const { result, } = renderHook( () => useCTA( props, ), );
 			const [
 				,
 				initDispatch,
@@ -37,6 +42,18 @@ describe( 'useCTA', () => {
 			}, );
 
 			expect( initDispatch, ).toStrictEqual( result.current[ 1 ], );
+
+			expect( compare, ).toHaveBeenCalled();
+			expect( transform, ).toHaveBeenCalledTimes( 1, );
+			expect( onInit, ).toHaveBeenCalledTimes( 1, );
+
+			await waitFor( async() => {
+				expect( afterActionChange, ).toHaveBeenCalledTimes( 1, );
+			}, );
+
+			await waitFor( async() => {
+				expect( afterActionChange, ).toHaveBeenCalledWith( initDispatch.history, 'update', undefined, );
+			}, );
 		}, );
 
 		test( 'should have history equal to dispatch.history', () => {

@@ -18,6 +18,7 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
 import type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
 
 /**
