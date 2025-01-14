@@ -45,16 +45,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: npm
 
-      - name: Restore cache node_modules
-        if: ${{ inputs.jsr  || inputs.npm  }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-publish-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-publish-
-
       - name: Install npm dependencies
         if: ${{ inputs.jsr  || inputs.npm  }}
         run: npm ci
