@@ -9,7 +9,7 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 import type { CTASelector, } from './types/CTASelector';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.

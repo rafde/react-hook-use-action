@@ -6,7 +6,6 @@ import createCTAHistory from './createCTAHistory';
 import createDispatchInterface from './createDispatchInterface';
 
 import type { CTAState, } from '../types/CTAState';
-import type { CTAHistory, } from '../types/CTAHistory';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';
 import type { UsePrivateCTAReturnType, } from './usePrivateCTA';
@@ -30,7 +29,7 @@ export default function usePublicCTA<
 	] = params.stateDispatcher;
 
 	const dispatch = useMemo(
-		() => createDispatchInterface<Initial, Actions, FR, void>(
+		() => createDispatchInterface(
 			( ...args ) => {
 				ctaDispatch( ...args, );
 			},
@@ -45,7 +44,7 @@ export default function usePublicCTA<
 
 	return useMemo(
 		() => {
-			const history: CTAHistory<Initial> = createCTAHistory( ctaState, );
+			const history = createCTAHistory( ctaState, );
 			dispatch.history = history;
 
 			return [

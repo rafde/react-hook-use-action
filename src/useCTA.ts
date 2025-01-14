@@ -11,7 +11,7 @@ import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -27,7 +27,7 @@ import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch
 import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterAfterActionChange';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform';
-import { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
+import type { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispatchCTA';
 
 /**
  * A React hook for managing complex state with custom actions, history tracking, and type safety.
@@ -170,7 +170,7 @@ export function useCTA<
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	);
-	const stateDispatcher = usePrivateCTA<Initial, ActionsRecord>( props, actions, );
+	const stateDispatcher = usePrivateCTA( props, actions, );
 	const [
 		ctaReducerState,
 	] = stateDispatcher;
@@ -178,7 +178,7 @@ export function useCTA<
 		() => {
 			const isFunction = typeof props.afterActionChange === 'function';
 			let oldState = ctaReducerState;
-			return function( ctaReducerState: CTAReducerState<Initial>, ) {
+			return function( ctaReducerState: CTAReducerState<typeof props.initial>, ) {
 				if ( !isFunction || ctaReducerState === oldState ) {
 					return;
 				}

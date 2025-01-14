@@ -13,7 +13,7 @@ import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
 import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -160,7 +160,7 @@ export function createCTAContext<
 	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
 ): CreateCTAContextReturn<Initial, ActionsRecord, FR > {
 	type ReturnType = UseCTAReturnType<Initial, ActionsRecord, FR, void>;
-	const CTAContextHistory = createContext<ReturnType[0]>(
+	const CTAContextHistory = createContext(
 		createCTAHistory( { current: props.initial, }, ),
 	);
 	const CTAContextDispatch = createContext<ReturnType[1] | null>( null, );
