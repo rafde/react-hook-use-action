@@ -71,7 +71,10 @@ export type UseCTAParameterActionsRecordProp<
 }
 	&
 {
-	[p: string | number]: ( () => Partial<Payload> )
-		| ( ( ctaState: CustomCTAHistory<Payload>, ...args: never[] ) => CustomCTAReturnType<Payload> )
-		| undefined
+	[p: string | number]: undefined
+		| ( (
+			ctaState: CustomCTAHistory<Payload>,
+			...args: never[]
+		) => CustomCTAReturnType<Payload> )
+		| ( () => Partial<Payload> )
 };
