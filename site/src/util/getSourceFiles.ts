@@ -19,11 +19,38 @@ type SourceFileList = string | SourceCodeFileRecord;
 const sourceFileList = [
 	'types/CTAState.ts',
 	'types/CTAHistory.ts',
+	'types/UseCTAParameter.ts',
 	'types/UseCTAParameterOnInit.ts',
 	'types/UseCTAParameterCompare.ts',
 	'types/UseCTAParameterAfterActionChange.ts',
 	'types/UseCTAParameterTransform.ts',
 	'types/UseCTAParameterActionsRecordProp.ts',
+	{
+		filePath: 'types/UseCTAReturnTypeDispatchCTA.ts',
+		key: 'DispatchCTABuiltIn',
+		segments: [
+			{
+				start: 3,
+				end: 68,
+			},
+		],
+	},
+	{
+		filePath: 'types/UseCTAReturnTypeDispatchCTA.ts',
+		key: 'DispatchCTACustomActions',
+		segments: [
+			{
+				end: 4,
+			},
+			{
+				start: 5,
+				end: 11,
+			},
+			{
+				start: 69,
+			},
+		],
+	},
 	{
 		filePath: 'types/UseCTAParameterActionsRecordProp.ts',
 		key: 'UseCTAParameterActionsOverridable',
@@ -117,12 +144,38 @@ const sourceFileList = [
 	{
 		filePath: 'types/UseCTAReturnTypeDispatch.ts',
 		segments: [{
-			start: 83,
+			start: 81,
 		},],
 	},
 	'types/CustomCTAHistory.ts',
 	'types/UseCTAReturnType.ts',
 	'types/CreateCTAContextReturn.ts',
+	'types/UseCTASelector.ts',
+	{
+		filePath: 'types/UseCTASelector.ts',
+		key: 'CTASelector',
+		segments: [
+			{
+				end: 5,
+			},
+			{
+				start: 7,
+				end: 17,
+			},
+		],
+	},
+	'types/UseCTAParameterCreateFunc.ts',
+	{
+		filePath: 'types/UseCTAParameterCreateFunc.ts',
+		key: 'UseCTAParameterCreateFuncReturnRecord',
+		segments: [
+			{
+				start: 3,
+				end: 7,
+			},
+		],
+	},
+	'types/DispatchCTA.ts',
 ] as const;
 
 type SourceFilePath<T,> = T extends { key: string } ? T['key'] : ( T extends { filePath: string } ? T['filePath'] : T );
