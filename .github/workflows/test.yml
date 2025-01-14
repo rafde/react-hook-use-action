@@ -32,7 +32,7 @@ jobs:
            with:
              path: |
                ${{ github.workspace }}/.jest-cache
-             key: ${{ runner.os }}-test-${{ hashFiles('src/**/**.[jt]sx') }}
+             key: ${{ runner.os }}-test-${{ hashFiles('{src,__tests__}/**/*.{ts,tsx}') }}-${{ hashFiles('**/package-lock.json') }}
              restore-keys: |
                ${{ runner.os }}-test-
 
