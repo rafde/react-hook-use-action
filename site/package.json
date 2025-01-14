@@ -42,7 +42,7 @@
 		"eslint-plugin-react": "7.37.3",
 		"eslint-plugin-react-hooks": "5.1.0",
 		"eslint-plugin-tailwindcss": "3.17.5",
-		"typescript-eslint": "8.19.1"
+		"typescript-eslint": "8.20.0"
 	},
 	"description": "react-hook-use-cta site",
 	"name": "react-hook-use-cta-site",
