@@ -73,9 +73,6 @@ const useCTATopicView = createCTASelector(
 
 				return topicObserver;
 			},
-			getSeven() {
-				return 7;
-			},
 		};
 	},
 );
