@@ -18,20 +18,18 @@ export type UseCTAParameterTransform<
 	State extends CTAState,
 	ActionType extends Record<
 		keyof DefaultActionsRecord<State>,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		( ...args: any ) => any
+		( ...args: never[] ) => unknown
 	> = DefaultActionsRecord<State>,
 	ActionTypeReturnValueRecord = {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[K in keyof ActionType]: ActionType[K] extends ( ...args: any ) => any
+		[K in keyof ActionType]: ActionType[K] extends ( ...args: never[] ) => unknown
 			? Parameters<ActionType[K]>[1]
 			: never
 	},
-	nextState = ActionTypeReturnValueRecord[keyof ActionTypeReturnValueRecord],
+	NextState = ActionTypeReturnValueRecord[keyof ActionTypeReturnValueRecord],
 > = (
-	nextState: Exclude<nextState, undefined>,
+	nextState: Exclude<NextState, undefined>,
 	transformCTAHistory: {
 		actionType: keyof ActionType
 		customAction?: string | number
 	} & CTAHistory<State>,
-) => nextState;
+) => NextState;

@@ -1,6 +1,10 @@
 import type { CTAState, } from './CTAState';
-import { DispatchCTA, } from './DispatchCTA';
-import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
+import type { DispatchCTA, } from './DispatchCTA';
+
+export type UseCTAParameterCreateFuncReturnRecord = Record<
+	string | number,
+	( ...args: never[] ) => unknown
+>;
 
 export type UseCTAParameterCreateFunc<
 	Initial extends CTAState,

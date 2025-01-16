@@ -10,8 +10,10 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
-import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from './types/UseCTAParameterCreateFunc';
 import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -177,14 +179,20 @@ export function useCTA<
 	] = stateDispatcher;
 	const afterActionChange = useMemo(
 		() => {
-			const isFunction = typeof props.afterActionChange === 'function';
+			const {
+				afterActionChange,
+			} = props;
+			const isFunction = typeof afterActionChange === 'function';
+			if ( !isFunction ) {
+				return () => {};
+			}
 			let oldState = ctaReducerState;
 			return function( ctaReducerState: CTAReducerState<typeof props.initial>, ) {
-				if ( !isFunction || ctaReducerState === oldState ) {
+				if ( ctaReducerState === oldState ) {
 					return;
 				}
 				oldState = ctaReducerState;
-				Promise.resolve().then( () => props?.afterActionChange?.(
+				Promise.resolve().then( () => afterActionChange(
 					createCTAHistory( ctaReducerState, ),
 					ctaReducerState.actionType,
 					ctaReducerState.customAction,

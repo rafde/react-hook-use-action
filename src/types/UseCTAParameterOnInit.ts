@@ -7,4 +7,6 @@ import { CTAState, } from './CTAState';
  * @param {CTAState} initial - The {@link CTAHistory}.`initial` state.
  * @returns A new {@link CTAHistory}.`initial` state.
  */
-export type UseCTAParameterOnInit<Initial extends CTAState, > = ( initial: Initial ) => Initial;
+export type UseCTAParameterOnInit<
+	Initial extends CTAState,
+> = ( initial: Initial ) => Initial;

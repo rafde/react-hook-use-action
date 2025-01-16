@@ -2,8 +2,10 @@ import type { CTAHistory, } from '../types/CTAHistory';
 import type { CTAState, } from '../types/CTAState';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
 import type { DispatchParameterTypes, } from '../types/DispatchParameterTypes';
-import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from '../types/UseCTAParameterCreateFunc';
 import type {
 	Dispatch,
 	UseCTAReturnTypeDispatch,
