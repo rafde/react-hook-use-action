@@ -5,8 +5,10 @@ import ctaReducer, { type CTAReducerState, } from './ctaReducer';
 
 import type { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
 import type { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
-import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from '../types/UseCTAParameterCreateFunc';
 import type { UseCTAParameterTransform, } from '../types/UseCTAParameterTransform';
 import type { CTAState, } from '../types/CTAState';
 import type { CTAHistory, } from '../types/CTAHistory';

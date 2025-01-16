@@ -9,7 +9,7 @@ import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
 import type { UseCTAParameter, } from './UseCTAParameter';
 
-import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFunc';
 import type { UseCTAReturnTypeDispatch, } from './UseCTAReturnTypeDispatch';
 
 // @ts-expect-error -- Used in JSDoc comment

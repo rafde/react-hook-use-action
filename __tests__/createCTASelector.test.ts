@@ -1,5 +1,6 @@
 import { act, renderHook, } from '@testing-library/react';
 import { createCTASelector, returnCTAParameter, } from '../src';
+import createCTAHistory from '../src/internal/createCTAHistory';
 
 describe( 'createCTASelector', () => {
 	const props = returnCTAParameter( {
@@ -61,6 +62,19 @@ describe( 'createCTASelector', () => {
 		};
 		expect( dispatch.history, ).toStrictEqual( initialHistory, );
 		expect( useTestSelector.getHistory(), ).toStrictEqual( initialHistory, );
+	}, );
+
+	test( 'should useTestSelector without parameters', () => {
+		const { result: snapshot, } = renderHook( () => useTestSelector(), );
+		const [
+			history,
+			dispatch,
+		] = snapshot.current;
+
+		expect( history, ).toStrictEqual( createCTAHistory( {
+			current: props.initial,
+		}, ), );
+		expect( useTestSelector.dispatch, ).toBe( dispatch, );
 	}, );
 
 	test( 'should allow selector to return with specific object', () => {

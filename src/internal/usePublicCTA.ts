@@ -3,8 +3,10 @@ import { useMemo, } from 'react';
 import createCTAHistory from './createCTAHistory';
 import createDispatchInterface from './createDispatchInterface';
 
-import type { UseCTAParameterCreateFunc, } from '../types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from '../types/UseCTAParameterCreateFuncReturnRecord';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from '../types/UseCTAParameterCreateFunc';
 import type { CTAState, } from '../types/CTAState';
 import type { UseCTAParameter, } from '../types/UseCTAParameter';
 import type { UseCTAReturnType, } from '../types/UseCTAReturnType';

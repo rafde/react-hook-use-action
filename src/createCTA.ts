@@ -6,8 +6,10 @@ import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
-import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from './types/UseCTAParameterCreateFunc';
 
 import type {
 	UseCTAReturnTypeDispatch,

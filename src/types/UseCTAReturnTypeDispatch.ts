@@ -7,7 +7,7 @@ import type { DispatchCTA, } from './DispatchCTA';
 import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueActionPayloadArgsProps';
 import type { Immutable, } from './Immutable';
 
-import { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFuncReturnRecord';
+import type { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFunc';
 
 type CustomCTARecord<
 	Initial extends CTAState,

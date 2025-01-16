@@ -4,16 +4,21 @@ import createCTABase from './internal/createCTABase';
 
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTASelectorProps, } from './types/CreateCTASelectorProps';
-import type { CreateCTASelectorReturn, } from './types/CreateCTASelectorReturn';
+import type {
+	UseCTASelector,
+	CTASelector,
+} from './types/UseCTASelector';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
-import type { UseCTAParameterCreateFunc, } from './types/UseCTAParameterCreateFunc';
-import type { UseCTAParameterCreateFuncReturnRecord, } from './types/UseCTAParameterCreateFuncReturnRecord';
-import type { CTASelector, } from './types/CTASelector';
+import type {
+	UseCTAParameterCreateFunc,
+	UseCTAParameterCreateFuncReturnRecord,
+} from './types/UseCTAParameterCreateFunc';
+import type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
-import { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
+import type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { CTAHistory, } from './types/CTAHistory';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -60,7 +65,7 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  * @param {UseCTAReturnTypeDispatch} createFunc.dispatch - The parameter passed to {@link UseCTAParameterCreateFunc}
  * - @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch useCTA return value [1]: dispatch}
  *
- * @returns A {@link CreateCTASelectorReturn} selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
+ * @returns A {@link UseCTASelector} selector hook that provides access to dispatch, gets, current, previous, changes, initial, and previousInitial
  *
  * @example
  * const useMySelector = createCTASelector({
@@ -87,7 +92,7 @@ export function createCTASelector<
 >(
 	props: CreateCTASelectorProps<Initial, ActionsRecord>,
 	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
-): CreateCTASelectorReturn<Initial, ActionsRecord, FR> {
+): UseCTASelector<Initial, ActionsRecord, FR> {
 	const ctaReducerResults = createCTABase(
 		{
 			...props,
@@ -114,7 +119,7 @@ export function createCTASelector<
 		return dispatch.history;
 	}
 
-	type Selector<SelectorReturn = unknown,> = CTASelector<Initial, ActionsRecord, FR, SelectorReturn>;
+	type Selector = CTASelector<Initial, ActionsRecord, FR>;
 	const listeners = new Set<Selector>();
 	function subscribe( listener: Selector, ) {
 		listeners.add( listener, );
@@ -123,13 +128,21 @@ export function createCTASelector<
 		};
 	}
 
-	function useCTASelector<SelectorReturn,>( selector: Selector<SelectorReturn>, ) {
-		const resultRef = useRef<ReturnType<typeof selector>>( null as SelectorReturn, );
+	const defaultSelector: CTASelector<Initial, ActionsRecord, FR, UseCTAReturnType<Initial, ActionsRecord, FR, void>> = ( { dispatch, ...history }, ) => [
+		history,
+		dispatch,
+	];
+
+	function useCTASelector<
+		Selector extends CTASelector<Initial, ActionsRecord, FR> = typeof defaultSelector,
+	>( _selector?: Selector, ) {
+		const selector = typeof _selector === 'function' ? _selector : defaultSelector;
+		const resultRef = useRef( null as ReturnType<typeof selector>, );
 		const selectorCallback = useCallback(
 			( snapshot: typeof initialSnapshot, ) => {
 				const result = selector( snapshot, );
 				if ( !strictDeepEqual( resultRef.current, result, ) ) {
-					resultRef.current = result;
+					resultRef.current = result as ReturnType<typeof selector>;
 				}
 				return resultRef.current;
 			},
@@ -137,14 +150,14 @@ export function createCTASelector<
 			[],
 		);
 		// @see {@link https://github.com/facebook/react/blob/main/packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js}
-		return useSyncExternalStore(
+		return useSyncExternalStore<ReturnType<typeof selector>>(
 			subscribe,
 			() => selectorCallback( snapshot, ),
-			() => selector( initialSnapshot, ),
+			() => selectorCallback( initialSnapshot, ),
 		);
 	}
 	return Object.assign(
-		useCTASelector,
+		useCTASelector as UseCTASelector<Initial, ActionsRecord, FR>,
 		{
 			dispatch,
 			getHistory,
