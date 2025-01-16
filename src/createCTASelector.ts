@@ -1,5 +1,5 @@
 import { strictDeepEqual, } from 'fast-equals';
-import { useCallback, useRef, useSyncExternalStore, } from 'react';
+import { useCallback, useMemo, useRef, useSyncExternalStore, } from 'react';
 import createCTABase from './internal/createCTABase';
 
 import type { ActionsRecordProp, } from './types/ActionsRecordProp';
@@ -33,7 +33,7 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  *
  * @template {CTAState} Initial - The type of the initial state object extending CTAState
  * @template {UseCTAParameterActionsRecordProp<Initial> | undefined} Actions - Optional record of action functions extending UseCTAParameterActionsRecordProp
- * @template GR - Record of getter functions that return values
+ * @template {UseCTAParameterCreateFuncReturnRecord} GR - Record of getter functions that return values
  * @template ActionsRecord - Derived type for actions, either default or provided actions
  *
  * @param {CreateCTASelectorProps} props - Configuration object for the selector
@@ -136,7 +136,16 @@ export function createCTASelector<
 	function useCTASelector<
 		Selector extends CTASelector<Initial, ActionsRecord, FR> = typeof defaultSelector,
 	>( _selector?: Selector, ) {
-		const selector = typeof _selector === 'function' ? _selector : defaultSelector;
+		const selector = useMemo(
+			() => {
+				if ( typeof _selector === 'function' ) {
+					return _selector;
+				}
+				return defaultSelector;
+			},
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+			[],
+		);
 		const resultRef = useRef( null as ReturnType<typeof selector>, );
 		const selectorCallback = useCallback(
 			( snapshot: typeof initialSnapshot, ) => {
