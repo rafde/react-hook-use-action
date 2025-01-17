@@ -41,7 +41,7 @@ export default function createCTABase<
 		: {
 			...params.actions,
 		};
-	let history = createCTAHistory( { current: initial, }, );
+	let history = createCTAHistory( { initial, }, );
 	let ctaReducerState: CTAReducerState<Initial> = {
 		...history,
 		actionType: '' as 'update',

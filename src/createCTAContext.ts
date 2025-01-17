@@ -163,7 +163,7 @@ export function createCTAContext<
 ): CreateCTAContextReturn<Initial, ActionsRecord, FR > {
 	type ReturnType = UseCTAReturnType<Initial, ActionsRecord, FR, void>;
 	const CTAContextHistory = createContext(
-		createCTAHistory( { current: props.initial, }, ),
+		createCTAHistory( { initial: props.initial, }, ),
 	);
 	const CTAContextDispatch = createContext<ReturnType[1] | null>( null, );
 

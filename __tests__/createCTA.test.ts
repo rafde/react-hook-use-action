@@ -30,7 +30,7 @@ describe( 'createCTA', () => {
 			actions: {},
 		}, );
 
-		expect( state, ).toEqual( createCTAHistory( { current: initial, }, ), );
+		expect( state, ).toEqual( createCTAHistory( { initial, }, ), );
 
 		expect( compare, ).not.toHaveBeenCalled();
 		expect( transform, ).not.toHaveBeenCalled();
