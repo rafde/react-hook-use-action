@@ -9,7 +9,7 @@ const useSourceCode = createCTASelector(
 		},
 	},
 	dispatch => ( {
-		getSourceCode: ( key: keyof SourceCodeRecord, isTrim: boolean, ) => {
+		getSourceCode: ( key: keyof SourceCodeRecord, isTrim = true, ) => {
 			const sourceCode = dispatch.history.current.sourceCodeRecord[ key ];
 			if ( isTrim ) {
 				return sourceCode?.trim();
