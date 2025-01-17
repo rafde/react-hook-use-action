@@ -30,6 +30,7 @@ type CodeBlockProp = {
 	children: string
 	copyButton?: boolean
 	className?: string
+	isTrim?: boolean
 };
 
 export default function CodeBlock( props: CodeBlockProp, ) {
@@ -38,8 +39,9 @@ export default function CodeBlock( props: CodeBlockProp, ) {
 		children,
 		copyButton = false,
 		className = '',
+		isTrim = false,
 	} = props;
-	const code = children;
+	const code = isTrim ? children?.trim() : children;
 	const codeBlock = <SyntaxHighlighter
 		language={lang}
 		style={vscDarkPlus}
