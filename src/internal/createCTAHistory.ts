@@ -1,11 +1,11 @@
 import type { CTAHistory, } from '../types/CTAHistory';
 import type { CTAState, } from '../types/CTAState';
 
-export default function createCTAHistory<Initial extends CTAState,>( ctaHistory: Partial<Omit<CTAHistory<Initial>, 'current'>> & { current: Initial }, ): CTAHistory<Initial> {
+export default function createCTAHistory<Initial extends CTAState,>( ctaHistory: Partial<Omit<CTAHistory<Initial>, 'initial'>> & { initial: Initial }, ): CTAHistory<Initial> {
 	const {
 		changes = null,
-		current,
-		initial = current,
+		initial,
+		current = initial,
 		previous = null,
 		previousInitial = null,
 	} = ctaHistory;

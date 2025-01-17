@@ -72,7 +72,7 @@ describe( 'createCTASelector', () => {
 		] = snapshot.current;
 
 		expect( history, ).toStrictEqual( createCTAHistory( {
-			current: props.initial,
+			initial: props.initial,
 		}, ), );
 		expect( useTestSelector.dispatch, ).toBe( dispatch, );
 	}, );
