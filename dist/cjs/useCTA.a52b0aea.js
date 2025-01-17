@@ -1,6 +1,6 @@
-var $6c056cda560e414d$exports = require("./createCTAHistory.79c1dff1.js");
+var $6c056cda560e414d$exports = require("./createCTAHistory.e642bcd3.js");
 var $062383fffa733698$exports = require("./usePrivateCTA.83837696.js");
-var $217ab95d1d983957$exports = require("./usePublicCTA.7dbefa18.js");
+var $217ab95d1d983957$exports = require("./usePublicCTA.8886a347.js");
 var $2eF2K$react = require("react");
 
 
@@ -24,12 +24,14 @@ function $d6e548939060e3ae$export$68a5bb76170d2250(props, createFunc = ()=>({}))
     const stateDispatcher = (0, $062383fffa733698$exports.default)(props, actions);
     const [ctaReducerState] = stateDispatcher;
     const afterActionChange = (0, $2eF2K$react.useMemo)(()=>{
-        const isFunction = typeof props.afterActionChange === 'function';
+        const { afterActionChange: afterActionChange } = props;
+        const isFunction = typeof afterActionChange === 'function';
+        if (!isFunction) return ()=>{};
         let oldState = ctaReducerState;
         return function(ctaReducerState) {
-            if (!isFunction || ctaReducerState === oldState) return;
+            if (ctaReducerState === oldState) return;
             oldState = ctaReducerState;
-            Promise.resolve().then(()=>props?.afterActionChange?.((0, $6c056cda560e414d$exports.default)(ctaReducerState), ctaReducerState.actionType, ctaReducerState.customAction));
+            Promise.resolve().then(()=>afterActionChange((0, $6c056cda560e414d$exports.default)(ctaReducerState), ctaReducerState.actionType, ctaReducerState.customAction));
         };
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
@@ -48,4 +50,4 @@ function $d6e548939060e3ae$export$68a5bb76170d2250(props, createFunc = ()=>({}))
 }
 
 
-//# sourceMappingURL=useCTA.e14fb902.js.map
+//# sourceMappingURL=useCTA.a52b0aea.js.map

@@ -1,5 +1,5 @@
-var $6c056cda560e414d$exports = require("./createCTAHistory.79c1dff1.js");
-var $d6e548939060e3ae$exports = require("./useCTA.e14fb902.js");
+var $6c056cda560e414d$exports = require("./createCTAHistory.e642bcd3.js");
+var $d6e548939060e3ae$exports = require("./useCTA.a52b0aea.js");
 var $9znZ4$react = require("react");
 
 
@@ -13,7 +13,7 @@ $parcel$export(module.exports, "createCTAContext", () => $1045ff876afe552c$expor
 
 function $1045ff876afe552c$export$a85baad6d8324b85(props, createFunc = ()=>({})) {
     const CTAContextHistory = (0, $9znZ4$react.createContext)((0, $6c056cda560e414d$exports.default)({
-        current: props.initial
+        initial: props.initial
     }));
     const CTAContextDispatch = (0, $9znZ4$react.createContext)(null);
     return {
@@ -47,4 +47,4 @@ function $1045ff876afe552c$export$a85baad6d8324b85(props, createFunc = ()=>({}))
 }
 
 
-//# sourceMappingURL=createCTAContext.b57645d3.js.map
+//# sourceMappingURL=createCTAContext.7e048d19.js.map

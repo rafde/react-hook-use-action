@@ -1,4 +1,4 @@
-var $86ac65d171f749b0$exports = require("./createCTABase.7e2517b9.js");
+var $86ac65d171f749b0$exports = require("./createCTABase.a414631e.js");
 var $9UBRr$fastequals = require("fast-equals");
 var $9UBRr$react = require("react");
 
@@ -40,7 +40,16 @@ function $ad2fe70b3c7d29fa$export$32d3704051e6d520(props, createFunc = ()=>({}))
             listeners.delete(listener);
         };
     }
-    function useCTASelector(selector) {
+    const defaultSelector = ({ dispatch: dispatch, ...history })=>[
+            history,
+            dispatch
+        ];
+    function useCTASelector(_selector) {
+        const selector = (0, $9UBRr$react.useMemo)(()=>{
+            if (typeof _selector === 'function') return _selector;
+            return defaultSelector;
+        }, // eslint-disable-next-line react-hooks/exhaustive-deps
+        []);
         const resultRef = (0, $9UBRr$react.useRef)(null);
         const selectorCallback = (0, $9UBRr$react.useCallback)((snapshot)=>{
             const result = selector(snapshot);
@@ -49,7 +58,7 @@ function $ad2fe70b3c7d29fa$export$32d3704051e6d520(props, createFunc = ()=>({}))
         }, // eslint-disable-next-line react-hooks/exhaustive-deps
         []);
         // @see {@link https://github.com/facebook/react/blob/main/packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js}
-        return (0, $9UBRr$react.useSyncExternalStore)(subscribe, ()=>selectorCallback(snapshot), ()=>selector(initialSnapshot));
+        return (0, $9UBRr$react.useSyncExternalStore)(subscribe, ()=>selectorCallback(snapshot), ()=>selectorCallback(initialSnapshot));
     }
     return Object.assign(useCTASelector, {
         dispatch: dispatch,
@@ -58,4 +67,4 @@ function $ad2fe70b3c7d29fa$export$32d3704051e6d520(props, createFunc = ()=>({}))
 }
 
 
-//# sourceMappingURL=createCTASelector.622a596a.js.map
+//# sourceMappingURL=createCTASelector.7796fb14.js.map

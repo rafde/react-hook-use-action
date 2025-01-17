@@ -5,7 +5,7 @@ function $parcel$export(e, n, v, s) {
 
 $parcel$export(module.exports, "default", () => $6c056cda560e414d$export$2e2bcd8739ae039);
 function $6c056cda560e414d$export$2e2bcd8739ae039(ctaHistory) {
-    const { changes: changes = null, current: current, initial: initial = current, previous: previous = null, previousInitial: previousInitial = null } = ctaHistory;
+    const { changes: changes = null, initial: initial, current: current = initial, previous: previous = null, previousInitial: previousInitial = null } = ctaHistory;
     return {
         changes: changes,
         current: current,
@@ -16,4 +16,4 @@ function $6c056cda560e414d$export$2e2bcd8739ae039(ctaHistory) {
 }
 
 
-//# sourceMappingURL=createCTAHistory.79c1dff1.js.map
+//# sourceMappingURL=createCTAHistory.e642bcd3.js.map

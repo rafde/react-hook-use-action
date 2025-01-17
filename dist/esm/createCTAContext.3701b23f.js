@@ -1,5 +1,5 @@
-import $cde3e3dbd0d3bcac$export$2e2bcd8739ae039 from "./createCTAHistory.529bd146.js";
-import {useCTA as $5faadda8f7072751$export$68a5bb76170d2250} from "./useCTA.b5644d53.js";
+import $cde3e3dbd0d3bcac$export$2e2bcd8739ae039 from "./createCTAHistory.f4f571d2.js";
+import {useCTA as $5faadda8f7072751$export$68a5bb76170d2250} from "./useCTA.d1c5b049.js";
 import {createContext as $dFrC2$createContext, createElement as $dFrC2$createElement, useContext as $dFrC2$useContext} from "react";
 
 
@@ -7,7 +7,7 @@ import {createContext as $dFrC2$createContext, createElement as $dFrC2$createEle
 
 function $0520831b50975271$export$a85baad6d8324b85(props, createFunc = ()=>({})) {
     const CTAContextHistory = (0, $dFrC2$createContext)((0, $cde3e3dbd0d3bcac$export$2e2bcd8739ae039)({
-        current: props.initial
+        initial: props.initial
     }));
     const CTAContextDispatch = (0, $dFrC2$createContext)(null);
     return {
@@ -42,4 +42,4 @@ function $0520831b50975271$export$a85baad6d8324b85(props, createFunc = ()=>({}))
 
 
 export {$0520831b50975271$export$a85baad6d8324b85 as createCTAContext};
-//# sourceMappingURL=createCTAContext.3de38785.js.map
+//# sourceMappingURL=createCTAContext.3701b23f.js.map

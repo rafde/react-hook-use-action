@@ -1,5 +1,5 @@
 function $cde3e3dbd0d3bcac$export$2e2bcd8739ae039(ctaHistory) {
-    const { changes: changes = null, current: current, initial: initial = current, previous: previous = null, previousInitial: previousInitial = null } = ctaHistory;
+    const { changes: changes = null, initial: initial, current: current = initial, previous: previous = null, previousInitial: previousInitial = null } = ctaHistory;
     return {
         changes: changes,
         current: current,
@@ -11,4 +11,4 @@ function $cde3e3dbd0d3bcac$export$2e2bcd8739ae039(ctaHistory) {
 
 
 export {$cde3e3dbd0d3bcac$export$2e2bcd8739ae039 as default};
-//# sourceMappingURL=createCTAHistory.529bd146.js.map
+//# sourceMappingURL=createCTAHistory.f4f571d2.js.map
