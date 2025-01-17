@@ -33,8 +33,7 @@ jobs:
 
       - name: rebase main to gh-pages
         run: |
-          git pull origin main
-          git rebase main
+          git rebase origin/main
           git push origin gh-pages
 
       - name: Setup Node
