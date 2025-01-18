@@ -10,6 +10,7 @@ export default defineConfig( {
 				'src/*.ts',
 				'src/internal/*.ts',
 			],
+			reporter: ['text', 'html', 'json-summary',],
 		},
 		globals: true,
 		environment: 'happy-dom',
