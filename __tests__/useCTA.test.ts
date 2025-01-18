@@ -1,3 +1,4 @@
+import { describe, test, expect, vi, } from 'vitest';
 import { renderHook, act, waitFor, } from '@testing-library/react';
 import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
@@ -11,10 +12,10 @@ describe( 'useCTA', () => {
 		onInit: initial => initial,
 	}, );
 
-	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
-	const compare = jest.spyOn( props, 'compare', );
-	const transform = jest.spyOn( props, 'transform', );
-	const onInit = jest.spyOn( props, 'onInit', );
+	const afterActionChange = vi.spyOn( props, 'afterActionChange', );
+	const compare = vi.spyOn( props, 'compare', );
+	const transform = vi.spyOn( props, 'transform', );
+	const onInit = vi.spyOn( props, 'onInit', );
 
 	test( 'should return useCTA values', async() => {
 		const { result, } = renderHook( () => useCTA( props, ), );

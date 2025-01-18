@@ -1,3 +1,4 @@
+import { describe, test, vi, expect, } from 'vitest';
 import { act, renderHook, } from '@testing-library/react';
 import { createCTASelector, returnCTAParameter, } from '../src';
 import createCTAHistory from '../src/internal/createCTAHistory';
@@ -17,13 +18,13 @@ describe( 'createCTASelector', () => {
 		transform: payload => payload,
 	}, );
 
-	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
-	const compare = jest.spyOn( props, 'compare', );
-	const transform = jest.spyOn( props, 'transform', );
+	const afterActionChange = vi.spyOn( props, 'afterActionChange', );
+	const compare = vi.spyOn( props, 'compare', );
+	const transform = vi.spyOn( props, 'transform', );
 	// @ts-expect-error TS is picky about the type of this
-	const increment = jest.spyOn( props.actions, 'increment', );
+	const increment = vi.spyOn( props.actions, 'increment', );
 
-	const getters = jest.fn(
+	const getters = vi.fn(
 		dispatch => ( {
 			doubleCount: () => dispatch.history.current.count * 2,
 		} ),
@@ -254,7 +255,7 @@ describe( 'createCTASelector', () => {
 	}, );
 
 	test( 'should cleanup subscribers on unmount', () => {
-		const selector = jest.fn( (
+		const selector = vi.fn( (
 			( ...args ) => args[ 0 ].current
 		) as Parameters<typeof useTestSelector>[0], ) as Parameters<typeof useTestSelector>[0];
 		const { unmount, } = renderHook( () => useTestSelector( selector, ), );

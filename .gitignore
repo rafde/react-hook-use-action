@@ -134,4 +134,4 @@ site/next-env.d.ts
 /site/tsconfig.tsbuildinfo
 
 .DS_Store
-!/.jest-cache/
+!/.test-cache/

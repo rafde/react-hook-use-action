@@ -1,3 +1,4 @@
+import { describe, test, vi, expect, } from 'vitest';
 import { act, renderHook, waitFor, } from '@testing-library/react';
 import { useCTA, } from '../src';
 import { UseCTAParameterAfterActionChange, } from '../src/types/UseCTAParameterAfterActionChange';
@@ -9,7 +10,7 @@ describe( 'useCTA parameter: afterActionChange', () => {
 	};
 
 	test( 'should not run when `update` is called a payload equals the current state', async() => {
-		const afterActionChange = jest.fn( afterActionChangeFn, );
+		const afterActionChange = vi.fn( afterActionChangeFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			afterActionChange,
@@ -23,7 +24,7 @@ describe( 'useCTA parameter: afterActionChange', () => {
 	}, );
 
 	test( 'should run after `update` has changed the hook state history', async() => {
-		const afterActionChange = jest.fn( afterActionChangeFn, );
+		const afterActionChange = vi.fn( afterActionChangeFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			afterActionChange,
@@ -42,7 +43,7 @@ describe( 'useCTA parameter: afterActionChange', () => {
 	}, );
 
 	test( 'should run after a custom action using `reset` has changed the hook state history', async() => {
-		const afterActionChange = jest.fn( afterActionChangeFn, );
+		const afterActionChange = vi.fn( afterActionChangeFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			afterActionChange,
@@ -69,8 +70,8 @@ describe( 'useCTA parameter: afterActionChange', () => {
 	}, );
 
 	test( 'should run after a custom action using overridden `replace` has changed the hook state history', async() => {
-		const afterActionChange = jest.fn( afterActionChangeFn, );
-		const replace = jest.fn( ( state, payload, ) => payload, );
+		const afterActionChange = vi.fn( afterActionChangeFn, );
+		const replace = vi.fn( ( state, payload, ) => payload, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			afterActionChange,
@@ -100,8 +101,8 @@ describe( 'useCTA parameter: afterActionChange', () => {
 	}, );
 
 	test( 'should run after a custom action using default `replace` has changed the hook state history', async() => {
-		const afterActionChange = jest.fn( afterActionChangeFn, );
-		const replace = jest.fn( ( state, payload, ) => payload, );
+		const afterActionChange = vi.fn( afterActionChangeFn, );
+		const replace = vi.fn( ( state, payload, ) => payload, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			afterActionChange,

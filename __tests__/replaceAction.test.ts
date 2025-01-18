@@ -1,3 +1,4 @@
+import { describe, test, expect, } from 'vitest';
 import { act, renderHook, } from '@testing-library/react';
 import { returnCTAParameter, useCTA, } from '../src';
 import { initial, } from './setup/simple';
