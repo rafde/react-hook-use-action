@@ -1,3 +1,4 @@
+import { describe, test, vi, expect, } from 'vitest';
 import { act, renderHook, } from '@testing-library/react';
 import { useCTA, UseCTAParameterCompare, } from '../src';
 
@@ -38,7 +39,7 @@ describe( 'useCTA parameter: compare', () => {
 			test1: new CompareTest( 'test', ),
 			test2: 2,
 		};
-		const compare = jest.fn( compareFn, );
+		const compare = vi.fn( compareFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			compare,
@@ -74,7 +75,7 @@ describe( 'useCTA parameter: compare', () => {
 	}, );
 
 	test( 'should not change when using custom compare function', () => {
-		const compare = jest.fn( compareFn, );
+		const compare = vi.fn( compareFn, );
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			compare,

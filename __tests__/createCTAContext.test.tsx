@@ -1,5 +1,7 @@
+import { describe, test, vi, expect, } from 'vitest';
 import { render, screen, waitFor, } from '@testing-library/react';
-import { useEffect, } from 'react';
+// @ts-expect-error vitest doesn't have types for this
+import React, { useEffect, } from 'react';
 import { createCTAContext, returnCTAParameter, } from '../src';
 
 const initialChanges = {
@@ -17,10 +19,10 @@ describe( 'createCTAContext', () => {
 		onInit: initial => initial,
 	}, );
 
-	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
-	const compare = jest.spyOn( props, 'compare', );
-	const transform = jest.spyOn( props, 'transform', );
-	const onInit = jest.spyOn( props, 'onInit', );
+	const afterActionChange = vi.spyOn( props, 'afterActionChange', );
+	const compare = vi.spyOn( props, 'compare', );
+	const transform = vi.spyOn( props, 'transform', );
+	const onInit = vi.spyOn( props, 'onInit', );
 
 	const ctaContext = createCTAContext( props, );
 

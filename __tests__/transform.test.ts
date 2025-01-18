@@ -32,7 +32,7 @@ describe( 'useCTA parameter: transform', () => {
 			test2,
 		};
 	};
-	const transform = jest.fn( _transform, );
+	const transform = vi.fn( _transform, );
 
 	test( 'should not transform the state payload', async() => {
 		const { result, } = renderHook( () => useCTA( {

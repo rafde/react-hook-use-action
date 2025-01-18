@@ -1,3 +1,4 @@
+import { describe, test, vi, expect, } from 'vitest';
 import { waitFor, } from '@testing-library/react';
 import { createCTA, returnCTAParameter, } from '../src';
 import createCTAHistory from '../src/internal/createCTAHistory';
@@ -19,10 +20,10 @@ describe( 'createCTA', () => {
 		onInit: initial => initial,
 	}, );
 
-	const afterActionChange = jest.spyOn( props, 'afterActionChange', );
-	const compare = jest.spyOn( props, 'compare', );
-	const transform = jest.spyOn( props, 'transform', );
-	const onInit = jest.spyOn( props, 'onInit', );
+	const afterActionChange = vi.spyOn( props, 'afterActionChange', );
+	const compare = vi.spyOn( props, 'compare', );
+	const transform = vi.spyOn( props, 'transform', );
+	const onInit = vi.spyOn( props, 'onInit', );
 
 	test( 'should initialize with correct default state', async() => {
 		const [state,] = createCTA( {
@@ -261,11 +262,11 @@ describe( 'createCTA', () => {
 
 	test( 'should handle optional parameters', () => {
 		const payload = { count: 3, };
-		const compare = jest.fn( ( a: unknown, b: unknown, ) => JSON.stringify( a, ) === JSON.stringify( b, ), );
-		const afterActionChange = jest.fn( () => {
+		const compare = vi.fn( ( a: unknown, b: unknown, ) => JSON.stringify( a, ) === JSON.stringify( b, ), );
+		const afterActionChange = vi.fn( () => {
 			// ensure this is called after the action has changed data
 		}, );
-		const transform = jest.fn( payload => payload, );
+		const transform = vi.fn( payload => payload, );
 		const [, dispatch,] = createCTA( {
 			initial,
 			compare,

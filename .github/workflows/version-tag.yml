@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ${{ github.workspace }}/.jest-cache
+            ${{ github.workspace }}/.test-cache
           key: ${{ runner.os }}-test-${{ hashFiles('{src,__tests__}/**/*.{ts,tsx}') }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-test-

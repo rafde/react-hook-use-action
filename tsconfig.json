@@ -13,7 +13,7 @@
     "jsxImportSource": "react",
     "lib": [
       "ESNext",
-      "DOM",
+      "DOM"
     ],
     "module": "esnext",
     "moduleResolution": "node",
@@ -25,6 +25,9 @@
     "strict": true,
     "strictBindCallApply": true,
     "strictNullChecks": true,
+    "types": [
+      "vitest/globals"
+    ]
   },
   "exclude": [
     "./node_modules",
@@ -33,6 +36,7 @@
   ],
   "include": [
     "src/**/*.ts",
-    "__tests__/**/*"
+    "__tests__/**/*",
+    "vitest.config.ts"
   ]
 }
