@@ -6,11 +6,9 @@ import {
 	type Context,
 } from 'react';
 import createCTAHistory from './internal/createCTAHistory';
-import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTAContextReturn, } from './types/CreateCTAContextReturn';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type {
 	UseCTAParameterCreateFunc,
@@ -154,14 +152,13 @@ import { useCTA, } from './useCTA';
  */
 export function createCTAContext<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	FR extends UseCTAParameterCreateFuncReturnRecord,
-	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
 	props: UseCTAParameter<Initial, Actions>,
 	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
-): CreateCTAContextReturn<Initial, ActionsRecord, FR > {
-	type ReturnType = UseCTAReturnType<Initial, ActionsRecord, FR, void>;
+): CreateCTAContextReturn<Initial, Actions, FR > {
+	type ReturnType = UseCTAReturnType<Initial, Actions, FR, void>;
 	const CTAContextHistory = createContext(
 		createCTAHistory( { initial: props.initial, }, ),
 	);

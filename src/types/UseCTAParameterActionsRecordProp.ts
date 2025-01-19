@@ -76,5 +76,4 @@ export type UseCTAParameterActionsRecordProp<
 			ctaState: CustomCTAHistory<Payload>,
 			...args: never[]
 		) => CustomCTAReturnType<Payload> )
-		| ( () => Partial<Payload> )
 };

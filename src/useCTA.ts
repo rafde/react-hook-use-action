@@ -5,10 +5,8 @@ import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
 import type { CTAReducerState, } from './internal/ctaReducer';
-import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type {
 	UseCTAParameterCreateFunc,
@@ -153,13 +151,12 @@ import type { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispa
  */
 export function useCTA<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	FR extends UseCTAParameterCreateFuncReturnRecord,
-	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	props: UseCTAParameter<Initial, ActionsRecord>,
-	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
-): UseCTAReturnType<Initial, ActionsRecord, FR, void> {
+	props: UseCTAParameter<Initial, Actions>,
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
+): UseCTAReturnType<Initial, Actions, FR, void> {
 	const actions = useMemo(
 		() => {
 			if ( props.actions && typeof props.actions === 'object' ) {

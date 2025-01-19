@@ -2,14 +2,12 @@ import { strictDeepEqual, } from 'fast-equals';
 import { useCallback, useMemo, useRef, useSyncExternalStore, } from 'react';
 import createCTABase from './internal/createCTABase';
 
-import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CreateCTASelectorProps, } from './types/CreateCTASelectorProps';
 import type {
 	UseCTASelector,
 	CTASelector,
 } from './types/UseCTASelector';
 import type { CTAState, } from './types/CTAState';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type {
 	UseCTAParameterCreateFunc,
@@ -86,13 +84,12 @@ import type { UseCTAParameterTransform, } from './types/UseCTAParameterTransform
  */
 export function createCTASelector<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	FR extends UseCTAParameterCreateFuncReturnRecord,
-	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	props: CreateCTASelectorProps<Initial, ActionsRecord>,
-	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, void> = () => ( {} as FR ),
-): UseCTASelector<Initial, ActionsRecord, FR> {
+	props: CreateCTASelectorProps<Initial, Actions>,
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
+): UseCTASelector<Initial, Actions, FR> {
 	const ctaReducerResults = createCTABase(
 		{
 			...props,
@@ -119,7 +116,7 @@ export function createCTASelector<
 		return dispatch.history;
 	}
 
-	type Selector = CTASelector<Initial, ActionsRecord, FR>;
+	type Selector = CTASelector<Initial, Actions, FR>;
 	const listeners = new Set<Selector>();
 	function subscribe( listener: Selector, ) {
 		listeners.add( listener, );
@@ -128,13 +125,13 @@ export function createCTASelector<
 		};
 	}
 
-	const defaultSelector: CTASelector<Initial, ActionsRecord, FR, UseCTAReturnType<Initial, ActionsRecord, FR, void>> = ( { dispatch, ...history }, ) => [
+	const defaultSelector: CTASelector<Initial, Actions, FR, UseCTAReturnType<Initial, Actions, FR, void>> = ( { dispatch, ...history }, ) => [
 		history,
 		dispatch,
 	];
 
 	function useCTASelector<
-		Selector extends CTASelector<Initial, ActionsRecord, FR> = typeof defaultSelector,
+		Selector extends CTASelector<Initial, Actions, FR> = typeof defaultSelector,
 	>( _selector?: Selector, ) {
 		const selector = useMemo(
 			() => {
@@ -166,7 +163,7 @@ export function createCTASelector<
 		);
 	}
 	return Object.assign(
-		useCTASelector as UseCTASelector<Initial, ActionsRecord, FR>,
+		useCTASelector as UseCTASelector<Initial, Actions, FR>,
 		{
 			dispatch,
 			getHistory,

@@ -1,7 +1,5 @@
-import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
@@ -44,8 +42,7 @@ import type { UseCTAParameterAfterActionChange, } from './types/UseCTAParameterA
  */
 export function returnCTAParameter<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
-	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
->( props: UseCTAParameter<Initial, ActionsRecord>, ): UseCTAParameter<Initial, ActionsRecord> {
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
+>( props: UseCTAParameter<Initial, Actions>, ): UseCTAParameter<Initial, Actions> {
 	return props;
 }
