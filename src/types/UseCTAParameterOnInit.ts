@@ -1,4 +1,4 @@
-import { CTAState, } from './CTAState';
+import type { CTAState, } from './CTAState';
 
 /**
  * A `function` than runs once on component mount.

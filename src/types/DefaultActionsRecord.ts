@@ -1,5 +1,5 @@
 import type { CTAState, } from './CTAState';
-import { UseCTAParameterActionsOptionalDefaultRecord, } from './UseCTAParameterActionsOptionalDefaultRecord';
+import type { UseCTAParameterActionsOptionalDefaultRecord, } from './UseCTAParameterActionsOptionalDefaultRecord';
 
 export type DefaultActionsRecord<
 	Payload extends CTAState,

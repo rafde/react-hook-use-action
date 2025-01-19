@@ -1,5 +1,5 @@
 import type { CTAState, } from './CTAState';
-import { Dispatch, } from './UseCTAReturnTypeDispatch';
+import type { Dispatch, } from './UseCTAReturnTypeDispatch';
 
 export type DispatchParameterTypes<
 	Payload extends CTAState,
