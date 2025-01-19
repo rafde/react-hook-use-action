@@ -1,4 +1,5 @@
 import { strictDeepEqual, } from 'fast-equals';
+import type { NestedKeys, } from 'src/types/NestedKeys';
 import type { CTAState, } from '../types/CTAState';
 import type { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
 
@@ -11,7 +12,7 @@ export default function compareCallback<Initial extends CTAState,>( compare?: Us
 		};
 	}
 
-	return function cmp( previousValue: StrictDeepEqualParameters[0], nextValue: StrictDeepEqualParameters[1], key: keyof Initial, ) {
+	return function cmp( previousValue: StrictDeepEqualParameters[0], nextValue: StrictDeepEqualParameters[1], key: NestedKeys<Initial>, ) {
 		return Boolean( compare(
 			previousValue,
 			nextValue,
@@ -23,4 +24,4 @@ export default function compareCallback<Initial extends CTAState,>( compare?: Us
 	};
 }
 
-export type CompareCallbackReturnType = ReturnType<typeof compareCallback>;
+export type CompareCallbackReturnType<Initial extends CTAState = CTAState,> = ReturnType<typeof compareCallback<Initial>>;

@@ -3,6 +3,7 @@ import type { CustomCTAReturnType, } from './CustomCTAReturnType';
 
 import type { CTAHistory, } from './CTAHistory';
 import type { CTAState, } from './CTAState';
+import type { NestedPartial, } from './NestedPartial';
 
 /**
  * `object` type for defining custom and/or overridden state management actions. It gives you access to the following capabilities:
@@ -19,6 +20,9 @@ import type { CTAState, } from './CTAState';
  *
  * @template {CTAState} Payload - Extended {@link CTAState} hook state.
  *
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['updateDeep']} [updateDeep]
+ * - Partially updates deeply merges properties in {@link CTAHistory}.`current` state.
+ *
  * @property {UseCTAParameterActionsRecordProp<CTAState>['update']} [update]
  * - Partially updates properties in {@link CTAHistory}.`current` state.
  *
@@ -28,6 +32,9 @@ import type { CTAState, } from './CTAState';
  * @property {UseCTAParameterActionsRecordProp<CTAState>['reset']} [reset]
  * - Resets the {@link CTAHistory}.`current` state to {@link CTAHistory}.`initial` state
  * <b>or</b> replaces {@link CTAHistory}.`initial` and {@link CTAHistory}.`current` state when a {@link CTAState Payload} is provided.
+ *
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['updateInitialDeep']} [updateInitialDeep]
+ * - Partially updates deeply merges properties in {@link CTAHistory}.`initial` state.
  *
  * @property {UseCTAParameterActionsRecordProp<CTAState>['updateInitial']} [updateInitial]
  * - Partially updates properties in {@link CTAHistory}.`initial` state.
@@ -48,11 +55,11 @@ import type { CTAState, } from './CTAState';
 export type UseCTAParameterActionsRecordProp<
 	Payload extends CTAState,
 > = {
-	update?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: Partial<Payload>
-	) => Partial<Payload> | undefined
 	replace?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Payload
+	) => Payload | undefined
+	replaceInitial?: (
 		ctaHistory: CTAHistory<Payload>,
 		payload: Payload
 	) => Payload | undefined
@@ -60,14 +67,22 @@ export type UseCTAParameterActionsRecordProp<
 		ctaHistory: CTAHistory<Payload>,
 		payload?: Payload
 	) => Payload | undefined
+	update?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: Partial<Payload>
+	) => Partial<Payload> | undefined
+	updateDeep?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: NestedPartial<Payload>
+	) => NestedPartial<Payload> | undefined
 	updateInitial?: (
 		ctaHistory: CTAHistory<Payload>,
 		payload: Partial<Payload>
 	) => Partial<Payload> | undefined
-	replaceInitial?: (
+	updateInitialDeep?: (
 		ctaHistory: CTAHistory<Payload>,
-		payload: Payload
-	) => Payload | undefined
+		payload: NestedPartial<Payload>
+	) => NestedPartial<Payload> | undefined
 }
 	&
 {
