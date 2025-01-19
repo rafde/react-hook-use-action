@@ -1,6 +1,6 @@
 import { describe, test, expect, } from 'vitest';
 import { act, renderHook, } from '@testing-library/react';
-import { useCTA, } from '../src';
+import {returnCTAParameter, useCTA,} from '../src';
 import {
 	arbitraryKey,
 	changes,
@@ -10,11 +10,14 @@ import {
 	updateInitialCTAParam,
 } from './setup/simple';
 
-const actions = {
-	customAction() {
-		return undefined;
-	},
-};
+const actions = returnCTAParameter( {
+	initial,
+	actions: {
+		customAction(a) {
+			return {};
+		},
+	}
+}).actions;
 
 describe( 'dispatch.cta.updateInitial( payload )', function() {
 	test( 'should `updateInitial`', function() {
@@ -266,10 +269,11 @@ describe( 'dispatch.cta.updateInitial( payload )', function() {
 
 			test( 'should `updateInitial` when custom action is defined', function() {
 				const { result, } = renderHook( () => useCTA( {
+					...updateInitialCTAParam,
 					initial,
 					actions: {
-						...updateInitialCTAParam,
-						...actions,
+						...updateInitialCTAParam.actions,
+						...actions
 					},
 				}, ), );
 

@@ -1,9 +1,7 @@
 import createCTABase from './internal/createCTABase';
 
-import type { ActionsRecordProp, } from './types/ActionsRecordProp';
 import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
-import type { UseCTAParameterActionsOptionalDefaultRecord, } from './types/UseCTAParameterActionsOptionalDefaultRecord';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';
 import type { CreateCTAProps, } from './types/CreateCTAProps';
 import type {
@@ -142,15 +140,14 @@ import type { UseCTAReturnTypeDispatchCTA, } from './types/UseCTAReturnTypeDispa
  */
 export function createCTA<
 	Initial extends CTAState,
-	Actions extends UseCTAParameterActionsRecordProp<Initial> | undefined,
+	Actions extends UseCTAParameterActionsRecordProp<Initial>,
 	FR extends UseCTAParameterCreateFuncReturnRecord,
-	ActionsRecord = Actions extends undefined ? UseCTAParameterActionsOptionalDefaultRecord<Initial> : Actions extends UseCTAParameterActionsRecordProp<Initial> ? ActionsRecordProp<Initial, Actions> : never,
 >(
-	props: CreateCTAProps<Initial, ActionsRecord>,
-	createFunc: UseCTAParameterCreateFunc<Initial, ActionsRecord, FR, CTAHistory<Initial>> = () => ( {} as FR ),
+	props: CreateCTAProps<Initial, Actions>,
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, CTAHistory<Initial>> = () => ( {} as FR ),
 ): [
 		CTAHistory<Initial>,
-		UseCTAReturnTypeDispatch<Initial, ActionsRecord, FR, CTAHistory<Initial>>,
+		UseCTAReturnTypeDispatch<Initial, Actions, FR, CTAHistory<Initial>>,
 	] {
 	const { history, dispatch, } = createCTABase( props, createFunc, );
 
