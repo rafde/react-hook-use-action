@@ -10,6 +10,9 @@ import type {
 	Dispatch,
 	UseCTAReturnTypeDispatch,
 } from '../types/UseCTAReturnTypeDispatch';
+import builtInActions from './builtInActions';
+import createObjectFromArrayPath from './createObjectFromArrayPath';
+import createObjectFromPath from './createObjectFromPath';
 
 import ctaReducer from './ctaReducer';
 
@@ -27,40 +30,93 @@ export default function createDispatchInterface<
 	const cta = {
 		replace: payload => dispatch( {
 			payload,
-			type: 'replace',
+			type: builtInActions.replace,
 		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		replaceInitial: payload => dispatch( {
 			payload,
-			type: 'replaceInitial',
+			type: builtInActions.replaceInitial,
 		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		reset: payload => dispatch( {
 			payload,
-			type: 'reset',
+			type: builtInActions.reset,
 		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		update( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
-					type: 'update',
+					type: builtInActions.update,
 				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
-				type: 'update',
+				type: builtInActions.update,
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+		},
+		updateDeep( payload: unknown, value: unknown, ) {
+			if ( Array.isArray( payload, ) ) {
+				return dispatch( {
+					payload: createObjectFromArrayPath( payload, value, ),
+					type: builtInActions.updateDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'number' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: builtInActions.updateDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'string' ) {
+				return dispatch( {
+					payload: createObjectFromPath( payload, value, ),
+					type: builtInActions.updateDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			return dispatch( {
+				payload,
+				type: builtInActions.updateDeep,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 		updateInitial( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
 					payload: { [ payload ]: value, },
-					type: 'updateInitial',
+					type: builtInActions.updateInitial,
 				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 			}
 
 			return dispatch( {
 				payload,
-				type: 'updateInitial',
+				type: builtInActions.updateInitial,
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+		},
+		updateInitialDeep( payload: unknown, value: unknown, ) {
+			if ( Array.isArray( payload, ) ) {
+				return dispatch( {
+					payload: createObjectFromArrayPath( payload, value, ),
+					type: builtInActions.updateInitialDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+			if ( typeof payload === 'number' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: builtInActions.updateInitialDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'string' ) {
+				return dispatch( {
+					payload: createObjectFromPath( payload, value, ),
+					type: builtInActions.updateInitialDeep,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			return dispatch( {
+				payload,
+				type: builtInActions.updateInitialDeep,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 	} as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>['cta'];

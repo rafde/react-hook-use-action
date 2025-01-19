@@ -1,4 +1,5 @@
 import { strictDeepEqual, } from 'fast-equals';
+import type { NestedKeys, } from './NestedKeys';
 import type { CTAState, } from './CTAState';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Used in the JSDoc comment.
 import type { CTAHistory, } from './CTAHistory';
@@ -22,6 +23,6 @@ export type UseCTAParameterCompare<State extends CTAState,> = (
 	nextValue: unknown,
 	extra: {
 		cmp: typeof strictDeepEqual
-		key: keyof State
+		key: NestedKeys<State> | keyof State
 	}
 ) => boolean;

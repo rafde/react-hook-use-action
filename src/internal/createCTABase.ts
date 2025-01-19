@@ -1,8 +1,9 @@
 import compareCallback from './compareCallback';
 import createDispatchInterface from './createDispatchInterface';
 import createCTAHistory from './createCTAHistory';
-import ctaReducer, { type CTAReducerState, } from './ctaReducer';
+import ctaReducer from './ctaReducer';
 
+import type { CTAReducerState, } from 'src/types/CTAReducerState';
 import type { UseCTAParameterAfterActionChange, } from '../types/UseCTAParameterAfterActionChange';
 import type { UseCTAParameterCompare, } from '../types/UseCTAParameterCompare';
 import type {

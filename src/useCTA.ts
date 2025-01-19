@@ -4,7 +4,7 @@ import createCTAHistory from './internal/createCTAHistory';
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
-import type { CTAReducerState, } from './internal/ctaReducer';
+import type { CTAReducerState, } from './types/CTAReducerState';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
 import type { UseCTAParameterActionsRecordProp, } from './types/UseCTAParameterActionsRecordProp';

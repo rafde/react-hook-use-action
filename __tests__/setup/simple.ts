@@ -100,3 +100,48 @@ export const updateInitialCTAParam = returnCTAParameter( {
 		},
 	},
 }, );
+
+export const nestedInitial = {
+	user: {
+		'profile.name': 'John',
+		'[profile.name]': 'John',
+		profile: {
+			name: 'John',
+			contacts: [
+				{type: 'email', value: 'john.doe@example.com'},
+			],
+			settings: {
+				notifications: {
+					email: true,
+					push: true,
+					frequency: {
+						daily: 5,
+						weekly: 10
+					},
+					favoriteDays: ['Monday', 'Wednesday', 'Friday']
+				},
+				theme: {
+					mode: 'light',
+					colors: {
+						primary: '#111',
+						secondary: '#fff'
+					}
+				}
+			}
+		},
+		metadata: {
+			lastLogin: new Date('2023-04-01'),
+			visits: 43,
+			preferences: new Set(['music', 'sports'])
+		}
+	},
+	'[friends]': ['Jim'],
+	'.[friends]': ['Jim'],
+	'.[friends].': ['Jim'],
+	'.[.].': ['Jim'],
+	'.[.].[asdf.dddd]': ['Jim'],
+	1: {
+		greet: 'hello',
+		friendly: true
+	},
+}

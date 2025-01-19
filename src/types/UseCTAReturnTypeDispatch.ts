@@ -6,6 +6,7 @@ import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 import type { DispatchCTA, } from './DispatchCTA';
 import type { DispatchValueActionPayloadArgsProps, } from './DispatchValueActionPayloadArgsProps';
 import type { Immutable, } from './Immutable';
+import type { NestedPartial, } from './NestedPartial';
 
 import type { UseCTAParameterCreateFuncReturnRecord, } from './UseCTAParameterCreateFunc';
 
@@ -93,6 +94,11 @@ export type Dispatch<
 		| {
 			type: 'update' | 'updateInitial'
 			payload: Partial<Payload> | ( ( ctaHistory: CTAHistory<Payload> ) => Partial<Payload> | undefined )
+			args?: never
+		}
+		| {
+			type: 'updateDeep' | 'updateInitialDeep'
+			payload: NestedPartial<Payload> | ( ( ctaHistory: CTAHistory<Payload> ) => NestedPartial<Payload> | undefined )
 			args?: never
 		}
 		| {

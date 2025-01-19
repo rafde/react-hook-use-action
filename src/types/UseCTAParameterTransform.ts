@@ -29,7 +29,7 @@ export type UseCTAParameterTransform<
 > = (
 	nextState: Exclude<NextState, undefined>,
 	transformCTAHistory: {
-		actionType: keyof ActionType
-		customAction?: string | number
+		readonly actionType: keyof ActionType
+		readonly customAction?: string | number
 	} & CTAHistory<State>,
 ) => NextState;
