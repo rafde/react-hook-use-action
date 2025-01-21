@@ -53,42 +53,48 @@ import type { NestedPartial, } from './NestedPartial';
  * They are defined as Records of functions that accepts 0 to any number of parameters.
  */
 export type UseCTAParameterActionsRecordProp<
-	Payload extends CTAState,
+	State extends CTAState,
 > = {
-	deepUpdate?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: NestedPartial<Payload>
-	) => NestedPartial<Payload> | undefined
-	deepUpdateInitial?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: NestedPartial<Payload>
-	) => NestedPartial<Payload> | undefined
+	deepUpdate?: <
+		Payload extends NestedPartial<State>,
+		Output extends NestedPartial<State>,
+	>(
+		ctaHistory: CTAHistory<State>,
+		payload: Payload
+	) => Output | Payload | ( Output & Payload ) | undefined
+	deepUpdateInitial?: <
+		Payload extends NestedPartial<State>,
+		Output extends NestedPartial<State>,
+	>(
+		ctaHistory: CTAHistory<State>,
+		payload: Payload
+	) => Output | Payload | ( Output & Payload ) | undefined
 	replace?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: Payload
-	) => Payload | undefined
+		ctaHistory: CTAHistory<State>,
+		payload: State
+	) => State | undefined
 	replaceInitial?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: Payload
-	) => Payload | undefined
+		ctaHistory: CTAHistory<State>,
+		payload: State
+	) => State | undefined
 	reset?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload?: Payload
-	) => Payload | undefined
+		ctaHistory: CTAHistory<State>,
+		payload?: State
+	) => State | undefined
 	update?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: Partial<Payload>
-	) => Partial<Payload> | undefined
+		ctaHistory: CTAHistory<State>,
+		payload: Partial<State>
+	) => Partial<State> | undefined
 	updateInitial?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: Partial<Payload>
-	) => Partial<Payload> | undefined
+		ctaHistory: CTAHistory<State>,
+		payload: Partial<State>
+	) => Partial<State> | undefined
 }
 	&
 {
 	[p: string | number]: undefined
 		| ( (
-			ctaState: CustomCTAHistory<Payload>,
+			ctaState: CustomCTAHistory<State>,
 			...args: never[]
-		) => CustomCTAReturnType<Payload> )
+		) => CustomCTAReturnType<State> )
 };
