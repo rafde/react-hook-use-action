@@ -136,10 +136,6 @@ export const nestedInitial = {
 		}
 	},
 	'[friends]': ['Jim'],
-	'.[friends]': ['Jim'],
-	'.[friends].': ['Jim'],
-	'.[.].': ['Jim'],
-	'.[.].[asdf.dddd]': ['Jim'],
 	1: {
 		greet: 'hello',
 		friendly: true
