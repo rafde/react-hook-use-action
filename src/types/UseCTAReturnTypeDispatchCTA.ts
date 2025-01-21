@@ -55,18 +55,18 @@ export type UseCTAReturnTypeDispatchCTA<
 		value: Payload[K]
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.updateDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.deepUpdate}
 	 */
-	updateDeep(
+	deepUpdate(
 		payload: NestedPartial<Payload> | (
 			( ctaHistory: CTAHistory<Payload> ) => NestedPartial<Payload> | undefined
 		),
 		_?: never
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.updateDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.deepUpdate}
 	 */
-	updateDeep<K extends keyof Payload, >(
+	deepUpdate<K extends keyof Payload, >(
 		key: K,
 		value: Payload[K] extends Record<
 			string | number | symbol,
@@ -74,7 +74,7 @@ export type UseCTAReturnTypeDispatchCTA<
 		> ? NestedPartial<NestedValue<Payload, K >>
 			: Payload[K]
 	): ReturnValue
-	updateDeep<K extends NestedKeys<Payload>, >(
+	deepUpdate<K extends NestedKeys<Payload>, >(
 		key: K,
 		value: NestedValue<Payload, K> extends Record<
 			string | number | symbol,
@@ -83,9 +83,9 @@ export type UseCTAReturnTypeDispatchCTA<
 			: NestedValue<Payload, K>
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.updateDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.deepUpdate}
 	 */
-	updateDeep<K extends NestedKeyArray<Payload>,>(
+	deepUpdate<K extends NestedKeyArray<Payload>,>(
 		key: K,
 		value: NestedArrayValue<Payload, K> extends Record<
 			string | number | symbol,
@@ -110,15 +110,15 @@ export type UseCTAReturnTypeDispatchCTA<
 		value: Payload[K]
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.updateInitialDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.deepUpdateInitial}
 	 */
-	updateInitialDeep(
+	deepUpdateInitial(
 		payload: NestedPartial<Payload> | (
 			( ctaHistory: CTAHistory<Payload> ) => NestedPartial<Payload> | undefined
 		),
 		_?: never
 	): ReturnValue
-	updateInitialDeep<K extends keyof Payload, >(
+	deepUpdateInitial<K extends keyof Payload, >(
 		key: K,
 		value: Payload[K] extends Record<
 					string | number | symbol,
@@ -127,9 +127,9 @@ export type UseCTAReturnTypeDispatchCTA<
 			: Payload[K]
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.updateInitialDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.deepUpdateInitial}
 	 */
-	updateInitialDeep<K extends NestedKeys<Payload>, >(
+	deepUpdateInitial<K extends NestedKeys<Payload>, >(
 		key: K,
 		value: NestedValue<Payload, K> extends Record<
 			string | number | symbol,
@@ -138,9 +138,9 @@ export type UseCTAReturnTypeDispatchCTA<
 			: NestedValue<Payload, K>
 	): ReturnValue
 	/**
-	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.updateInitialDeep}
+	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.deepUpdateInitial}
 	 */
-	updateInitialDeep<K extends NestedKeyArray<Payload>, >(
+	deepUpdateInitial<K extends NestedKeyArray<Payload>, >(
 		key: K,
 		value: NestedArrayValue<Payload, K> extends Record<
 			string | number | symbol,

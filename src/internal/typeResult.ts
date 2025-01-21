@@ -389,7 +389,7 @@ export default function typeResult<
 				payload: transformedNext as Partial<Initial>,
 			}, );
 			break;
-		case builtInActions.updateInitialDeep:
+		case builtInActions.deepUpdateInitial:
 			result = _updateInitial( {
 				actionType: type,
 				compare: compare as CompareCallbackReturnType<Partial<Initial>>,
@@ -399,7 +399,7 @@ export default function typeResult<
 				payload: transformedNext as Partial<Initial>,
 			}, );
 			break;
-		case builtInActions.updateDeep:
+		case builtInActions.deepUpdate:
 			result = _updateCurrent( {
 				actionType: type,
 				compare: compare as CompareCallbackReturnType<Partial<Initial>>,

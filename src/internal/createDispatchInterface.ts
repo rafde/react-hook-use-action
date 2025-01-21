@@ -28,6 +28,59 @@ export default function createDispatchInterface<
 	actions?: Actions,
 ): UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue> {
 	const cta = {
+		deepUpdate( payload: unknown, value: unknown, ) {
+			if ( Array.isArray( payload, ) ) {
+				return dispatch( {
+					payload: createObjectFromArrayPath( payload, value, ),
+					type: builtInActions.deepUpdate,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'number' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: builtInActions.deepUpdate,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'string' ) {
+				return dispatch( {
+					payload: createObjectFromPath( payload, value, ),
+					type: builtInActions.deepUpdate,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			return dispatch( {
+				payload,
+				type: builtInActions.deepUpdate,
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+		},
+		deepUpdateInitial( payload: unknown, value: unknown, ) {
+			if ( Array.isArray( payload, ) ) {
+				return dispatch( {
+					payload: createObjectFromArrayPath( payload, value, ),
+					type: builtInActions.deepUpdateInitial,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+			if ( typeof payload === 'number' ) {
+				return dispatch( {
+					payload: { [ payload ]: value, },
+					type: builtInActions.deepUpdateInitial,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			if ( typeof payload === 'string' ) {
+				return dispatch( {
+					payload: createObjectFromPath( payload, value, ),
+					type: builtInActions.deepUpdateInitial,
+				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+			}
+
+			return dispatch( {
+				payload,
+				type: builtInActions.deepUpdateInitial,
+			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
+		},
 		replace: payload => dispatch( {
 			payload,
 			type: builtInActions.replace,
@@ -53,33 +106,6 @@ export default function createDispatchInterface<
 				type: builtInActions.update,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
-		updateDeep( payload: unknown, value: unknown, ) {
-			if ( Array.isArray( payload, ) ) {
-				return dispatch( {
-					payload: createObjectFromArrayPath( payload, value, ),
-					type: builtInActions.updateDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'number' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.updateDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'string' ) {
-				return dispatch( {
-					payload: createObjectFromPath( payload, value, ),
-					type: builtInActions.updateDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			return dispatch( {
-				payload,
-				type: builtInActions.updateDeep,
-			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-		},
 		updateInitial( payload: unknown, value: unknown, ) {
 			if ( typeof payload === 'number' || typeof payload === 'string' ) {
 				return dispatch( {
@@ -91,32 +117,6 @@ export default function createDispatchInterface<
 			return dispatch( {
 				payload,
 				type: builtInActions.updateInitial,
-			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-		},
-		updateInitialDeep( payload: unknown, value: unknown, ) {
-			if ( Array.isArray( payload, ) ) {
-				return dispatch( {
-					payload: createObjectFromArrayPath( payload, value, ),
-					type: builtInActions.updateInitialDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-			if ( typeof payload === 'number' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.updateInitialDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'string' ) {
-				return dispatch( {
-					payload: createObjectFromPath( payload, value, ),
-					type: builtInActions.updateInitialDeep,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			return dispatch( {
-				payload,
-				type: builtInActions.updateInitialDeep,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 	} as UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue>['cta'];

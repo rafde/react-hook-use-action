@@ -3,7 +3,7 @@ import { describe, test, expect, } from 'vitest';
 import {useCTA} from "../src";
 import {nestedInitial} from "./setup/simple";
 
-describe('dispatch.cta.updateInitialDeep', () => {
+describe('dispatch.cta.deepUpdate', () => {
 	const initial = nestedInitial;
 
 	test('updates a deep property with nested partial', () => {
@@ -31,10 +31,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 		}, ), );
 
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( changes, );
+			result.current[ 1 ].cta.deepUpdate( changes, );
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -67,10 +67,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( ['user', 'profile', 'settings', 'notifications'],  changes,);
+			result.current[ 1 ].cta.deepUpdate( ['user', 'profile', 'settings', 'notifications'],  changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -98,10 +98,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( ['[friends]'],  changes,);
+			result.current[ 1 ].cta.deepUpdate( ['[friends]'],  changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			'[friends]': changes,
 		}, );
@@ -113,10 +113,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( ['user', 'profile', 'settings', 'notifications', 'email'],  changes,);
+			result.current[ 1 ].cta.deepUpdate( ['user', 'profile', 'settings', 'notifications', 'email'],  changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -145,10 +145,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( 'user.profile.settings.notifications',  changes,);
+			result.current[ 1 ].cta.deepUpdate( 'user.profile.settings.notifications',  changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -176,10 +176,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( '[friends]',  changes,);
+			result.current[ 1 ].cta.deepUpdate( '[friends]',  changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			'[friends]': changes,
 		}, );
@@ -191,10 +191,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( 'user.profile.settings.notifications.email', changes,);
+			result.current[ 1 ].cta.deepUpdate( 'user.profile.settings.notifications.email', changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -224,10 +224,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( 'user', changes,);
+			result.current[ 1 ].cta.deepUpdate( 'user', changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			user: {
 				...initial.user,
@@ -257,10 +257,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 		};
 
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( 'user.profile.name', changes,);
+			result.current[ 1 ].cta.deepUpdate( 'user.profile.name', changes,);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( res1, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( res1, );
 
 		const res2 = {
 			...initial,
@@ -274,9 +274,9 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			}
 		};
 		act( () => {
-			result.current[1].cta.updateInitialDeep('user.profile\\.name', changes,);
+			result.current[1].cta.deepUpdate('user.profile\\.name', changes,);
 		});
-		expect( result.current[ 0 ].initial, ).toStrictEqual( res2, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( res2, );
 
 		const res3 = {
 			...res2,
@@ -290,27 +290,26 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			}
 		};
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( 'user.[profile\\.name]', changes,);
+			result.current[ 1 ].cta.deepUpdate( 'user.[profile\\.name]', changes,);
 		});
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( res3, );
+		expect( result.current[ 0 ].current, ).toStrictEqual( res3, );
 	});
 
 	test('updates [friends] value', () => {
 		const changes = ['Jon'];
-		const { result, } = renderHook( () => useCTA( {
+		const {result,} = renderHook(() => useCTA({
 			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep( '[friends]', changes,);
-		}, );
+		},),);
+		act(() => {
+			result.current[1].cta.deepUpdate('[friends]', changes,);
+		},);
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect(result.current[0].current,).toStrictEqual({
 			...initial,
 			'[friends]': changes,
-		}, );
+		},);
 	});
-
 
 	test('updates key 1 value', () => {
 		const changes =  {
@@ -320,10 +319,10 @@ describe('dispatch.cta.updateInitialDeep', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.updateInitialDeep(1, changes);
+			result.current[ 1 ].cta.deepUpdate(1, changes);
 		}, );
 
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+		expect( result.current[ 0 ].current, ).toStrictEqual( {
 			...initial,
 			1: {
 				...initial[ 1 ],
