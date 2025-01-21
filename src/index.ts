@@ -16,4 +16,4 @@ export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
 
-export type { NestedCTAStateValue, } from './types/NestedCTAStateValue';
+export type { GetCTAStateValue, } from './types/GetCTAStateValue';

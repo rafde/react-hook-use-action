@@ -104,14 +104,14 @@ export const updateInitialCTAParam = returnCTAParameter( {
 export const nestedInitial = {
 	user: {
 		'profile.name': 'John',
-		'[profile.name]': 'John',
+		'[profile.name]': 'John' as string | null | undefined,
 		profile: {
 			name: 'John',
 			contacts: [
 				{ type: 'email',
 					value: 'john.doe@example.com', },
 			],
-			settings: {
+			1: {
 				notifications: {
 					email: true,
 					push: true,
@@ -121,8 +121,8 @@ export const nestedInitial = {
 					},
 					favoriteDays: ['Monday', 'Wednesday', 'Friday',],
 				},
-				theme: {
-					mode: 'light',
+				'the.me.s': {
+					mode: 'light' as 'light' | 'dark',
 					colors: {
 						primary: '#111',
 						secondary: '#fff',

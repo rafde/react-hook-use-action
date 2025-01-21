@@ -1,4 +1,4 @@
-// worst case, consider https://github.com/sindresorhus/type-fest/blob/main/source/paths.d.ts
+// if this doesn't work consider https://github.com/sindresorhus/type-fest/blob/main/source/paths.d.ts
 
 type IsPlainObject<T,> = T extends Record<string | number | symbol, unknown>
 	? T extends Array<unknown>
@@ -17,18 +17,27 @@ type IsPlainObject<T,> = T extends Record<string | number | symbol, unknown>
 							: true
 	: false;
 
-type EscapeDots<S extends string,> = S extends `${infer F}.${infer R}`
+type IsArray<T,> = T extends Array<infer U> ? U : never;
+
+type EscapeDots<S extends ( string | number ),> = S extends `${infer F}.${infer R}`
 	? `${F}\\.${EscapeDots<R>}`
 	: S;
 
+type ArrayKey<K extends string | number, T,> =
+	| K
+	| `${K}.${number}`
+	| `${K}.${number}.${NestedKeys<IsArray<T>>}`;
+
 export type NestedKeys<T,> = T extends Record<string | number | symbol, unknown>
 	? {
-		[K in keyof T & string]: IsPlainObject<T[K]> extends true
-			? K extends `${string}.${string}`
-				? EscapeDots<K> | `${EscapeDots<K>}.${NestedKeys<T[K]>}`
-				: K | `${K}.${NestedKeys<T[K]>}`
-			: K extends `${string}.${string}`
-				? EscapeDots<K>
-				: K;
-	}[keyof T & string]
+		[K in keyof T & ( string | number )]: IsArray<T[K]> extends never
+			? IsPlainObject<T[K]> extends true
+				? K extends `${string | number}.${string | number}`
+					? EscapeDots<K> | `${EscapeDots<K>}.${NestedKeys<T[K]>}`
+					: K | `${K}.${NestedKeys<T[K]>}`
+				: K extends `${string | number}.${string | number}`
+					? EscapeDots<K>
+					: K
+			: ArrayKey<K & string, T[K]>;
+	}[keyof T & ( string | number )]
 	: never;

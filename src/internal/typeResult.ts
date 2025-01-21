@@ -6,7 +6,7 @@ import type { CompareCallbackReturnType, } from './compareCallback';
 
 import { ActionType, } from './ActionTypes';
 import builtInActions from './builtInActions';
-import deepObjectMerge from './deepObjectMerge';
+import deepObjectChangeMerge from './deepObjectChangeMerge';
 import isPlainObject from './isPlainObject';
 
 function _replace<Initial extends CTAState, >(
@@ -160,7 +160,7 @@ function _update<Initial extends CTAState, >(
 		b: Initial
 		changesMap: CTAReducerState<Initial>['changesMap']
 		compare: CompareCallbackReturnType<Initial>
-		deep?: boolean
+		merge: boolean
 		payload: Initial
 		useCompareValue?: boolean
 	},
@@ -169,7 +169,7 @@ function _update<Initial extends CTAState, >(
 		a,
 		b,
 		compare,
-		deep,
+		merge,
 		payload,
 		useCompareValue,
 	} = prop;
@@ -180,8 +180,8 @@ function _update<Initial extends CTAState, >(
 	for ( const payloadKey in payload ) {
 		let payloadValue = payload[ payloadKey ];
 		const aValue = a[ payloadKey as keyof Initial ];
-		if ( deep && isPlainObject( payloadValue, ) && isPlainObject( aValue, ) ) {
-			const mergedValues = deepObjectMerge(
+		if ( merge && isPlainObject( payloadValue, ) && isPlainObject( aValue, ) ) {
+			const mergedValues = deepObjectChangeMerge(
 				aValue,
 				payloadValue,
 				compare as CompareCallbackReturnType,
@@ -190,7 +190,7 @@ function _update<Initial extends CTAState, >(
 			if ( mergedValues == null ) {
 				continue;
 			}
-			payloadValue = mergedValues;
+			payloadValue = mergedValues as never;
 		}
 		else if ( compare( a[ payloadKey as keyof Initial ], payloadValue, payloadKey as never, ) ) {
 			continue;
@@ -220,15 +220,15 @@ function _update<Initial extends CTAState, >(
 
 type UpdateState<Initial extends CTAState, > = {
 	actionType: BuiltInActions
-	compare: CompareCallbackReturnType<Partial<Initial>>
+	compare: CompareCallbackReturnType<Initial>
 	ctaReducerState: CTAReducerState<Initial>
 	customAction?: string | number
-	deep?: boolean
+	merge: boolean
 	payload: Partial<Initial>
 };
 
 function _updateInitial<Initial extends CTAState, >(
-	{ actionType, compare, ctaReducerState, customAction, payload, deep, }: UpdateState<Initial>,
+	{ actionType, compare, ctaReducerState, customAction, payload, merge, }: UpdateState<Initial>,
 ): CTAReducerState<Initial> {
 	const {
 		current,
@@ -238,10 +238,10 @@ function _updateInitial<Initial extends CTAState, >(
 		a: initial,
 		b: current,
 		changesMap: ctaReducerState.changesMap,
-		compare,
+		compare: compare as unknown as CompareCallbackReturnType<Partial<Initial>>,
 		payload,
 		useCompareValue: true,
-		deep,
+		merge,
 	}, );
 
 	if ( !nextUpdate ) {
@@ -267,7 +267,7 @@ function _updateInitial<Initial extends CTAState, >(
 }
 
 function _updateCurrent<Initial extends CTAState, >(
-	{ actionType, compare, ctaReducerState, customAction, payload, deep, }: UpdateState<Initial>,
+	{ actionType, compare, ctaReducerState, customAction, payload, merge, }: UpdateState<Initial>,
 ): CTAReducerState<Initial> {
 	const {
 		current,
@@ -277,9 +277,9 @@ function _updateCurrent<Initial extends CTAState, >(
 		a: current,
 		b: initial,
 		changesMap: ctaReducerState.changesMap,
-		compare,
+		compare: compare as unknown as CompareCallbackReturnType<Partial<Initial>>,
 		payload,
-		deep,
+		merge,
 	}, );
 
 	if ( !nextUpdate ) {
@@ -351,72 +351,37 @@ export default function typeResult<
 	}
 
 	let result;
-
+	const params = {
+		actionType: type,
+		compare,
+		ctaReducerState,
+		customAction: action,
+		merge: false,
+		payload: transformedNext as Initial,
+	};
 	switch ( type ) {
 		case builtInActions.replace:
-			result = _replaceCurrent( {
-				actionType: type,
-				compare,
-				ctaReducerState,
-				customAction: action,
-				payload: transformedNext as Initial,
-			}, );
+			result = _replaceCurrent( params, );
 			break;
 		case builtInActions.replaceInitial:
-			result = _replaceInitial( {
-				actionType: type,
-				compare,
-				ctaReducerState,
-				customAction: action,
-				payload: transformedNext as Initial,
-			}, );
+			result = _replaceInitial( params, );
 			break;
 		case builtInActions.reset:
-			result = _resetState( {
-				actionType: type,
-				compare,
-				ctaReducerState,
-				customAction: action,
-				payload: transformedNext as Initial,
-			}, );
+			result = _resetState( params, );
 			break;
 		case builtInActions.updateInitial:
-			result = _updateInitial( {
-				actionType: type,
-				compare: compare as CompareCallbackReturnType<Partial<Initial>>,
-				ctaReducerState,
-				customAction: action,
-				payload: transformedNext as Partial<Initial>,
-			}, );
+			result = _updateInitial( params, );
 			break;
 		case builtInActions.deepUpdateInitial:
-			result = _updateInitial( {
-				actionType: type,
-				compare: compare as CompareCallbackReturnType<Partial<Initial>>,
-				ctaReducerState,
-				customAction: action,
-				deep: true,
-				payload: transformedNext as Partial<Initial>,
-			}, );
+			params.merge = true;
+			result = _updateInitial( params, );
 			break;
 		case builtInActions.deepUpdate:
-			result = _updateCurrent( {
-				actionType: type,
-				compare: compare as CompareCallbackReturnType<Partial<Initial>>,
-				ctaReducerState,
-				customAction: action,
-				deep: true,
-				payload: transformedNext as Partial<Initial>,
-			}, );
+			params.merge = true;
+			result = _updateCurrent( params, );
 			break;
 		default:
-			result = _updateCurrent( {
-				actionType: type,
-				compare: compare as CompareCallbackReturnType<Partial<Initial>>,
-				ctaReducerState,
-				customAction: action,
-				payload: transformedNext as Partial<Initial>,
-			}, );
+			result = _updateCurrent( params, );
 			break;
 	}
 

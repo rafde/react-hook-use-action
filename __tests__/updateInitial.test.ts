@@ -13,7 +13,7 @@ import {
 const { actions, } = returnCTAParameter( {
 	initial,
 	actions: {
-		customAction( a, ) {
+		customAction() {
 			return {};
 		},
 	},

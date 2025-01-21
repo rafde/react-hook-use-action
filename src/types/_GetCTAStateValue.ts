@@ -1,13 +1,13 @@
 import type { CTAState, } from './CTAState';
 import type { NestedKeys, } from './NestedKeys';
 import type { NestedPartial, } from './NestedPartial';
-import type { NestedValue, } from './NestedValue';
+import type { GetPathValue, } from './GetPathValue';
 
-export type NestedCTAStateValue<
+export type _GetCTAStateValue<
 	State extends CTAState,
 	K extends NestedKeys<State>,
-> = NestedValue<State, K> extends Record<
+> = GetPathValue<State, K> extends Record<
 	string | number | symbol,
 	unknown
-> ? NestedPartial<NestedValue<State, K>>
-	: NestedValue<State, K>;
+> ? NestedPartial<GetPathValue<State, K>>
+	: GetPathValue<State, K>;

@@ -1,6 +1,6 @@
 import { describe, test, expect, } from 'vitest';
 import { act, renderHook, } from '@testing-library/react';
-import { useCTA, type NestedCTAStateValue, returnCTAParameter, } from '../src';
+import { useCTA, type GetCTAStateValue, returnCTAParameter, } from '../src';
 import { nestedInitial, } from './setup/simple';
 
 describe( 'updateAction', () => {
@@ -11,8 +11,8 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateEmailStatus( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile.settings.notifications.email'>, ) {
-					return state.deepUpdateInitialAction( 'user.profile.settings.notifications.email', payload, );
+				updateEmailStatus( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile.1.notifications.email'>, ) {
+					return state.deepUpdateInitialAction( 'user.profile.1.notifications.email', payload, );
 				},
 			},
 		}, ), );
@@ -25,10 +25,10 @@ describe( 'updateAction', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							email: changes,
 						},
 					},
@@ -47,8 +47,8 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateNotif( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile.settings.notifications'>, ) {
-					return state.deepUpdateInitialAction( 'user.profile.settings.notifications', payload, );
+				updateNotif( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile.1.notifications'>, ) {
+					return state.deepUpdateInitialAction( 'user.profile.1.notifications', payload, );
 				},
 			},
 		}, ), );
@@ -61,13 +61,13 @@ describe( 'updateAction', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							...changes,
 							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
+								...initial.user.profile[ 1 ].notifications.frequency,
 								...changes.frequency,
 							},
 						},
@@ -81,7 +81,7 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateDisplayName( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile\\.name'>, ) {
+				updateDisplayName( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile\\.name'>, ) {
 					return state.deepUpdateInitialAction( 'user.profile\\.name', payload, );
 				},
 			},
@@ -99,8 +99,8 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateEmailStatus( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile.settings.notifications.email'>, ) {
-					return state.deepUpdateInitialAction( ['user', 'profile', 'settings', 'notifications', 'email',], payload, );
+				updateEmailStatus( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile.1.notifications.email'>, ) {
+					return state.deepUpdateInitialAction( ['user', 'profile', 1, 'notifications', 'email',], payload, );
 				},
 			},
 		}, ), );
@@ -113,10 +113,10 @@ describe( 'updateAction', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							email: changes,
 						},
 					},
@@ -135,8 +135,8 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateNotif( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile.settings.notifications'>, ) {
-					return state.deepUpdateInitialAction( ['user', 'profile', 'settings', 'notifications',], payload, );
+				updateNotif( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile.1.notifications'>, ) {
+					return state.deepUpdateInitialAction( ['user', 'profile', 1, 'notifications',], payload, );
 				},
 			},
 		}, ), );
@@ -149,13 +149,13 @@ describe( 'updateAction', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							...changes,
 							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
+								...initial.user.profile[ 1 ].notifications.frequency,
 								...changes.frequency,
 							},
 						},
@@ -169,7 +169,7 @@ describe( 'updateAction', () => {
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 			actions: {
-				updateDisplayName( state, payload: NestedCTAStateValue<typeof state.initial, 'user.profile\\.name'>, ) {
+				updateDisplayName( state, payload: GetCTAStateValue<typeof state.initial, 'user.profile\\.name'>, ) {
 					return state.deepUpdateInitialAction( ['user', 'profile.name',], payload, );
 				},
 			},
@@ -182,7 +182,68 @@ describe( 'updateAction', () => {
 		expect( result.current[ 0 ].initial.user[ 'profile.name' ], ).toBe( 'Jane', );
 	}, );
 
-	test( 'bypass overridden deepUpdate', () => {
+	test( 'update number key', () => {
+		const changes = {
+			greet: '123',
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			actions: {
+				update1( state, payload: GetCTAStateValue<typeof state.initial, 1>, ) {
+					return state.deepUpdateInitialAction( 1, payload, );
+				},
+			},
+		}, ), );
+
+		act( () => {
+			result.current[ 1 ].cta.update1( changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial[ 1 ], ).toStrictEqual( {
+			...initial[ 1 ],
+			...changes,
+		}, );
+	}, );
+
+	test( 'update nested payload', () => {
+		const changes = {
+			user: {
+				'profile.name': 'Joe',
+				'[profile.name]': 'Jo',
+				profile: {
+					name: 'Jon',
+				},
+			},
+			'[friends]': ['Jin', 'Joe', 'Jac',],
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+			actions: {
+				custom( state, ) {
+					return state.deepUpdateInitialAction( changes, );
+				},
+			},
+		}, ), );
+
+		act( () => {
+			result.current[ 1 ].cta.custom();
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			...changes,
+			user: {
+				...initial.user,
+				...changes.user,
+				profile: {
+					...initial.user.profile,
+					...changes.user.profile,
+				},
+			},
+		}, );
+	}, );
+
+	test( 'bypass overridden deepUpdateInitialAction', () => {
 		const changes = {
 			email: false,
 			frequency: {
@@ -193,10 +254,10 @@ describe( 'updateAction', () => {
 			actions: {
 				updateNotif(
 					state,
-					payload: NestedCTAStateValue<typeof state.initial, 'user.profile.settings.notifications'>,
+					payload: GetCTAStateValue<typeof state.initial, 'user.profile.1.notifications'>,
 					useDefault = true,
 				) {
-					return state.deepUpdateInitialAction( ['user', 'profile', 'settings', 'notifications',], payload, { useDefault, }, );
+					return state.deepUpdateInitialAction( ['user', 'profile', 1, 'notifications',], payload, { useDefault, }, );
 				},
 				deepUpdateInitial( ctaState, payload, ) {
 					return {
@@ -211,14 +272,14 @@ describe( 'updateAction', () => {
 			transform: payload => payload,
 		}, );
 		// @ts-expect-error -- this error is incorrect.
-		const deepUpdate = vi.spyOn( props.actions, 'deepUpdateInitial', );
+		const deepUpdateInitialAction = vi.spyOn( props.actions, 'deepUpdateInitial', );
 		const transform = vi.spyOn( props, 'transform', );
 		const { result, } = renderHook( () => useCTA( props, ), );
 
 		act( () => {
 			result.current[ 1 ].cta.updateNotif( changes, );
 		}, );
-		expect( deepUpdate, ).not.toHaveBeenCalled();
+		expect( deepUpdateInitialAction, ).not.toHaveBeenCalled();
 		expect( result.current[ 0 ].initial, ).toHaveProperty( '1', initial[ 1 ], );
 
 		act( () => {
@@ -226,7 +287,7 @@ describe( 'updateAction', () => {
 		}, );
 		expect( result.current[ 0 ].initial, ).toHaveProperty( '1', { ...initial[ 1 ],
 			greet: 'deepUpdateInitial', }, );
-		expect( deepUpdate, ).toHaveBeenCalled();
+		expect( deepUpdateInitialAction, ).toHaveBeenCalled();
 		expect( transform, ).toHaveBeenCalled();
 	}, );
 }, );

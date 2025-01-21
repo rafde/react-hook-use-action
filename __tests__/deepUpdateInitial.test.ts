@@ -17,9 +17,9 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 						{ type: 'phone',
 							value: '777-777-7777', },
 					],
-					settings: {
-						theme: {
-							mode: 'light',
+					1: {
+						'the.me.s': {
+							mode: 'light' as 'light' | 'dark',
 						},
 					},
 				},
@@ -42,11 +42,11 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 				...initial.user,
 				profile: {
 					...changes.user.profile,
-					settings: {
-						...initial.user.profile.settings,
-						theme: {
-							...initial.user.profile.settings.theme,
-							...changes.user.profile.settings.theme,
+					1: {
+						...initial.user.profile[ 1 ],
+						'the.me.s': {
+							...initial.user.profile[ 1 ][ 'the.me.s' ],
+							...changes.user.profile[ 1 ][ 'the.me.s' ],
 						},
 					},
 				},
@@ -69,7 +69,7 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications',], changes, );
+			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 1, 'notifications',], changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -78,13 +78,13 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							...changes,
 							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
+								...initial.user.profile[ 1 ].notifications.frequency,
 								...changes.frequency,
 							},
 						},
@@ -115,7 +115,7 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications', 'email',], changes, );
+			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 1, 'notifications', 'email',], changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -124,10 +124,10 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							email: changes,
 						},
 					},
@@ -147,7 +147,7 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications', changes, );
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.1.notifications', changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -156,13 +156,13 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							...changes,
 							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
+								...initial.user.profile[ 1 ].notifications.frequency,
 								...changes.frequency,
 							},
 						},
@@ -193,7 +193,7 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications.email', changes, );
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.1.notifications.email', changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -202,10 +202,10 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 				...initial.user,
 				profile: {
 					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
+					1: {
+						...initial.user.profile[ 1 ],
 						notifications: {
-							...initial.user.profile.settings.notifications,
+							...initial.user.profile[ 1 ].notifications,
 							email: changes,
 						},
 					},
@@ -329,6 +329,82 @@ describe( 'dispatch.cta.deepUpdateInitial', () => {
 			1: {
 				...initial[ 1 ],
 				...changes,
+			},
+		}, );
+	}, );
+
+	test( 'unset nested key', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.[profile\\.name]', undefined, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toHaveProperty(
+			'user.[profile\\.name]',
+			undefined,
+		);
+	}, );
+
+	test( 'toggle nested key', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const emailValue = result.current[ 0 ].initial.user.profile[ 1 ].notifications.email;
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial(
+				'user.profile.1.notifications.email',
+				( { initialValue, }, ) => !initialValue,
+			);
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toHaveProperty( 'user.profile.1.notifications.email', !emailValue, );
+	}, );
+
+	test( 'toggle nested array key', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		const emailValue = result.current[ 0 ].initial.user.profile[ 1 ].notifications.email;
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial(
+				['user', 'profile', 1, 'notifications', 'email',],
+				( { initialValue, }, ) => !initialValue
+				,
+			);
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toHaveProperty( 'user.profile.1.notifications.email', !emailValue, );
+	}, );
+
+	test( 'update nested key with callback', () => {
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		// eslint-disable-next-line prefer-destructuring -- this is an object with a number key
+		const { notifications, } = result.current[ 0 ].initial.user.profile[ 1 ];
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial(
+				'user.profile.1.notifications',
+				( { initialValue, }, ) => ( {
+					email: !initialValue.email,
+					push: !initialValue.push,
+					frequency: {
+						daily: 2,
+					},
+				} )
+				,
+			);
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toHaveProperty( 'user.profile.1.notifications', {
+			...notifications,
+			email: !notifications.email,
+			push: !notifications.push,
+			frequency: {
+				...notifications.frequency,
+				daily: 2,
 			},
 		}, );
 	}, );

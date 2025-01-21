@@ -1,6 +1,6 @@
 export default function createObjectFromArray<
 	T,
-	CleanKey extends ( ( key: string ) => string ) = ( key: string ) => string,
+	CleanKey extends ( ( key: string ) => string ) = ( key: string ) => string ,
 >(
 	segments: string[],
 	value: T,

@@ -1,12 +1,12 @@
-export type NestedArrayValue<T, K extends string[],> = K extends [infer First,]
+export type GetArrayValue<T, K extends ( string | number | symbol )[],> = K extends [infer First,]
 	? First extends keyof T
 		? T[First]
 		: never
 	: K extends [infer First, ...infer Rest,]
 		? First extends keyof T
-			? Rest extends string[]
+			? Rest extends ( string | number | symbol )[]
 				? T[First] extends object
-					? NestedArrayValue<T[First], Rest>
+					? GetArrayValue<T[First], Rest>
 					: never
 				: never
 			: never

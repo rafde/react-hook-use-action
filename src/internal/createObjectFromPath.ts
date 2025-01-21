@@ -1,10 +1,8 @@
 import createObjectFromArray from './createObjectFromArray';
-
-function cleanPath( path: string, ) {
-	return path.replace( /\\\./g, '.', );
-}
+import splitPath from './splitPath';
+import unescapeDots from './unescapeDots';
 
 export default function createObjectFromPath<T,>( path: string, value: T, ) {
-	const segments = path.split( /(?<!\\)\./, );
-	return createObjectFromArray( segments, value, cleanPath, );
+	const segments = splitPath( path, );
+	return createObjectFromArray( segments, value, unescapeDots, );
 }

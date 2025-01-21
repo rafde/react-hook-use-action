@@ -15,6 +15,134 @@ import createObjectFromArrayPath from './createObjectFromArrayPath';
 import createObjectFromPath from './createObjectFromPath';
 
 import ctaReducer from './ctaReducer';
+import deepGetArrayPath from './deepGetArrayPath';
+import deepGetPath from './deepGetPath';
+import getCallbackValueFromWeakMap from './getCallbackValueFromWeakMap';
+
+function createDeepCTAHistoryProxy<
+	State extends CTAState,
+	P,
+	Create extends ( target: State, payload: P ) => unknown,
+>( ctaHistory: CTAHistory<State>, payload: P, weakMap: WeakMap<WeakKey, unknown>, create: Create, ) {
+	return new Proxy( ctaHistory, {
+		get: (
+			target,
+			prop: keyof typeof ctaHistory | 'currentValue' | 'previousValue' | 'initialValue' | 'previousInitialValue' | 'changesValue',
+		) => {
+			switch ( prop ) {
+				case 'currentValue':
+					return getCallbackValueFromWeakMap(
+						weakMap,
+						target.current,
+						() => create( target.current, payload, ),
+					);
+				case 'previousValue':
+					if ( target.previous != null ) {
+						return getCallbackValueFromWeakMap(
+							weakMap,
+							target.previous,
+							() => create( target.previous as State, payload, ),
+						);
+					}
+					return target.previous;
+				case 'initialValue':
+					return getCallbackValueFromWeakMap(
+						weakMap,
+						target.initial,
+						() => create( target.initial, payload, ),
+					);
+				case 'previousInitialValue':
+					if ( target.previousInitial != null ) {
+						return getCallbackValueFromWeakMap(
+							weakMap,
+							target.previousInitial,
+							() => create( target.previousInitial as State, payload, ),
+						);
+					}
+					return target.previousInitial;
+				case 'changesValue':
+					if ( target.changes != null ) {
+						return getCallbackValueFromWeakMap(
+							weakMap,
+							target.changes,
+							() => create( target.changes as State, payload, ),
+						);
+					}
+					return target.changes;
+				default:
+					return target[ prop ];
+			}
+		},
+		set() {
+			return false;
+		},
+	}, );
+}
+
+function getDeepPropArrayCallback<
+	State extends CTAState,
+>(
+	payload: string[],
+	callback: ( prop: CTAHistory<State> ) => typeof deepGetArrayPath,
+) {
+	const weakMap = new WeakMap();
+
+	return function createDeepPropValue( ctaHistory: CTAHistory<State>, ) {
+		const deepCTAHistory = createDeepCTAHistoryProxy(
+			ctaHistory,
+			payload,
+			weakMap,
+			deepGetArrayPath,
+		);
+
+		return createObjectFromArrayPath( payload, callback( deepCTAHistory, ), );
+	};
+}
+
+function getDeepPropCallback<
+	State extends CTAState,
+>(
+	payload: string | number,
+	callback: ( prop: CTAHistory<State> ) => typeof deepGetPath,
+) {
+	const weakMap = new WeakMap();
+
+	return function createDeepPropValue( ctaHistory: CTAHistory<State>, ) {
+		const deepCTAHistory = createDeepCTAHistoryProxy(
+			ctaHistory,
+			payload,
+			weakMap,
+			deepGetPath,
+		);
+		return createObjectFromPath( String( payload, ), callback( deepCTAHistory, ), );
+	};
+}
+
+function getDeepUpdatePayload( payload: unknown, value: unknown, ) {
+	if ( Array.isArray( payload, ) ) {
+		if ( typeof value === 'function' ) {
+			return getDeepPropArrayCallback( payload, value as () => typeof deepGetArrayPath, );
+		}
+		return createObjectFromArrayPath( payload, value, );
+	}
+
+	if ( typeof payload === 'string' ) {
+		if ( typeof value === 'function' ) {
+			return getDeepPropCallback( payload, value as () => typeof deepGetPath, );
+		}
+		return createObjectFromPath( payload, value, );
+	}
+
+	return getUpdatePayload( payload, value, );
+}
+
+function getUpdatePayload( payload: unknown, value: unknown, ) {
+	if ( typeof payload === 'number' || typeof payload === 'string' ) {
+		return { [ payload ]: value, };
+	}
+
+	return payload;
+}
 
 export default function createDispatchInterface<
 	Initial extends CTAState,
@@ -29,55 +157,14 @@ export default function createDispatchInterface<
 ): UseCTAReturnTypeDispatch<Initial, Actions, FR, ReturnValue> {
 	const cta = {
 		deepUpdate( payload: unknown, value: unknown, ) {
-			if ( Array.isArray( payload, ) ) {
-				return dispatch( {
-					payload: createObjectFromArrayPath( payload, value, ),
-					type: builtInActions.deepUpdate,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'number' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.deepUpdate,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'string' ) {
-				return dispatch( {
-					payload: createObjectFromPath( payload, value, ),
-					type: builtInActions.deepUpdate,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
 			return dispatch( {
-				payload,
+				payload: getDeepUpdatePayload( payload, value, ),
 				type: builtInActions.deepUpdate,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 		deepUpdateInitial( payload: unknown, value: unknown, ) {
-			if ( Array.isArray( payload, ) ) {
-				return dispatch( {
-					payload: createObjectFromArrayPath( payload, value, ),
-					type: builtInActions.deepUpdateInitial,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-			if ( typeof payload === 'number' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.deepUpdateInitial,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
-			if ( typeof payload === 'string' ) {
-				return dispatch( {
-					payload: createObjectFromPath( payload, value, ),
-					type: builtInActions.deepUpdateInitial,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
 			return dispatch( {
-				payload,
+				payload: getDeepUpdatePayload( payload, value, ),
 				type: builtInActions.deepUpdateInitial,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
@@ -94,28 +181,14 @@ export default function createDispatchInterface<
 			type: builtInActions.reset,
 		} as DispatchParameterTypes<Initial, Actions, ReturnValue>, ),
 		update( payload: unknown, value: unknown, ) {
-			if ( typeof payload === 'number' || typeof payload === 'string' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.update,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
 			return dispatch( {
-				payload,
+				payload: getUpdatePayload( payload, value, ),
 				type: builtInActions.update,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},
 		updateInitial( payload: unknown, value: unknown, ) {
-			if ( typeof payload === 'number' || typeof payload === 'string' ) {
-				return dispatch( {
-					payload: { [ payload ]: value, },
-					type: builtInActions.updateInitial,
-				} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
-			}
-
 			return dispatch( {
-				payload,
+				payload: getUpdatePayload( payload, value, ),
 				type: builtInActions.updateInitial,
 			} as DispatchParameterTypes<Initial, Actions, ReturnValue>, );
 		},

@@ -1,15 +1,15 @@
 import compareCallback from '../src/internal/compareCallback';
 import { describe, test, expect, } from 'vitest';
-import deepObjectMerge from '../src/internal/deepObjectMerge';
+import deepObjectChangeMerge from '../src/internal/deepObjectChangeMerge';
 
 const compare = compareCallback();
-describe( 'deepMerge', () => {
+describe( 'deepObjectChangeMerge', () => {
 	test( 'returns undefined when no changes', () => {
 		const target = { name: 'John',
 			age: 25, };
 		const source = { name: 'John',
 			age: 25, };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toBeUndefined();
 	}, );
 
@@ -17,7 +17,7 @@ describe( 'deepMerge', () => {
 		const target = { name: 'John',
 			age: 25, };
 		const source = { age: 30, };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toStrictEqual( { name: 'John',
 			age: 30, }, );
 	}, );
@@ -26,7 +26,7 @@ describe( 'deepMerge', () => {
 		const target = { user: { name: 'John',
 			settings: { theme: 'light', }, }, };
 		const source = { user: { settings: { theme: 'dark', }, }, };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toStrictEqual( {
 			user: { name: 'John',
 				settings: source.user.settings, },
@@ -38,7 +38,7 @@ describe( 'deepMerge', () => {
 			settings: { theme: 'dark', }, }, };
 		const source = { user: { name: 'Jon',
 			settings: { theme: 'dark', }, }, };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toStrictEqual( {
 			user: {
 				...source.user,
@@ -52,15 +52,36 @@ describe( 'deepMerge', () => {
 			settings: { theme: 'dark', }, }, };
 		const source = { user: { name: 'John',
 			settings: { theme: 'dark', }, }, };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toBeUndefined();
 	}, );
 
-	test( 'handles arrays', () => {
+	test( 'handles arrays with the same values', () => {
+		const target = { items: [1, 2, 3,], };
+		const source = { items: [1, 2, 3,], };
+		const result = deepObjectChangeMerge( target, source, compare, );
+		expect( result, ).toBeUndefined();
+	}, );
+
+	test( 'handles arrays of same length', () => {
 		const target = { items: [1, 2, 3,], };
 		const source = { items: [1, 2, 4,], };
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toStrictEqual( { items: [1, 2, 4,], }, );
+	}, );
+
+	test( 'handles target array shorter than source', () => {
+		const target = { items: [1,], };
+		const source = { items: [2, 2, 4,], };
+		const result = deepObjectChangeMerge( target, source, compare, );
+		expect( result, ).toStrictEqual( { items: [2, 2, 4,], }, );
+	}, );
+
+	test( 'handles target array longer than source', () => {
+		const target = { items: [1, 7, 8, 9,], };
+		const source = { items: [2, 2,], };
+		const result = deepObjectChangeMerge( target, source, compare, );
+		expect( result, ).toStrictEqual( { items: [2, 2, 8, 9,], }, );
 	}, );
 
 	test( 'handles complex nested structures with mixed types', () => {
@@ -141,6 +162,8 @@ describe( 'deepMerge', () => {
 					contacts: [
 						{ type: 'email',
 							value: 'john.doe@example.com', },
+						{ type: 'phone',
+							value: '123-456-7890', },
 					],
 					settings: {
 						notifications: {
@@ -162,7 +185,7 @@ describe( 'deepMerge', () => {
 				},
 			},
 		};
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toStrictEqual( expected, );
 	}, );
 
@@ -190,7 +213,7 @@ describe( 'deepMerge', () => {
 			},
 		};
 
-		const result = deepObjectMerge( target, source, compare, );
+		const result = deepObjectChangeMerge( target, source, compare, );
 		expect( result, ).toBeDefined();
 		expect( result, ).toHaveProperty( 'data.buffer', target.data.buffer, );
 		expect( result, ).toHaveProperty( 'data.date', source.data.date, );
