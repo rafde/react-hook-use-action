@@ -20,7 +20,7 @@ import type { NestedPartial, } from './NestedPartial';
  *
  * @template {CTAState} Payload - Extended {@link CTAState} hook state.
  *
- * @property {UseCTAParameterActionsRecordProp<CTAState>['updateDeep']} [updateDeep]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['deepUpdate']} [updateDeep]
  * - Partially updates deeply merges properties in {@link CTAHistory}.`current` state.
  *
  * @property {UseCTAParameterActionsRecordProp<CTAState>['update']} [update]
@@ -33,7 +33,7 @@ import type { NestedPartial, } from './NestedPartial';
  * - Resets the {@link CTAHistory}.`current` state to {@link CTAHistory}.`initial` state
  * <b>or</b> replaces {@link CTAHistory}.`initial` and {@link CTAHistory}.`current` state when a {@link CTAState Payload} is provided.
  *
- * @property {UseCTAParameterActionsRecordProp<CTAState>['updateInitialDeep']} [updateInitialDeep]
+ * @property {UseCTAParameterActionsRecordProp<CTAState>['deepUpdateInitial']} [updateInitialDeep]
  * - Partially updates deeply merges properties in {@link CTAHistory}.`initial` state.
  *
  * @property {UseCTAParameterActionsRecordProp<CTAState>['updateInitial']} [updateInitial]
@@ -55,6 +55,14 @@ import type { NestedPartial, } from './NestedPartial';
 export type UseCTAParameterActionsRecordProp<
 	Payload extends CTAState,
 > = {
+	deepUpdate?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: NestedPartial<Payload>
+	) => NestedPartial<Payload> | undefined
+	deepUpdateInitial?: (
+		ctaHistory: CTAHistory<Payload>,
+		payload: NestedPartial<Payload>
+	) => NestedPartial<Payload> | undefined
 	replace?: (
 		ctaHistory: CTAHistory<Payload>,
 		payload: Payload
@@ -71,18 +79,10 @@ export type UseCTAParameterActionsRecordProp<
 		ctaHistory: CTAHistory<Payload>,
 		payload: Partial<Payload>
 	) => Partial<Payload> | undefined
-	updateDeep?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: NestedPartial<Payload>
-	) => NestedPartial<Payload> | undefined
 	updateInitial?: (
 		ctaHistory: CTAHistory<Payload>,
 		payload: Partial<Payload>
 	) => Partial<Payload> | undefined
-	updateInitialDeep?: (
-		ctaHistory: CTAHistory<Payload>,
-		payload: NestedPartial<Payload>
-	) => NestedPartial<Payload> | undefined
 }
 	&
 {

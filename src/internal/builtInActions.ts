@@ -4,8 +4,8 @@ const builtInActions = {
 	reset: 'reset',
 	update: 'update',
 	updateInitial: 'updateInitial',
-	updateDeep: 'updateDeep',
-	updateInitialDeep: 'updateInitialDeep',
+	deepUpdate: 'deepUpdate',
+	deepUpdateInitial: 'deepUpdateInitial',
 } as const;
 
 export default builtInActions;
