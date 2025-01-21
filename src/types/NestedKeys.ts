@@ -1,3 +1,5 @@
+// worst case, consider https://github.com/sindresorhus/type-fest/blob/main/source/paths.d.ts
+
 type IsPlainObject<T,> = T extends Record<string | number | symbol, unknown>
 	? T extends Array<unknown>
 		? false

@@ -1,4 +1,6 @@
 import {
+	DeepUpdateActionType,
+	DeepUpdateInitialActionType,
 	ReplaceActionType,
 	ReplaceInitialActionType,
 	ResetActionType,
@@ -10,6 +12,8 @@ import type { CTAState, } from './CTAState';
 export type CustomCTAReturnType<
 	Initial extends CTAState,
 > = undefined |
+	DeepUpdateActionType<Initial> |
+	DeepUpdateInitialActionType<Initial> |
 	ReplaceActionType<Initial> |
 	ReplaceInitialActionType<Initial> |
 	ResetActionType<Initial> |

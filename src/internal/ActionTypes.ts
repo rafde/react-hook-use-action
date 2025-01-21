@@ -1,23 +1,10 @@
+import type { ActionTypeConstructParam, ActionTypeOptions, } from '../types/ActionTypeConstructParam';
 import type { CTAState, } from '../types/CTAState';
+import type { DeepUpdateActionRecord, } from '../types/DeepUpdateActionRecord';
+import type { DeepUpdateInitialActionRecord, } from '../types/DeepUpdateInitialActionRecord';
 import type { DefaultActionsRecord, } from '../types/DefaultActionsRecord';
-
-/**
- * Options for configuring action type behavior
- * @prop {boolean} [useDefault=] - When true, bypasses the use of an overridden action.
- */
-export type ActionTypeOptions = {
-	useDefault?: boolean
-};
-
-export type ActionTypeConstructParam<
-	Payload extends CTAState,
-	Type extends keyof DefaultActionsRecord<Payload>,
-> = {
-	actionTypeOptions?: ActionTypeOptions
-	hasAugmentedAction: boolean
-	payload: Parameters<DefaultActionsRecord<Payload>[Type]>[1]
-	type: Type
-};
+import createObjectFromArrayPath from './createObjectFromArrayPath';
+import createObjectFromPath from './createObjectFromPath';
 
 export class ActionType<
 	Payload extends CTAState,
@@ -40,10 +27,175 @@ function _hasAugmentedAction<Actions,>( actions: Actions, type: keyof DefaultAct
 	return Boolean( actions && typeof actions === 'object' && type in actions, );
 }
 
+export class DeepUpdateActionType<
+	Payload extends CTAState,
+> extends ActionType<Payload, 'deepUpdate'> {
+	constructor( param: Pick<
+		ActionTypeConstructParam<
+			Payload,
+			'deepUpdate'
+		>,
+		'actionTypeOptions' | 'payload' | 'hasAugmentedAction'
+	>, ) {
+		super( {
+			...param,
+			type: 'deepUpdate',
+		}, );
+	}
+}
+
+export function createDeepUpdateActionType<
+	Payload extends CTAState,
+	Actions,
+>( actions: Actions, ) {
+	const hasAugmentedAction = _hasAugmentedAction( actions, 'deepUpdate', );
+	const deepUpdateActionType: DeepUpdateActionRecord<Payload>['deepUpdateAction'] = (
+		payload: unknown,
+		value: unknown,
+		options: unknown,
+	) => {
+		if ( Array.isArray( payload, ) ) {
+			return new DeepUpdateActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: createObjectFromArrayPath(
+					payload,
+					value,
+				) as ActionTypeConstructParam<
+					Payload,
+					'deepUpdate'
+				>['payload'],
+			}, );
+		}
+
+		if ( typeof payload === 'number' ) {
+			return new DeepUpdateActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: {
+					[ payload ]: value,
+				} as ActionTypeConstructParam<
+					Payload,
+					'deepUpdate'
+				>['payload'],
+			}, );
+		}
+
+		if ( typeof payload === 'string' ) {
+			return new DeepUpdateActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: createObjectFromPath(
+					payload,
+					value,
+				) as ActionTypeConstructParam<
+					Payload,
+					'deepUpdate'
+				>['payload'],
+			}, );
+		}
+		return new DeepUpdateActionType( {
+			actionTypeOptions: value as ActionTypeOptions,
+			hasAugmentedAction,
+			payload: payload as ActionTypeConstructParam<
+				Payload,
+				'deepUpdate'
+			>['payload'],
+		}, );
+	};
+
+	return deepUpdateActionType;
+}
+
+export class DeepUpdateInitialActionType<
+	Payload extends CTAState,
+> extends ActionType<Payload, 'deepUpdateInitial'> {
+	constructor( param: Pick<
+		ActionTypeConstructParam<
+			Payload,
+			'deepUpdateInitial'
+		>,
+		'actionTypeOptions' | 'payload' | 'hasAugmentedAction'
+	>, ) {
+		super( {
+			...param,
+			type: 'deepUpdateInitial',
+		}, );
+	}
+}
+
+export function createDeepUpdateInitialActionType<
+	Payload extends CTAState,
+	Actions,
+>( actions: Actions, ) {
+	const hasAugmentedAction = _hasAugmentedAction( actions, 'deepUpdateInitial', );
+
+	const deepUpdateInitialActionType: DeepUpdateInitialActionRecord<Payload>['deepUpdateInitialAction'] = (
+		payload: unknown,
+		value: unknown,
+		options: unknown,
+	) => {
+		if ( Array.isArray( payload, ) ) {
+			return new DeepUpdateInitialActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: createObjectFromArrayPath(
+					payload,
+					value,
+				) as ActionTypeConstructParam<
+					Payload,
+					'deepUpdateInitial'
+				>['payload'],
+			}, );
+		}
+
+		if ( typeof payload === 'number' ) {
+			return new DeepUpdateInitialActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: {
+					[ payload ]: value,
+				} as ActionTypeConstructParam<
+					Payload,
+					'deepUpdateInitial'
+				>['payload'],
+			}, );
+		}
+
+		if ( typeof payload === 'string' ) {
+			return new DeepUpdateInitialActionType( {
+				actionTypeOptions: options as ActionTypeOptions,
+				hasAugmentedAction,
+				payload: createObjectFromPath(
+					payload,
+					value,
+				) as ActionTypeConstructParam<
+					Payload,
+					'deepUpdateInitial'
+				>['payload'],
+			}, );
+		}
+
+		return new DeepUpdateInitialActionType( {
+			actionTypeOptions: value as ActionTypeOptions,
+			hasAugmentedAction,
+			payload: payload as ActionTypeConstructParam<
+				Payload,
+				'deepUpdateInitial'
+			>['payload'],
+		}, );
+	};
+
+	return deepUpdateInitialActionType;
+}
+
 export class UpdateInitialActionType<
 	Payload extends CTAState,
 > extends ActionType<Payload, 'updateInitial'> {
-	constructor( param: Pick<ActionTypeConstructParam<Payload, 'updateInitial'>, 'actionTypeOptions' | 'payload' | 'hasAugmentedAction'>, ) {
+	constructor( param: Pick<
+		ActionTypeConstructParam<Payload, 'updateInitial'>,
+		'actionTypeOptions' | 'payload' | 'hasAugmentedAction'
+	>, ) {
 		super( {
 			...param,
 			type: 'updateInitial',

@@ -10,6 +10,8 @@ import type { CompareCallbackReturnType, } from './compareCallback';
 
 import {
 	ActionType,
+	createDeepUpdateActionType,
+	createDeepUpdateInitialActionType,
 	createReplaceActionType,
 	createReplaceInitialActionType,
 	createResetActionType,
@@ -73,6 +75,8 @@ function getActionType<
 const customCTAHistoryCache = new WeakMap<Record<string | number, unknown>>();
 function createCustomCTAHistory( actions: Record<string | number, unknown>, ) {
 	return {
+		deepUpdateAction: createDeepUpdateActionType( actions, ),
+		deepUpdateInitialAction: createDeepUpdateInitialActionType( actions, ),
 		replaceAction: createReplaceActionType( actions, ),
 		replaceInitialAction: createReplaceInitialActionType( actions, ),
 		resetAction: createResetActionType( actions, ),

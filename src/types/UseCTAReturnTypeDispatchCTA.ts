@@ -4,6 +4,7 @@ import type { DefaultActionsRecord, } from './DefaultActionsRecord';
 import type { CTAState, } from './CTAState';
 import type { CTAHistory, } from './CTAHistory';
 import type { NestedArrayValue, } from './NestedArrayValue';
+import type { NestedCTAStateValue, } from './NestedCTAStateValue';
 import type { NestedKeyArray, } from './NestedKeyArray';
 import type { NestedKeys, } from './NestedKeys';
 import type { NestedPartial, } from './NestedPartial';
@@ -76,11 +77,7 @@ export type UseCTAReturnTypeDispatchCTA<
 	): ReturnValue
 	deepUpdate<K extends NestedKeys<Payload>, >(
 		key: K,
-		value: NestedValue<Payload, K> extends Record<
-			string | number | symbol,
-			unknown
-		> ? NestedPartial<NestedValue<Payload, K>>
-			: NestedValue<Payload, K>
+		value: NestedCTAStateValue<Payload, K>,
 	): ReturnValue
 	/**
 	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateDeep dispatch.cta.deepUpdate}
@@ -131,11 +128,7 @@ export type UseCTAReturnTypeDispatchCTA<
 	 */
 	deepUpdateInitial<K extends NestedKeys<Payload>, >(
 		key: K,
-		value: NestedValue<Payload, K> extends Record<
-			string | number | symbol,
-			unknown
-		> ? NestedPartial<NestedValue<Payload, K>>
-			: NestedValue<Payload, K>
+		value: NestedCTAStateValue<Payload, K>,
 	): ReturnValue
 	/**
 	 * @see {@link https://rafde.github.io/react-hook-use-cta/#use-cta-return-value-1-dispatch-cta-updateInitialDeep dispatch.cta.deepUpdateInitial}

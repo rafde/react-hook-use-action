@@ -15,3 +15,5 @@ export type { UseCTAParameterCompare, } from './types/UseCTAParameterCompare';
 export type { UseCTAReturnType, } from './types/UseCTAReturnType';
 
 export type { UseCTAReturnTypeDispatch, } from './types/UseCTAReturnTypeDispatch';
+
+export type { NestedCTAStateValue, } from './types/NestedCTAStateValue';
