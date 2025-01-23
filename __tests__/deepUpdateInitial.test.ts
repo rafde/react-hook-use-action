@@ -1,31 +1,33 @@
-import {act, renderHook} from "@testing-library/react";
+import { act, renderHook, } from '@testing-library/react';
 import { describe, test, expect, } from 'vitest';
-import {useCTA} from "../src";
-import {nestedInitial} from "./setup/simple";
+import { useCTA, } from '../src';
+import { nestedInitial, } from './setup/simple';
 
-describe('dispatch.cta.deepUpdateInitial', () => {
+describe( 'dispatch.cta.deepUpdateInitial', () => {
 	const initial = nestedInitial;
 
-	test('updates a deep property with nested partial', () => {
+	test( 'updates a deep property with nested partial', () => {
 		const changes = {
 			user: {
 				profile: {
 					name: 'Jon',
 					contacts: [
-						{type: 'email', value: 'john.doe@example.com'},
-						{type: 'phone', value: '777-777-7777'},
+						{ type: 'email',
+							value: 'john.doe@example.com', },
+						{ type: 'phone',
+							value: '777-777-7777', },
 					],
 					settings: {
 						theme: {
 							mode: 'light',
-						}
-					}
+						},
+					},
 				},
 				metadata: {
 					visits: 99,
-				}
+				},
 			},
-		}
+		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
@@ -45,186 +47,186 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 						theme: {
 							...initial.user.profile.settings.theme,
 							...changes.user.profile.settings.theme,
-						}
-					}
+						},
+					},
 				},
 				metadata: {
 					...initial.user.metadata,
 					...changes.user.metadata,
-				}
-			}
+				},
+			},
 		}, );
-	});
+	}, );
 
-	test('updates a deep property with array of keys and partial', () => {
+	test( 'updates a deep property with array of keys and partial', () => {
 		const changes = {
 			email: false,
 			frequency: {
-				weekly: 30
-			}
-		}
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications'],  changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			user: {
-				...initial.user,
-				profile: {
-					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
-						notifications: {
-							...initial.user.profile.settings.notifications,
-							...changes,
-							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
-								...changes.frequency
-							}
-						}
-					}
-				}
-			}
-		}, );
-	});
-
-	test('updates a deep property with array of one key and value', () => {
-		const changes = ['Tom'];
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( ['[friends]'],  changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			'[friends]': changes,
-		}, );
-	});
-
-	test('updates a deep property with array of keys and value', () => {
-		const changes = false;
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications', 'email'],  changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			user: {
-				...initial.user,
-				profile: {
-					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
-						notifications: {
-							...initial.user.profile.settings.notifications,
-							email: changes,
-						}
-					}
-				}
-			}
-		}, );
-	});
-
-	test('updates a deep property with deep string of props and partial', () => {
-		const changes = {
-			email: false,
-			frequency: {
-				weekly: 30
-			}
-		}
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications',  changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			user: {
-				...initial.user,
-				profile: {
-					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
-						notifications: {
-							...initial.user.profile.settings.notifications,
-							...changes,
-							frequency: {
-								...initial.user.profile.settings.notifications.frequency,
-								...changes.frequency
-							}
-						}
-					}
-				}
-			}
-		}, );
-	});
-
-	test('updates a deep property with string and value', () => {
-		const changes = ['Tom'];
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( '[friends]',  changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			'[friends]': changes,
-		}, );
-	});
-
-	test('updates a deep property with deep string prop and value', () => {
-		const changes = false;
-		const { result, } = renderHook( () => useCTA( {
-			initial,
-		}, ), );
-		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications.email', changes,);
-		}, );
-
-		expect( result.current[ 0 ].initial, ).toStrictEqual( {
-			...initial,
-			user: {
-				...initial.user,
-				profile: {
-					...initial.user.profile,
-					settings: {
-						...initial.user.profile.settings,
-						notifications: {
-							...initial.user.profile.settings.notifications,
-							email: changes,
-						}
-					}
-				}
-			}
-		}, );
-	});
-
-	test('updates a deep property with deep string prop with dot and value', () => {
-		const changes = {
-			'profile.name': 'Jon',
-			'[profile.name]': 'Jon',
-			profile: {
-				name: 'Jon',
-			}
+				weekly: 30,
+			},
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user', changes,);
+			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications',], changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			user: {
+				...initial.user,
+				profile: {
+					...initial.user.profile,
+					settings: {
+						...initial.user.profile.settings,
+						notifications: {
+							...initial.user.profile.settings.notifications,
+							...changes,
+							frequency: {
+								...initial.user.profile.settings.notifications.frequency,
+								...changes.frequency,
+							},
+						},
+					},
+				},
+			},
+		}, );
+	}, );
+
+	test( 'updates a deep property with array of one key and value', () => {
+		const changes = ['Tom',];
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( ['[friends]',], changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			'[friends]': changes,
+		}, );
+	}, );
+
+	test( 'updates a deep property with array of keys and value', () => {
+		const changes = false;
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( ['user', 'profile', 'settings', 'notifications', 'email',], changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			user: {
+				...initial.user,
+				profile: {
+					...initial.user.profile,
+					settings: {
+						...initial.user.profile.settings,
+						notifications: {
+							...initial.user.profile.settings.notifications,
+							email: changes,
+						},
+					},
+				},
+			},
+		}, );
+	}, );
+
+	test( 'updates a deep property with deep string of props and partial', () => {
+		const changes = {
+			email: false,
+			frequency: {
+				weekly: 30,
+			},
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications', changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			user: {
+				...initial.user,
+				profile: {
+					...initial.user.profile,
+					settings: {
+						...initial.user.profile.settings,
+						notifications: {
+							...initial.user.profile.settings.notifications,
+							...changes,
+							frequency: {
+								...initial.user.profile.settings.notifications.frequency,
+								...changes.frequency,
+							},
+						},
+					},
+				},
+			},
+		}, );
+	}, );
+
+	test( 'updates a deep property with string and value', () => {
+		const changes = ['Tom',];
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( '[friends]', changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			'[friends]': changes,
+		}, );
+	}, );
+
+	test( 'updates a deep property with deep string prop and value', () => {
+		const changes = false;
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.settings.notifications.email', changes, );
+		}, );
+
+		expect( result.current[ 0 ].initial, ).toStrictEqual( {
+			...initial,
+			user: {
+				...initial.user,
+				profile: {
+					...initial.user.profile,
+					settings: {
+						...initial.user.profile.settings,
+						notifications: {
+							...initial.user.profile.settings.notifications,
+							email: changes,
+						},
+					},
+				},
+			},
+		}, );
+	}, );
+
+	test( 'updates a deep property with deep string prop with dot and value', () => {
+		const changes = {
+			'profile.name': 'Jon',
+			'[profile.name]': 'Jon',
+			profile: {
+				name: 'Jon',
+			},
+		};
+		const { result, } = renderHook( () => useCTA( {
+			initial,
+		}, ), );
+		act( () => {
+			result.current[ 1 ].cta.deepUpdateInitial( 'user', changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -235,12 +237,12 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 				profile: {
 					...initial.user.profile,
 					...changes.profile,
-				}
-			}
+				},
+			},
 		}, );
-	});
+	}, );
 
-	test('updates a deep property with deep string prop with dot and value', () => {
+	test( 'updates a deep property with deep string prop with dot and value', () => {
 		const changes = 'Jon';
 		const { result, } = renderHook( () => useCTA( {
 			initial,
@@ -252,12 +254,12 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 				profile: {
 					...initial.user.profile,
 					name: changes,
-				}
-			}
+				},
+			},
 		};
 
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.name', changes,);
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile.name', changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( res1, );
@@ -270,12 +272,12 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 				profile: {
 					...initial.user.profile,
 					name: changes,
-				}
-			}
+				},
+			},
 		};
 		act( () => {
-			result.current[1].cta.deepUpdateInitial('user.profile\\.name', changes,);
-		});
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.profile\\.name', changes, );
+		}, );
 		expect( result.current[ 0 ].initial, ).toStrictEqual( res2, );
 
 		const res3 = {
@@ -286,41 +288,40 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 				profile: {
 					...res2.user.profile,
 					name: changes,
-				}
-			}
+				},
+			},
 		};
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( 'user.[profile\\.name]', changes,);
-		});
+			result.current[ 1 ].cta.deepUpdateInitial( 'user.[profile\\.name]', changes, );
+		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( res3, );
-	});
+	}, );
 
-	test('updates [friends] value', () => {
-		const changes = ['Jon'];
+	test( 'updates [friends] value', () => {
+		const changes = ['Jon',];
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial( '[friends]', changes,);
+			result.current[ 1 ].cta.deepUpdateInitial( '[friends]', changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
 			...initial,
 			'[friends]': changes,
 		}, );
-	});
+	}, );
 
-
-	test('updates key 1 value', () => {
-		const changes =  {
+	test( 'updates key 1 value', () => {
+		const changes = {
 			greet: 'hello',
 		};
 		const { result, } = renderHook( () => useCTA( {
 			initial,
 		}, ), );
 		act( () => {
-			result.current[ 1 ].cta.deepUpdateInitial(1, changes);
+			result.current[ 1 ].cta.deepUpdateInitial( 1, changes, );
 		}, );
 
 		expect( result.current[ 0 ].initial, ).toStrictEqual( {
@@ -328,7 +329,7 @@ describe('dispatch.cta.deepUpdateInitial', () => {
 			1: {
 				...initial[ 1 ],
 				...changes,
-			}
+			},
 		}, );
-	});
-});
+	}, );
+}, );

@@ -108,7 +108,8 @@ export const nestedInitial = {
 		profile: {
 			name: 'John',
 			contacts: [
-				{type: 'email', value: 'john.doe@example.com'},
+				{ type: 'email',
+					value: 'john.doe@example.com', },
 			],
 			settings: {
 				notifications: {
@@ -116,28 +117,28 @@ export const nestedInitial = {
 					push: true,
 					frequency: {
 						daily: 5,
-						weekly: 10
+						weekly: 10,
 					},
-					favoriteDays: ['Monday', 'Wednesday', 'Friday']
+					favoriteDays: ['Monday', 'Wednesday', 'Friday',],
 				},
 				theme: {
 					mode: 'light',
 					colors: {
 						primary: '#111',
-						secondary: '#fff'
-					}
-				}
-			}
+						secondary: '#fff',
+					},
+				},
+			},
 		},
 		metadata: {
-			lastLogin: new Date('2023-04-01'),
+			lastLogin: new Date( '2023-04-01', ),
 			visits: 43,
-			preferences: new Set(['music', 'sports'])
-		}
+			preferences: new Set( ['music', 'sports',], ),
+		},
 	},
-	'[friends]': ['Jim'],
+	'[friends]': ['Jim',],
 	1: {
 		greet: 'hello',
-		friendly: true
+		friendly: true,
 	},
-}
+};
