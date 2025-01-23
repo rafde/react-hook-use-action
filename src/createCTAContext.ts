@@ -6,6 +6,7 @@ import {
 	type Context,
 } from 'react';
 import createCTAHistory from './internal/createCTAHistory';
+import createFrozenObj from './internal/createFrozenObj';
 import type { CreateCTAContextReturn, } from './types/CreateCTAContextReturn';
 import type { CTAState, } from './types/CTAState';
 import type { UseCTAParameter, } from './types/UseCTAParameter';
@@ -156,7 +157,7 @@ export function createCTAContext<
 	FR extends UseCTAParameterCreateFuncReturnRecord,
 >(
 	props: UseCTAParameter<Initial, Actions>,
-	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = createFrozenObj<FR>,
 ): CreateCTAContextReturn<Initial, Actions, FR > {
 	type ReturnType = UseCTAReturnType<Initial, Actions, FR, void>;
 	const CTAContextHistory = createContext(

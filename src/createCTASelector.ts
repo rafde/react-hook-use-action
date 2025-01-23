@@ -1,6 +1,7 @@
 import { strictDeepEqual, } from 'fast-equals';
 import { useCallback, useMemo, useRef, useSyncExternalStore, } from 'react';
 import createCTABase from './internal/createCTABase';
+import createFrozenObj from './internal/createFrozenObj';
 
 import type { CreateCTASelectorProps, } from './types/CreateCTASelectorProps';
 import type {
@@ -88,7 +89,7 @@ export function createCTASelector<
 	FR extends UseCTAParameterCreateFuncReturnRecord,
 >(
 	props: CreateCTASelectorProps<Initial, Actions>,
-	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = createFrozenObj<FR>,
 ): UseCTASelector<Initial, Actions, FR> {
 	const ctaReducerResults = createCTABase(
 		{

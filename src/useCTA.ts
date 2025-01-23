@@ -1,6 +1,8 @@
 import { useEffect, useMemo, } from 'react';
 
 import createCTAHistory from './internal/createCTAHistory';
+import createFrozenObj from './internal/createFrozenObj';
+import noop from './internal/noop';
 import usePrivateCTA from './internal/usePrivateCTA';
 import usePublicCTA from './internal/usePublicCTA';
 
@@ -155,7 +157,7 @@ export function useCTA<
 	FR extends UseCTAParameterCreateFuncReturnRecord,
 >(
 	props: UseCTAParameter<Initial, Actions>,
-	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = () => ( {} as FR ),
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, void> = createFrozenObj<FR>,
 ): UseCTAReturnType<Initial, Actions, FR, void> {
 	const actions = useMemo(
 		() => {
@@ -181,7 +183,7 @@ export function useCTA<
 			} = props;
 			const isFunction = typeof afterActionChange === 'function';
 			if ( !isFunction ) {
-				return () => {};
+				return noop;
 			}
 			let oldState = ctaReducerState;
 			return function( ctaReducerState: CTAReducerState<typeof props.initial>, ) {

@@ -1,4 +1,5 @@
 import createCTABase from './internal/createCTABase';
+import createFrozenObj from './internal/createFrozenObj';
 
 import type { CTAHistory, } from './types/CTAHistory';
 import type { CTAState, } from './types/CTAState';
@@ -144,7 +145,7 @@ export function createCTA<
 	FR extends UseCTAParameterCreateFuncReturnRecord,
 >(
 	props: CreateCTAProps<Initial, Actions>,
-	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, CTAHistory<Initial>> = () => ( {} as FR ),
+	createFunc: UseCTAParameterCreateFunc<Initial, Actions, FR, CTAHistory<Initial>> = createFrozenObj<FR>,
 ): [
 		CTAHistory<Initial>,
 		UseCTAReturnTypeDispatch<Initial, Actions, FR, CTAHistory<Initial>>,
